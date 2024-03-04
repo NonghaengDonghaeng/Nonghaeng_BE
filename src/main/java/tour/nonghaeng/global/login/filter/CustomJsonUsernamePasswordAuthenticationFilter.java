@@ -51,9 +51,9 @@ public class CustomJsonUsernamePasswordAuthenticationFilter extends AbstractAuth
         String number = usernamePasswordMap.get(USERNAME_KEY);
         String password = usernamePasswordMap.get(PASSWORD_KEY);
 
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(number, password);
+        UsernamePasswordAuthenticationToken usernameAuthenticationToken = new UsernamePasswordAuthenticationToken(number, password);
 
-        return this.getAuthenticationManager().authenticate(authToken);
+        return this.getAuthenticationManager().authenticate(usernameAuthenticationToken);
 
     }
 }
