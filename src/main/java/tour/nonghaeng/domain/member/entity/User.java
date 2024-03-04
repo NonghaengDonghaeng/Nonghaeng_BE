@@ -49,6 +49,28 @@ public class User {
 
     private boolean marketingConsent;
 
+    @Builder
+    private User(Role role,
+                 AreaCode areaCode,
+                 SocialType socialType,
+                 String number,
+                 String socialId,
+                 String name,
+                 String email,
+                 String password,
+                 boolean marketingConsent) {
+        this.role = role;
+        this.areaCode = areaCode;
+        this.socialType = socialType;
+        this.number = number;
+        this.socialId = socialId;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.marketingConsent = marketingConsent;
+    }
+
+
     public void updateRefreshToken(String updateRefreshToken) {
         this.refreshToken = updateRefreshToken;
     }
