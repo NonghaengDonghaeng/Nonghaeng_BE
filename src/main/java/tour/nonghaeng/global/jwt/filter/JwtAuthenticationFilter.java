@@ -13,7 +13,9 @@ import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
+import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.member.repo.SellerRepository;
 import tour.nonghaeng.domain.member.repo.UserRepository;
 import tour.nonghaeng.global.jwt.service.JwtService;
 import tour.nonghaeng.global.jwt.util.PasswordUtil;
@@ -24,10 +26,12 @@ import java.io.IOException;
 @Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private static final String NO_CHECK_LOGIN_URL = "/login";
+    private static final String NO_CHECK_USER_LOGIN_URL = "/login";
+    private static final String NO_CHECK_SELLER_LOGIN_URL = "/seller-login";
 
     private final JwtService jwtService;
     private final UserRepository userRepository;
+    private final SellerRepository sellerRepository;
 
     private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
 
@@ -35,7 +39,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         // 로그인 요청이면 바로 다음필터 호출
-        if(request.getRequestURI().equals(NO_CHECK_LOGIN_URL)){
+        if(request.getRequestURI().equals(NO_CHECK_USER_LOGIN_URL) ||
+                request.getRequestURI().equals(NO_CHECK_SELLER_LOGIN_URL)){
 
             filterChain.doFilter(request, response);
             return;
@@ -93,7 +98,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                             if (type.equals("user")) {
                                 jwtService.extractNumber(accessToken)
                                         .ifPresent(number -> userRepository.findByNumber(number)
-                                                .ifPresent(this::saveAuthentication));
+                                                .ifPresent(this::saveUserAuthentication));
+                            } else if (type.equals("seller")) {
+                                jwtService.extractNumber(accessToken)
+                                        .ifPresent(username -> sellerRepository.findByUsername(username)
+                                                .ifPresent(this::saveSellerAuthentication));
                             }
                         })
                 );
@@ -104,7 +113,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     //User 통해 UserDetails 생성하여 인증처리
-    public void saveAuthentication(User user){
+    public void saveUserAuthentication(User user){
 
         String password = user.getPassword();
 
@@ -118,6 +127,27 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 .username(user.getNumber())
                 .password(password)
                 .roles(user.getRole().name())
+                .build();
+
+        //Authentication 인증객체 생성
+        Authentication authentication =
+                new UsernamePasswordAuthenticationToken(userDetailsUser, null,
+                        authoritiesMapper.mapAuthorities(userDetailsUser.getAuthorities()));
+
+        //인증객체 인증 허가 처리
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+    }
+
+    //User 통해 UserDetails 생성하여 인증처리
+    public void saveSellerAuthentication(Seller seller){
+
+        String password = seller.getPassword();
+
+        UserDetails userDetailsUser = org.springframework.security.core.userdetails.User.builder()
+                .username(seller.getUsername())
+                .password(password)
+                .roles(seller.getRole().name())
                 .build();
 
         //Authentication 인증객체 생성
