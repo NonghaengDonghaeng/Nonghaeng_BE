@@ -32,7 +32,7 @@ public class SecurityConfig {
     private final UserLoginService userLoginService;
     private final UserRepository userRepository;
 
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -46,8 +46,8 @@ public class SecurityConfig {
                         .anyRequest().authenticated());
 
         //logout 필터 -> jwt 필터 -> customUserLogin 필터
-        http.addFilterAfter(customJsonUsernamePasswordAuthenticationFilter(), LogoutFilter.class);
-        http.addFilterBefore(jwtAuthenticationFilter(), CustomJsonUsernamePasswordAuthenticationFilter.class);
+        http.addFilterAfter(jwtAuthenticationFilter(), LogoutFilter.class);
+        http.addFilterAfter(customJsonUsernamePasswordAuthenticationFilter(), JwtAuthenticationFilter.class);
 
         return http.build();
     }

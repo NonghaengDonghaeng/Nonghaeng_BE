@@ -21,6 +21,7 @@ public class UserLoginService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String number) throws UsernameNotFoundException {
 
+
         TempMember tempMember = userRepository.findByTempUserByNumber(number)
                 .orElseThrow(() -> new UsernameNotFoundException("해당 전화번호가 존재하지 않습니다."));
 

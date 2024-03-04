@@ -19,7 +19,6 @@ import tour.nonghaeng.global.jwt.service.JwtService;
 import tour.nonghaeng.global.jwt.util.PasswordUtil;
 
 import java.io.IOException;
-import java.security.PrivateKey;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -37,6 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // 로그인 요청이면 바로 다음필터 호출
         if(request.getRequestURI().equals(NO_CHECK_LOGIN_URL)){
+
             filterChain.doFilter(request, response);
             return;
         }
@@ -57,6 +57,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             checkAccessTokenAndAuthentication(request,response,filterChain);
 
         }
+
     }
 
     //RefreshToken 검증 후 AccessToken & RefreshToken 재발급
@@ -98,6 +99,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 );
         log.info("JwtAuthenticationFilter: JWT필터 종료.");
         filterChain.doFilter(request, response);
+
 
     }
 

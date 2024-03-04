@@ -19,6 +19,7 @@ public class UserController {
 
     @PostMapping("/join")
     public ResponseEntity<String> join(@RequestBody UserJoinDto userJoinDto) throws Exception {
+        log.info("fds");
         userService.join(userJoinDto);
         return new ResponseEntity<>("회원가입 성공", HttpStatus.OK);
     }
