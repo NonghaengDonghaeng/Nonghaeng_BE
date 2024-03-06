@@ -2,6 +2,7 @@ package tour.nonghaeng.domain.member.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -52,6 +53,24 @@ public class Seller {
     private BankCode bankCode;
     private String bankAccount;
     private String bankAccountName;
+
+    @Builder
+    private Seller(Role role, String username, String password, String name, String businessNumber, String email, String address, String phoneNumber, String callNumber, String refreshToken, boolean marketingConsent, BankCode bankCode, String bankAccount, String bankAccountName) {
+        this.role = role;
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.businessNumber = businessNumber;
+        this.email = email;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.callNumber = callNumber;
+        this.refreshToken = refreshToken;
+        this.marketingConsent = marketingConsent;
+        this.bankCode = bankCode;
+        this.bankAccount = bankAccount;
+        this.bankAccountName = bankAccountName;
+    }
 
 
     public void updateRefreshToken(String updateRefreshToken) {

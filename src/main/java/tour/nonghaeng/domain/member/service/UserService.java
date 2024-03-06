@@ -23,7 +23,7 @@ public class UserService {
         //TODO : 인증과정에서의 예외처리
 
         if(!dto.password().equals(dto.checkPassword())){
-            throw new Exception("예외");
+            throw new Exception("비밀번호가 일치하지 않습니다.");
         }
 
         User joinUser = dto.toEntity();
