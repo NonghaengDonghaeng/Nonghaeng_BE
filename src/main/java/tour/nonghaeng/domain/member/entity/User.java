@@ -7,8 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import tour.nonghaeng.domain.etc.area.AreaCode;
-import tour.nonghaeng.domain.member.enums.Role;
-import tour.nonghaeng.domain.member.enums.SocialType;
+import tour.nonghaeng.domain.etc.role.Role;
+import tour.nonghaeng.domain.etc.socialtype.SocialType;
 
 @Entity
 @Table(name="USERS")

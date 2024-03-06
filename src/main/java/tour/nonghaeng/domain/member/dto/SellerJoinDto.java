@@ -2,9 +2,10 @@ package tour.nonghaeng.domain.member.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import tour.nonghaeng.domain.etc.area.AreaCode;
 import tour.nonghaeng.domain.etc.bank.BankCode;
 import tour.nonghaeng.domain.member.entity.Seller;
-import tour.nonghaeng.domain.member.enums.Role;
+import tour.nonghaeng.domain.etc.role.Role;
 
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)   //변수마다 @JsonProperty 사용 필요없이 모두 변환
 public record SellerJoinDto(
@@ -17,6 +18,7 @@ public record SellerJoinDto(
         String checkPassword,
         String address,
         String callNumber,
+        AreaCode areaCode,
         BankCode bankCode,
         String bankAccount,
         String bankAccountName
@@ -31,6 +33,7 @@ public record SellerJoinDto(
                 .password(this.password)
                 .address(this.address)
                 .callNumber(this.callNumber)
+                .areaCode(this.areaCode)
                 .bankCode(this.bankCode)
                 .bankAccount(this.bankAccount)
                 .bankAccountName(this.bankAccountName)

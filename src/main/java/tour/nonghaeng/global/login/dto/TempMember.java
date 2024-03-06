@@ -1,6 +1,6 @@
 package tour.nonghaeng.global.login.dto;
 
-import tour.nonghaeng.domain.member.enums.Role;
+import tour.nonghaeng.domain.etc.role.Role;
 
 public record TempMember(
         String username,
