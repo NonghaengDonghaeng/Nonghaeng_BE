@@ -17,7 +17,7 @@ public class Seller {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "seleer_id")
+    @Column(name = "seller_id")
     private Long id;
 
     @Enumerated(EnumType.STRING)
