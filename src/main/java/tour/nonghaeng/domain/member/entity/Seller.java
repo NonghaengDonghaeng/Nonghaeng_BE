@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import tour.nonghaeng.domain.etc.area.AreaCode;
 import tour.nonghaeng.domain.etc.bank.BankCode;
 import tour.nonghaeng.domain.etc.role.Role;
 
@@ -22,6 +23,9 @@ public class Seller {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Enumerated(EnumType.STRING)
+    private AreaCode areaCode;
 
     @Column(nullable = false)
     private String username;
@@ -55,8 +59,9 @@ public class Seller {
     private String bankAccountName;
 
     @Builder
-    private Seller(Role role, String username, String password, String name, String businessNumber, String email, String address, String phoneNumber, String callNumber, String refreshToken, boolean marketingConsent, BankCode bankCode, String bankAccount, String bankAccountName) {
+    private Seller(Role role, AreaCode areaCode, String username, String password, String name, String businessNumber, String email, String address, String phoneNumber, String callNumber, String refreshToken, boolean marketingConsent, BankCode bankCode, String bankAccount, String bankAccountName) {
         this.role = role;
+        this.areaCode = areaCode;
         this.username = username;
         this.password = password;
         this.name = name;
