@@ -60,7 +60,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // AccessToken 검증 후 인증처리
         if (refreshToken == null) {
             checkAccessTokenAndAuthentication(request,response,filterChain);
-
         }
 
     }
@@ -90,6 +89,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     //AccessToken 확인 후 Claim 전화번호를 통해 유저객체 뽑아내 인증처리 후 다음 인증필터로 진행
     public void checkAccessTokenAndAuthentication(HttpServletRequest request,HttpServletResponse response,
                                                   FilterChain filterChain) throws ServletException,IOException {
+
         jwtService.extractAccessToken(request)
                 .filter(jwtService::isTokenValid)
                 .ifPresent(accessToken->jwtService.extractType(accessToken)
@@ -108,7 +108,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 );
         log.info("JwtAuthenticationFilter: JWT필터 종료.");
         filterChain.doFilter(request, response);
-
 
     }
 
