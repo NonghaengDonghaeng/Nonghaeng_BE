@@ -18,7 +18,7 @@ public enum GlobalErrorCode implements BaseErrorCode{
     @Override
     public ErrorReason getErrorReason() {
         return ErrorReason.builder()
-                .status(this.status)
+                .status(this.status.value())
                 .code(this.code)
                 .reason(this.reason)
                 .build();
