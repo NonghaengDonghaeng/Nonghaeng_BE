@@ -24,4 +24,5 @@ public class UserController {
 
         return new ResponseEntity<>("회원가입 성공", HttpStatus.OK);
     }
+
 }
