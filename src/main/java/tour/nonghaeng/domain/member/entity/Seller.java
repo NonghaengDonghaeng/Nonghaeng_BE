@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import tour.nonghaeng.domain.etc.bank.BankCode;
-import tour.nonghaeng.domain.member.enums.Role;
+import tour.nonghaeng.domain.etc.role.Role;
 
 @Entity
 @Table(name = "SELLERS")

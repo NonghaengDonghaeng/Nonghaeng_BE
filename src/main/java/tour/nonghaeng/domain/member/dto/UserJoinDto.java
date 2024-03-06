@@ -3,8 +3,8 @@ package tour.nonghaeng.domain.member.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import tour.nonghaeng.domain.etc.area.AreaCode;
 import tour.nonghaeng.domain.member.entity.User;
-import tour.nonghaeng.domain.member.enums.Role;
-import tour.nonghaeng.domain.member.enums.SocialType;
+import tour.nonghaeng.domain.etc.role.Role;
+import tour.nonghaeng.domain.etc.socialtype.SocialType;
 
 public record UserJoinDto(
         @JsonProperty("area_code")

@@ -1,4 +1,4 @@
-package tour.nonghaeng.domain.member.enums;
+package tour.nonghaeng.domain.etc.role;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
