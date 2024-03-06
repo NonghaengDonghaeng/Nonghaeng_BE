@@ -51,6 +51,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequest -> authorizeRequest
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/join").permitAll()
+                        .requestMatchers("/seller-join").permitAll()
                         .anyRequest().authenticated());
 
         //logout 필터 -> jwt 필터 -> customUserLogin 필터

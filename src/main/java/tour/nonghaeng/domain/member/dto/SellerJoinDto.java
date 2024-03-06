@@ -1,13 +1,10 @@
 package tour.nonghaeng.domain.member.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import lombok.Getter;
 import tour.nonghaeng.domain.etc.bank.BankCode;
 import tour.nonghaeng.domain.member.entity.Seller;
 
-@Getter
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)   //변수마다 @JsonProperty 사용 필요없이 모두 변환
 public record SellerJoinDto(
         String phoneNumber,
