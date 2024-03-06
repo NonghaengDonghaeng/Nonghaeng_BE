@@ -50,6 +50,7 @@ public class SecurityConfig {
                 .httpBasic(httpBasic -> httpBasic.disable())
                 .authorizeHttpRequests(authorizeRequest -> authorizeRequest
                         .requestMatchers("/").permitAll()
+                        .requestMatchers("/test-exception").permitAll()
                         .requestMatchers("/join").permitAll()
                         .requestMatchers("/seller-join").permitAll()
                         .anyRequest().authenticated());
