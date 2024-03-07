@@ -1,7 +1,9 @@
 package tour.nonghaeng.domain.etc.tourType;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Getter
 public enum TourType {
     VILLAGE("1","농촌체험휴양마을"),
@@ -16,10 +18,6 @@ public enum TourType {
     ETC("10","그 외")
     ;
 
-    TourType(String code, String name) {
-        this.code = code;
-        this.name = name;
-    }
     private final String code;
     private final String name;
 
