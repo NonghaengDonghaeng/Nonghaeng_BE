@@ -24,14 +24,16 @@ public class TourController {
     private final TourService tourService;
     private final AuthService authService;
 
+    //여행 등록하기
     @PostMapping("/seller/add")
     public ResponseEntity<String> createTour(Authentication authentication,@RequestBody CreateTourDto createTourDto) {
-
-        log.info("여행 등록");
 
         Seller seller = authService.toSellerEntity(authentication);
         tourService.create(seller, createTourDto);
 
         return new ResponseEntity<>("관광 등록 성공", HttpStatus.CREATED);
     }
+
+
+
 }
