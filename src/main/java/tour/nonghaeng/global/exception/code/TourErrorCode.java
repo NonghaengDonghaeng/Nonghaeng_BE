@@ -7,9 +7,8 @@ import tour.nonghaeng.global.exception.dto.ErrorReason;
 
 @AllArgsConstructor
 @Getter
-public enum GlobalErrorCode implements BaseErrorCode{
-    ALL_NOT_FOUND(HttpStatus.NOT_FOUND,"EXAM_404_1","전체 오류")
-
+public enum TourErrorCode implements BaseErrorCode{
+    DUPLICATE_CREATE_TOUR(HttpStatus.BAD_REQUEST, "TOUR_400_1", "이미 관광을 등록한 사업자입니다."),
     ;
 
     private HttpStatus status;

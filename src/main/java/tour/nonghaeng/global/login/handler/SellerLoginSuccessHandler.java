@@ -26,7 +26,7 @@ public class SellerLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                                        Authentication authentication) throws IOException, ServletException {
+                                        Authentication authentication) throws IOException {
 
         String username = extractUsername(authentication);
         String accessToken = jwtService.createAccessToken(username, "seller");
@@ -39,6 +39,11 @@ public class SellerLoginSuccessHandler implements AuthenticationSuccessHandler {
                     seller.updateRefreshToken(refreshToken);
                     sellerRepository.saveAndFlush(seller);
                 });
+
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/plain;charset=UTF-8");
+        response.getWriter().write("공급자 로그인 성공");
 
         log.info("로그인에 성공하였습니다. id : {}", username);
         log.info("로그인에 성공하였습니다. AccessToken : {}", accessToken);

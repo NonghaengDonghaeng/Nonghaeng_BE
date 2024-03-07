@@ -2,6 +2,7 @@ package tour.nonghaeng.domain.tour.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.etc.area.AreaCode;
@@ -47,6 +48,7 @@ public class Tour {
 
     private String amenities;
 
+    @Builder
     public Tour(Seller seller, TourType tourType, String name, String homepageUrl, String introduction, String oneLineIntro, String summary, String restaurant, String parking, String toilet, String amenities) {
         this.seller = seller;
         this.areaCode = seller.getAreaCode();

@@ -7,9 +7,8 @@ import tour.nonghaeng.global.exception.dto.ErrorReason;
 
 @AllArgsConstructor
 @Getter
-public enum GlobalErrorCode implements BaseErrorCode{
-    ALL_NOT_FOUND(HttpStatus.NOT_FOUND,"EXAM_404_1","전체 오류")
-
+public enum UserErrorCode implements BaseErrorCode{
+    NO_EXIST_USER_BY_NUMBER(HttpStatus.BAD_REQUEST, "USER_400_1", "해당 전화번호의 유저가 존재하지 않습니다."),
     ;
 
     private HttpStatus status;

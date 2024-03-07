@@ -33,7 +33,7 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
     //로그인 성공 시) 인증객체로 부터 사용자 정보 뽑아내 jwt 생성하고 전달, refreshToken DB 저장
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                                        Authentication authentication) {
+                                        Authentication authentication) throws IOException {
 
         String number = extractUsername(authentication);
         String accessToken = jwtService.createAccessToken(number, "user");
@@ -46,6 +46,11 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
                     user.updateRefreshToken(refreshToken);
                     userRepository.saveAndFlush(user);
                 });
+
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/plain;charset=UTF-8");
+        response.getWriter().write("소비자 로그인 성공");
 
         log.info("로그인에 성공하였습니다. 전화번호 : {}", number);
         log.info("로그인에 성공하였습니다. AccessToken : {}", accessToken);

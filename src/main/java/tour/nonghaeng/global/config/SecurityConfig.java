@@ -16,6 +16,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
+import tour.nonghaeng.domain.etc.role.Role;
 import tour.nonghaeng.domain.member.repo.SellerRepository;
 import tour.nonghaeng.domain.member.repo.UserRepository;
 import tour.nonghaeng.global.jwt.filter.JwtAuthenticationFilter;
@@ -53,6 +54,7 @@ public class SecurityConfig {
                         .requestMatchers("/test-exception").permitAll()
                         .requestMatchers("/join").permitAll()
                         .requestMatchers("/seller-join").permitAll()
+                        .requestMatchers("/tour/seller/**").hasRole(Role.SELLER.name())
                         .anyRequest().authenticated());
 
         //logout 필터 -> jwt 필터 -> customUserLogin 필터
