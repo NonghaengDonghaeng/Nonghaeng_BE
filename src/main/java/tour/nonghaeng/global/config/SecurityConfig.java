@@ -51,13 +51,12 @@ public class SecurityConfig {
                 .httpBasic(httpBasic -> httpBasic.disable())
                 .authorizeHttpRequests(authorizeRequest -> authorizeRequest
                         .requestMatchers("/").permitAll()
-                        .requestMatchers("/test-exception").permitAll()
-                        .requestMatchers("/test-user-role").hasRole(Role.USER.name())
-                        .requestMatchers("/test-seller-role").hasRole(Role.SELLER.name())
+                        .requestMatchers("/test/exception").permitAll()
+                        .requestMatchers("/test/user-role").hasRole(Role.USER.name())
+                        .requestMatchers("/test/seller-role").hasRole(Role.SELLER.name())
                         .requestMatchers("/join").permitAll()
                         .requestMatchers("/seller-join").permitAll()
-                        .requestMatchers("/tour/seller/add").permitAll()
-                        .requestMatchers("/tour/seller/**").hasRole(Role.SELLER.name())
+                        .requestMatchers("/*/seller/**").hasRole(Role.SELLER.name())
                         .anyRequest().authenticated());
 
         //logout 필터 -> jwt 필터 -> customUserLogin 필터 -> customSellerLogin 필터

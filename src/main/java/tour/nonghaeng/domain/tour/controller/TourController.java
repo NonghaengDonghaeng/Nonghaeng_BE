@@ -8,13 +8,15 @@ import org.springframework.security.access.method.P;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.tour.dto.CreateTourDto;
 import tour.nonghaeng.domain.tour.service.TourService;
 import tour.nonghaeng.global.auth.service.AuthService;
 
-@RestController("/tour")
+@RestController
+@RequestMapping("/tours")
 @RequiredArgsConstructor
 @Slf4j
 public class TourController {
@@ -23,7 +25,7 @@ public class TourController {
     private final AuthService authService;
 
     @PostMapping("/seller/add")
-    public ResponseEntity<String> createTour(Authentication authentication, @RequestBody CreateTourDto createTourDto) {
+    public ResponseEntity<String> createTour(Authentication authentication,@RequestBody CreateTourDto createTourDto) {
 
         log.info("여행 등록");
 
