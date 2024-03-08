@@ -3,6 +3,7 @@ package tour.nonghaeng.global.validation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import tour.nonghaeng.domain.experience.dto.AddExpOpenDateDto;
+import tour.nonghaeng.domain.experience.dto.AddExpRoundDto;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.entity.ExperienceOpenDate;
 import tour.nonghaeng.domain.experience.repo.ExperienceOpenDateRepository;
@@ -11,6 +12,7 @@ import tour.nonghaeng.global.exception.code.ExperienceErrorCode;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Component
 @RequiredArgsConstructor
@@ -18,21 +20,31 @@ public class ExperienceOpenDateValidator {
 
     private final ExperienceOpenDateRepository experienceOpenDateRepository;
 
-    public void openDateDtoValidate(Experience experience, AddExpOpenDateDto addExpOpenDateDto) {
+    public void addOpenDateDtoValidate(List<AddExpOpenDateDto> addExpOpenDateDtos) {
 
-        List<ExperienceOpenDate> originOpenDates = experience.getExperienceOpenDates();
-
-        LocalDate shouldValidateDate = addExpOpenDateDto.openDate();
         LocalDate today = LocalDate.now();
+        List<LocalDate> openDateList = addExpOpenDateDtos.stream().map(dto -> dto.openDate()).toList();
 
-        //검증1: 이미 등록된 날짜인지 확인하기
-        if (experienceOpenDateRepository.existsByExperienceAndOpenDate(experience, shouldValidateDate)) {
-            throw new ExperienceException(ExperienceErrorCode.DUPLICATE_EXPERIENCE_OPEN_DATE_ADD_ERROR);
-        }
-
-        //검증2: 과거날짜인지 확인하기
-        if (shouldValidateDate.isBefore(today)) {
+        //검증: dto 내 과거날짜가 존재하는지
+        if (addExpOpenDateDtos.stream()
+                .anyMatch(dto -> dto.openDate().isBefore(today))) {
             throw new ExperienceException(ExperienceErrorCode.PAST_EXPERIENCE_OPEN_DATE_ADD_ERROR);
         }
+
+        //검증: dto 내 중복된 날짜가 존재하는지
+        if (addExpOpenDateDtos.size() != addExpOpenDateDtos.stream().distinct().count()) {
+            throw new ExperienceException(ExperienceErrorCode.DUPLICATE_EXPERIENCE_OPEN_DATE_ADD_ERROR);
+        }
+    }
+
+    public void createAndSaveValidate(Experience experience, AddExpOpenDateDto addExpOpenDateDto) {
+
+        LocalDate shouldValidateDate = addExpOpenDateDto.openDate();
+
+        //검증1: 이미 등록된 날짜인지
+        if (experienceOpenDateRepository.existsByExperienceAndOpenDate(experience, shouldValidateDate)) {
+            throw new ExperienceException(ExperienceErrorCode.ALREADY_EXIST_EXPERIENCE_OPEN_DATE_ADD_ERROR);
+        }
+
     }
 }

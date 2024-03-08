@@ -9,7 +9,7 @@ import tour.nonghaeng.domain.experience.entity.ExperienceRound;
 import java.time.LocalTime;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public record CreateExpRoundDto(
+public record AddExpRoundDto(
         @DateTimeFormat(pattern = "HH:mm")
         LocalTime startTime,
         @DateTimeFormat(pattern = "HH:mm")

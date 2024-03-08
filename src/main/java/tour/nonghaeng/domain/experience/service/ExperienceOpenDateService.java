@@ -24,6 +24,9 @@ public class ExperienceOpenDateService {
     private final ExperienceOpenDateValidator experienceOpenDateValidator;
 
     public void addOpenDates(Experience experience, List<AddExpOpenDateDto> openDateDtoList) {
+
+        experienceOpenDateValidator.addOpenDateDtoValidate(openDateDtoList);
+
         for (AddExpOpenDateDto openDateDto : openDateDtoList) {
             experience.addOpenDate(createAndSave(experience,openDateDto));
         }
@@ -31,7 +34,7 @@ public class ExperienceOpenDateService {
 
     private ExperienceOpenDate createAndSave(Experience experience, AddExpOpenDateDto openDateDto) {
 
-        experienceOpenDateValidator.openDateDtoValidate(experience,openDateDto);
+        experienceOpenDateValidator.createAndSaveValidate(experience,openDateDto);
 
         ExperienceOpenDate openDate = openDateDto.toEntity(experience);
         return experienceOpenDateRepository.save(openDate);

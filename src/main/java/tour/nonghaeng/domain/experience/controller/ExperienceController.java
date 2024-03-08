@@ -8,7 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import tour.nonghaeng.domain.experience.dto.AddExpOpenDateDto;
 import tour.nonghaeng.domain.experience.dto.CreateExpDto;
-import tour.nonghaeng.domain.experience.dto.CreateExpRoundDto;
+import tour.nonghaeng.domain.experience.dto.AddExpRoundDto;
 import tour.nonghaeng.domain.experience.service.ExperienceRoundService;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
 import tour.nonghaeng.domain.member.entity.Seller;
@@ -40,12 +40,12 @@ public class ExperienceController {
     //관리자 API: 체험에 대한 회차 추가 등록하기
     @PostMapping("/seller/add-round/{experienceId}")
     public ResponseEntity<String> addRounds(Authentication authentication, @PathVariable Long experienceId,
-                                            @RequestBody List<CreateExpRoundDto> createExpRoundDtoList) {
+                                            @RequestBody List<AddExpRoundDto> addExpRoundDtoList) {
 
         Seller seller = authService.toSellerEntity(authentication);
-        Long expId = experienceService.addOnlyRounds(experienceId, createExpRoundDtoList);
+        Long expId = experienceService.addOnlyRounds(experienceId, addExpRoundDtoList);
 
-        int count= createExpRoundDtoList.size();
+        int count= addExpRoundDtoList.size();
 
         return new ResponseEntity<>("체험(id:" + expId + ")에 회차(" + count+ "개) 등록 완료.", HttpStatus.OK);
 

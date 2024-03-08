@@ -6,9 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.experience.dto.AddExpOpenDateDto;
 import tour.nonghaeng.domain.experience.dto.CreateExpDto;
-import tour.nonghaeng.domain.experience.dto.CreateExpRoundDto;
+import tour.nonghaeng.domain.experience.dto.AddExpRoundDto;
 import tour.nonghaeng.domain.experience.entity.Experience;
-import tour.nonghaeng.domain.experience.entity.ExperienceRound;
 import tour.nonghaeng.domain.experience.repo.ExperienceRepository;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.tour.entity.Tour;
@@ -58,7 +57,7 @@ public class ExperienceService {
 
     }
 
-    public Long addOnlyRounds(Long experienceId, List<CreateExpRoundDto> dtoList) {
+    public Long addOnlyRounds(Long experienceId, List<AddExpRoundDto> dtoList) {
 
         //TODO: 검증 로직 추가 (곂치는 시간이 있는지)
 

@@ -25,7 +25,7 @@ public record CreateExpDto(
         String summary,
         String supplies,
         String precautions,
-        List<CreateExpRoundDto> expRoundDtoList
+        List<AddExpRoundDto> expRoundDtoList
 ) {
     public Experience toEntity(Seller seller, Tour tour) {
         return Experience.builder()
