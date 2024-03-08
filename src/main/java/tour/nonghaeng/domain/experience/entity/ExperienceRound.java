@@ -1,6 +1,8 @@
 package tour.nonghaeng.domain.experience.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,7 +10,7 @@ import java.time.LocalTime;
 
 @Entity
 @Table(name="EXPERIENCE_ROUNDS")
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class ExperienceRound {
 
@@ -28,4 +30,12 @@ public class ExperienceRound {
     private LocalTime endTime;
 
     private int maxParticipant;
+
+    @Builder
+    public ExperienceRound(Experience experience, LocalTime startTime, LocalTime endTime, int maxParticipant) {
+        this.experience = experience;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.maxParticipant = maxParticipant;
+    }
 }

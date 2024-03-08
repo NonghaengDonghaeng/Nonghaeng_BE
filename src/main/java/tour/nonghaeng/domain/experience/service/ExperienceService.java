@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.experience.dto.CreateExpDto;
 import tour.nonghaeng.domain.experience.entity.Experience;
+import tour.nonghaeng.domain.experience.entity.ExperienceRound;
 import tour.nonghaeng.domain.experience.repo.ExperienceRepository;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.tour.entity.Tour;
@@ -21,6 +22,8 @@ public class ExperienceService {
     private final ExperienceRepository experienceRepository;
     private final ExperienceValidator experienceValidator;
 
+    private final ExperienceRoundService experienceRoundService;
+
     private final TourService tourService;
 
     public Long add(Seller seller, CreateExpDto dto) {
@@ -28,6 +31,8 @@ public class ExperienceService {
 
         Tour tour = tourService.findBySeller(seller);
         Experience experience = dto.toEntity(seller, tour);
+
+        experienceRoundService.addRound(experience,dto.expRoundDtoList());
 
         return experienceRepository.save(experience).getId();
 

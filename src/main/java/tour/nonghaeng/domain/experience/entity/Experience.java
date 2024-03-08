@@ -86,5 +86,11 @@ public class Experience {
         this.summary = summary;
         this.supplies = supplies;
         this.precautions = precautions;
+
     }
+
+    public void addExperienceRound(ExperienceRound experienceRound) {
+        this.getExperienceRounds().add(experienceRound);
+    }
+
 }

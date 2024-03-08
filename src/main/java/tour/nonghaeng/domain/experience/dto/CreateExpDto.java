@@ -8,6 +8,7 @@ import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.tour.entity.Tour;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record CreateExpDto(
@@ -23,7 +24,8 @@ public record CreateExpDto(
         String detailIntroduction,
         String summary,
         String supplies,
-        String precautions
+        String precautions,
+        List<CreateExpRoundDto> expRoundDtoList
 ) {
     public Experience toEntity(Seller seller, Tour tour) {
         return Experience.builder()
