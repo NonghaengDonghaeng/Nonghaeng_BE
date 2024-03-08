@@ -12,6 +12,7 @@ import tour.nonghaeng.domain.tour.dto.TourDetailDto;
 import tour.nonghaeng.domain.tour.dto.TourSummaryDto;
 import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.domain.tour.repo.TourRepository;
+import tour.nonghaeng.global.exception.SellerException;
 import tour.nonghaeng.global.validation.TourValidator;
 
 import java.util.Optional;
@@ -50,5 +51,11 @@ public class TourService {
         tourValidator.tourIdValidate(tourId);
 
         return TourDetailDto.convert(tourRepository.findById(tourId).get());
+    }
+
+    public Tour findBySeller(Seller seller) {
+
+        return tourRepository.findBySeller(seller)
+                .orElseThrow(() -> SellerException.EXCEPTION);
     }
 }

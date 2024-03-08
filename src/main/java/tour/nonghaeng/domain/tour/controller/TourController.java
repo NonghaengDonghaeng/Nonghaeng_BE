@@ -38,7 +38,7 @@ public class TourController {
         return new ResponseEntity<>(tourSummaryDtoPage, HttpStatus.OK);
     }
 
-    //여행 등록하기
+    //관리자 API: 여행 등록하기
     @PostMapping("/seller/add")
     public ResponseEntity<String> createTour(Authentication authentication,@RequestBody CreateTourDto createTourDto) {
 
@@ -48,6 +48,7 @@ public class TourController {
         return new ResponseEntity<>("관광 등록 성공", HttpStatus.CREATED);
     }
 
+    //여행 상세 조회
     @GetMapping("/{tourId}")
     public ResponseEntity<TourDetailDto> showTourDetail(@PathVariable Long tourId) {
 

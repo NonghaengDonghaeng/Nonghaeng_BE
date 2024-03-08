@@ -5,7 +5,7 @@ import tour.nonghaeng.global.exception.code.ExperienceErrorCode;
 
 public class ExperienceException extends NongHaengException{
 
-    private static final ExperienceException EXCEPTION = new ExperienceException();
+    public static final ExperienceException EXCEPTION = new ExperienceException();
 
     public ExperienceException() {
         super(ExperienceErrorCode.DEFAULT_EXPERIENCE_ERROR);

@@ -5,7 +5,7 @@ import tour.nonghaeng.global.exception.code.SellerErrorCode;
 
 public class SellerException extends NongHaengException{
 
-    private static final SellerException EXCEPTION = new SellerException();
+    public static final SellerException EXCEPTION = new SellerException();
 
     public SellerException() {
         super(SellerErrorCode.DEFAULT_SELLER_ERROR);

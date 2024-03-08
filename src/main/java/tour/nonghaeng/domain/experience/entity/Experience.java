@@ -2,6 +2,7 @@ package tour.nonghaeng.domain.experience.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.etc.experienceType.ExperienceType;
@@ -68,4 +69,22 @@ public class Experience {
 
     private String precautions;             //유의사항
 
+    @Builder
+    public Experience(Seller seller, Tour tour, ExperienceType experienceType, String experienceName, LocalDate startDate, LocalDate endDate, int minParticipant, int maxParticipant, int price, int durationHours, String checkPoint, String detailIntroduction, String summary, String supplies, String precautions) {
+        this.seller = seller;
+        this.tour = tour;
+        this.experienceType = experienceType;
+        this.experienceName = experienceName;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.minParticipant = minParticipant;
+        this.maxParticipant = maxParticipant;
+        this.price = price;
+        this.durationHours = durationHours;
+        this.checkPoint = checkPoint;
+        this.detailIntroduction = detailIntroduction;
+        this.summary = summary;
+        this.supplies = supplies;
+        this.precautions = precautions;
+    }
 }
