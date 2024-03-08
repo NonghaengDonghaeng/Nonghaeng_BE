@@ -8,7 +8,8 @@ import tour.nonghaeng.global.exception.dto.ErrorReason;
 @AllArgsConstructor
 @Getter
 public enum TourErrorCode implements BaseErrorCode{
-    DUPLICATE_CREATE_TOUR(HttpStatus.BAD_REQUEST, "TOUR_400_1", "이미 관광을 등록한 사업자입니다."),
+    DUPLICATE_CREATE_TOUR(HttpStatus.BAD_REQUEST, "TOUR_400_1", "이미 여행을 등록한 사업자입니다."),
+    NO_TOUR_CONTENT_AT_CURRENT_PAGE(HttpStatus.NOT_FOUND, "TOUR_204_1", "현재 페이지에 여행이 없습니다."),
     ;
 
     private HttpStatus status;

@@ -11,6 +11,8 @@ import tour.nonghaeng.domain.tour.dto.CreateTourDto;
 import tour.nonghaeng.domain.tour.dto.TourSummaryDto;
 import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.domain.tour.repo.TourRepository;
+import tour.nonghaeng.global.exception.TourException;
+import tour.nonghaeng.global.exception.code.TourErrorCode;
 import tour.nonghaeng.global.validation.TourValidation;
 
 import java.util.ArrayList;
@@ -36,6 +38,9 @@ public class TourService {
     public Page<TourSummaryDto> findAll(Pageable pageable) {
 
         Page<Tour> tourPages = tourRepository.findAll(pageable);
+
+        tourValidation.pageValidate(tourPages);
+
         Page<TourSummaryDto> summaryDtoPage = TourSummaryDto.toEntity(tourPages);
 
         return summaryDtoPage;

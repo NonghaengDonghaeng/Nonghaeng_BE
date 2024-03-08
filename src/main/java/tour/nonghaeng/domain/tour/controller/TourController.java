@@ -28,6 +28,15 @@ public class TourController {
     private final TourService tourService;
     private final AuthService authService;
 
+    //여행 리스트 조회(파라미터로 page)
+    @GetMapping
+    public ResponseEntity<Page<TourSummaryDto>> showTourList(@PageableDefault(size=3)
+                                                             Pageable pageable) {
+        Page<TourSummaryDto> tourSummaryDtoPage = tourService.findAll(pageable);
+
+        return new ResponseEntity<>(tourSummaryDtoPage, HttpStatus.OK);
+    }
+
     //여행 등록하기
     @PostMapping("/seller/add")
     public ResponseEntity<String> createTour(Authentication authentication,@RequestBody CreateTourDto createTourDto) {
@@ -38,13 +47,12 @@ public class TourController {
         return new ResponseEntity<>("관광 등록 성공", HttpStatus.CREATED);
     }
 
-    @GetMapping("/list")
-    public ResponseEntity<Page<TourSummaryDto>> showTourList(@PageableDefault(size=3)
-                                                                 Pageable pageable) {
-        Page<TourSummaryDto> tourSummaryDtoPage = tourService.findAll(pageable);
-
-        return new ResponseEntity<>(tourSummaryDtoPage, HttpStatus.OK);
+    @GetMapping("/{tourId}")
+    public ResponseEntity<String> showTourDetail(@PathVariable Long tourId) {
+        return new ResponseEntity<>("d",HttpStatus.OK);
     }
+
+
 
 
 
