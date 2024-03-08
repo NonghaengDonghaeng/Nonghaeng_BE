@@ -26,12 +26,12 @@ public class TourService {
     private final TourRepository tourRepository;
     private final TourValidator tourValidator;
 
-    public void create(Seller seller, CreateTourDto dto) {
+    public Long create(Seller seller, CreateTourDto dto) {
 
         tourValidator.createValidate(seller,dto);
 
         Tour createdTour = dto.toEntity(seller);
-        tourRepository.save(createdTour);
+        return tourRepository.save(createdTour).getId();
     }
 
     public Page<TourSummaryDto> findAll(Pageable pageable) {
