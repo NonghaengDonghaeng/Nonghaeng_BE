@@ -90,7 +90,11 @@ public class Experience {
     }
 
     public void addExperienceRound(ExperienceRound experienceRound) {
-        this.getExperienceRounds().add(experienceRound);
+        this.experienceRounds.add(experienceRound);
+    }
+
+    public void addOpenDate(ExperienceOpenDate experienceOpenDate) {
+        this.experienceOpenDates.add(experienceOpenDate);
     }
 
 }

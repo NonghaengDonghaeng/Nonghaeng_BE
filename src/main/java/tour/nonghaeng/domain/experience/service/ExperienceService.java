@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tour.nonghaeng.domain.experience.dto.AddExpOpenDateDto;
 import tour.nonghaeng.domain.experience.dto.CreateExpDto;
 import tour.nonghaeng.domain.experience.dto.CreateExpRoundDto;
 import tour.nonghaeng.domain.experience.entity.Experience;
@@ -27,6 +28,7 @@ public class ExperienceService {
     private final ExperienceValidator experienceValidator;
 
     private final ExperienceRoundService experienceRoundService;
+    private final ExperienceOpenDateService experienceOpenDateService;
 
     private final TourService tourService;
 
@@ -44,7 +46,21 @@ public class ExperienceService {
 
     }
 
+    public Long addOnlyOpenDates(Long experienceId, List<AddExpOpenDateDto> dtoList) {
+
+        //TODO: 검증 로직 추가 (이미 등록된 날짜가 있는지, 과거날짜가 아닌지 확인)
+
+        Experience experience = findById(experienceId);
+
+        experienceOpenDateService.addOpenDates(experience, dtoList);
+
+        return experienceRepository.save(experience).getId();
+
+    }
+
     public Long addOnlyRounds(Long experienceId, List<CreateExpRoundDto> dtoList) {
+
+        //TODO: 검증 로직 추가 (곂치는 시간이 있는지)
 
         Experience experience = findById(experienceId);
 

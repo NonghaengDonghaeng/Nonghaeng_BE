@@ -2,6 +2,7 @@ package tour.nonghaeng.domain.experience.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,4 +24,10 @@ public class ExperienceOpenDate {
     private Experience experience;
 
     private LocalDate openDate;
+
+    @Builder
+    public ExperienceOpenDate(Experience experience, LocalDate openDate) {
+        this.experience = experience;
+        this.openDate = openDate;
+    }
 }
