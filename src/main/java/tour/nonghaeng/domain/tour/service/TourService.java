@@ -11,12 +11,7 @@ import tour.nonghaeng.domain.tour.dto.CreateTourDto;
 import tour.nonghaeng.domain.tour.dto.TourSummaryDto;
 import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.domain.tour.repo.TourRepository;
-import tour.nonghaeng.global.exception.TourException;
-import tour.nonghaeng.global.exception.code.TourErrorCode;
-import tour.nonghaeng.global.validation.TourValidation;
-
-import java.util.ArrayList;
-import java.util.List;
+import tour.nonghaeng.global.validation.TourValidator;
 
 @Service
 @RequiredArgsConstructor
@@ -25,11 +20,11 @@ import java.util.List;
 public class TourService {
 
     private final TourRepository tourRepository;
-    private final TourValidation tourValidation;
+    private final TourValidator tourValidator;
 
     public void create(Seller seller, CreateTourDto dto) {
 
-        tourValidation.createValidate(seller,dto);
+        tourValidator.createValidate(seller,dto);
 
         Tour createdTour = dto.toEntity(seller);
         tourRepository.save(createdTour);
@@ -39,7 +34,7 @@ public class TourService {
 
         Page<Tour> tourPages = tourRepository.findAll(pageable);
 
-        tourValidation.pageValidate(tourPages);
+        tourValidator.pageValidate(tourPages);
 
         Page<TourSummaryDto> summaryDtoPage = TourSummaryDto.toEntity(tourPages);
 

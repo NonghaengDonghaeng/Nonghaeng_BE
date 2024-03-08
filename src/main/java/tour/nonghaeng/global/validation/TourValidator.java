@@ -7,13 +7,12 @@ import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.tour.dto.CreateTourDto;
 import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.domain.tour.repo.TourRepository;
-import tour.nonghaeng.global.exception.GlobalException;
 import tour.nonghaeng.global.exception.TourException;
 import tour.nonghaeng.global.exception.code.TourErrorCode;
 
 @RequiredArgsConstructor
 @Component
-public class TourValidation {
+public class TourValidator {
 
     private final TourRepository tourRepository;
 
