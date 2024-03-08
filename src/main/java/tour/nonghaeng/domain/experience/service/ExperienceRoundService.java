@@ -19,13 +19,14 @@ public class ExperienceRoundService {
 
     private final ExperienceRoundRepository experienceRoundRepository;
 
-    public void addRound(Experience experience, List<CreateExpRoundDto> dtos) {
+    public void addRounds(Experience experience, List<CreateExpRoundDto> dtos) {
         for (CreateExpRoundDto dto : dtos) {
-            experience.addExperienceRound(createRound(experience,dto));
+            experience.addExperienceRound(createAndSaveRound(experience,dto));
         }
     }
 
-    private ExperienceRound createRound(Experience experience,CreateExpRoundDto dto) {
+    private ExperienceRound createAndSaveRound(Experience experience,CreateExpRoundDto dto) {
+
         ExperienceRound round = dto.toEntity(experience);
         return experienceRoundRepository.save(round);
     }

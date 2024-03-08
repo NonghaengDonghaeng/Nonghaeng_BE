@@ -10,8 +10,8 @@ import tour.nonghaeng.domain.tour.repo.TourRepository;
 import tour.nonghaeng.global.exception.TourException;
 import tour.nonghaeng.global.exception.code.TourErrorCode;
 
-@RequiredArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class TourValidator {
 
     private final TourRepository tourRepository;
