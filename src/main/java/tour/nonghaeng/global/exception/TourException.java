@@ -5,7 +5,13 @@ import tour.nonghaeng.global.exception.code.TourErrorCode;
 
 public class TourException extends NongHaengException{
 
-    public TourException(BaseErrorCode errorCode) {
+    public static final TourException EXCEPTION = new TourException();
+
+    public TourException() {
+        super(TourErrorCode.DEFAULT_TOUR_ERROR);
+    }
+
+    public TourException(TourErrorCode errorCode) {
         super(errorCode);
     }
 }

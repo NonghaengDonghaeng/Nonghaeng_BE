@@ -19,14 +19,20 @@ public class TourValidator {
     public void createValidate(Seller seller, CreateTourDto createTourDto) {
         //이미 관광을 등록한 seller 인지 검증
         if (tourRepository.existsBySeller(seller)) {
-            throw new TourException(TourErrorCode.DUPLICATE_CREATE_TOUR);
+            throw new TourException(TourErrorCode.DUPLICATE_CREATE_TOUR_ERROR);
         }
         //dto 검사
     }
 
     public void pageValidate(Page<Tour> tourPages) {
         if (tourPages.isEmpty()) {
-            throw new TourException(TourErrorCode.NO_TOUR_CONTENT_AT_CURRENT_PAGE);
+            throw new TourException(TourErrorCode.NO_TOUR_CONTENT_AT_CURRENT_PAGE_ERROR);
+        }
+    }
+
+    public void tourIdValidate(Long tourId) {
+        if (!tourRepository.existsById(tourId)) {
+            throw new TourException(TourErrorCode.WRONG_TOUR_ID_ERROR);
         }
     }
 

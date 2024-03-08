@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.tour.dto.CreateTourDto;
+import tour.nonghaeng.domain.tour.dto.TourDetailDto;
 import tour.nonghaeng.domain.tour.dto.TourSummaryDto;
 import tour.nonghaeng.domain.tour.service.TourService;
 import tour.nonghaeng.global.auth.service.AuthService;
@@ -48,8 +49,11 @@ public class TourController {
     }
 
     @GetMapping("/{tourId}")
-    public ResponseEntity<String> showTourDetail(@PathVariable Long tourId) {
-        return new ResponseEntity<>("d",HttpStatus.OK);
+    public ResponseEntity<TourDetailDto> showTourDetail(@PathVariable Long tourId) {
+
+        TourDetailDto dto = tourService.findByTourId(tourId);
+
+        return new ResponseEntity<>(dto,HttpStatus.OK);
     }
 
 

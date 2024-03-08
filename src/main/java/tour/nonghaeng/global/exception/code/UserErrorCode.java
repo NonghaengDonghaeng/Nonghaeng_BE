@@ -8,6 +8,7 @@ import tour.nonghaeng.global.exception.dto.ErrorReason;
 @AllArgsConstructor
 @Getter
 public enum UserErrorCode implements BaseErrorCode{
+    DEFAULT_USER_ERROR(HttpStatus.BAD_GATEWAY,"USER_400_0","user 기본 오류"),
     NO_EXIST_USER_BY_NUMBER(HttpStatus.BAD_REQUEST, "USER_400_1", "해당 전화번호의 유저가 존재하지 않습니다."),
     ;
 

@@ -8,10 +8,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.tour.dto.CreateTourDto;
+import tour.nonghaeng.domain.tour.dto.TourDetailDto;
 import tour.nonghaeng.domain.tour.dto.TourSummaryDto;
 import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.domain.tour.repo.TourRepository;
 import tour.nonghaeng.global.validation.TourValidator;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,9 +39,16 @@ public class TourService {
 
         tourValidator.pageValidate(tourPages);
 
-        Page<TourSummaryDto> summaryDtoPage = TourSummaryDto.toEntity(tourPages);
+        Page<TourSummaryDto> summaryDtoPage = TourSummaryDto.convert(tourPages);
 
         return summaryDtoPage;
 
+    }
+
+    public TourDetailDto findByTourId(Long tourId) {
+
+        tourValidator.tourIdValidate(tourId);
+
+        return TourDetailDto.convert(tourRepository.findById(tourId).get());
     }
 }
