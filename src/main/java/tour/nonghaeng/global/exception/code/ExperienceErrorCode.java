@@ -13,6 +13,7 @@ public enum ExperienceErrorCode implements BaseErrorCode{
     DUPLICATE_EXPERIENCE_OPEN_DATE_ADD_ERROR(HttpStatus.BAD_GATEWAY, "EXP_400_1", "중복된 날짜가 존재합니다."),
     ALREADY_EXIST_EXPERIENCE_OPEN_DATE_ADD_ERROR(HttpStatus.BAD_GATEWAY, "EXP_400_1", "이미 등록된 날짜입니다."),
     PAST_EXPERIENCE_OPEN_DATE_ADD_ERROR(HttpStatus.BAD_GATEWAY, "EXP_400_2", "현재날짜보다 과거 날짜를 등록할 수 없습니다."),
+    OVERLAPS_ROUND_TIME_ADD_ERROR(HttpStatus.BAD_GATEWAY, "EXP_400_3", "이미 등록된 회차시간과 곂치는 시간입니다."),
     ;
 
     private HttpStatus status;

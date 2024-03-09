@@ -8,6 +8,7 @@ import tour.nonghaeng.domain.experience.dto.AddExpRoundDto;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
 import tour.nonghaeng.domain.experience.repo.ExperienceRoundRepository;
+import tour.nonghaeng.global.validation.ExperienceRoundValidator;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ import java.util.List;
 public class ExperienceRoundService {
 
     private final ExperienceRoundRepository experienceRoundRepository;
+    private final ExperienceRoundValidator experienceRoundValidator;
 
     public void addRounds(Experience experience, List<AddExpRoundDto> dtos) {
         for (AddExpRoundDto dto : dtos) {
@@ -26,6 +28,8 @@ public class ExperienceRoundService {
     }
 
     private ExperienceRound createAndSaveRound(Experience experience, AddExpRoundDto dto) {
+
+        experienceRoundValidator.createAndSaveValidate(experience,dto);
 
         ExperienceRound round = dto.toEntity(experience);
         return experienceRoundRepository.save(round);
