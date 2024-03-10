@@ -111,8 +111,8 @@ public class ExperienceController {
         return new ResponseEntity<>(expRoundInfo, HttpStatus.OK);
     }
 
-    //TODO 관리자 API: 체험정보 수정
-
+    //TODO 관리자 API: 체험정보 수정(PUT)
+    //TODO 관리자 API: 체험정보 삭제(DELETE)
 
     //TODO: 추가요구사항: 어떤 날에는 등록한 회차중 일부만 열고 일부는 닫고 싶다 -> 특정날짜에 따라 회차를 닫는 기능 추가
 }

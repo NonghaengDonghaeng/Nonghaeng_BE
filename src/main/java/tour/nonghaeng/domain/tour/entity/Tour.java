@@ -44,6 +44,7 @@ public class Tour extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private TourType tourType;
 
+    //TODO: 추후에는 이게 겹치지 않도록 Unique 설정해야 함
     private String name;
 
     private String homepageUrl;
