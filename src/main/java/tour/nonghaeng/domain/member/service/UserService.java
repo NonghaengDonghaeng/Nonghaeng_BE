@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.dto.UserJoinDto;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.member.repo.UserRepository;
+import tour.nonghaeng.global.validation.UserValidator;
 
 @Service
 @RequiredArgsConstructor
@@ -17,14 +18,15 @@ import tour.nonghaeng.domain.member.repo.UserRepository;
 public class UserService {
 
     private final UserRepository userRepository;
+
+    private final UserValidator userValidator;
+
     private final PasswordEncoder passwordEncoder;
 
     public void join(UserJoinDto dto) throws Exception {
-        //TODO : 인증과정에서의 예외처리
 
-        if(!dto.password().equals(dto.checkPassword())){
-            throw new Exception("비밀번호가 일치하지 않습니다.");
-        }
+        //TODO : 인증과정에서의 예외처리
+        userValidator.joinValidate(dto);
 
         User joinUser = dto.toEntity();
         joinUser.passwordEncode(passwordEncoder);
