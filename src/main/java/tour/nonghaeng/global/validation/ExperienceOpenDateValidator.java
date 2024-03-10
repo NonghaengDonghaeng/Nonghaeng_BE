@@ -41,10 +41,16 @@ public class ExperienceOpenDateValidator {
 
         LocalDate shouldValidateDate = addExpOpenDateDto.openDate();
 
-        //검증1: 이미 등록된 날짜인지
-        if (experienceOpenDateRepository.existsByExperienceAndOpenDate(experience, shouldValidateDate)) {
+        if (isOpenDateRegister(experience, shouldValidateDate)) {
             throw new ExperienceException(ExperienceErrorCode.ALREADY_EXIST_EXPERIENCE_OPEN_DATE_ADD_ERROR);
         }
 
+    }
+
+    private boolean isOpenDateRegister(Experience experience,LocalDate openDate) {
+        if (experienceOpenDateRepository.existsByExperienceAndOpenDate(experience, openDate)) {
+            return true;
+        }
+        return false;
     }
 }

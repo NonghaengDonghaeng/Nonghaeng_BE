@@ -13,6 +13,8 @@ import tour.nonghaeng.domain.experience.service.ExperienceRoundService;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.global.auth.service.AuthService;
+import tour.nonghaeng.global.validation.ExperienceValidator;
+import tour.nonghaeng.global.validation.TourValidator;
 
 import java.util.List;
 
@@ -25,6 +27,8 @@ public class ExperienceController {
     private final ExperienceService experienceService;
     private final ExperienceRoundService experienceRoundService;
     private final AuthService authService;
+
+    private final ExperienceValidator experienceValidator;
 
     //관리자 API: 체험 등록하기(첫 등록때 회차도 같이 등록가능)
     @PostMapping("/seller/add")
@@ -42,7 +46,8 @@ public class ExperienceController {
     public ResponseEntity<String> addRounds(Authentication authentication, @PathVariable Long experienceId,
                                             @RequestBody List<AddExpRoundDto> addExpRoundDtoList) {
 
-        Seller seller = authService.toSellerEntity(authentication);
+        experienceValidator.ownerValidate(authService.toSellerEntity(authentication),experienceId);
+
         Long expId = experienceService.addOnlyRounds(experienceId, addExpRoundDtoList);
 
         int count= addExpRoundDtoList.size();
@@ -55,13 +60,25 @@ public class ExperienceController {
     @PostMapping("/seller/add-opendate/{experienceId}")
     public ResponseEntity<String> addOpenDates(Authentication authentication, @PathVariable Long experienceId,
                                                @RequestBody List<AddExpOpenDateDto> addExpOpenDateDtos) {
+        
+        experienceValidator.ownerValidate(authService.toSellerEntity(authentication),experienceId);
 
-        Seller seller = authService.toSellerEntity(authentication);
         Long expId = experienceService.addOnlyOpenDates(experienceId, addExpOpenDateDtos);
 
         int count = addExpOpenDateDtos.size();
 
         return new ResponseEntity<>("체험(id:" + expId + ")에 회차(" + count+ "개) 등록 완료.", HttpStatus.OK);
+    }
+
+    @PostMapping("/seller/close-opendate/{experienceId}")
+    public ResponseEntity<String> closeOpenDates(Authentication authentication, @PathVariable Long experienceId,
+                                                 @RequestBody List<AddExpOpenDateDto> addExpOpenDateDtos) {
+
+        experienceValidator.ownerValidate(authService.toSellerEntity(authentication),experienceId);
+
+        experienceService.closeOnlyOpenDates(experienceId,addExpOpenDateDtos);
+
+        return new ResponseEntity<>("해당 오픈날짜 삭제완료,", HttpStatus.OK);
     }
 
 

@@ -9,10 +9,13 @@ import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.entity.ExperienceOpenDate;
 import tour.nonghaeng.domain.experience.repo.ExperienceOpenDateRepository;
 import tour.nonghaeng.domain.experience.repo.ExperienceRepository;
+import tour.nonghaeng.global.exception.ExperienceException;
+import tour.nonghaeng.global.exception.code.ExperienceErrorCode;
 import tour.nonghaeng.global.validation.ExperienceOpenDateValidator;
 import tour.nonghaeng.global.validation.ExperienceValidator;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +33,13 @@ public class ExperienceOpenDateService {
         for (AddExpOpenDateDto openDateDto : openDateDtoList) {
             experience.addOpenDate(createAndSave(experience,openDateDto));
         }
+    }
+
+    public ExperienceOpenDate findByExperienceAndOpenDates(Experience experience, AddExpOpenDateDto openDateDto) {
+
+        return experienceOpenDateRepository.findByExperienceAndOpenDate(experience, openDateDto.openDate()).
+                orElseThrow(() -> new ExperienceException(ExperienceErrorCode.NOT_EXIST_EXPERIENCE_OPEN_DATE_ADD_ERROR));
+
     }
 
     private ExperienceOpenDate createAndSave(Experience experience, AddExpOpenDateDto openDateDto) {

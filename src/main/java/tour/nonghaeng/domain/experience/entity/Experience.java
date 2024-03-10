@@ -97,4 +97,7 @@ public class Experience {
         this.experienceOpenDates.add(experienceOpenDate);
     }
 
+    public void deleteOpenDate(ExperienceOpenDate experienceOpenDate) {
+        this.experienceOpenDates.remove(experienceOpenDate);
+    }
 }

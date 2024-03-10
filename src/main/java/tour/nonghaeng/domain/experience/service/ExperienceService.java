@@ -8,6 +8,7 @@ import tour.nonghaeng.domain.experience.dto.AddExpOpenDateDto;
 import tour.nonghaeng.domain.experience.dto.CreateExpDto;
 import tour.nonghaeng.domain.experience.dto.AddExpRoundDto;
 import tour.nonghaeng.domain.experience.entity.Experience;
+import tour.nonghaeng.domain.experience.entity.ExperienceOpenDate;
 import tour.nonghaeng.domain.experience.repo.ExperienceRepository;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.tour.entity.Tour;
@@ -47,13 +48,23 @@ public class ExperienceService {
 
     public Long addOnlyOpenDates(Long experienceId, List<AddExpOpenDateDto> dtoList) {
 
-        //TODO: 검증 로직 추가 (이미 등록된 날짜가 있는지, 과거날짜가 아닌지 확인)
-
         Experience experience = findById(experienceId);
 
         experienceOpenDateService.addOpenDates(experience, dtoList);
 
         return experienceRepository.save(experience).getId();
+
+    }
+
+    public void closeOnlyOpenDates(Long experienceId, List<AddExpOpenDateDto> dtoList) {
+
+        Experience experience = findById(experienceId);
+
+        for (AddExpOpenDateDto addExpOpenDateDto : dtoList) {
+            ExperienceOpenDate experienceOpenDate = experienceOpenDateService.findByExperienceAndOpenDates(experience, addExpOpenDateDto);
+            experience.deleteOpenDate(experienceOpenDate);
+        }
+        experienceRepository.save(experience);
 
     }
 
@@ -68,6 +79,7 @@ public class ExperienceService {
         return experienceRepository.save(experience).getId();
     }
 
+    //TODO: 이미 컨트롤러에서 체험이 존재하는지와 요청 판매자의 소유인지를 확인하는 검증이 들어가기 때문에 여기서 또 할 필요가 없어서 뺄지 말지 고민중
     public Experience findById(Long experienceId) {
         return experienceRepository.findById(experienceId)
                 .orElseThrow(() -> ExperienceException.EXCEPTION);
