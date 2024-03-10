@@ -1,4 +1,4 @@
-package tour.nonghaeng.domain.etc.tourType;
+package tour.nonghaeng.domain.etc.tour;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

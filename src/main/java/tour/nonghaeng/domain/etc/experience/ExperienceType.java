@@ -1,4 +1,4 @@
-package tour.nonghaeng.domain.etc.experienceType;
+package tour.nonghaeng.domain.etc.experience;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;

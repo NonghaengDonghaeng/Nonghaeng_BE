@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import tour.nonghaeng.domain.etc.experienceType.ExperienceType;
+import tour.nonghaeng.domain.etc.experience.ExperienceType;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.tour.entity.Tour;
 

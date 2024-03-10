@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.etc.area.AreaCode;
-import tour.nonghaeng.domain.etc.tourType.TourType;
+import tour.nonghaeng.domain.etc.tour.TourType;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.room.entity.Room;

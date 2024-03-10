@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import tour.nonghaeng.domain.etc.area.AreaCode;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.etc.role.Role;
-import tour.nonghaeng.domain.etc.socialtype.SocialType;
+import tour.nonghaeng.domain.etc.social.SocialType;
 
 public record UserJoinDto(
         @JsonProperty("area_code")

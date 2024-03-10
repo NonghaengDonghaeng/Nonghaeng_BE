@@ -6,7 +6,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import tour.nonghaeng.domain.etc.experienceType.ExperienceType;
 import tour.nonghaeng.domain.experience.entity.Experience;
 
 import java.time.LocalDate;

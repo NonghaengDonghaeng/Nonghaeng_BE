@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import tour.nonghaeng.domain.etc.roomType.RoomType;
+import tour.nonghaeng.domain.etc.room.RoomType;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.tour.entity.Tour;
 
