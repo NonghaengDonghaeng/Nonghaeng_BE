@@ -29,10 +29,11 @@ public class ExpDetailDto {
     private String summary;
     private String supplies;
     private String precautions;
+    private TourInfo tourInfo;
     private SellerInfo sellerInfo;
 
     @Builder
-    public ExpDetailDto(String experienceName, String experienceTypeName, LocalDate startDate, LocalDate endDate, int minParticipant, int maxParticipant, int price, int durationHours, String checkPoint, String detailIntroduction, String summary, String supplies, String precautions, SellerInfo sellerInfo) {
+    public ExpDetailDto(String experienceName, String experienceTypeName, LocalDate startDate, LocalDate endDate, int minParticipant, int maxParticipant, int price, int durationHours, String checkPoint, String detailIntroduction, String summary, String supplies, String precautions,TourInfo tourInfo, SellerInfo sellerInfo) {
         this.experienceName = experienceName;
         this.experienceTypeName = experienceTypeName;
         this.startDate = startDate;
@@ -46,20 +47,23 @@ public class ExpDetailDto {
         this.summary = summary;
         this.supplies = supplies;
         this.precautions = precautions;
+        this.tourInfo = tourInfo;
         this.sellerInfo = sellerInfo;
     }
 
-    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+    @Builder
     @Getter
     public static class SellerInfo {
         private String address;
         private String callNumber;
+    }
 
-        @Builder
-        public SellerInfo(String address, String callNumber) {
-            this.address = address;
-            this.callNumber = callNumber;
-        }
+    @Builder
+    @Getter
+    public static class TourInfo {
+        private Long tourId;
+        private String tourName;
+        private String AreaName;
     }
 
     public static ExpDetailDto convert(Experience experience) {
@@ -77,6 +81,11 @@ public class ExpDetailDto {
                 .summary(experience.getSummary())
                 .supplies(experience.getSupplies())
                 .precautions(experience.getPrecautions())
+                .tourInfo(TourInfo.builder()
+                        .tourId(experience.getTour().getId())
+                        .tourName(experience.getTour().getName())
+                        .AreaName(experience.getTour().getAreaCode().getAreaName())
+                        .build())
                 .sellerInfo(SellerInfo.builder()
                         .address(experience.getSeller().getAddress())
                         .callNumber(experience.getSeller().getCallNumber())
