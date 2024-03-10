@@ -28,9 +28,7 @@ public class ExperienceValidator {
 
 
         //검증 : 체험아이디에 해당하는 체험이 있는지
-        if (!experienceRepository.existsById(experienceId)) {
-            throw new ExperienceException(ExperienceErrorCode.NO_EXIST_EXPERIENCE_BY_EXPERIENCE_ID_ERROR);
-        }
+        expIdValidate(experienceId);
 
         //검증 : 체험아이디를 통한 판매자와 API요청 판매자가 동일한지
         if (!seller.equals(experienceRepository.findSellerByExperienceId(experienceId).get())) {
@@ -44,5 +42,10 @@ public class ExperienceValidator {
         }
     }
 
+    public void expIdValidate(Long experienceId) {
+        if (!experienceRepository.existsById(experienceId)) {
+            throw new ExperienceException(ExperienceErrorCode.NO_EXIST_EXPERIENCE_BY_EXPERIENCE_ID_ERROR);
+        }
+    }
 
 }

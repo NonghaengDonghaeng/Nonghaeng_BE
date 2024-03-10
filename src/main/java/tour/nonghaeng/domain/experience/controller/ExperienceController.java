@@ -42,6 +42,14 @@ public class ExperienceController {
         return new ResponseEntity<>(pageDto, HttpStatus.OK);
     }
 
+    @GetMapping("/{experienceId}")
+    public ResponseEntity<ExpDetailDto> showExperienceDetail(@PathVariable Long experienceId) {
+
+        ExpDetailDto dto = experienceService.findByExpId(experienceId);
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
     //관리자 API: 체험 등록하기(첫 등록때 회차도 같이 등록가능)
     @PostMapping("/seller/add")
     public ResponseEntity<String> add(Authentication authentication, @RequestBody CreateExpDto createExpDto) {

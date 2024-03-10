@@ -34,6 +34,7 @@ public class ExpRoundInfoDto {
         this.numOfRound = 0;
     }
 
+    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     @Builder
     @Getter
     public static class RoundInfo {

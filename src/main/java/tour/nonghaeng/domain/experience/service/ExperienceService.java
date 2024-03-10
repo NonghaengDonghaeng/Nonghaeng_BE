@@ -128,6 +128,14 @@ public class ExperienceService {
         return dto;
     }
 
+    public ExpDetailDto findByExpId(Long experienceId) {
+
+        experienceValidator.expIdValidate(experienceId);
+
+        return ExpDetailDto.convert(experienceRepository.findById(experienceId).get());
+
+    }
+
     //TODO: 스케줄 매일마다 가장 오래된 날짜 오늘과 확인후 삭제작업, 시간대 및 성능적 코드개선 필요
     @Async
     @Scheduled(cron = "0 0 0 * * *")
