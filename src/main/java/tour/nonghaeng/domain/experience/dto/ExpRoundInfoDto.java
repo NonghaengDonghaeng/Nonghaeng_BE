@@ -23,6 +23,7 @@ public class ExpRoundInfoDto {
     private Long experienceId;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate checkDate;
+    private int numOfRound;
     private List<RoundInfo> roundInfoList = new ArrayList<>();
 
 
@@ -30,6 +31,7 @@ public class ExpRoundInfoDto {
     public ExpRoundInfoDto(Long experienceId,LocalDate checkDate) {
         this.experienceId = experienceId;
         this.checkDate = checkDate;
+        this.numOfRound = 0;
     }
 
     @Builder
@@ -57,6 +59,7 @@ public class ExpRoundInfoDto {
 
     public void addRoundInfo(RoundInfo roundInfo) {
         this.roundInfoList.add(roundInfo);
+        this.numOfRound++;
     }
 
 }
