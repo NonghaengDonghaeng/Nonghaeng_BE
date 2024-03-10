@@ -1,5 +1,7 @@
 package tour.nonghaeng.domain.experience.repo;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,5 +24,7 @@ public interface ExperienceRepository extends JpaRepository<Experience,Long> {
 
     @Query("SELECT MIN(eod.openDate) FROM ExperienceOpenDate eod where eod.experience = :experience")
     Optional<LocalDate> findOldestOpenDate(@Param("experience") Experience experience);
+
+    Page<Experience> findAll(Pageable pageable);
 
 }

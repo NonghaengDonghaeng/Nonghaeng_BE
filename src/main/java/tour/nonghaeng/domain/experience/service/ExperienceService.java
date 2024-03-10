@@ -2,14 +2,13 @@ package tour.nonghaeng.domain.experience.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tour.nonghaeng.domain.experience.dto.AddExpOpenDateDto;
-import tour.nonghaeng.domain.experience.dto.CreateExpDto;
-import tour.nonghaeng.domain.experience.dto.AddExpRoundDto;
-import tour.nonghaeng.domain.experience.dto.ExpRoundInfoDto;
+import tour.nonghaeng.domain.experience.dto.*;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.entity.ExperienceOpenDate;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
@@ -40,6 +39,17 @@ public class ExperienceService {
     private final ExperienceOpenDateService experienceOpenDateService;
 
     private final TourService tourService;
+
+    public Page<ExpSummaryDto> findAll(Pageable pageable) {
+
+        //검증
+
+        Page<Experience> expPage = experienceRepository.findAll(pageable);
+
+        Page<ExpSummaryDto> dto = ExpSummaryDto.convert(expPage);
+
+        return dto;
+    }
 
     public Long add(Seller seller, CreateExpDto dto) {
         //검증
@@ -144,8 +154,6 @@ public class ExperienceService {
                 experienceRepository.save(experience);
             }
         });
-
-
     }
 
 

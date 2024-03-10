@@ -2,15 +2,15 @@ package tour.nonghaeng.domain.experience.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import tour.nonghaeng.domain.experience.dto.AddExpOpenDateDto;
-import tour.nonghaeng.domain.experience.dto.CreateExpDto;
-import tour.nonghaeng.domain.experience.dto.AddExpRoundDto;
-import tour.nonghaeng.domain.experience.dto.ExpRoundInfoDto;
+import tour.nonghaeng.domain.experience.dto.*;
 import tour.nonghaeng.domain.experience.service.ExperienceRoundService;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
 import tour.nonghaeng.domain.member.entity.Seller;
@@ -32,6 +32,15 @@ public class ExperienceController {
     private final AuthService authService;
 
     private final ExperienceValidator experienceValidator;
+
+    //여행 리스트 조회(파라미터 page, 예시 page=0)
+    @GetMapping
+    public ResponseEntity<Page<ExpSummaryDto>> showExperienceList(@PageableDefault(size = 3) Pageable pageable) {
+
+        Page<ExpSummaryDto> pageDto = experienceService.findAll(pageable);
+
+        return new ResponseEntity<>(pageDto, HttpStatus.OK);
+    }
 
     //관리자 API: 체험 등록하기(첫 등록때 회차도 같이 등록가능)
     @PostMapping("/seller/add")
@@ -85,7 +94,7 @@ public class ExperienceController {
         return new ResponseEntity<>("해당 오픈날짜 삭제완료,", HttpStatus.OK);
     }
 
-    //체험 해당 날짜에 대한 회차정보 보기(파라미터 date, 예시
+    //체험 해당 날짜에 대한 회차정보 보기(파라미터 date, 예시 date=2024-03-11)
     @GetMapping("/round-info/{experienceId}")
     public ResponseEntity<ExpRoundInfoDto> getRoundInfo(@PathVariable Long experienceId,
                                                         @RequestParam("date")
