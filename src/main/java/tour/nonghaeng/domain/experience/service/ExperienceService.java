@@ -16,8 +16,10 @@ import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.domain.tour.service.TourService;
 import tour.nonghaeng.global.exception.ExperienceException;
+import tour.nonghaeng.global.validation.ExperienceOpenDateValidator;
 import tour.nonghaeng.global.validation.ExperienceValidator;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -27,7 +29,9 @@ import java.util.List;
 public class ExperienceService {
 
     private final ExperienceRepository experienceRepository;
+
     private final ExperienceValidator experienceValidator;
+    private final ExperienceOpenDateValidator experienceOpenDateValidator;
 
     private final ExperienceRoundService experienceRoundService;
     private final ExperienceOpenDateService experienceOpenDateService;
@@ -92,12 +96,16 @@ public class ExperienceService {
                 .orElseThrow(() -> ExperienceException.EXCEPTION);
     }
 
-    public ExpRoundInfoDto getExpRoundInfo(Long experienceId) {
+    public ExpRoundInfoDto getExpRoundInfo(Long experienceId, LocalDate dateParameter) {
 
         Experience experience = findById(experienceId);
 
+        //검증: 해당 체험에 해당 날짜가 오픈되어있는지
+        experienceOpenDateValidator.openDateParameterValidate(experience,dateParameter);
+
         ExpRoundInfoDto dto = ExpRoundInfoDto.builder()
                 .experienceId(experience.getId())
+                .checkDate(dateParameter)
                 .build();
 
         for (ExperienceRound round : experience.getExperienceRounds()) {

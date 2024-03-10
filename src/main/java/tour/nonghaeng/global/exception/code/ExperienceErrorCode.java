@@ -15,7 +15,7 @@ public enum ExperienceErrorCode implements BaseErrorCode{
     ALREADY_EXIST_EXPERIENCE_OPEN_DATE_ADD_ERROR(HttpStatus.BAD_GATEWAY, "EXP_100_2", "이미 등록된 날짜입니다."),
     PAST_EXPERIENCE_OPEN_DATE_ADD_ERROR(HttpStatus.BAD_GATEWAY, "EXP_100_3", "현재날짜보다 과거 날짜를 등록할 수 없습니다."),
     //오픈날짜 추가 삭제시 에러코드
-    NOT_EXIST_EXPERIENCE_OPEN_DATE_ADD_ERROR(HttpStatus.BAD_GATEWAY, "EXP_101_1", "해당 체험에 등록되지 않은 날짜입니다."),
+    NOT_EXIST_EXPERIENCE_OPEN_DATE_ERROR(HttpStatus.BAD_GATEWAY, "EXP_101_1", "해당 체험에 등록되지 않은 날짜입니다."),
     //회차 추가 등록시 에러코드
     OVERLAPS_ROUND_TIME_ADD_ERROR(HttpStatus.BAD_GATEWAY, "EXP_102_1", "이미 등록된 회차시간과 곂치는 시간입니다."),
 

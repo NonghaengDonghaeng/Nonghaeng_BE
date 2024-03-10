@@ -47,6 +47,12 @@ public class ExperienceOpenDateValidator {
 
     }
 
+    public void openDateParameterValidate(Experience experience, LocalDate openDate) {
+        if (!isOpenDateRegister(experience, openDate)) {
+            throw new ExperienceException(ExperienceErrorCode.NOT_EXIST_EXPERIENCE_OPEN_DATE_ERROR);
+        }
+    }
+
     private boolean isOpenDateRegister(Experience experience,LocalDate openDate) {
         if (experienceOpenDateRepository.existsByExperienceAndOpenDate(experience, openDate)) {
             return true;

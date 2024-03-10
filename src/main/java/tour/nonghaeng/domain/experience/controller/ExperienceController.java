@@ -2,6 +2,7 @@ package tour.nonghaeng.domain.experience.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -17,6 +18,7 @@ import tour.nonghaeng.global.auth.service.AuthService;
 import tour.nonghaeng.global.validation.ExperienceValidator;
 import tour.nonghaeng.global.validation.TourValidator;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -83,11 +85,13 @@ public class ExperienceController {
         return new ResponseEntity<>("해당 오픈날짜 삭제완료,", HttpStatus.OK);
     }
 
-    //해당체험의 회차정보 보기
+    //체험 해당 날짜에 대한 회차정보 보기
     @GetMapping("/round-info/{experienceId}")
-    public ResponseEntity<ExpRoundInfoDto> getRoundInfo(@PathVariable Long experienceId) {
+    public ResponseEntity<ExpRoundInfoDto> getRoundInfo(@PathVariable Long experienceId,
+                                                        @RequestParam("date")
+                                                        @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate dateParameter) {
 
-        ExpRoundInfoDto expRoundInfo = experienceService.getExpRoundInfo(experienceId);
+        ExpRoundInfoDto expRoundInfo = experienceService.getExpRoundInfo(experienceId,dateParameter);
 
         return new ResponseEntity<>(expRoundInfo, HttpStatus.OK);
     }

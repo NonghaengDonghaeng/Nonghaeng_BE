@@ -38,7 +38,7 @@ public class ExperienceOpenDateService {
     public ExperienceOpenDate findByExperienceAndOpenDates(Experience experience, AddExpOpenDateDto openDateDto) {
 
         return experienceOpenDateRepository.findByExperienceAndOpenDate(experience, openDateDto.openDate()).
-                orElseThrow(() -> new ExperienceException(ExperienceErrorCode.NOT_EXIST_EXPERIENCE_OPEN_DATE_ADD_ERROR));
+                orElseThrow(() -> new ExperienceException(ExperienceErrorCode.NOT_EXIST_EXPERIENCE_OPEN_DATE_ERROR));
 
     }
 
@@ -49,4 +49,6 @@ public class ExperienceOpenDateService {
         ExperienceOpenDate openDate = openDateDto.toEntity(experience);
         return experienceOpenDateRepository.save(openDate);
     }
+
+
 }

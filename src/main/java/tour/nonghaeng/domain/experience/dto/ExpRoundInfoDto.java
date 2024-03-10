@@ -6,8 +6,10 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +21,15 @@ public class ExpRoundInfoDto {
 
     //TODO: 회차 정보 보여줄때 추가할 정보 있으면 추가하기
     private Long experienceId;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate checkDate;
     private List<RoundInfo> roundInfoList = new ArrayList<>();
 
 
     @Builder
-    public ExpRoundInfoDto(Long experienceId) {
+    public ExpRoundInfoDto(Long experienceId,LocalDate checkDate) {
         this.experienceId = experienceId;
+        this.checkDate = checkDate;
     }
 
     @Builder
