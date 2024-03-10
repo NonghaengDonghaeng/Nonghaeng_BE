@@ -42,9 +42,9 @@ public class ExperienceService {
 
     public Page<ExpSummaryDto> findAll(Pageable pageable) {
 
-        //검증
-
         Page<Experience> expPage = experienceRepository.findAll(pageable);
+
+        experienceValidator.pageValidate(expPage);
 
         Page<ExpSummaryDto> dto = ExpSummaryDto.convert(expPage);
 
@@ -52,7 +52,7 @@ public class ExperienceService {
     }
 
     public Long add(Seller seller, CreateExpDto dto) {
-        //검증
+        //TODO: dto 검증
 
         //체험 엔티티 생성
         Tour tour = tourService.findBySeller(seller);
@@ -89,8 +89,6 @@ public class ExperienceService {
 
     public Long addOnlyRounds(Long experienceId, List<AddExpRoundDto> dtoList) {
 
-        //TODO: 검증 로직 추가 (곂치는 시간이 있는지)
-
         Experience experience = findById(experienceId);
 
         experienceRoundService.addRounds(experience,dtoList);
@@ -113,7 +111,6 @@ public class ExperienceService {
 
         Experience experience = findById(experienceId);
 
-        //검증: 해당 체험에 해당 날짜가 오픈되어있는지
         experienceOpenDateValidator.openDateParameterValidate(experience,dateParameter);
 
         ExpRoundInfoDto dto = ExpRoundInfoDto.builder()
@@ -131,7 +128,7 @@ public class ExperienceService {
         return dto;
     }
 
-    //스케줄 매일마다 가장 오래된 날짜 오늘과 확인후 삭제작업
+    //TODO: 스케줄 매일마다 가장 오래된 날짜 오늘과 확인후 삭제작업, 시간대 및 성능적 코드개선 필요
     @Async
     @Scheduled(cron = "0 0 0 * * *")
     public void autoOpenDatesDeleted() {
@@ -142,7 +139,7 @@ public class ExperienceService {
         }
     }
 
-    public void checkOldestOpenDatePastOrNot(Experience experience) {
+    private void checkOldestOpenDatePastOrNot(Experience experience) {
         Optional<LocalDate> oldestOpenDate = experienceRepository.findOldestOpenDate(experience);
 
         oldestOpenDate.ifPresent(localDate -> {

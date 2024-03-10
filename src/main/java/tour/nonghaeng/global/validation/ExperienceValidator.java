@@ -2,11 +2,16 @@ package tour.nonghaeng.global.validation;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.repo.ExperienceRepository;
 import tour.nonghaeng.domain.member.entity.Seller;
+import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.global.exception.ExperienceException;
+import tour.nonghaeng.global.exception.TourException;
 import tour.nonghaeng.global.exception.code.ExperienceErrorCode;
+import tour.nonghaeng.global.exception.code.TourErrorCode;
 
 import java.util.Optional;
 
@@ -30,6 +35,12 @@ public class ExperienceValidator {
         //검증 : 체험아이디를 통한 판매자와 API요청 판매자가 동일한지
         if (!seller.equals(experienceRepository.findSellerByExperienceId(experienceId).get())) {
             throw new ExperienceException(ExperienceErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
+        }
+    }
+
+    public void pageValidate(Page<Experience> tourPages) {
+        if (tourPages.isEmpty()) {
+            throw new ExperienceException(ExperienceErrorCode.NO_EXPERIENCE_CONTENT_AT_CURRENT_PAGE_ERROR);
         }
     }
 

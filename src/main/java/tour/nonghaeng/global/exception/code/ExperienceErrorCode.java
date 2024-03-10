@@ -10,6 +10,8 @@ import tour.nonghaeng.global.exception.dto.ErrorReason;
 @Getter
 public enum ExperienceErrorCode implements BaseErrorCode{
     DEFAULT_EXPERIENCE_ERROR(HttpStatus.BAD_GATEWAY,"EXP_400_0","체험 기본 오류"),
+    //해당 페이지에 체험이 없을시 에러코드
+    NO_EXPERIENCE_CONTENT_AT_CURRENT_PAGE_ERROR(HttpStatus.NOT_FOUND, "EXP_105_1", "현재 페이지에 체험이 없습니다."),
     //오픈날짜 추가 등록시 에러코드
     DUPLICATE_EXPERIENCE_OPEN_DATE_ADD_ERROR(HttpStatus.BAD_GATEWAY, "EXP_100_1", "중복된 날짜가 존재합니다."),
     ALREADY_EXIST_EXPERIENCE_OPEN_DATE_ADD_ERROR(HttpStatus.BAD_GATEWAY, "EXP_100_2", "이미 등록된 날짜입니다."),

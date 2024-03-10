@@ -32,6 +32,7 @@ public class TourController {
     //여행 리스트 조회(파라미터 page, 예시 page=0)
     @GetMapping
     public ResponseEntity<Page<TourSummaryDto>> showTourList(@PageableDefault(size=3) Pageable pageable) {
+
         Page<TourSummaryDto> tourSummaryDtoPage = tourService.findAll(pageable);
 
         return new ResponseEntity<>(tourSummaryDtoPage, HttpStatus.OK);
