@@ -85,7 +85,7 @@ public class ExperienceController {
         return new ResponseEntity<>("해당 오픈날짜 삭제완료,", HttpStatus.OK);
     }
 
-    //체험 해당 날짜에 대한 회차정보 보기
+    //체험 해당 날짜에 대한 회차정보 보기(파라미터 date, 예시
     @GetMapping("/round-info/{experienceId}")
     public ResponseEntity<ExpRoundInfoDto> getRoundInfo(@PathVariable Long experienceId,
                                                         @RequestParam("date")

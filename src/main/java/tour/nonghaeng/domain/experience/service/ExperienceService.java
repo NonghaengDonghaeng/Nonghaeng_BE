@@ -2,6 +2,8 @@ package tour.nonghaeng.domain.experience.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.experience.dto.AddExpOpenDateDto;
@@ -21,6 +23,7 @@ import tour.nonghaeng.global.validation.ExperienceValidator;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -67,7 +70,7 @@ public class ExperienceService {
         Experience experience = findById(experienceId);
 
         for (AddExpOpenDateDto addExpOpenDateDto : dtoList) {
-            ExperienceOpenDate experienceOpenDate = experienceOpenDateService.findByExperienceAndOpenDates(experience, addExpOpenDateDto);
+            ExperienceOpenDate experienceOpenDate = experienceOpenDateService.findByExperienceAndOpenDates(experience, addExpOpenDateDto.openDate());
             experience.deleteOpenDate(experienceOpenDate);
         }
         experienceRepository.save(experience);
@@ -117,5 +120,33 @@ public class ExperienceService {
 
         return dto;
     }
+
+    //스케줄 매일마다 가장 오래된 날짜 오늘과 확인후 삭제작업
+    @Async
+    @Scheduled(cron = "0 0 0 * * *")
+    public void autoOpenDatesDeleted() {
+        log.info("Scheduler 실행: autoOpenDatesDeleted");
+        List<Experience> experiences = experienceRepository.findAll();
+        for (Experience exp : experiences) {
+            checkOldestOpenDatePastOrNot(exp);
+        }
+    }
+
+    public void checkOldestOpenDatePastOrNot(Experience experience) {
+        Optional<LocalDate> oldestOpenDate = experienceRepository.findOldestOpenDate(experience);
+
+        oldestOpenDate.ifPresent(localDate -> {
+            if (localDate.isBefore(LocalDate.now())) {
+                log.info("{} 날짜 오늘({})이 지나서 삭제", localDate.toString(), LocalDate.now().toString());
+                experience.deleteOpenDate(
+                        experienceOpenDateService
+                                .findByExperienceAndOpenDates(experience, localDate));
+                experienceRepository.save(experience);
+            }
+        });
+
+
+    }
+
 
 }

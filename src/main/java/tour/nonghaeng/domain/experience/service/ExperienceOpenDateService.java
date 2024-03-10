@@ -14,6 +14,7 @@ import tour.nonghaeng.global.exception.code.ExperienceErrorCode;
 import tour.nonghaeng.global.validation.ExperienceOpenDateValidator;
 import tour.nonghaeng.global.validation.ExperienceValidator;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,9 +36,9 @@ public class ExperienceOpenDateService {
         }
     }
 
-    public ExperienceOpenDate findByExperienceAndOpenDates(Experience experience, AddExpOpenDateDto openDateDto) {
+    public ExperienceOpenDate findByExperienceAndOpenDates(Experience experience, LocalDate openDate) {
 
-        return experienceOpenDateRepository.findByExperienceAndOpenDate(experience, openDateDto.openDate()).
+        return experienceOpenDateRepository.findByExperienceAndOpenDate(experience, openDate).
                 orElseThrow(() -> new ExperienceException(ExperienceErrorCode.NOT_EXIST_EXPERIENCE_OPEN_DATE_ERROR));
 
     }

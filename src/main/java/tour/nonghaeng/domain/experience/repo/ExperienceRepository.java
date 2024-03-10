@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.member.entity.Seller;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Repository
@@ -18,5 +19,8 @@ public interface ExperienceRepository extends JpaRepository<Experience,Long> {
     Optional<Seller> findSellerByExperienceId(@Param("experienceId") Long experienceId);
 
     boolean existsById(Long experienceId);
+
+    @Query("SELECT MIN(eod.openDate) FROM ExperienceOpenDate eod where eod.experience = :experience")
+    Optional<LocalDate> findOldestOpenDate(@Param("experience") Experience experience);
 
 }
