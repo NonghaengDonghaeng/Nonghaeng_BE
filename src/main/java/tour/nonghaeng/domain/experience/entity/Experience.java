@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import tour.nonghaeng.domain.etc.BaseTimeEntity;
 import tour.nonghaeng.domain.etc.experience.ExperienceType;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.tour.entity.Tour;
@@ -17,7 +18,7 @@ import java.util.List;
 @Table(name = "EXPERIENCES")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Experience {
+public class Experience extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import tour.nonghaeng.domain.etc.BaseTimeEntity;
 import tour.nonghaeng.domain.etc.area.AreaCode;
 import tour.nonghaeng.domain.etc.bank.BankCode;
 import tour.nonghaeng.domain.etc.role.Role;
@@ -14,7 +15,7 @@ import tour.nonghaeng.domain.etc.role.Role;
 @Table(name = "SELLERS")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Seller {
+public class Seller extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

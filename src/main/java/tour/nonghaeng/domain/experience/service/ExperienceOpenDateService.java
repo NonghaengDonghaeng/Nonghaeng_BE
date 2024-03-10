@@ -8,15 +8,12 @@ import tour.nonghaeng.domain.experience.dto.AddExpOpenDateDto;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.entity.ExperienceOpenDate;
 import tour.nonghaeng.domain.experience.repo.ExperienceOpenDateRepository;
-import tour.nonghaeng.domain.experience.repo.ExperienceRepository;
 import tour.nonghaeng.global.exception.ExperienceException;
 import tour.nonghaeng.global.exception.code.ExperienceErrorCode;
 import tour.nonghaeng.global.validation.ExperienceOpenDateValidator;
-import tour.nonghaeng.global.validation.ExperienceValidator;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

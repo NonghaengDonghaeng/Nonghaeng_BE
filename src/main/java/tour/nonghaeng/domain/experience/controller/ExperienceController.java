@@ -16,7 +16,6 @@ import tour.nonghaeng.domain.experience.service.ExperienceService;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.global.auth.service.AuthService;
 import tour.nonghaeng.global.validation.ExperienceValidator;
-import tour.nonghaeng.global.validation.TourValidator;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -105,15 +104,14 @@ public class ExperienceController {
     //체험 해당 날짜에 대한 회차정보 보기(파라미터 date, 예시 date=2024-03-11)
     @GetMapping("/round-info/{experienceId}")
     public ResponseEntity<ExpRoundInfoDto> getRoundInfo(@PathVariable Long experienceId,
-                                                        @RequestParam("date")
-                                                        @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate dateParameter) {
+                                                        @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate dateParameter) {
 
         ExpRoundInfoDto expRoundInfo = experienceService.getExpRoundInfo(experienceId,dateParameter);
 
         return new ResponseEntity<>(expRoundInfo, HttpStatus.OK);
     }
 
-    //TODO 관리자 API: 체험정보 수정하기
+    //TODO 관리자 API: 체험정보 수정
 
 
     //TODO: 추가요구사항: 어떤 날에는 등록한 회차중 일부만 열고 일부는 닫고 싶다 -> 특정날짜에 따라 회차를 닫는 기능 추가
