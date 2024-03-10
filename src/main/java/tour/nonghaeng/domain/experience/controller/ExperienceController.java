@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import tour.nonghaeng.domain.experience.dto.AddExpOpenDateDto;
 import tour.nonghaeng.domain.experience.dto.CreateExpDto;
 import tour.nonghaeng.domain.experience.dto.AddExpRoundDto;
+import tour.nonghaeng.domain.experience.dto.ExpRoundInfoDto;
 import tour.nonghaeng.domain.experience.service.ExperienceRoundService;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
 import tour.nonghaeng.domain.member.entity.Seller;
@@ -46,13 +47,13 @@ public class ExperienceController {
     public ResponseEntity<String> addRounds(Authentication authentication, @PathVariable Long experienceId,
                                             @RequestBody List<AddExpRoundDto> addExpRoundDtoList) {
 
-        experienceValidator.ownerValidate(authService.toSellerEntity(authentication),experienceId);
+        experienceValidator.ownerValidate(authService.toSellerEntity(authentication), experienceId);
 
         Long expId = experienceService.addOnlyRounds(experienceId, addExpRoundDtoList);
 
-        int count= addExpRoundDtoList.size();
+        int count = addExpRoundDtoList.size();
 
-        return new ResponseEntity<>("체험(id:" + expId + ")에 회차(" + count+ "개) 등록 완료.", HttpStatus.OK);
+        return new ResponseEntity<>("체험(id:" + expId + ")에 회차(" + count + "개) 등록 완료.", HttpStatus.OK);
 
     }
 
@@ -60,25 +61,35 @@ public class ExperienceController {
     @PostMapping("/seller/add-opendate/{experienceId}")
     public ResponseEntity<String> addOpenDates(Authentication authentication, @PathVariable Long experienceId,
                                                @RequestBody List<AddExpOpenDateDto> addExpOpenDateDtos) {
-        
-        experienceValidator.ownerValidate(authService.toSellerEntity(authentication),experienceId);
+
+        experienceValidator.ownerValidate(authService.toSellerEntity(authentication), experienceId);
 
         Long expId = experienceService.addOnlyOpenDates(experienceId, addExpOpenDateDtos);
 
         int count = addExpOpenDateDtos.size();
 
-        return new ResponseEntity<>("체험(id:" + expId + ")에 회차(" + count+ "개) 등록 완료.", HttpStatus.OK);
+        return new ResponseEntity<>("체험(id:" + expId + ")에 회차(" + count + "개) 등록 완료.", HttpStatus.OK);
     }
 
+    //관리자 API: 등록된 오픈날짜 닫기
     @PostMapping("/seller/close-opendate/{experienceId}")
     public ResponseEntity<String> closeOpenDates(Authentication authentication, @PathVariable Long experienceId,
                                                  @RequestBody List<AddExpOpenDateDto> addExpOpenDateDtos) {
 
-        experienceValidator.ownerValidate(authService.toSellerEntity(authentication),experienceId);
+        experienceValidator.ownerValidate(authService.toSellerEntity(authentication), experienceId);
 
-        experienceService.closeOnlyOpenDates(experienceId,addExpOpenDateDtos);
+        experienceService.closeOnlyOpenDates(experienceId, addExpOpenDateDtos);
 
         return new ResponseEntity<>("해당 오픈날짜 삭제완료,", HttpStatus.OK);
+    }
+
+    //해당체험의 회차정보 보기
+    @GetMapping("/round-info/{experienceId}")
+    public ResponseEntity<ExpRoundInfoDto> getRoundInfo(@PathVariable Long experienceId) {
+
+        ExpRoundInfoDto expRoundInfo = experienceService.getExpRoundInfo(experienceId);
+
+        return new ResponseEntity<>(expRoundInfo, HttpStatus.OK);
     }
 
 

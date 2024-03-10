@@ -7,8 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.experience.dto.AddExpOpenDateDto;
 import tour.nonghaeng.domain.experience.dto.CreateExpDto;
 import tour.nonghaeng.domain.experience.dto.AddExpRoundDto;
+import tour.nonghaeng.domain.experience.dto.ExpRoundInfoDto;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.entity.ExperienceOpenDate;
+import tour.nonghaeng.domain.experience.entity.ExperienceRound;
 import tour.nonghaeng.domain.experience.repo.ExperienceRepository;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.tour.entity.Tour;
@@ -79,7 +81,7 @@ public class ExperienceService {
         return experienceRepository.save(experience).getId();
     }
 
-    //TODO: 이미 컨트롤러에서 체험이 존재하는지와 요청 판매자의 소유인지를 확인하는 검증이 들어가기 때문에 여기서 또 할 필요가 없어서 뺄지 말지 고민중
+    //TODO: 이미 컨트롤러에서 체험이 존재하는지와 요청 판매자의 소유인지를 확인하는 검증이 들어가기 때문에 여기서 또 할 필요가 없어서 뺄지 말지 고민
     public Experience findById(Long experienceId) {
         return experienceRepository.findById(experienceId)
                 .orElseThrow(() -> ExperienceException.EXCEPTION);
@@ -88,6 +90,24 @@ public class ExperienceService {
     public Experience findBySeller(Seller seller) {
         return experienceRepository.findBySeller(seller)
                 .orElseThrow(() -> ExperienceException.EXCEPTION);
+    }
+
+    public ExpRoundInfoDto getExpRoundInfo(Long experienceId) {
+
+        Experience experience = findById(experienceId);
+
+        ExpRoundInfoDto dto = ExpRoundInfoDto.builder()
+                .experienceId(experience.getId())
+                .build();
+
+        for (ExperienceRound round : experience.getExperienceRounds()) {
+            ExpRoundInfoDto.RoundInfo roundInfo = ExpRoundInfoDto.RoundInfo.convert(round);
+            //TODO: 현재는 예약을 구현안해서 남은인원이 아니라 최대인원으로 설정함. 이후에 예약 구현시 남은 시간으로 로직 변경
+            roundInfo.setRemainParticipant(experience.getMaxParticipant());
+            dto.addRoundInfo(roundInfo);
+        }
+
+        return dto;
     }
 
 }
