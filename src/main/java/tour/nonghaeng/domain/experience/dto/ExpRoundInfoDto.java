@@ -24,7 +24,7 @@ public class ExpRoundInfoDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate checkDate;
     private int numOfRound;
-    private List<RoundInfo> roundInfoList = new ArrayList<>();
+    private List<RoundInfo> content = new ArrayList<>();
 
 
     @Builder
@@ -58,7 +58,7 @@ public class ExpRoundInfoDto {
     }
 
     public void addRoundInfo(RoundInfo roundInfo) {
-        this.roundInfoList.add(roundInfo);
+        this.content.add(roundInfo);
         this.numOfRound++;
     }
 
