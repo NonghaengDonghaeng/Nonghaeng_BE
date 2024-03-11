@@ -11,6 +11,8 @@ import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.tour.entity.Tour;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "ROOMS")
@@ -30,6 +32,10 @@ public class Room extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name = "seller_id")
     private Seller seller;
+
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RoomCloseDate> roomCloseDateList = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, name = "room_type")
@@ -91,6 +97,10 @@ public class Room extends BaseTimeEntity {
         this.facilities = facilities;
         this.usageTips = usageTips;
         this.precautions = precautions;
+    }
+
+    public void addCloseDate(RoomCloseDate roomCloseDate) {
+        this.roomCloseDateList.add(roomCloseDate);
     }
 
     //성수기 비성수기의 기준 내용 들어가야됨

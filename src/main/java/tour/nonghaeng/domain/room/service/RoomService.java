@@ -68,7 +68,7 @@ public class RoomService {
 
         //예약에서 날짜와 roomId를 통해 잔여 객실수를 기존 객실수에서 빼기
 
-        //날짜가 과거날짜인지 아닌지 검증로직 필요
+        //날짜가 과거날짜인지 오픈한 날짜인지 아닌지 검증로직 필요
 
         //그 이후 객실수와 필요한 객실수 비교 후 빼기
         List<RoomSummaryDto> filterList = dtoList.stream().filter(roomSummaryDto -> roomSummaryDto.getNumOfRoom() >= numOfRoom)
