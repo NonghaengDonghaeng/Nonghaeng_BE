@@ -20,4 +20,6 @@ public interface TourRepository extends JpaRepository<Tour,Long> {
 
     Page<Tour> findAll(Pageable pageable);
 
+    Page<Tour> findByRoomsIsNotEmpty(Pageable pageable);
+
 }

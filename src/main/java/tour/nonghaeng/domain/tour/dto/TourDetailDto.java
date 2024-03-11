@@ -36,7 +36,7 @@ public class TourDetailDto {
         this.areaName = areaName;
     }
 
-    public static TourDetailDto convert(Tour tour) {
+    public static TourDetailDto toDto(Tour tour) {
         return TourDetailDto.builder()
                 .name(tour.getName())
                 .homepageUrl(tour.getHomepageUrl())

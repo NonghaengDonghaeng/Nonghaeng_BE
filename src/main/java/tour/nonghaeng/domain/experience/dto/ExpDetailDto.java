@@ -65,7 +65,7 @@ public class ExpDetailDto {
         private String AreaName;
     }
 
-    public static ExpDetailDto convert(Experience experience) {
+    public static ExpDetailDto toDto(Experience experience) {
         return ExpDetailDto.builder()
                 .experienceName(experience.getExperienceName())
                 .experienceTypeName(experience.getExperienceType().getName())

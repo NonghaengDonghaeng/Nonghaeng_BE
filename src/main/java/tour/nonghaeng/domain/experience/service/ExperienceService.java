@@ -46,7 +46,7 @@ public class ExperienceService {
 
         experienceValidator.pageValidate(expPage);
 
-        Page<ExpSummaryDto> dto = ExpSummaryDto.convert(expPage);
+        Page<ExpSummaryDto> dto = ExpSummaryDto.toPageDto(expPage);
 
         return dto;
     }
@@ -119,7 +119,7 @@ public class ExperienceService {
                 .build();
 
         for (ExperienceRound round : experience.getExperienceRounds()) {
-            ExpRoundInfoDto.RoundInfo roundInfo = ExpRoundInfoDto.RoundInfo.convert(round);
+            ExpRoundInfoDto.RoundInfo roundInfo = ExpRoundInfoDto.RoundInfo.toRoundInfo(round);
             //TODO: 현재는 예약을 구현안해서 남은인원이 아니라 최대인원으로 설정함. 이후에 예약 구현시 남은 시간으로 로직 변경
             roundInfo.setRemainParticipant(experience.getMaxParticipant());
             dto.addRoundInfo(roundInfo);
@@ -132,7 +132,7 @@ public class ExperienceService {
 
         experienceValidator.expIdValidate(experienceId);
 
-        return ExpDetailDto.convert(experienceRepository.findById(experienceId).get());
+        return ExpDetailDto.toDto(experienceRepository.findById(experienceId).get());
 
     }
 

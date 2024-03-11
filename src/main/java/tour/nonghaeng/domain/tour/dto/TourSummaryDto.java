@@ -2,11 +2,12 @@ package tour.nonghaeng.domain.tour.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import tour.nonghaeng.domain.tour.entity.Tour;
-
-import java.util.List;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -32,7 +33,7 @@ public class TourSummaryDto{
         this.oneLineIntro = oneLineIntro;
     }
 
-    public static Page<TourSummaryDto> convert(Page<Tour> tourPage) {
+    public static Page<TourSummaryDto> toPageDto(Page<Tour> tourPage) {
 
         return tourPage.map(tour -> TourSummaryDto.builder()
                 .tourId(tour.getId())

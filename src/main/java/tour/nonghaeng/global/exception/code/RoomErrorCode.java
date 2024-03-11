@@ -9,6 +9,7 @@ import tour.nonghaeng.global.exception.dto.ErrorReason;
 @Getter
 public enum RoomErrorCode implements BaseErrorCode{
     DEFAULT_ROOM_ERROR(HttpStatus.BAD_GATEWAY,"ROOM_400_0","숙소 기본 오류"),
+    NO_TOUR_ROOM_CONTENT_AT_CURRENT_PAGE_ERROR(HttpStatus.NOT_FOUND, "ROOM_100_1", "현재 페이지에 숙박리스트가 없습니다."),
     ;
     private HttpStatus status;
     private String code;

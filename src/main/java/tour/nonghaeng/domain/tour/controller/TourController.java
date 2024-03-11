@@ -33,7 +33,7 @@ public class TourController {
     @GetMapping
     public ResponseEntity<Page<TourSummaryDto>> showTourList(@PageableDefault(size=3) Pageable pageable) {
 
-        Page<TourSummaryDto> tourSummaryDtoPage = tourService.findAll(pageable);
+        Page<TourSummaryDto> tourSummaryDtoPage = tourService.showTourSummary(pageable);
 
         return new ResponseEntity<>(tourSummaryDtoPage, HttpStatus.OK);
     }
