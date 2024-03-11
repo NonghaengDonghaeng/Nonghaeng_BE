@@ -10,5 +10,4 @@ public class RoomCloseDateValidator {
 
     private final RoomCloseDateRepository roomCloseDateRepository;
 
-
 }
