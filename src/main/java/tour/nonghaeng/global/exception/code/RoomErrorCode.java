@@ -14,6 +14,8 @@ public enum RoomErrorCode implements BaseErrorCode{
     NO_ROOM_IN_THIS_TOUR(HttpStatus.BAD_GATEWAY, "ROOM_101_1", "이 여행지에는 숙소가 존재하지 않습니다."),
     PAST_DATE_FOR_ROOM_LIST_REQUEST_ERROR(HttpStatus.BAD_GATEWAY, "ROOM_102_3", "지난 날짜의 방들을 조회할 수 없습니다."),
     CLOSE_DATE_FOR_ROOM_LIST_REQUEST_ERROR(HttpStatus.BAD_GATEWAY, "ROOM_102_4", "영업종료된 날짜입니다."),
+
+    NO_EXIST_ROOM_BY_ROOM_ID_ERROR(HttpStatus.BAD_GATEWAY, "ROOM_000_1", "roomID에 해당하는 방이 없습니다."),
     ;
     private HttpStatus status;
     private String code;

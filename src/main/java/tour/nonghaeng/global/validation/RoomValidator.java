@@ -34,7 +34,15 @@ public class RoomValidator {
 
     public void showRoomSummaryRequestParamValidate(List<Room> rooms, LocalDate requestDate, int numOfRoom) {
         isEmptyRoomValidate(rooms);
-        dateValidate(rooms,requestDate);
+        pastDateValidate(requestDate);
+        for (Room room : rooms) {
+            openDateValidate(room,requestDate);
+        }
+    }
+
+    public void getRoomDetailDtoValidate(Room room, LocalDate requestDate) {
+        pastDateValidate(requestDate);
+        openDateValidate(room,requestDate);
     }
 
     private void isEmptyRoomValidate(List<Room> rooms) {
@@ -43,19 +51,20 @@ public class RoomValidator {
         }
     }
 
-    private void dateValidate(List<Room> rooms, LocalDate requestDate) {
-        LocalDate today = LocalDate.now();
+    private void openDateValidate(Room room, LocalDate requestDate) {
 
-        if (requestDate.isBefore(today)) {
+        List<LocalDate> closeDateList = room.getRoomCloseDateList().stream().map(roomCloseDate -> roomCloseDate.getCloseDate()).toList();
+        if (closeDateList.contains(requestDate)) {
+            throw new RoomException(RoomErrorCode.CLOSE_DATE_FOR_ROOM_LIST_REQUEST_ERROR);
+        }
+    }
+
+    private void pastDateValidate(LocalDate requestDate) {
+
+        if (requestDate.isBefore(LocalDate.now())) {
             throw new RoomException(RoomErrorCode.PAST_DATE_FOR_ROOM_LIST_REQUEST_ERROR);
         }
-
-        for (Room room : rooms) {
-            List<LocalDate> closeDateList = room.getRoomCloseDateList().stream().map(roomCloseDate -> roomCloseDate.getCloseDate()).toList();
-            if (closeDateList.contains(requestDate)) {
-                throw new RoomException(RoomErrorCode.CLOSE_DATE_FOR_ROOM_LIST_REQUEST_ERROR);
-            }
-        }
-
     }
+
+
 }

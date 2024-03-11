@@ -7,14 +7,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.entity.Seller;
-import tour.nonghaeng.domain.room.dto.CreateRoomDto;
-import tour.nonghaeng.domain.room.dto.RoomSummaryDto;
-import tour.nonghaeng.domain.room.dto.RoomTourDetailDto;
-import tour.nonghaeng.domain.room.dto.RoomTourSummaryDto;
+import tour.nonghaeng.domain.room.dto.*;
 import tour.nonghaeng.domain.room.entity.Room;
 import tour.nonghaeng.domain.room.repo.RoomRepository;
 import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.domain.tour.service.TourService;
+import tour.nonghaeng.global.exception.RoomException;
+import tour.nonghaeng.global.exception.code.RoomErrorCode;
 import tour.nonghaeng.global.validation.RoomCloseDateValidator;
 import tour.nonghaeng.global.validation.RoomValidator;
 import tour.nonghaeng.global.validation.TourValidator;
@@ -74,7 +73,7 @@ public class RoomService {
 
 
         //그 이후 객실수와 필요한 객실수 비교 후 조건에 안맞으면 리스트 제외
-        List<RoomSummaryDto> filterList = dtoList.stream().filter(roomSummaryDto -> roomSummaryDto.getNumOfRoom() >= numOfRoom)
+        List<RoomSummaryDto> filterList = dtoList.stream().filter(roomSummaryDto -> roomSummaryDto.getCurrentNumOfRoom() >= numOfRoom)
                 .toList();
 
         //그 이후 조건에 충족하는 방이 있는지 한번 더 검증
@@ -100,6 +99,26 @@ public class RoomService {
         dto.addRoomSummaryDtoList(showRoomSummaryList(tourId, LocalDate.now(), 1));
 
         return dto;
+    }
+
+    public RoomDetailDto getRoomDetailDto(Long roomId,LocalDate requestDate) {
+        Room room = findById(roomId);
+
+        roomValidator.getRoomDetailDtoValidate(room, requestDate);
+
+        RoomDetailDto dto = RoomDetailDto.toDto(room);
+
+        //날짜를 인자로 예약을 통해 현재 잔여 객실 수 설정하기
+        int reservedNumOfRoom = 1;
+        dto.setCurrentNumOfRoom(reservedNumOfRoom);
+
+        return dto;
+
+    }
+
+    public Room findById(Long roomId) {
+        return roomRepository.findById(roomId)
+                .orElseThrow(() -> new RoomException(RoomErrorCode.NO_EXIST_ROOM_BY_ROOM_ID_ERROR));
     }
 
 }

@@ -17,7 +17,7 @@ public class RoomSummaryDto {
 
     private Long roomId;
     private String roomName;
-    private int numOfRoom;
+    private int currentNumOfRoom;
     private int price;
     private int priceHoliday;
     private int standardCapacity;
@@ -27,10 +27,10 @@ public class RoomSummaryDto {
     private String roomConfiguration;
 
     @Builder
-    public RoomSummaryDto(Long roomId, String roomName, int numOfRoom, int price, int priceHoliday, int standardCapacity, int maxCapacity, LocalTime checkinTime, LocalTime checkoutTime, String roomConfiguration) {
+    public RoomSummaryDto(Long roomId, String roomName, int currentNumOfRoom, int price, int priceHoliday, int standardCapacity, int maxCapacity, LocalTime checkinTime, LocalTime checkoutTime, String roomConfiguration) {
         this.roomId = roomId;
         this.roomName = roomName;
-        this.numOfRoom = numOfRoom;
+        this.currentNumOfRoom = currentNumOfRoom;
         this.price = price;
         this.priceHoliday = priceHoliday;
         this.standardCapacity = standardCapacity;
@@ -44,7 +44,7 @@ public class RoomSummaryDto {
         return RoomSummaryDto.builder()
                 .roomId(room.getId())
                 .roomName(room.getRoomName())
-                .numOfRoom(room.getNumOfRoom()) //TODO: 날짜에 따라 예약 수 보고 빼주기
+                .currentNumOfRoom(room.getNumOfRoom()) //TODO: 날짜에 따라 예약 수 보고 빼주기
                 .price(room.getPriceOffPeak())  //TODO: 성수기,비성수기에 따라 자동으로 그 값이 나오도록
                 .priceHoliday(room.getPriceHoliday())
                 .standardCapacity(room.getStandardCapacity())
@@ -60,7 +60,7 @@ public class RoomSummaryDto {
         return "RoomSummaryDto{" +
                 "roomId=" + roomId +
                 ", roomName='" + roomName + '\'' +
-                ", numOfRoom=" + numOfRoom +
+                ", numOfRoom=" + currentNumOfRoom +
                 ", price=" + price +
                 ", priceHoliday=" + priceHoliday +
                 ", standardCapacity=" + standardCapacity +
@@ -69,5 +69,9 @@ public class RoomSummaryDto {
                 ", checkoutTime=" + checkoutTime +
                 ", roomConfiguration='" + roomConfiguration + '\'' +
                 '}';
+    }
+
+    public void setCurrentNumOfRoom(int reservedNumOfRoom) {
+        this.currentNumOfRoom -= reservedNumOfRoom;
     }
 }

@@ -10,10 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import tour.nonghaeng.domain.member.entity.Seller;
-import tour.nonghaeng.domain.room.dto.CreateRoomDto;
-import tour.nonghaeng.domain.room.dto.RoomSummaryDto;
-import tour.nonghaeng.domain.room.dto.RoomTourDetailDto;
-import tour.nonghaeng.domain.room.dto.RoomTourSummaryDto;
+import tour.nonghaeng.domain.room.dto.*;
 import tour.nonghaeng.domain.room.service.RoomService;
 import tour.nonghaeng.global.auth.service.AuthService;
 
@@ -65,5 +62,14 @@ public class RoomController {
         RoomTourDetailDto roomTourDetailDto = roomService.getRoomTourDetailDto(tourId);
 
         return new ResponseEntity<>(roomTourDetailDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/{roomId}")
+    public ResponseEntity<RoomDetailDto> showRoomDetail(@PathVariable Long roomId,
+                                                        @RequestParam(value = "date",defaultValue = "#{T(java.time.LocalDate).now()}") LocalDate requestDate) {
+        RoomDetailDto roomDetailDto = roomService.getRoomDetailDto(roomId, requestDate);
+
+        return new ResponseEntity<>(roomDetailDto, HttpStatus.OK);
+
     }
 }
