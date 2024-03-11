@@ -3,10 +3,12 @@ package tour.nonghaeng.domain.room.repo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.room.entity.Room;
 import tour.nonghaeng.domain.tour.entity.Tour;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface RoomRepository extends JpaRepository<Room,Long> {
@@ -18,4 +20,9 @@ public interface RoomRepository extends JpaRepository<Room,Long> {
     Integer findMaxPriceByTour(Tour tour);
 
     List<Room> findByTour(Tour tour);
+
+    boolean existsById(Long roomId);
+
+    @Query("SELECT r.seller FROM Room r where r.id = :roomId")
+    Optional<Seller> findSellerByRoomId(Long roomId);
 }

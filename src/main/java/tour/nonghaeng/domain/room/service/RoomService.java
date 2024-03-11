@@ -14,7 +14,6 @@ import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.domain.tour.service.TourService;
 import tour.nonghaeng.global.exception.RoomException;
 import tour.nonghaeng.global.exception.code.RoomErrorCode;
-import tour.nonghaeng.global.validation.RoomCloseDateValidator;
 import tour.nonghaeng.global.validation.RoomValidator;
 import tour.nonghaeng.global.validation.TourValidator;
 
@@ -30,11 +29,11 @@ public class RoomService {
     private final RoomRepository roomRepository;
 
     private final RoomValidator roomValidator;
-    private final RoomCloseDateValidator roomCloseDateValidator;
     private final TourValidator tourValidator;
 
 
     private final TourService tourService;
+    private final RoomCloseDateService roomCloseDateService;
 
 
     public Long createAndAddRoom(Seller seller, CreateRoomDto dto) {
@@ -113,6 +112,18 @@ public class RoomService {
         dto.setCurrentNumOfRoom(reservedNumOfRoom);
 
         return dto;
+
+    }
+
+    public Long addOnlyCloseDates(Long roomId, List<AddRoomCloseDateDto> dtoList) {
+
+        Room room = findById(roomId);
+
+        roomCloseDateService.addCloseDates(room, dtoList);
+
+        return roomRepository.save(room).getId();
+
+
 
     }
 
