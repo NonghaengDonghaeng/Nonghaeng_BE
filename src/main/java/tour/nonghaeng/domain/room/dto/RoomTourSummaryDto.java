@@ -12,7 +12,7 @@ import tour.nonghaeng.domain.tour.entity.Tour;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class TourRoomSummaryDto {
+public class RoomTourSummaryDto {
 
     private Long tourId;
     private String tourName;
@@ -23,7 +23,7 @@ public class TourRoomSummaryDto {
     private int maxPrice;
 
     @Builder
-    public TourRoomSummaryDto(Long tourId, String tourName, String areaName, String roomTypeName, String oneLineIntro, int minPrice, int maxPrice) {
+    public RoomTourSummaryDto(Long tourId, String tourName, String areaName, String roomTypeName, String oneLineIntro, int minPrice, int maxPrice) {
         this.tourId = tourId;
         this.tourName = tourName;
         this.areaName = areaName;
@@ -33,9 +33,9 @@ public class TourRoomSummaryDto {
         this.maxPrice = maxPrice;
     }
 
-    public static Page<TourRoomSummaryDto> toPageDto(Page<Tour> tourPage) {
+    public static Page<RoomTourSummaryDto> toPageDto(Page<Tour> tourPage) {
 
-        return tourPage.map(tour -> TourRoomSummaryDto.builder()
+        return tourPage.map(tour -> RoomTourSummaryDto.builder()
                 .tourId(tour.getId())
                 .tourName(tour.getName())
                 .areaName(tour.getAreaCode().getAreaName())
@@ -45,9 +45,9 @@ public class TourRoomSummaryDto {
         );
     }
 
-    public static TourRoomSummaryDto toDto(Tour tour, int minPrice, int maxPrice) {
+    public static RoomTourSummaryDto toDto(Tour tour, int minPrice, int maxPrice) {
 
-        return TourRoomSummaryDto.builder()
+        return RoomTourSummaryDto.builder()
                 .tourId(tour.getId())
                 .tourName(tour.getName())
                 .areaName(tour.getAreaCode().getAreaName())

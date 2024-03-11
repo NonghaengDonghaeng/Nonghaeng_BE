@@ -37,7 +37,7 @@ public class TourService {
         return tourPage;
     }
 
-    public Page<TourSummaryDto> showTourSummary(Pageable pageable) {
+    public Page<TourSummaryDto> getPageTourSummaryDto(Pageable pageable) {
 
         Page<Tour> tourPages = findAll(pageable);
 
@@ -49,15 +49,18 @@ public class TourService {
 
     }
 
-    public Page<Tour> findTourWithRoom(Pageable pageable) {
-        return tourRepository.findByRoomsIsNotEmpty(pageable);
+    public Page<Tour> findAllTourWithRoom(Pageable pageable) {
+        return tourRepository.findAllByRoomsIsNotEmpty(pageable);
     }
 
-    public TourDetailDto findByTourId(Long tourId) {
+    public TourDetailDto getTourDetailDto(Long tourId) {
 
+        return TourDetailDto.toDto(findById(tourId));
+    }
+
+    public Tour findById(Long tourId) {
         tourValidator.tourIdValidate(tourId);
-
-        return TourDetailDto.toDto(tourRepository.findById(tourId).get());
+        return tourRepository.findById(tourId).get();
     }
 
     public Tour findBySeller(Seller seller) {
