@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.room.dto.CreateRoomDto;
 import tour.nonghaeng.domain.room.dto.RoomSummaryDto;
+import tour.nonghaeng.domain.room.dto.RoomTourDetailDto;
 import tour.nonghaeng.domain.room.dto.RoomTourSummaryDto;
 import tour.nonghaeng.domain.room.entity.Room;
 import tour.nonghaeng.domain.room.repo.RoomRepository;
@@ -67,6 +68,7 @@ public class RoomService {
 
         //예약에서 날짜와 roomId를 통해 잔여 객실수를 기존 객실수에서 빼기
 
+        //날짜가 과거날짜인지 아닌지 검증로직 필요
 
         //그 이후 객실수와 필요한 객실수 비교 후 빼기
         List<RoomSummaryDto> filterList = dtoList.stream().filter(roomSummaryDto -> roomSummaryDto.getNumOfRoom() >= numOfRoom)
@@ -85,6 +87,16 @@ public class RoomService {
 
     private int findMaxPriceByTour(Tour tour) {
         return roomRepository.findMaxPriceByTour(tour).intValue();
+    }
+
+    public RoomTourDetailDto getRoomTourDetailDto(Long tourId) {
+        Tour tour = tourService.findById(tourId);
+
+        RoomTourDetailDto dto = RoomTourDetailDto.toDto(tour);
+
+        dto.addRoomSummaryDtoList(showRoomSummaryList(tourId, LocalDate.now(), 1));
+
+        return dto;
     }
 
 }

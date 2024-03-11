@@ -54,4 +54,20 @@ public class RoomSummaryDto {
                 .roomConfiguration(room.getRoomConfiguration())
                 .build();
     }
+
+    @Override
+    public String toString() {
+        return "RoomSummaryDto{" +
+                "roomId=" + roomId +
+                ", roomName='" + roomName + '\'' +
+                ", numOfRoom=" + numOfRoom +
+                ", price=" + price +
+                ", priceHoliday=" + priceHoliday +
+                ", standardCapacity=" + standardCapacity +
+                ", maxCapacity=" + maxCapacity +
+                ", checkinTime=" + checkinTime +
+                ", checkoutTime=" + checkoutTime +
+                ", roomConfiguration='" + roomConfiguration + '\'' +
+                '}';
+    }
 }
