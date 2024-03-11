@@ -1,7 +1,6 @@
 package tour.nonghaeng.global.exception.code;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import tour.nonghaeng.global.exception.dto.ErrorReason;

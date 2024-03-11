@@ -35,7 +35,7 @@ public class ExpSummaryDto {
         this.summary = summary;
     }
 
-    public static Page<ExpSummaryDto> convert(Page<Experience> expPage) {
+    public static Page<ExpSummaryDto> toPageDto(Page<Experience> expPage) {
         return expPage.map(exp -> ExpSummaryDto.builder()
                 .experienceId(exp.getId())
                 .experienceName(exp.getExperienceName())

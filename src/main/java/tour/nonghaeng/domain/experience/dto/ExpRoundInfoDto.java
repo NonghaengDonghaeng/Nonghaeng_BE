@@ -43,7 +43,7 @@ public class ExpRoundInfoDto {
         private LocalTime endTime;
         private int remainParticipant;
 
-        public static RoundInfo convert(ExperienceRound round) {
+        public static RoundInfo toRoundInfo(ExperienceRound round) {
             return RoundInfo.builder()
                     .roundId(round.getId())
                     .startTime(round.getStartTime())

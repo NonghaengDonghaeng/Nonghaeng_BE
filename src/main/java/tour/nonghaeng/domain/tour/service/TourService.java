@@ -15,8 +15,6 @@ import tour.nonghaeng.domain.tour.repo.TourRepository;
 import tour.nonghaeng.global.exception.SellerException;
 import tour.nonghaeng.global.validation.TourValidator;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -34,23 +32,35 @@ public class TourService {
         return tourRepository.save(createdTour).getId();
     }
 
-    public Page<TourSummaryDto> findAll(Pageable pageable) {
+    public Page<Tour> findAll(Pageable pageable) {
+        Page<Tour> tourPage = tourRepository.findAll(pageable);
+        return tourPage;
+    }
 
-        Page<Tour> tourPages = tourRepository.findAll(pageable);
+    public Page<TourSummaryDto> getPageTourSummaryDto(Pageable pageable) {
+
+        Page<Tour> tourPages = findAll(pageable);
 
         tourValidator.pageValidate(tourPages);
 
-        Page<TourSummaryDto> summaryDtoPage = TourSummaryDto.convert(tourPages);
+        Page<TourSummaryDto> summaryDtoPage = TourSummaryDto.toPageDto(tourPages);
 
         return summaryDtoPage;
 
     }
 
-    public TourDetailDto findByTourId(Long tourId) {
+    public Page<Tour> findAllTourWithRoom(Pageable pageable) {
+        return tourRepository.findAllByRoomsIsNotEmpty(pageable);
+    }
 
+    public TourDetailDto getTourDetailDto(Long tourId) {
+
+        return TourDetailDto.toDto(findById(tourId));
+    }
+
+    public Tour findById(Long tourId) {
         tourValidator.tourIdValidate(tourId);
-
-        return TourDetailDto.convert(tourRepository.findById(tourId).get());
+        return tourRepository.findById(tourId).get();
     }
 
     public Tour findBySeller(Seller seller) {

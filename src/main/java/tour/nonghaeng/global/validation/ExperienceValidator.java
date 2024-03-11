@@ -7,13 +7,8 @@ import org.springframework.stereotype.Component;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.repo.ExperienceRepository;
 import tour.nonghaeng.domain.member.entity.Seller;
-import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.global.exception.ExperienceException;
-import tour.nonghaeng.global.exception.TourException;
 import tour.nonghaeng.global.exception.code.ExperienceErrorCode;
-import tour.nonghaeng.global.exception.code.TourErrorCode;
-
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -25,7 +20,6 @@ public class ExperienceValidator {
     //TODO: 이 부분은 로직에 대한 혹은 DTO 에 대한 검증이 아닌 인가에 대한 검증이니까 따로 빼서 관리할지 고민중
     //TODO: 이 부분은 컨트롤러에서 서비스로 넘어가기전에 인가를 먼저 체크하기 때문에 이 부분만 controller 에서 사용됨.
     public void ownerValidate(Seller seller,Long experienceId) {
-
 
         //검증 : 체험아이디에 해당하는 체험이 있는지
         expIdValidate(experienceId);

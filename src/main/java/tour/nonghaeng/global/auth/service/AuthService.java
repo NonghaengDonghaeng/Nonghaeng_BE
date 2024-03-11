@@ -33,7 +33,7 @@ public class AuthService {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return userRepository.findByNumber(userDetails.getUsername())
                 .orElseThrow(() ->
-                        new UserException(UserErrorCode.NO_EXIST_USER_BY_NUMBER));
+                        new UserException(UserErrorCode.NO_EXIST_USER_BY_NUMBER_ERROR));
     }
 
     public Seller toSellerEntity(Authentication authentication) {

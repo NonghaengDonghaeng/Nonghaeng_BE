@@ -3,9 +3,7 @@ package tour.nonghaeng.domain.tour.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +15,6 @@ import tour.nonghaeng.domain.tour.dto.TourDetailDto;
 import tour.nonghaeng.domain.tour.dto.TourSummaryDto;
 import tour.nonghaeng.domain.tour.service.TourService;
 import tour.nonghaeng.global.auth.service.AuthService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/tours")
@@ -33,7 +29,7 @@ public class TourController {
     @GetMapping
     public ResponseEntity<Page<TourSummaryDto>> showTourList(@PageableDefault(size=3) Pageable pageable) {
 
-        Page<TourSummaryDto> tourSummaryDtoPage = tourService.findAll(pageable);
+        Page<TourSummaryDto> tourSummaryDtoPage = tourService.getPageTourSummaryDto(pageable);
 
         return new ResponseEntity<>(tourSummaryDtoPage, HttpStatus.OK);
     }
@@ -52,7 +48,7 @@ public class TourController {
     @GetMapping("/{tourId}")
     public ResponseEntity<TourDetailDto> showTourDetail(@PathVariable Long tourId) {
 
-        TourDetailDto dto = tourService.findByTourId(tourId);
+        TourDetailDto dto = tourService.getTourDetailDto(tourId);
 
         return new ResponseEntity<>(dto,HttpStatus.OK);
     }
