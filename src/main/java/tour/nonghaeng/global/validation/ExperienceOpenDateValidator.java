@@ -48,6 +48,37 @@ public class ExperienceOpenDateValidator {
 
     }
 
+    public void removeDtoValidate(Experience experience, List<AddExpCloseDateDto> dtoList) {
+
+        //검증: dto 내 과거날짜가 존재하는지
+        if (dtoList.stream()
+                .anyMatch(dto -> dto.closeDate().isBefore(LocalDate.now()))) {
+            throw new ExperienceException(ExperienceErrorCode.PAST_EXPERIENCE_CLOSE_DATE_ADD_ERROR);
+        }
+
+        //검증: dto 내 중복된 날짜가 존재하는지
+        if (dtoList.size() != dtoList.stream().distinct().count()) {
+            throw new ExperienceException(ExperienceErrorCode.DUPLICATE_EXPERIENCE_CLOSE_DATE_ADD_ERROR);
+        }
+
+        for (AddExpCloseDateDto dto : dtoList) {
+            removeCloseDateParamValidate(experience, dto.closeDate());
+        }
+    }
+
+    public void removeCloseDateParamValidate(Experience experience, LocalDate dateParam) {
+
+        //운영기간에 속하는지
+        if (dateParam.isBefore(experience.getStartDate()) || dateParam.isAfter(experience.getEndDate())) {
+            throw new ExperienceException(ExperienceErrorCode.WRONG_DATE_PARAMETERS_BY_NOT_RUNNING_DATE);
+        }
+        //운영종료 리스트에 들어가있는지
+        if (!isCloseDateRegister(experience, dateParam)) {
+            throw new ExperienceException(ExperienceErrorCode.NOT_EXIST_EXPERIENCE_CLOSE_DATE_ERROR);
+        }
+    }
+
+
     public void dateParameterValidate(Experience experience, LocalDate dateParam) {
 
         //오늘 이후인지

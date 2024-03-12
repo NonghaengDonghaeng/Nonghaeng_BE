@@ -9,14 +9,14 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 @Entity
-@Table(name="EXPERIENCE_OPEN_DATES")
+@Table(name="EXPERIENCE_CLOSE_DATES")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class ExperienceCloseDate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="experience_open_date_id")
+    @Column(name="experience_close_date_id")
     private long id;
 
     @ManyToOne

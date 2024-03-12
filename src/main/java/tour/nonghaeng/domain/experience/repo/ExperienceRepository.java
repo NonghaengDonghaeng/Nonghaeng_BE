@@ -22,8 +22,8 @@ public interface ExperienceRepository extends JpaRepository<Experience,Long> {
 
     boolean existsById(Long experienceId);
 
-    @Query("SELECT MIN(eod.openDate) FROM ExperienceCloseDate eod where eod.experience = :experience")
-    Optional<LocalDate> findOldestOpenDate(@Param("experience") Experience experience);
+    @Query("SELECT MIN(eod.closeDate) FROM ExperienceCloseDate eod where eod.experience = :experience")
+    Optional<LocalDate> findOldestCloseDate(@Param("experience") Experience experience);
 
     Page<Experience> findAll(Pageable pageable);
 

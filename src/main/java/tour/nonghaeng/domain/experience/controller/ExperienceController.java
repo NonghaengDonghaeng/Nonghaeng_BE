@@ -99,7 +99,7 @@ public class ExperienceController {
 
         experienceService.removeOnlyCloseDates(experienceId, addExpCloseDateDtos);
 
-        return new ResponseEntity<>("해당 오픈날짜 삭제완료,", HttpStatus.OK);
+        return new ResponseEntity<>("해당 미운영날짜 삭제완료,", HttpStatus.OK);
     }
 
     //체험 해당 날짜에 대한 회차정보 보기(파라미터 date, 예시 date=2024-03-11)
