@@ -105,7 +105,7 @@ public class ExperienceController {
     //체험 해당 날짜에 대한 회차정보 보기(파라미터 date, 예시 date=2024-03-11)
     @GetMapping("/round-info/{experienceId}")
     public ResponseEntity<ExpRoundInfoDto> getRoundInfo(@PathVariable Long experienceId,
-                                                        @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate dateParameter) {
+                                                        @RequestParam(value = "date",defaultValue = "#{T(java.time.LocalDate).now()}") @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate dateParameter) {
 
         ExpRoundInfoDto expRoundInfo = experienceService.getExpRoundInfo(experienceId,dateParameter);
 
