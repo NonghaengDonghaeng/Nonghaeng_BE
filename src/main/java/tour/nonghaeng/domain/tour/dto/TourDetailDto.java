@@ -2,10 +2,13 @@ package tour.nonghaeng.domain.tour.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.tour.entity.Tour;
+
+import java.util.List;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor
@@ -21,9 +24,12 @@ public class TourDetailDto {
     private String toilet;
     private String amenities;
     private String areaName;
+    private List<RoomSummary> roomSummaryList;
+    private List<ExpSummary> expSummaryList;
+
 
     @Builder
-    public TourDetailDto(String name, String homepageUrl, String introduction, String oneLineIntro, String summary, String restaurant, String parking, String toilet, String amenities, String areaName) {
+    public TourDetailDto(String name, String homepageUrl, String introduction, String oneLineIntro, String summary, String restaurant, String parking, String toilet, String amenities, String areaName, List<RoomSummary> roomSummaryList, List<ExpSummary> expSummaryList) {
         this.name = name;
         this.homepageUrl = homepageUrl;
         this.introduction = introduction;
@@ -34,10 +40,13 @@ public class TourDetailDto {
         this.toilet = toilet;
         this.amenities = amenities;
         this.areaName = areaName;
+        this.roomSummaryList = roomSummaryList;
+        this.expSummaryList = expSummaryList;
     }
 
     public static TourDetailDto toDto(Tour tour) {
-        return TourDetailDto.builder()
+
+        TourDetailDto tourDetailDto = TourDetailDto.builder()
                 .name(tour.getName())
                 .homepageUrl(tour.getHomepageUrl())
                 .introduction(tour.getIntroduction())
@@ -49,6 +58,42 @@ public class TourDetailDto {
                 .amenities(tour.getAmenities())
                 .areaName(tour.getAreaCode().getAreaName())
                 .build();
+        tourDetailDto.addRoomSummaryList(tour);
+        tourDetailDto.addExpSummaryList(tour);
+
+        return tourDetailDto;
+
     }
+    private void addRoomSummaryList(Tour tour) {
+
+        this.roomSummaryList = tour.getRooms().stream()
+                .map(room -> new RoomSummary(room.getId(), room.getRoomName(), room.getPricePeak()))
+                .toList();
+
+    }
+
+    private void addExpSummaryList(Tour tour) {
+        this.expSummaryList = tour.getExperiences().stream()
+                .map(experience -> new ExpSummary(experience.getId(), experience.getExperienceName(), experience.getPrice()))
+                .toList();
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public class RoomSummary {
+        private Long roomId;
+        private String roomName;
+        private int price;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public class ExpSummary {
+        private Long expId;
+        private String expName;
+        private int price;
+    }
+
+
 
 }

@@ -89,4 +89,6 @@ public class RoomController {
 
         return new ResponseEntity<>("미운영날짜 등록완료", HttpStatus.OK);
     }
+
+    //TODO: 관리자 API 숙소 미운영날짜에서 다시 운영으로 바꾸는 기능
 }
