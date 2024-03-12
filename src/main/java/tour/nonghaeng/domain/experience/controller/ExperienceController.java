@@ -41,6 +41,7 @@ public class ExperienceController {
         return new ResponseEntity<>(pageDto, HttpStatus.OK);
     }
 
+    //체험 상세정보 API
     @GetMapping("/{experienceId}")
     public ResponseEntity<ExpDetailDto> showExperienceDetail(@PathVariable Long experienceId) {
 
@@ -75,28 +76,28 @@ public class ExperienceController {
 
     }
 
-    //관리자 API: 체험에 대한 오픈날짜 추가하기
-    @PostMapping("/seller/add-opendate/{experienceId}")
-    public ResponseEntity<String> addOpenDates(Authentication authentication, @PathVariable Long experienceId,
-                                               @RequestBody List<AddExpOpenDateDto> addExpOpenDateDtos) {
+    //관리자 API: 체험에 대한 미운영날짜 추가하기
+    @PostMapping("/seller/add-closedate/{experienceId}")
+    public ResponseEntity<String> addCloseDates(Authentication authentication, @PathVariable Long experienceId,
+                                               @RequestBody List<AddExpCloseDateDto> addExpCloseDateDtos) {
 
         experienceValidator.ownerValidate(authService.toSellerEntity(authentication), experienceId);
 
-        Long expId = experienceService.addOnlyOpenDates(experienceId, addExpOpenDateDtos);
+        Long expId = experienceService.addOnlyCloseDates(experienceId, addExpCloseDateDtos);
 
-        int count = addExpOpenDateDtos.size();
+        int count = addExpCloseDateDtos.size();
 
-        return new ResponseEntity<>("체험(id:" + expId + ")에 회차(" + count + "개) 등록 완료.", HttpStatus.OK);
+        return new ResponseEntity<>("체험(id:" + expId + ")에 미운영날짜(" + count + "개) 등록 완료.", HttpStatus.OK);
     }
 
-    //관리자 API: 등록된 오픈날짜 닫기
-    @PostMapping("/seller/close-opendate/{experienceId}")
-    public ResponseEntity<String> closeOpenDates(Authentication authentication, @PathVariable Long experienceId,
-                                                 @RequestBody List<AddExpOpenDateDto> addExpOpenDateDtos) {
+    //관리자 API: 등록된 미운영날짜 다시 운영으로 바꾸기
+    @PostMapping("/seller/remove-closedate/{experienceId}")
+    public ResponseEntity<String> removeCloseDates(Authentication authentication, @PathVariable Long experienceId,
+                                                 @RequestBody List<AddExpCloseDateDto> addExpCloseDateDtos) {
 
         experienceValidator.ownerValidate(authService.toSellerEntity(authentication), experienceId);
 
-        experienceService.closeOnlyOpenDates(experienceId, addExpOpenDateDtos);
+        experienceService.removeOnlyCloseDates(experienceId, addExpCloseDateDtos);
 
         return new ResponseEntity<>("해당 오픈날짜 삭제완료,", HttpStatus.OK);
     }

@@ -39,7 +39,7 @@ public class Experience extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "experience", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ExperienceOpenDate> experienceOpenDates = new ArrayList<>();
+    private List<ExperienceCloseDate> experienceCloseDates = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -94,11 +94,11 @@ public class Experience extends BaseTimeEntity {
         this.experienceRounds.add(experienceRound);
     }
 
-    public void addOpenDate(ExperienceOpenDate experienceOpenDate) {
-        this.experienceOpenDates.add(experienceOpenDate);
+    public void addCloseDate(ExperienceCloseDate experienceCloseDate) {
+        this.experienceCloseDates.add(experienceCloseDate);
     }
 
-    public void deleteOpenDate(ExperienceOpenDate experienceOpenDate) {
-        this.experienceOpenDates.remove(experienceOpenDate);
+    public void removeCloseDate(ExperienceCloseDate experienceCloseDate) {
+        this.experienceCloseDates.remove(experienceCloseDate);
     }
 }

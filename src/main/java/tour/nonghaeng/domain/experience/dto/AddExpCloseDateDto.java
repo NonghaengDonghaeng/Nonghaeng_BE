@@ -4,19 +4,19 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import org.springframework.format.annotation.DateTimeFormat;
 import tour.nonghaeng.domain.experience.entity.Experience;
-import tour.nonghaeng.domain.experience.entity.ExperienceOpenDate;
+import tour.nonghaeng.domain.experience.entity.ExperienceCloseDate;
 
 import java.time.LocalDate;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public record AddExpOpenDateDto(
+public record AddExpCloseDateDto(
         @DateTimeFormat(pattern = "yyyy-MM-dd")
-        LocalDate openDate
+        LocalDate closeDate
 ) {
-        public ExperienceOpenDate toEntity(Experience experience) {
-                return ExperienceOpenDate.builder()
+        public ExperienceCloseDate toEntity(Experience experience) {
+                return ExperienceCloseDate.builder()
                         .experience(experience)
-                        .openDate(this.openDate)
+                        .closeDate(this.closeDate)
                         .build();
         }
 }

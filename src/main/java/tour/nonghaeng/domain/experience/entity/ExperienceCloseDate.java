@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Table(name="EXPERIENCE_OPEN_DATES")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class ExperienceOpenDate {
+public class ExperienceCloseDate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,11 +23,11 @@ public class ExperienceOpenDate {
     @JoinColumn(name = "experience_id")
     private Experience experience;
 
-    private LocalDate openDate;
+    private LocalDate closeDate;
 
     @Builder
-    public ExperienceOpenDate(Experience experience, LocalDate openDate) {
+    public ExperienceCloseDate(Experience experience, LocalDate closeDate) {
         this.experience = experience;
-        this.openDate = openDate;
+        this.closeDate = closeDate;
     }
 }
