@@ -11,10 +11,10 @@ import tour.nonghaeng.domain.reservation.dto.CreateExpReservationDto;
 import tour.nonghaeng.domain.reservation.dto.ExpReservationResponseDto;
 import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.repo.ExperienceReservationRepository;
-import tour.nonghaeng.global.exception.ReservationException;
 import tour.nonghaeng.global.validation.reservation.ExperienceReservationValidator;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -38,8 +38,7 @@ public class ExperienceReservationService {
                         countRemainOfParticipant(experienceRound, requestDto.getReservationDate()),
                         requestDto);
 
-        //포인트 차감로직
-
+        //포인트 차감로직(결제) - 이 안에 결제관련 검증 예외 필요
 
         ExperienceReservation experienceReservation = experienceReservationRepository.save(requestDto.toEntity(user, experienceRound));
 
@@ -48,9 +47,14 @@ public class ExperienceReservationService {
     }
 
     //해당 날짜, 해당 회차에 잔여인원 구하기
-    private int countRemainOfParticipant(ExperienceRound experienceRound, LocalDate localDate) {
-        int currentReservationParticipant = experienceReservationRepository.countParticipantByExperienceRoundAndReservationDate(experienceRound, localDate)
-                .orElseThrow(() -> ReservationException.EXCEPTION);
+    public int countRemainOfParticipant(ExperienceRound experienceRound, LocalDate localDate) {
+
+        int currentReservationParticipant = 0;
+        Optional<Integer> currentNum = experienceReservationRepository.countParticipantByExperienceRoundAndReservationDate(experienceRound, localDate);
+        if (currentNum.isPresent()){
+            currentReservationParticipant = currentNum.get();
+        }
+
         return experienceRound.getMaxParticipant() - currentReservationParticipant;
     }
 }

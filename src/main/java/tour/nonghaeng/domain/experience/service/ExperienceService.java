@@ -14,6 +14,7 @@ import tour.nonghaeng.domain.experience.entity.ExperienceCloseDate;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
 import tour.nonghaeng.domain.experience.repo.ExperienceRepository;
 import tour.nonghaeng.domain.member.entity.Seller;
+import tour.nonghaeng.domain.reservation.service.ExperienceReservationService;
 import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.domain.tour.service.TourService;
 import tour.nonghaeng.global.exception.ExperienceException;
@@ -37,6 +38,8 @@ public class ExperienceService {
 
     private final ExperienceRoundService experienceRoundService;
     private final ExperienceCloseDateService experienceCloseDateService;
+    private final ExperienceReservationService experienceReservationService;
+
 
     private final TourService tourService;
 
@@ -123,8 +126,7 @@ public class ExperienceService {
 
         for (ExperienceRound round : experience.getExperienceRounds()) {
             ExpRoundInfoDto.RoundInfo roundInfo = ExpRoundInfoDto.RoundInfo.toRoundInfo(round);
-            //TODO: 현재는 예약을 구현안해서 남은인원이 아니라 최대인원으로 설정함. 이후에 예약 구현시 남은 시간으로 로직 변경
-            roundInfo.setRemainParticipant(experience.getMaxParticipant());
+            roundInfo.setRemainParticipant(experienceReservationService.countRemainOfParticipant(round, dateParameter));
             dto.addRoundInfo(roundInfo);
         }
 

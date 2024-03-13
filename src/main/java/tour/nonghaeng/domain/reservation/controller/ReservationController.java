@@ -25,7 +25,6 @@ public class ReservationController {
     @PostMapping("/experience")
     public ResponseEntity<ExpReservationResponseDto> reserveExperience(Authentication authentication,
                                                                        @RequestBody CreateExpReservationDto requestDto) {
-        log.info("he");
         User user = authService.toUserEntity(authentication);
 
         ExpReservationResponseDto responseDto = experienceReservationService.reserveExperience(user, requestDto);

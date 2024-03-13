@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface ExperienceReservationRepository extends JpaRepository<ExperienceReservation, Long> {
 
-    @Query("SELECT sum (er.numOfParticipant) from ExperienceReservation er where er.experienceRound = :experienceRound and er.reservationDate = :reservationDate")
+    @Query("SELECT sum (er.numOfParticipant) from ExperienceReservation er where er.experienceRound = :experienceRound and er.reservationDate = :reservationDate and er.stateType != 'NOT_CONFIRM_RESERVATION' and er.stateType != 'CANCEL_RESERVATION'")
     Optional<Integer> countParticipantByExperienceRoundAndReservationDate(@Param("experienceRound")ExperienceRound experienceRound, @Param("reservationDate")LocalDate reservationDate);
 
     boolean existsById(Long experienceReservationId);
