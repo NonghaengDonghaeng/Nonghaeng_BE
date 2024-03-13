@@ -11,7 +11,10 @@ import tour.nonghaeng.domain.reservation.dto.CreateExpReservationDto;
 import tour.nonghaeng.domain.reservation.dto.ExpReservationResponseDto;
 import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.repo.ExperienceReservationRepository;
+import tour.nonghaeng.global.exception.ReservationException;
 import tour.nonghaeng.global.validation.reservation.ExperienceReservationValidator;
+
+import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
@@ -26,23 +29,28 @@ public class ExperienceReservationService {
     private final ExperienceReservationValidator experienceReservationValidator;
 
     public ExpReservationResponseDto reserveExperience(User user, CreateExpReservationDto requestDto) {
+
         ExperienceRound experienceRound = experienceRoundService.findById(requestDto.getRoundId());
 
-        //requestDto 검증로직
-        // 1. 가격이 맞는지 확인
-        // 해당날짜가 운영하는지 안하는지 다시 확인
-        // 인원이 충분한지
+        experienceReservationValidator
+                .createExpReservationDtoValidate(
+                        experienceRound,
+                        countRemainOfParticipant(experienceRound, requestDto.getReservationDate()),
+                        requestDto);
 
         //포인트 차감로직
 
-        //예약
-        ExperienceReservation experienceReservation = requestDto.toEntity(user, experienceRound);
 
-        experienceReservationRepository.save(experienceReservation);
+        ExperienceReservation experienceReservation = experienceReservationRepository.save(requestDto.toEntity(user, experienceRound));
 
-        ExpReservationResponseDto responseDto = ExpReservationResponseDto.toDto(experienceReservationRepository.save(experienceReservation));
+        return ExpReservationResponseDto.toDto(experienceReservation);
 
-        return responseDto;
+    }
 
+    //해당 날짜, 해당 회차에 잔여인원 구하기
+    private int countRemainOfParticipant(ExperienceRound experienceRound, LocalDate localDate) {
+        int currentReservationParticipant = experienceReservationRepository.countParticipantByExperienceRoundAndReservationDate(experienceRound, localDate)
+                .orElseThrow(() -> ReservationException.EXCEPTION);
+        return experienceRound.getMaxParticipant() - currentReservationParticipant;
     }
 }
