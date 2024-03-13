@@ -49,8 +49,14 @@ public class ExperienceReservation {
 
     private int numOfParticipant;
 
+    private String reservationName;
+
+    private String number;
+
+    private String email;
+
     @Builder
-    public ExperienceReservation(User user, Seller seller, Experience experience, ExperienceRound experienceRound, ReservationStateType stateType, int price, LocalDate reservationDate, int numOfParticipant) {
+    public ExperienceReservation(User user, Seller seller, Experience experience, ExperienceRound experienceRound, ReservationStateType stateType, int price, LocalDate reservationDate, int numOfParticipant, String reservationName, String number, String email) {
         this.user = user;
         this.seller = seller;
         this.experience = experience;
@@ -59,6 +65,9 @@ public class ExperienceReservation {
         this.price = price;
         this.reservationDate = reservationDate;
         this.numOfParticipant = numOfParticipant;
+        this.reservationName = reservationName;
+        this.number = number;
+        this.email = email;
     }
 
     public void approveReservation() {

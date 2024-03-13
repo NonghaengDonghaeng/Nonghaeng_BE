@@ -8,6 +8,8 @@ import tour.nonghaeng.domain.experience.dto.AddExpRoundDto;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
 import tour.nonghaeng.domain.experience.repo.ExperienceRoundRepository;
+import tour.nonghaeng.global.exception.ExperienceException;
+import tour.nonghaeng.global.exception.code.ExperienceErrorCode;
 import tour.nonghaeng.global.validation.experience.ExperienceRoundValidator;
 
 import java.util.List;
@@ -33,6 +35,11 @@ public class ExperienceRoundService {
 
         ExperienceRound round = dto.toEntity(experience);
         return experienceRoundRepository.save(round);
+    }
+
+    public ExperienceRound findById(Long experienceRoundId) {
+        return experienceRoundRepository.findById(experienceRoundId)
+                .orElseThrow(() -> new ExperienceException(ExperienceErrorCode.NO_EXIST_EXPERIENCE_ROUND_BY_ID));
     }
 
 

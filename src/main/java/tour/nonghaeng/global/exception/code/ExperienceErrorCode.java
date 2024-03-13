@@ -26,6 +26,9 @@ public enum ExperienceErrorCode implements BaseErrorCode{
     WRONG_DATE_PARAMETERS_BY_NOT_RUNNING_DATE(HttpStatus.BAD_GATEWAY, "EXP_300_1", "date 파라미터 오류: 미운영날짜에 대해 체험회차를 요청했습니다."),
     NO_EXIST_EXPERIENCE_BY_EXPERIENCE_ID_ERROR(HttpStatus.BAD_GATEWAY, "EXP_000_1", "experienceID에 해당하는 체험이 없습니다."),
     NO_OWNER_AUTHORIZATION_ERROR(HttpStatus.BAD_GATEWAY, "EXP_000_2", "해당 체험에 대한 소유자가 아닙니다."),
+
+    //체험 회차에 관란 에러코드
+    NO_EXIST_EXPERIENCE_ROUND_BY_ID(HttpStatus.BAD_GATEWAY, "EXP_100_1", "experienceRoundID에 해당하는 체험회차가 없습니다."),
     ;
 
     private HttpStatus status;
