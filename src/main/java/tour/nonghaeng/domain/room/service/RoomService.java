@@ -14,8 +14,8 @@ import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.domain.tour.service.TourService;
 import tour.nonghaeng.global.exception.RoomException;
 import tour.nonghaeng.global.exception.code.RoomErrorCode;
-import tour.nonghaeng.global.validation.RoomValidator;
-import tour.nonghaeng.global.validation.TourValidator;
+import tour.nonghaeng.global.validation.room.RoomValidator;
+import tour.nonghaeng.global.validation.tour.TourValidator;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -1,4 +1,4 @@
-package tour.nonghaeng.global.validation;
+package tour.nonghaeng.global.validation.room;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

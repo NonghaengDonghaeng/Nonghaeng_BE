@@ -14,9 +14,9 @@ public enum ExperienceType {
     ETC("5","그 외")
     ;
 
-    private final String name;
     @JsonValue
     private final String code;
+    private final String name;
 
     public static ExperienceType ofCode(String code){
         if(code==null){

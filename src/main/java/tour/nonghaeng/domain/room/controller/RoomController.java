@@ -13,7 +13,7 @@ import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.room.dto.*;
 import tour.nonghaeng.domain.room.service.RoomService;
 import tour.nonghaeng.global.auth.service.AuthService;
-import tour.nonghaeng.global.validation.RoomValidator;
+import tour.nonghaeng.global.validation.room.RoomValidator;
 
 import java.time.LocalDate;
 import java.util.List;

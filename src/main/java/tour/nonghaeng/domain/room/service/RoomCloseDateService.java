@@ -7,7 +7,7 @@ import tour.nonghaeng.domain.room.dto.AddRoomCloseDateDto;
 import tour.nonghaeng.domain.room.entity.Room;
 import tour.nonghaeng.domain.room.entity.RoomCloseDate;
 import tour.nonghaeng.domain.room.repo.RoomCloseDateRepository;
-import tour.nonghaeng.global.validation.RoomCloseDateValidator;
+import tour.nonghaeng.global.validation.room.RoomCloseDateValidator;
 
 import java.util.List;
 

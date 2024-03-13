@@ -10,7 +10,7 @@ import tour.nonghaeng.domain.experience.entity.ExperienceCloseDate;
 import tour.nonghaeng.domain.experience.repo.ExperienceCloseDateRepository;
 import tour.nonghaeng.global.exception.ExperienceException;
 import tour.nonghaeng.global.exception.code.ExperienceErrorCode;
-import tour.nonghaeng.global.validation.ExperienceOpenDateValidator;
+import tour.nonghaeng.global.validation.experience.ExperienceOpenDateValidator;
 
 import java.time.LocalDate;
 import java.util.List;

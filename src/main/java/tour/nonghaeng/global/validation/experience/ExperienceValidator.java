@@ -1,4 +1,4 @@
-package tour.nonghaeng.global.validation;
+package tour.nonghaeng.global.validation.experience;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

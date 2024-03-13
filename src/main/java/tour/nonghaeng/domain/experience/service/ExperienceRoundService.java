@@ -8,7 +8,7 @@ import tour.nonghaeng.domain.experience.dto.AddExpRoundDto;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
 import tour.nonghaeng.domain.experience.repo.ExperienceRoundRepository;
-import tour.nonghaeng.global.validation.ExperienceRoundValidator;
+import tour.nonghaeng.global.validation.experience.ExperienceRoundValidator;
 
 import java.util.List;
 

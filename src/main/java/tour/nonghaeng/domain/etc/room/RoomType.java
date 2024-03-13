@@ -1,5 +1,6 @@
 package tour.nonghaeng.domain.etc.room;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -13,8 +14,10 @@ public enum RoomType {
     //독체, 빌라 이런것도 추가할지 고민중
     ;
 
-    private final String name;
+    @JsonValue
     private final String code;
+    private final String name;
+
 
     public static RoomType ofCode(String code) {
         if (code == null) {

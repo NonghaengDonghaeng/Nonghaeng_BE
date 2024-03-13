@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.dto.UserJoinDto;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.member.repo.UserRepository;
-import tour.nonghaeng.global.validation.UserValidator;
+import tour.nonghaeng.global.validation.member.UserValidator;
 
 @Service
 @RequiredArgsConstructor

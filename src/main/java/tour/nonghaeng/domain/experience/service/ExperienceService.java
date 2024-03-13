@@ -17,8 +17,8 @@ import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.domain.tour.service.TourService;
 import tour.nonghaeng.global.exception.ExperienceException;
-import tour.nonghaeng.global.validation.ExperienceOpenDateValidator;
-import tour.nonghaeng.global.validation.ExperienceValidator;
+import tour.nonghaeng.global.validation.experience.ExperienceOpenDateValidator;
+import tour.nonghaeng.global.validation.experience.ExperienceValidator;
 
 import java.time.LocalDate;
 import java.util.List;

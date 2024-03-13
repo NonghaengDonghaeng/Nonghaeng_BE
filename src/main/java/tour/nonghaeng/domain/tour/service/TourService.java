@@ -13,7 +13,7 @@ import tour.nonghaeng.domain.tour.dto.TourSummaryDto;
 import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.domain.tour.repo.TourRepository;
 import tour.nonghaeng.global.exception.SellerException;
-import tour.nonghaeng.global.validation.TourValidator;
+import tour.nonghaeng.global.validation.tour.TourValidator;
 
 @Service
 @RequiredArgsConstructor
