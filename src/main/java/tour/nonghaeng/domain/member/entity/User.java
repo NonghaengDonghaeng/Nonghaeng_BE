@@ -50,6 +50,8 @@ public class User extends BaseTimeEntity {
 
     private boolean marketingConsent;
 
+    private int point;
+
     @Builder
     private User(Role role,
                  AreaCode areaCode,
@@ -69,6 +71,7 @@ public class User extends BaseTimeEntity {
         this.email = email;
         this.password = password;
         this.marketingConsent = marketingConsent;
+        this.point = 0;
     }
 
 
@@ -84,4 +87,8 @@ public class User extends BaseTimeEntity {
         this.role = Role.USER;
     }
 
+    public int payPoint(int price) {
+        this.point -= price;
+        return this.getPoint();
+    }
 }

@@ -32,5 +32,6 @@ public class ReservationController {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
+    //TODO: 관리자 API 예약 확인, 예약승인 / 소비자가 예약취소, 내 예약보기 등등
 }
 

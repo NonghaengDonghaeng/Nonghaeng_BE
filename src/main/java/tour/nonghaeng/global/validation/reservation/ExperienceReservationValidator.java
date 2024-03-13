@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
+import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.dto.CreateExpReservationDto;
 import tour.nonghaeng.domain.reservation.repo.ExperienceReservationRepository;
 import tour.nonghaeng.global.exception.ReservationException;
@@ -18,6 +19,14 @@ public class ExperienceReservationValidator {
     private final ExperienceReservationRepository experienceReservationRepository;
 
     private final ExperienceOpenDateValidator experienceOpenDateValidator;
+
+    public void experienceReservationValidate(ExperienceRound experienceRound, User user, int currentRemainParticipant, CreateExpReservationDto dto) {
+
+        createExpReservationDtoValidate(experienceRound,currentRemainParticipant,dto);
+
+        checkPointValidate(user, dto);
+
+    }
 
     public void createExpReservationDtoValidate(ExperienceRound experienceRound, int currentRemainParticipant, CreateExpReservationDto dto) {
 
@@ -35,6 +44,13 @@ public class ExperienceReservationValidator {
         }
 
     }
+
+    public void checkPointValidate(User user, CreateExpReservationDto dto) {
+        if (user.getPoint() < dto.getFinalPrice()) {
+            throw new ReservationException(ReservationErrorCode.NOT_ENOUGH_POINT_ERROR);
+        }
+    }
+
 
     public void idValidate(Long experienceReservationId) {
         if (!experienceReservationRepository.existsById(experienceReservationId)) {

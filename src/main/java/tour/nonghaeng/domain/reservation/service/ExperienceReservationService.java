@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
 import tour.nonghaeng.domain.experience.service.ExperienceRoundService;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.member.service.UserService;
 import tour.nonghaeng.domain.reservation.dto.CreateExpReservationDto;
 import tour.nonghaeng.domain.reservation.dto.ExpReservationResponseDto;
 import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;
@@ -25,6 +26,7 @@ public class ExperienceReservationService {
     private final ExperienceReservationRepository experienceReservationRepository;
 
     private final ExperienceRoundService experienceRoundService;
+    private final UserService userService;
 
     private final ExperienceReservationValidator experienceReservationValidator;
 
@@ -33,12 +35,13 @@ public class ExperienceReservationService {
         ExperienceRound experienceRound = experienceRoundService.findById(requestDto.getRoundId());
 
         experienceReservationValidator
-                .createExpReservationDtoValidate(
-                        experienceRound,
+                .experienceReservationValidate(
+                        experienceRound, user,
                         countRemainOfParticipant(experienceRound, requestDto.getReservationDate()),
                         requestDto);
 
-        //포인트 차감로직(결제) - 이 안에 결제관련 검증 예외 필요
+        //포인트 차감로직(결제)
+        userService.payPoint(user, requestDto.getFinalPrice());
 
         ExperienceReservation experienceReservation = experienceReservationRepository.save(requestDto.toEntity(user, experienceRound));
 

@@ -54,6 +54,8 @@ public class Seller extends BaseTimeEntity {
 
     private boolean marketingConsent;
 
+    private int point;
+
     @Enumerated(EnumType.STRING)
     private BankCode bankCode;
     private String bankAccount;
@@ -76,6 +78,7 @@ public class Seller extends BaseTimeEntity {
         this.bankCode = bankCode;
         this.bankAccount = bankAccount;
         this.bankAccountName = bankAccountName;
+        this.point = 0;
     }
 
 

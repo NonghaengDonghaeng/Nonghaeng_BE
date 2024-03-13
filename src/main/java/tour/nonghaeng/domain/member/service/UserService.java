@@ -34,5 +34,9 @@ public class UserService {
 
     }
 
+    public int payPoint(User user, int price) {
+        user.payPoint(price);
+        return userRepository.save(user).getPoint();
+    }
 
 }
