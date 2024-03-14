@@ -51,6 +51,14 @@ public class ExperienceReservationValidator {
 
     }
 
+    public void checkCancelState(ExperienceReservation experienceReservation) {
+        ReservationStateType stateType = experienceReservation.getStateType();
+        if (stateType.equals(ReservationStateType.CANCEL_RESERVATION)
+                || stateType.equals(ReservationStateType.COMPLETE_RESERVATION)) {
+            throw new ReservationException(ReservationErrorCode.CANT_CANCEL_RESERVATION_STATE);
+        }
+    }
+
     public void createExpReservationDtoValidate(ExperienceRound experienceRound, int currentRemainParticipant, CreateExpReservationDto dto) {
 
         log.info(Integer.toString(currentRemainParticipant));

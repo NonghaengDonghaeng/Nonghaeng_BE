@@ -113,6 +113,8 @@ public class ExperienceReservationService {
 
         ExperienceReservation experienceReservation = findById(experienceReservationId);
 
+        experienceReservationValidator.checkCancelState(experienceReservation);
+
         //정책에 따라 수수료 측정후 포인트 환급
         LocalDate reservationCreatedAt = experienceReservation.getCreatedAt().toLocalDate();
         LocalDateTime experienceStartAt = LocalDateTime.of(experienceReservation.getReservationDate(), experienceReservation.getExperienceRound().getStartTime());
@@ -135,9 +137,11 @@ public class ExperienceReservationService {
 
     private Long countDiffHourDate(LocalDateTime startAt) {
 
+        log.info(startAt.toString());
         Duration duration = Duration.between(LocalDateTime.now(), startAt);
 
-        return duration.getSeconds() / 3600000;
+        log.info(Long.toString(duration.getSeconds()/3600));
+        return duration.getSeconds() / 3600;
     }
 
     private CancelPolicy decideCancelPolicy(LocalDate reservationAt, Long diffHour) {

@@ -16,6 +16,9 @@ public enum ReservationErrorCode implements BaseErrorCode {
     //예약 승인 API 사용시 예약 대기중이 아닐때
     NOT_WAITING_RESERVATION_STATE(HttpStatus.BAD_GATEWAY, "RES_009_1", "예약 대기중인 체험예약이 아닙니다."),
 
+    //예약 취소 API 사용시 예약이 이미 취소되거나 완료된 상태일 때
+    CANT_CANCEL_RESERVATION_STATE(HttpStatus.BAD_GATEWAY, "RES_009_1", "해당 예약을 취소할 수 없습니다."),
+
     //이 예약에 대한 판매자가 아닐경우 에로코드
     NO_OWNER_AUTHORIZATION_ERROR(HttpStatus.BAD_GATEWAY, "RES_000_2", "해당 체험 예약에 대한 소유자가 아닙니다."),
     //체험예약

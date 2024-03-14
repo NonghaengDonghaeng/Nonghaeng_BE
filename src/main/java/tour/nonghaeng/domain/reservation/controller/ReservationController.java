@@ -86,7 +86,7 @@ public class ReservationController {
     //소비자 내 체험예약 상세보기
 
     //소비자 내 체험예약 취소하기
-    @GetMapping("/experience/cancel/{experienceReservationId}")
+    @GetMapping("/experience/cancel/{reservationId}")
     public ResponseEntity<ExpReservationCancelResponseDto> cancelExpReservation(Authentication authentication,
                                                        @PathVariable("reservationId") Long experienceReservationId) {
         User user = authService.toUserEntity(authentication);
