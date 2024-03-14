@@ -13,6 +13,7 @@ import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.dto.CreateExpReservationDto;
 import tour.nonghaeng.domain.reservation.dto.ExpReservationResponseDto;
+import tour.nonghaeng.domain.reservation.dto.ExpReservationSellerDetailDto;
 import tour.nonghaeng.domain.reservation.dto.ExpReservationSellerSummaryDto;
 import tour.nonghaeng.domain.reservation.service.ExperienceReservationService;
 import tour.nonghaeng.global.auth.service.AuthService;
@@ -42,7 +43,7 @@ public class ReservationController {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
-    //관리자용 내 예약보기
+    //관리자 API : 관리자용 내 예약보기
     @GetMapping("/seller/experience/my-reservation")
     public ResponseEntity<Page<ExpReservationSellerSummaryDto>> showMyReservation(Authentication authentication, @PageableDefault(size = 20) Pageable pageable) {
 
@@ -54,22 +55,33 @@ public class ReservationController {
         return new ResponseEntity<>(dtoPage, HttpStatus.OK);
     }
 
-    //예약대기를 예약 승인하기, 혹은 미승인하기(파라미터로 not = true인 경우 미승인)
+    //관리자 API : 예약대기를 예약 승인하기, 혹은 미승인하기(파라미터로 not = true인 경우 미승인)
     //승인을 다시 미승인인 경우는 아직 배제
     @GetMapping("/seller/experience/approve/{reservationId}")
     public ResponseEntity<String> approveExpReservation(Authentication authentication,
                                                         @PathVariable("reservationId") Long reservationId,
-                                                        @RequestParam(name = "not",defaultValue = "false") boolean notApproveFlag) {
+                                                        @RequestParam(name = "not", defaultValue = "false") boolean notApproveFlag) {
         Seller seller = authService.toSellerEntity(authentication);
 
-        experienceReservationValidator.ownerValidate(seller,reservationId);
+        experienceReservationValidator.ownerValidate(seller, reservationId);
 
         Long id = experienceReservationService.approveExpReservation(reservationId, notApproveFlag);
 
         if (notApproveFlag == true) {
-            return new ResponseEntity<>("체험예약 미승인완료(체험예약 id:"+id+")", HttpStatus.OK);
+            return new ResponseEntity<>("체험예약 미승인완료(체험예약 id:" + id + ")", HttpStatus.OK);
         }
-        return new ResponseEntity<>("체험예약 승인완료(체험예약 id:"+id+")", HttpStatus.OK);
+        return new ResponseEntity<>("체험예약 승인완료(체험예약 id:" + id + ")", HttpStatus.OK);
+    }
+
+    //관리자 API : 체험예약에 대한 상세정보 보기
+    @GetMapping("/seller/experience/{reservationId}")
+    public ResponseEntity<ExpReservationSellerDetailDto> showExpReservationDetailDto(Authentication authentication,
+                                                                                     @PathVariable("reservationId") Long reservationId) {
+        Seller seller = authService.toSellerEntity(authentication);
+
+        experienceReservationValidator.ownerValidate(seller,reservationId);
+
+        return new ResponseEntity<>(experienceReservationService.getExpReservationSellerDetailDto(reservationId), HttpStatus.OK);
     }
     //TODO:  예약승인 / 소비자가 예약취소, 내 예약보기 등
 }

@@ -13,6 +13,7 @@ import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.member.service.UserService;
 import tour.nonghaeng.domain.reservation.dto.CreateExpReservationDto;
 import tour.nonghaeng.domain.reservation.dto.ExpReservationResponseDto;
+import tour.nonghaeng.domain.reservation.dto.ExpReservationSellerDetailDto;
 import tour.nonghaeng.domain.reservation.dto.ExpReservationSellerSummaryDto;
 import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.repo.ExperienceReservationRepository;
@@ -55,6 +56,7 @@ public class ExperienceReservationService {
 
     }
 
+
     //해당 날짜, 해당 회차에 잔여인원 구하기
     public int countRemainOfParticipant(ExperienceRound experienceRound, LocalDate localDate) {
 
@@ -95,5 +97,14 @@ public class ExperienceReservationService {
 
         return experienceReservationRepository.findById(experienceReservationId)
                 .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_EXIST_EXPERIENCE_RESERVATION_BY_ID));
+    }
+
+    public ExpReservationSellerDetailDto getExpReservationSellerDetailDto(Long experienceReservationId) {
+
+        ExperienceReservation experienceReservation = findById(experienceReservationId);
+
+        int remainOfParticipant = countRemainOfParticipant(experienceReservation.getExperienceRound(), experienceReservation.getReservationDate());
+
+        return ExpReservationSellerDetailDto.toDto(experienceReservation,remainOfParticipant);
     }
 }

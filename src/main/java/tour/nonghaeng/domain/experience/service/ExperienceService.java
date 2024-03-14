@@ -133,11 +133,10 @@ public class ExperienceService {
         return dto;
     }
 
-    public ExpDetailDto findByExpId(Long experienceId) {
+    public ExpDetailDto getExpDetailDto(Long experienceId) {
 
-        experienceValidator.expIdValidate(experienceId);
 
-        return ExpDetailDto.toDto(experienceRepository.findById(experienceId).get());
+        return ExpDetailDto.toDto(findById(experienceId));
 
     }
 

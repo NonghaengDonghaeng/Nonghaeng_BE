@@ -45,7 +45,7 @@ public class ExperienceController {
     @GetMapping("/{experienceId}")
     public ResponseEntity<ExpDetailDto> showExperienceDetail(@PathVariable Long experienceId) {
 
-        ExpDetailDto dto = experienceService.findByExpId(experienceId);
+        ExpDetailDto dto = experienceService.getExpDetailDto(experienceId);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }

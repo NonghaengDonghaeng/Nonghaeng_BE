@@ -24,6 +24,8 @@ public class ExpReservationSellerSummaryDto {
     private int price;
     private int numOfParticipant;
 
+    //TODO: 체험 회차정보도 추가하기
+
 
     @Builder
     public ExpReservationSellerSummaryDto(String reservationState, String experienceName, Long experienceReservationId, LocalDate reservationDate, int price, int numOfParticipant) {
