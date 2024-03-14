@@ -25,5 +25,7 @@ public interface ExperienceReservationRepository extends JpaRepository<Experienc
     @Query("SELECT er from ExperienceReservation er where er.seller = :seller and er.stateType != 'CANCEL_RESERVATION'")
     Page<ExperienceReservation> findAllBySeller(@Param("seller") Seller seller, Pageable pageable);
 
+    @Query("SELECT er.seller from ExperienceReservation er where er.id = :id")
+    Optional<Seller> findSellerById(@Param("id") Long experienceReservationId);
 
 }

@@ -16,6 +16,8 @@ import tour.nonghaeng.domain.reservation.dto.ExpReservationResponseDto;
 import tour.nonghaeng.domain.reservation.dto.ExpReservationSellerSummaryDto;
 import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.repo.ExperienceReservationRepository;
+import tour.nonghaeng.global.exception.ReservationException;
+import tour.nonghaeng.global.exception.code.ReservationErrorCode;
 import tour.nonghaeng.global.validation.reservation.ExperienceReservationValidator;
 
 import java.time.LocalDate;
@@ -66,8 +68,32 @@ public class ExperienceReservationService {
     }
 
     public Page<ExpReservationSellerSummaryDto> showExpReservationSummaryList(Seller seller, Pageable pageable) {
+
         Page<ExperienceReservation> page = experienceReservationRepository.findAllBySeller(seller, pageable);
-        Page<ExpReservationSellerSummaryDto> pageDto = ExpReservationSellerSummaryDto.toPageDto(page);
-        return pageDto;
+
+        experienceReservationValidator.pageValidate(page);
+
+        return ExpReservationSellerSummaryDto.toPageDto(page);
+    }
+
+    public Long approveExpReservation(Long expReservationId, boolean notApproveFlag) {
+        ExperienceReservation experienceReservation = findById(expReservationId);
+
+        //검증: 예약 대기 상태인지 확인
+        experienceReservationValidator.checkWaitingState(experienceReservation);
+
+        if (notApproveFlag) {
+            experienceReservation.notApproveReservation();
+        }
+        experienceReservation.approveReservation();
+
+        return experienceReservationRepository.save(experienceReservation).getId();
+
+    }
+
+    private ExperienceReservation findById(Long experienceReservationId) {
+
+        return experienceReservationRepository.findById(experienceReservationId)
+                .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_EXIST_EXPERIENCE_RESERVATION_BY_ID));
     }
 }

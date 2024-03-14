@@ -30,6 +30,7 @@ public class ExperienceValidator {
         }
     }
 
+    //TODO: 추후에 Page<Object>로 변경해서 중복되는 부분 공통검증으로 바꾸기
     public void pageValidate(Page<Experience> tourPages) {
         if (tourPages.isEmpty()) {
             throw new ExperienceException(ExperienceErrorCode.NO_EXPERIENCE_CONTENT_AT_CURRENT_PAGE_ERROR);

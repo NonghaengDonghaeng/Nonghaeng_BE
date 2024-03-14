@@ -71,8 +71,15 @@ public class ExperienceReservation {
     }
 
     public void approveReservation() {
+        //여기서 if문을 제외해도 될 것 같음. 어차피 검증로직을 거치고 승인되니까 2연속으로 해야될지 고민중
         if (this.stateType.equals(ReservationStateType.WAITING_RESERVATION)) {
             this.stateType = ReservationStateType.CONFIRM_RESERVATION;
+        }
+    }
+
+    public void notApproveReservation() {
+        if (this.stateType.equals(ReservationStateType.WAITING_RESERVATION)) {
+            this.stateType = ReservationStateType.NOT_CONFIRM_RESERVATION;
         }
     }
 
