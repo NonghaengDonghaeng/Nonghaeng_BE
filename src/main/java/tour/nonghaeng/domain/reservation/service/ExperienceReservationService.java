@@ -6,22 +6,23 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tour.nonghaeng.domain.etc.cancel.CancelPolicy;
+import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
 import tour.nonghaeng.domain.experience.service.ExperienceRoundService;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.member.service.UserService;
-import tour.nonghaeng.domain.reservation.dto.CreateExpReservationDto;
-import tour.nonghaeng.domain.reservation.dto.ExpReservationResponseDto;
-import tour.nonghaeng.domain.reservation.dto.ExpReservationSellerDetailDto;
-import tour.nonghaeng.domain.reservation.dto.ExpReservationSellerSummaryDto;
+import tour.nonghaeng.domain.reservation.dto.*;
 import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.repo.ExperienceReservationRepository;
 import tour.nonghaeng.global.exception.ReservationException;
 import tour.nonghaeng.global.exception.code.ReservationErrorCode;
 import tour.nonghaeng.global.validation.reservation.ExperienceReservationValidator;
 
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -106,5 +107,54 @@ public class ExperienceReservationService {
         int remainOfParticipant = countRemainOfParticipant(experienceReservation.getExperienceRound(), experienceReservation.getReservationDate());
 
         return ExpReservationSellerDetailDto.toDto(experienceReservation,remainOfParticipant);
+    }
+
+    public ExpReservationCancelResponseDto cancelExpReservation(User user, Long experienceReservationId) {
+
+        ExperienceReservation experienceReservation = findById(experienceReservationId);
+
+        //정책에 따라 수수료 측정후 포인트 환급
+        LocalDate reservationCreatedAt = experienceReservation.getCreatedAt().toLocalDate();
+        LocalDateTime experienceStartAt = LocalDateTime.of(experienceReservation.getReservationDate(), experienceReservation.getExperienceRound().getStartTime());
+
+        CancelPolicy cancelPolicy = decideCancelPolicy(reservationCreatedAt, countDiffHourDate(experienceStartAt));
+        //예약 대기중일땐 수수료 없이 취소가능
+        if (experienceReservation.getStateType().equals(ReservationStateType.WAITING_RESERVATION)) {
+            cancelPolicy = CancelPolicy.NOT_CONFIRM_CANCEL_POLICY;
+        }
+        userService.payBackPoint(user, experienceReservation.getPrice(), cancelPolicy);
+
+        //예약취소
+        experienceReservation.cancelReservation();
+
+        experienceReservationRepository.save(experienceReservation);
+
+        return ExpReservationCancelResponseDto.toDto(experienceReservation, cancelPolicy);
+
+    }
+
+    private Long countDiffHourDate(LocalDateTime startAt) {
+
+        Duration duration = Duration.between(LocalDateTime.now(), startAt);
+
+        return duration.getSeconds() / 3600000;
+    }
+
+    private CancelPolicy decideCancelPolicy(LocalDate reservationAt, Long diffHour) {
+
+        if (reservationAt.equals(LocalDate.now())) {
+            return CancelPolicy.MISTAKE_CANCEL_POLICY;
+        }
+
+        if (diffHour < 7) {
+            return CancelPolicy.IN_SEVEN_HOURS_CANCEL_POLICY;
+        }
+        if (diffHour < 24) {
+            return CancelPolicy.IN_ONE_DAY_CANCEL_POLICY;
+        }
+        if (diffHour < 24 * 7) {
+            return CancelPolicy.IN_ONE_WEEK_CANCEL_POLICY;
+        }
+        return CancelPolicy.DEFAULT_CANCEL_POLICY;
     }
 }

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import tour.nonghaeng.domain.etc.BaseTimeEntity;
 import tour.nonghaeng.domain.etc.area.AreaCode;
+import tour.nonghaeng.domain.etc.cancel.CancelPolicy;
 import tour.nonghaeng.domain.etc.role.Role;
 import tour.nonghaeng.domain.etc.social.SocialType;
 
@@ -90,5 +91,17 @@ public class User extends BaseTimeEntity {
     public int payPoint(int price) {
         this.point -= price;
         return this.getPoint();
+    }
+
+    public int payBackPoint(int price, CancelPolicy cancelPolicy) {
+
+        int payBackPoint = (int) (price * (1 - cancelPolicy.getPercent()));
+        this.point += payBackPoint;
+
+        return payBackPoint;
+    }
+
+    public int myRemainPoint() {
+        return this.point;
     }
 }

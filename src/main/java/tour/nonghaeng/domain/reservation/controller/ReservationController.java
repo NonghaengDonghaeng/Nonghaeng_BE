@@ -11,10 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
-import tour.nonghaeng.domain.reservation.dto.CreateExpReservationDto;
-import tour.nonghaeng.domain.reservation.dto.ExpReservationResponseDto;
-import tour.nonghaeng.domain.reservation.dto.ExpReservationSellerDetailDto;
-import tour.nonghaeng.domain.reservation.dto.ExpReservationSellerSummaryDto;
+import tour.nonghaeng.domain.reservation.dto.*;
 import tour.nonghaeng.domain.reservation.service.ExperienceReservationService;
 import tour.nonghaeng.global.auth.service.AuthService;
 import tour.nonghaeng.global.validation.reservation.ExperienceReservationValidator;
@@ -63,7 +60,7 @@ public class ReservationController {
                                                         @RequestParam(name = "not", defaultValue = "false") boolean notApproveFlag) {
         Seller seller = authService.toSellerEntity(authentication);
 
-        experienceReservationValidator.ownerValidate(seller, reservationId);
+        experienceReservationValidator.ownerSellerValidate(seller, reservationId);
 
         Long id = experienceReservationService.approveExpReservation(reservationId, notApproveFlag);
 
@@ -79,10 +76,29 @@ public class ReservationController {
                                                                                      @PathVariable("reservationId") Long reservationId) {
         Seller seller = authService.toSellerEntity(authentication);
 
-        experienceReservationValidator.ownerValidate(seller,reservationId);
+        experienceReservationValidator.ownerSellerValidate(seller, reservationId);
 
         return new ResponseEntity<>(experienceReservationService.getExpReservationSellerDetailDto(reservationId), HttpStatus.OK);
     }
-    //TODO:  예약승인 / 소비자가 예약취소, 내 예약보기 등
+
+    //소비자 내 체험예약 리스트 보기
+
+    //소비자 내 체험예약 상세보기
+
+    //소비자 내 체험예약 취소하기
+    @GetMapping("/experience/cancel/{experienceReservationId}")
+    public ResponseEntity<ExpReservationCancelResponseDto> cancelExpReservation(Authentication authentication,
+                                                       @PathVariable("reservationId") Long experienceReservationId) {
+        User user = authService.toUserEntity(authentication);
+
+        experienceReservationValidator.ownerUserValidate(user, experienceReservationId);
+
+        ExpReservationCancelResponseDto dto = experienceReservationService.cancelExpReservation(user, experienceReservationId);
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+
+    }
+
+    //TODO: 소비자가 예약취소, 내 예약보기 등
 }
 

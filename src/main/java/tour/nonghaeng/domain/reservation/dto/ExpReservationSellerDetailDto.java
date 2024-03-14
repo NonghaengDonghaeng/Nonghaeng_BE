@@ -17,6 +17,9 @@ import java.time.LocalTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class ExpReservationSellerDetailDto {
+
+    //TODO: userInfo, roundInfo, ExpInfo 로 클래스 분리해서 보내주는 방안
+
     private String reservationState;
     private String experienceName;
     private Long experienceId;
@@ -30,9 +33,10 @@ public class ExpReservationSellerDetailDto {
     private LocalDateTime reservationAt;
     private int numOfParticipant;
     private int remainParticipant;
+    private int price;
 
     @Builder
-    public ExpReservationSellerDetailDto(String reservationState, String experienceName, Long experienceId, LocalDate reservationDate, LocalTime startTime, LocalTime endTime, String userName, LocalDateTime reservationAt, int numOfParticipant, int remainParticipant) {
+    public ExpReservationSellerDetailDto(String reservationState, String experienceName, Long experienceId, LocalDate reservationDate, LocalTime startTime, LocalTime endTime, String userName, LocalDateTime reservationAt, int numOfParticipant, int remainParticipant,int price) {
         this.reservationState = reservationState;
         this.experienceName = experienceName;
         this.experienceId = experienceId;
@@ -43,6 +47,7 @@ public class ExpReservationSellerDetailDto {
         this.reservationAt = reservationAt;
         this.numOfParticipant = numOfParticipant;
         this.remainParticipant = remainParticipant;
+        this.price = price;
     }
 
     public static ExpReservationSellerDetailDto toDto(ExperienceReservation experienceReservation,int remainParticipant) {
@@ -57,6 +62,7 @@ public class ExpReservationSellerDetailDto {
                 .reservationAt(experienceReservation.getCreatedAt())
                 .numOfParticipant(experienceReservation.getNumOfParticipant())
                 .remainParticipant(remainParticipant)
+                .price(experienceReservation.getPrice())
                 .build();
     }
 }

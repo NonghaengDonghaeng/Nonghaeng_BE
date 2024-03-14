@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tour.nonghaeng.domain.etc.cancel.CancelPolicy;
 import tour.nonghaeng.domain.member.dto.UserJoinDto;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.member.repo.UserRepository;
@@ -37,6 +38,16 @@ public class UserService {
     public int payPoint(User user, int price) {
         user.payPoint(price);
         return userRepository.save(user).getPoint();
+    }
+
+    public int payBackPoint(User user, int price, CancelPolicy cancelPolicy) {
+        int payBackPoint = user.payBackPoint(price, cancelPolicy);
+        userRepository.save(user);
+        return payBackPoint;
+    }
+
+    public int checkMyRemainPoint(User user) {
+        return user.myRemainPoint();
     }
 
 }

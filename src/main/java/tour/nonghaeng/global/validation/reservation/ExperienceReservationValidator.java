@@ -25,11 +25,20 @@ public class ExperienceReservationValidator {
     private final ExperienceOpenDateValidator experienceOpenDateValidator;
 
 
-    public void ownerValidate(Seller seller, Long experienceReservationId) {
+    public void ownerSellerValidate(Seller seller, Long experienceReservationId) {
 
         idValidate(experienceReservationId);
 
         if (!seller.equals(experienceReservationRepository.findSellerById(experienceReservationId).get())) {
+            throw new ReservationException(ReservationErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
+        }
+    }
+
+    public void ownerUserValidate(User user, Long experienceReservationId) {
+
+        idValidate(experienceReservationId);
+
+        if (!user.equals(experienceReservationRepository.findUserById(experienceReservationId).get())) {
             throw new ReservationException(ReservationErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
         }
     }

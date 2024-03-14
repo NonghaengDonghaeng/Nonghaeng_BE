@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
 import tour.nonghaeng.domain.member.entity.Seller;
+import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;
 
 import java.time.LocalDate;
@@ -28,4 +29,6 @@ public interface ExperienceReservationRepository extends JpaRepository<Experienc
     @Query("SELECT er.seller from ExperienceReservation er where er.id = :id")
     Optional<Seller> findSellerById(@Param("id") Long experienceReservationId);
 
+    @Query("SELECT er.user from ExperienceReservation er where er.id = :id")
+    Optional<User> findUserById(@Param("id") Long experienceReservationId);
 }
