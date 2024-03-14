@@ -2,14 +2,18 @@ package tour.nonghaeng.domain.reservation.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
 import tour.nonghaeng.domain.experience.service.ExperienceRoundService;
+import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.member.service.UserService;
 import tour.nonghaeng.domain.reservation.dto.CreateExpReservationDto;
 import tour.nonghaeng.domain.reservation.dto.ExpReservationResponseDto;
+import tour.nonghaeng.domain.reservation.dto.ExpReservationSellerSummaryDto;
 import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.repo.ExperienceReservationRepository;
 import tour.nonghaeng.global.validation.reservation.ExperienceReservationValidator;
@@ -59,5 +63,11 @@ public class ExperienceReservationService {
         }
 
         return experienceRound.getMaxParticipant() - currentReservationParticipant;
+    }
+
+    public Page<ExpReservationSellerSummaryDto> showExpReservationSummaryList(Seller seller, Pageable pageable) {
+        Page<ExperienceReservation> page = experienceReservationRepository.findAllBySeller(seller, pageable);
+        Page<ExpReservationSellerSummaryDto> pageDto = ExpReservationSellerSummaryDto.toPageDto(page);
+        return pageDto;
     }
 }

@@ -49,7 +49,7 @@ public class ExperienceReservation {
 
     private int numOfParticipant;
 
-    private String reservationName;
+    private String reservationName;     //예약자명
 
     private String number;
 
