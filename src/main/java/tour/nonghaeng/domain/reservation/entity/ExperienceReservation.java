@@ -84,8 +84,9 @@ public class ExperienceReservation extends BaseTimeEntity {
         }
     }
 
-    public void cancelReservation() {
+    public ExperienceReservation cancelReservation() {
         this.stateType = ReservationStateType.CANCEL_RESERVATION;
+        return this;
     }
 
 

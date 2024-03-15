@@ -87,6 +87,7 @@ public class ExperienceReservationService {
 
         if (notApproveFlag) {
             experienceReservation.notApproveReservation();
+            userService.payBackPoint(experienceReservation.getUser(), experienceReservation.getPrice(), CancelPolicy.NOT_CONFIRM_CANCEL_POLICY);
         }
         experienceReservation.approveReservation();
 
@@ -115,18 +116,10 @@ public class ExperienceReservationService {
 
         experienceReservationValidator.checkCancelState(experienceReservation);
 
-        //정책에 따라 수수료 측정후 포인트 환급
-        LocalDate reservationCreatedAt = experienceReservation.getCreatedAt().toLocalDate();
-        LocalDateTime experienceStartAt = LocalDateTime.of(experienceReservation.getReservationDate(), experienceReservation.getExperienceRound().getStartTime());
+        CancelPolicy cancelPolicy = decideCancelPolicy(experienceReservation);
 
-        CancelPolicy cancelPolicy = decideCancelPolicy(reservationCreatedAt, countDiffHourDate(experienceStartAt));
-        //예약 대기중일땐 수수료 없이 취소가능
-        if (experienceReservation.getStateType().equals(ReservationStateType.WAITING_RESERVATION)) {
-            cancelPolicy = CancelPolicy.NOT_CONFIRM_CANCEL_POLICY;
-        }
         userService.payBackPoint(user, experienceReservation.getPrice(), cancelPolicy);
 
-        //예약취소
         experienceReservation.cancelReservation();
 
         experienceReservationRepository.save(experienceReservation);
@@ -137,19 +130,27 @@ public class ExperienceReservationService {
 
     private Long countDiffHourDate(LocalDateTime startAt) {
 
-        log.info(startAt.toString());
         Duration duration = Duration.between(LocalDateTime.now(), startAt);
 
-        log.info(Long.toString(duration.getSeconds()/3600));
         return duration.getSeconds() / 3600;
     }
 
-    private CancelPolicy decideCancelPolicy(LocalDate reservationAt, Long diffHour) {
+    private CancelPolicy decideCancelPolicy(ExperienceReservation experienceReservation) {
 
+        LocalDate reservationAt = experienceReservation.getCreatedAt().toLocalDate();
+        LocalDateTime experienceStartAt = LocalDateTime
+                .of(experienceReservation.getReservationDate(), experienceReservation.getExperienceRound().getStartTime());
+
+        Long diffHour = countDiffHourDate(experienceStartAt);
+
+        //예약 대기중일 경우 수수료 없음
+        if (experienceReservation.getStateType().equals(ReservationStateType.WAITING_RESERVATION)) {
+            return CancelPolicy.NOT_CONFIRM_CANCEL_POLICY;
+        }
+        //당일 취소인 경우 수수료 없음
         if (reservationAt.equals(LocalDate.now())) {
             return CancelPolicy.MISTAKE_CANCEL_POLICY;
         }
-
         if (diffHour < 7) {
             return CancelPolicy.IN_SEVEN_HOURS_CANCEL_POLICY;
         }
