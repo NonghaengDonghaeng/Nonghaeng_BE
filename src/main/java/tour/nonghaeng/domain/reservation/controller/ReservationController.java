@@ -13,6 +13,7 @@ import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.dto.*;
 import tour.nonghaeng.domain.reservation.service.ExperienceReservationService;
+import tour.nonghaeng.domain.reservation.service.RoomReservationService;
 import tour.nonghaeng.global.auth.service.AuthService;
 import tour.nonghaeng.global.validation.reservation.ExperienceReservationValidator;
 
@@ -22,8 +23,9 @@ import tour.nonghaeng.global.validation.reservation.ExperienceReservationValidat
 @Slf4j
 public class ReservationController {
 
-    private final ExperienceReservationService experienceReservationService;
     private final AuthService authService;
+    private final ExperienceReservationService experienceReservationService;
+    private final RoomReservationService roomReservationService;
 
     private final ExperienceReservationValidator experienceReservationValidator;
 
