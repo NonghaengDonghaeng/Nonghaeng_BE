@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import tour.nonghaeng.domain.experience.dto.*;
-import tour.nonghaeng.domain.experience.service.ExperienceRoundService;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.global.auth.service.AuthService;
@@ -27,16 +26,16 @@ import java.util.List;
 public class ExperienceController {
 
     private final ExperienceService experienceService;
-    private final ExperienceRoundService experienceRoundService;
     private final AuthService authService;
 
     private final ExperienceValidator experienceValidator;
 
+
     //여행 리스트 조회(파라미터 page, 예시 page=0)
     @GetMapping
-    public ResponseEntity<Page<ExpSummaryDto>> showExperienceList(@PageableDefault(size = 3) Pageable pageable) {
+    public ResponseEntity<Page<ExpSummaryDto>> showExperienceSummaryPage(@PageableDefault(size = 3) Pageable pageable) {
 
-        Page<ExpSummaryDto> pageDto = experienceService.findAll(pageable);
+        Page<ExpSummaryDto> pageDto = experienceService.getExpSummaryDtoPage(pageable);
 
         return new ResponseEntity<>(pageDto, HttpStatus.OK);
     }
@@ -52,11 +51,11 @@ public class ExperienceController {
 
     //관리자 API: 체험 등록하기(첫 등록때 회차도 같이 등록가능)
     @PostMapping("/seller/add")
-    public ResponseEntity<String> add(Authentication authentication, @RequestBody CreateExpDto createExpDto) {
+    public ResponseEntity<String> create(Authentication authentication, @RequestBody CreateExpDto createExpDto) {
 
         Seller seller = authService.toSellerEntity(authentication);
 
-        Long expId = experienceService.add(seller, createExpDto);
+        Long expId = experienceService.createExperience(seller, createExpDto);
 
         return new ResponseEntity<>("체험등록 성공, 체험 id : " + expId, HttpStatus.OK);
     }
@@ -73,7 +72,6 @@ public class ExperienceController {
         int count = addExpRoundDtoList.size();
 
         return new ResponseEntity<>("체험(id:" + expId + ")에 회차(" + count + "개) 등록 완료.", HttpStatus.OK);
-
     }
 
     //관리자 API: 체험에 대한 미운영날짜 추가하기
@@ -104,10 +102,10 @@ public class ExperienceController {
 
     //체험 해당 날짜에 대한 회차정보 보기(파라미터 date, 예시 date=2024-03-11)
     @GetMapping("/round-info/{experienceId}")
-    public ResponseEntity<ExpRoundInfoDto> getRoundInfo(@PathVariable Long experienceId,
+    public ResponseEntity<ExpRoundInfoDto> showRoundInfo(@PathVariable Long experienceId,
                                                         @RequestParam(value = "date",defaultValue = "#{T(java.time.LocalDate).now()}") @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate dateParameter) {
 
-        ExpRoundInfoDto expRoundInfo = experienceService.getExpRoundInfo(experienceId,dateParameter);
+        ExpRoundInfoDto expRoundInfo = experienceService.getExpRoundInfoDto(experienceId,dateParameter);
 
         return new ResponseEntity<>(expRoundInfo, HttpStatus.OK);
     }

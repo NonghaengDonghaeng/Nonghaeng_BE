@@ -13,7 +13,7 @@ import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.repo.ExperienceReservationRepository;
 import tour.nonghaeng.global.exception.ReservationException;
 import tour.nonghaeng.global.exception.code.ReservationErrorCode;
-import tour.nonghaeng.global.validation.experience.ExperienceOpenDateValidator;
+import tour.nonghaeng.global.validation.experience.ExperienceCloseDateValidator;
 
 @Component
 @RequiredArgsConstructor
@@ -22,7 +22,7 @@ public class ExperienceReservationValidator {
 
     private final ExperienceReservationRepository experienceReservationRepository;
 
-    private final ExperienceOpenDateValidator experienceOpenDateValidator;
+    private final ExperienceCloseDateValidator experienceCloseDateValidator;
 
 
     public void ownerSellerValidate(Seller seller, Long experienceReservationId) {
@@ -67,7 +67,7 @@ public class ExperienceReservationValidator {
             throw new ReservationException(ReservationErrorCode.WRONG_FINAL_PRICE_ERROR);
         }
         //운영날짜 확인
-        experienceOpenDateValidator.dateParameterValidate(experienceRound.getExperience(),dto.getReservationDate());
+        experienceCloseDateValidator.isOpenDateParameterValidate(experienceRound.getExperience(),dto.getReservationDate());
 
         // 인원이 충분한지
         if (currentRemainParticipant < dto.getNumOfParticipant()) {

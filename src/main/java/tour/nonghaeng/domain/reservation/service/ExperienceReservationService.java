@@ -38,7 +38,8 @@ public class ExperienceReservationService {
 
     private final ExperienceReservationValidator experienceReservationValidator;
 
-    public ExpReservationResponseDto reserveExperience(User user, CreateExpReservationDto requestDto) {
+
+    public ExpReservationResponseDto createExpReservation(User user, CreateExpReservationDto requestDto) {
 
         ExperienceRound experienceRound = experienceRoundService.findById(requestDto.getRoundId());
 
@@ -48,29 +49,14 @@ public class ExperienceReservationService {
                         countRemainOfParticipant(experienceRound, requestDto.getReservationDate()),
                         requestDto);
 
-        //포인트 차감로직(결제)
         userService.payPoint(user, requestDto.getFinalPrice());
 
         ExperienceReservation experienceReservation = experienceReservationRepository.save(requestDto.toEntity(user, experienceRound));
 
         return ExpReservationResponseDto.toDto(experienceReservation);
-
     }
 
-
-    //해당 날짜, 해당 회차에 잔여인원 구하기
-    public int countRemainOfParticipant(ExperienceRound experienceRound, LocalDate localDate) {
-
-        int currentReservationParticipant = 0;
-        Optional<Integer> currentNum = experienceReservationRepository.countParticipantByExperienceRoundAndReservationDate(experienceRound, localDate);
-        if (currentNum.isPresent()){
-            currentReservationParticipant = currentNum.get();
-        }
-
-        return experienceRound.getMaxParticipant() - currentReservationParticipant;
-    }
-
-    public Page<ExpReservationSellerSummaryDto> showExpReservationSellerSummaryPage(Seller seller, Pageable pageable) {
+    public Page<ExpReservationSellerSummaryDto> getExpReservationSellerSummaryDtoPage(Seller seller, Pageable pageable) {
 
         Page<ExperienceReservation> page = experienceReservationRepository.findAllBySeller(seller, pageable);
 
@@ -79,36 +65,13 @@ public class ExperienceReservationService {
         return ExpReservationSellerSummaryDto.toPageDto(page);
     }
 
-    public Page<ExpReservationUserSummaryDto> showExpReservationUserSummaryPage(User user, Pageable pageable) {
+    public Page<ExpReservationUserSummaryDto> getExpReservationUserSummaryDtoPage(User user, Pageable pageable) {
 
         Page<ExperienceReservation> page = experienceReservationRepository.findAllByUser(user, pageable);
 
         experienceReservationValidator.pageValidate(page);
 
         return ExpReservationUserSummaryDto.toPageDto(page);
-
-    }
-
-    public Long approveExpReservation(Long expReservationId, boolean notApproveFlag) {
-        ExperienceReservation experienceReservation = findById(expReservationId);
-
-        //검증: 예약 대기 상태인지 확인
-        experienceReservationValidator.checkWaitingState(experienceReservation);
-
-        if (notApproveFlag) {
-            experienceReservation.notApproveReservation();
-            userService.payBackPoint(experienceReservation.getUser(), experienceReservation.getPrice(), CancelPolicy.NOT_CONFIRM_CANCEL_POLICY);
-        }
-        experienceReservation.approveReservation();
-
-        return experienceReservationRepository.save(experienceReservation).getId();
-
-    }
-
-    private ExperienceReservation findById(Long experienceReservationId) {
-
-        return experienceReservationRepository.findById(experienceReservationId)
-                .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_EXIST_EXPERIENCE_RESERVATION_BY_ID));
     }
 
     public ExpReservationSellerDetailDto getExpReservationSellerDetailDto(Long experienceReservationId) {
@@ -125,7 +88,22 @@ public class ExperienceReservationService {
         ExperienceReservation experienceReservation = findById(experienceReservationId);
 
         return ExpReservationUserDetailDto.toDto(experienceReservation);
+    }
 
+    public Long approveExpReservation(Long expReservationId, boolean notApproveFlag) {
+
+        ExperienceReservation experienceReservation = findById(expReservationId);
+
+        //검증: 예약 대기 상태인지 확인
+        experienceReservationValidator.checkWaitingState(experienceReservation);
+
+        if (notApproveFlag) {
+            experienceReservation.notApproveReservation();
+            userService.payBackPoint(experienceReservation.getUser(), experienceReservation.getPrice(), CancelPolicy.NOT_CONFIRM_CANCEL_POLICY);
+        }
+        experienceReservation.approveReservation();
+
+        return experienceReservationRepository.save(experienceReservation).getId();
     }
 
     public ExpReservationCancelResponseDto cancelExpReservation(User user, Long experienceReservationId) {
@@ -143,7 +121,21 @@ public class ExperienceReservationService {
         experienceReservationRepository.save(experienceReservation);
 
         return ExpReservationCancelResponseDto.toDto(experienceReservation, cancelPolicy);
+    }
 
+    //해당 날짜, 해당 회차에 잔여인원 구하기
+    public int countRemainOfParticipant(ExperienceRound experienceRound, LocalDate localDate) {
+
+        int currentReservationParticipant = 0;
+
+        Optional<Integer> currentNum =
+                experienceReservationRepository.countParticipantByExperienceRoundAndReservationDate(experienceRound, localDate);
+
+        if (currentNum.isPresent()){
+            currentReservationParticipant = currentNum.get();
+        }
+
+        return experienceRound.getMaxParticipant() - currentReservationParticipant;
     }
 
     private Long countDiffHourDate(LocalDateTime startAt) {
@@ -179,5 +171,11 @@ public class ExperienceReservationService {
             return CancelPolicy.IN_ONE_WEEK_CANCEL_POLICY;
         }
         return CancelPolicy.DEFAULT_CANCEL_POLICY;
+    }
+
+    private ExperienceReservation findById(Long experienceReservationId) {
+
+        return experienceReservationRepository.findById(experienceReservationId)
+                .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_EXIST_EXPERIENCE_RESERVATION_BY_ID));
     }
 }

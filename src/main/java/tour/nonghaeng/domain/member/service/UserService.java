@@ -24,6 +24,7 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
+
     public void join(UserJoinDto dto) throws Exception {
 
         //TODO : 인증과정에서의 예외처리
@@ -31,23 +32,23 @@ public class UserService {
 
         User joinUser = dto.toEntity();
         joinUser.passwordEncode(passwordEncoder);
-        userRepository.save(joinUser);
 
+        userRepository.save(joinUser);
     }
 
     public int payPoint(User user, int price) {
+
         user.payPoint(price);
+
         return userRepository.save(user).getPoint();
     }
 
     public int payBackPoint(User user, int price, CancelPolicy cancelPolicy) {
+
         int payBackPoint = user.payBackPoint(price, cancelPolicy);
+
         userRepository.save(user);
+
         return payBackPoint;
     }
-
-    public int checkMyRemainPoint(User user) {
-        return user.myRemainPoint();
-    }
-
 }

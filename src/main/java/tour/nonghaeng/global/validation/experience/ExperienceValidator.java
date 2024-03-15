@@ -21,10 +21,8 @@ public class ExperienceValidator {
     //TODO: 이 부분은 컨트롤러에서 서비스로 넘어가기전에 인가를 먼저 체크하기 때문에 이 부분만 controller 에서 사용됨.
     public void ownerValidate(Seller seller,Long experienceId) {
 
-        //검증 : 체험아이디에 해당하는 체험이 있는지
         expIdValidate(experienceId);
 
-        //검증 : 체험아이디를 통한 판매자와 API요청 판매자가 동일한지
         if (!seller.equals(experienceRepository.findSellerByExperienceId(experienceId).get())) {
             throw new ExperienceException(ExperienceErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
         }
@@ -37,7 +35,7 @@ public class ExperienceValidator {
         }
     }
 
-    public void expIdValidate(Long experienceId) {
+    private void expIdValidate(Long experienceId) {
         if (!experienceRepository.existsById(experienceId)) {
             throw new ExperienceException(ExperienceErrorCode.NO_EXIST_EXPERIENCE_BY_EXPERIENCE_ID_ERROR);
         }

@@ -11,4 +11,5 @@ import java.time.LocalDate;
 public interface RoomCloseDateRepository extends JpaRepository<RoomCloseDate,Long> {
 
     boolean existsByRoomAndCloseDate(Room room, LocalDate closeDate);
+
 }

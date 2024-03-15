@@ -17,6 +17,7 @@ public class UserController {
 
     private final UserService userService;
 
+
     @PostMapping("/join")
     public ResponseEntity<String> join(@RequestBody UserJoinDto userJoinDto) throws Exception {
 

@@ -15,8 +15,6 @@ import java.util.Optional;
 @Repository
 public interface ExperienceRepository extends JpaRepository<Experience,Long> {
 
-    Optional<Experience> findBySeller(Seller seller);
-
     @Query("SELECT e.seller FROM Experience e WHERE e.id = :experienceId")
     Optional<Seller> findSellerByExperienceId(@Param("experienceId") Long experienceId);
 

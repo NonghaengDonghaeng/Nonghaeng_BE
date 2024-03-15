@@ -15,10 +15,9 @@ import tour.nonghaeng.domain.experience.entity.ExperienceRound;
 import tour.nonghaeng.domain.experience.repo.ExperienceRepository;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.reservation.service.ExperienceReservationService;
-import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.domain.tour.service.TourService;
 import tour.nonghaeng.global.exception.ExperienceException;
-import tour.nonghaeng.global.validation.experience.ExperienceOpenDateValidator;
+import tour.nonghaeng.global.validation.experience.ExperienceCloseDateValidator;
 import tour.nonghaeng.global.validation.experience.ExperienceValidator;
 
 import java.time.LocalDate;
@@ -33,17 +32,27 @@ public class ExperienceService {
 
     private final ExperienceRepository experienceRepository;
 
-    private final ExperienceValidator experienceValidator;
-    private final ExperienceOpenDateValidator experienceOpenDateValidator;
-
+    private final TourService tourService;
     private final ExperienceRoundService experienceRoundService;
     private final ExperienceCloseDateService experienceCloseDateService;
     private final ExperienceReservationService experienceReservationService;
 
+    private final ExperienceValidator experienceValidator;
+    private final ExperienceCloseDateValidator experienceCloseDateValidator;
 
-    private final TourService tourService;
 
-    public Page<ExpSummaryDto> findAll(Pageable pageable) {
+    public Long createExperience(Seller seller, CreateExpDto dto) {
+
+        //TODO: dto 검증
+
+        Experience experience = dto.toEntity(seller, tourService.findBySeller(seller));
+
+        experienceRoundService.addRounds(experience,dto.expRoundDtoList());
+
+        return experienceRepository.save(experience).getId();
+    }
+
+    public Page<ExpSummaryDto> getExpSummaryDtoPage(Pageable pageable) {
 
         Page<Experience> expPage = experienceRepository.findAll(pageable);
 
@@ -54,20 +63,6 @@ public class ExperienceService {
         return dto;
     }
 
-    public Long add(Seller seller, CreateExpDto dto) {
-        //TODO: dto 검증
-
-        //체험 엔티티 생성
-        Tour tour = tourService.findBySeller(seller);
-        Experience experience = dto.toEntity(seller, tour);
-
-        //체험회차 엔티티 생성,저장 후 체험엔티티에 연결
-        experienceRoundService.addRounds(experience,dto.expRoundDtoList());
-
-        return experienceRepository.save(experience).getId();
-
-    }
-
     public Long addOnlyCloseDates(Long experienceId, List<AddExpCloseDateDto> dtoList) {
 
         Experience experience = findById(experienceId);
@@ -75,24 +70,22 @@ public class ExperienceService {
         experienceCloseDateService.addCloseDates(experience, dtoList);
 
         return experienceRepository.save(experience).getId();
-
     }
 
     public void removeOnlyCloseDates(Long experienceId, List<AddExpCloseDateDto> dtoList) {
 
         Experience experience = findById(experienceId);
 
-        //삭제하는 날짜 검증
-        experienceOpenDateValidator.removeDtoValidate(experience,dtoList);
+        experienceCloseDateValidator.removeDtoListValidate(experience,dtoList);
 
         for (AddExpCloseDateDto addExpCloseDateDto : dtoList) {
             ExperienceCloseDate experienceCloseDate = experienceCloseDateService.findByExperienceAndCloseDates(experience, addExpCloseDateDto.closeDate());
             experience.removeCloseDate(experienceCloseDate);
         }
         experienceRepository.save(experience);
-
     }
 
+    //TODO: experienceRepository 에 다시 저장하지 않아도 이미 반영된다.
     public Long addOnlyRounds(Long experienceId, List<AddExpRoundDto> dtoList) {
 
         Experience experience = findById(experienceId);
@@ -102,22 +95,11 @@ public class ExperienceService {
         return experienceRepository.save(experience).getId();
     }
 
-    //TODO: 이미 컨트롤러에서 체험이 존재하는지와 요청 판매자의 소유인지를 확인하는 검증이 들어가기 때문에 여기서 또 할 필요가 없어서 뺄지 말지 고민
-    public Experience findById(Long experienceId) {
-        return experienceRepository.findById(experienceId)
-                .orElseThrow(() -> ExperienceException.EXCEPTION);
-    }
-
-    public Experience findBySeller(Seller seller) {
-        return experienceRepository.findBySeller(seller)
-                .orElseThrow(() -> ExperienceException.EXCEPTION);
-    }
-
-    public ExpRoundInfoDto getExpRoundInfo(Long experienceId, LocalDate dateParameter) {
+    public ExpRoundInfoDto getExpRoundInfoDto(Long experienceId, LocalDate dateParameter) {
 
         Experience experience = findById(experienceId);
 
-        experienceOpenDateValidator.dateParameterValidate(experience,dateParameter);
+        experienceCloseDateValidator.isOpenDateParameterValidate(experience,dateParameter);
 
         ExpRoundInfoDto dto = ExpRoundInfoDto.builder()
                 .experienceId(experience.getId())
@@ -135,16 +117,22 @@ public class ExperienceService {
 
     public ExpDetailDto getExpDetailDto(Long experienceId) {
 
-
         return ExpDetailDto.toDto(findById(experienceId));
+    }
 
+    private Experience findById(Long experienceId) {
+
+        return experienceRepository.findById(experienceId)
+                .orElseThrow(() -> ExperienceException.EXCEPTION);
     }
 
     //TODO: 스케줄 매일마다 가장 오래된 날짜 오늘과 확인후 삭제작업, 시간대 및 성능적 코드개선 필요
     @Async
     @Scheduled(cron = "0 0 0 * * *")
     public void autoCloseDatesDeleted() {
+
         log.info("Scheduler 실행: autoCloseDatesDeleted");
+
         List<Experience> experiences = experienceRepository.findAll();
         for (Experience exp : experiences) {
             checkOldestCloseDatePastOrNot(exp);
@@ -152,6 +140,7 @@ public class ExperienceService {
     }
 
     private void checkOldestCloseDatePastOrNot(Experience experience) {
+
         Optional<LocalDate> oldestOpenDate = experienceRepository.findOldestCloseDate(experience);
 
         oldestOpenDate.ifPresent(localDate -> {

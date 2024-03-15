@@ -7,7 +7,6 @@ import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.room.entity.Room;
 import tour.nonghaeng.domain.tour.entity.Tour;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -19,10 +18,9 @@ public interface RoomRepository extends JpaRepository<Room,Long> {
     @Query("SELECT MAX(CASE when r.pricePeak > r.priceHoliday then r.pricePeak else r.priceHoliday END) FROM Room r where r.tour = :tour")
     Integer findMaxPriceByTour(Tour tour);
 
-    List<Room> findByTour(Tour tour);
+    @Query("SELECT r.seller FROM Room r where r.id = :roomId")
+    Optional<Seller> findSellerByRoomId(Long roomId);
 
     boolean existsById(Long roomId);
 
-    @Query("SELECT r.seller FROM Room r where r.id = :roomId")
-    Optional<Seller> findSellerByRoomId(Long roomId);
 }

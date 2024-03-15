@@ -17,6 +17,7 @@ public class SellerController {
 
     private final SellerService sellerService;
 
+
     @PostMapping("/seller-join")
     public ResponseEntity<String> join(@RequestBody SellerJoinDto sellerJoinDto) throws Exception {
 

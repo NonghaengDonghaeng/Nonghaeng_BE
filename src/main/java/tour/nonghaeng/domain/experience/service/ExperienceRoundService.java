@@ -21,10 +21,13 @@ import java.util.List;
 public class ExperienceRoundService {
 
     private final ExperienceRoundRepository experienceRoundRepository;
+
     private final ExperienceRoundValidator experienceRoundValidator;
 
-    public void addRounds(Experience experience, List<AddExpRoundDto> dtos) {
-        for (AddExpRoundDto dto : dtos) {
+
+    public void addRounds(Experience experience, List<AddExpRoundDto> dtoList) {
+
+        for (AddExpRoundDto dto : dtoList) {
             experience.addExperienceRound(createAndSaveRound(experience,dto));
         }
     }
@@ -38,6 +41,7 @@ public class ExperienceRoundService {
     }
 
     public ExperienceRound findById(Long experienceRoundId) {
+
         return experienceRoundRepository.findById(experienceRoundId)
                 .orElseThrow(() -> new ExperienceException(ExperienceErrorCode.NO_EXIST_EXPERIENCE_ROUND_BY_ID));
     }

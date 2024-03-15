@@ -14,8 +14,8 @@ public interface UserRepository extends JpaRepository<User,Long> {
     @Query("select new tour.nonghaeng.global.login.dto.TempMember(u.number, u.password, u.role) from User u where u.number = :number")
     Optional<TempMember> findByTempUserByNumber(String number);
 
-
     Optional<User> findByNumber(String number);
 
     Optional<User> findByRefreshToken(String refreshToken);
+
 }

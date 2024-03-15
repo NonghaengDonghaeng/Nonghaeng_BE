@@ -16,9 +16,12 @@ import tour.nonghaeng.domain.member.repo.SellerRepository;
 public class SellerService {
 
     private final SellerRepository sellerRepository;
+
     private final PasswordEncoder passwordEncoder;
 
+
     public void join(SellerJoinDto dto) throws Exception {
+
         //TODO: 인증과정에서의 예외처리
 
         if (!dto.password().equals(dto.checkPassword())) {
@@ -28,6 +31,5 @@ public class SellerService {
         Seller joinSeller = dto.toEntity();
         joinSeller.passwordEncode(passwordEncoder);
         sellerRepository.save(joinSeller);
-
     }
 }

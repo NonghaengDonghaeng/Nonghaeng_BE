@@ -17,7 +17,9 @@ import java.util.List;
 public class RoomCloseDateService {
 
     private final RoomCloseDateRepository roomCloseDateRepository;
+
     private final RoomCloseDateValidator roomCloseDateValidator;
+
 
     public void addCloseDates(Room room, List<AddRoomCloseDateDto> roomCloseDateDtos) {
 
@@ -29,10 +31,9 @@ public class RoomCloseDateService {
     }
 
     private RoomCloseDate createAndSave(Room room, AddRoomCloseDateDto roomCloseDateDto) {
+
         roomCloseDateValidator.createAndSaveValidate(room, roomCloseDateDto);
 
-        RoomCloseDate closeDate = roomCloseDateDto.toEntity(room);
-        return roomCloseDateRepository.save(closeDate);
-
+        return roomCloseDateRepository.save(roomCloseDateDto.toEntity(room));
     }
 }

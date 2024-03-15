@@ -20,9 +20,6 @@ public interface ExperienceReservationRepository extends JpaRepository<Experienc
     @Query("SELECT sum (er.numOfParticipant) from ExperienceReservation er where er.experienceRound = :experienceRound and er.reservationDate = :reservationDate and er.stateType != 'NOT_CONFIRM_RESERVATION' and er.stateType != 'CANCEL_RESERVATION'")
     Optional<Integer> countParticipantByExperienceRoundAndReservationDate(@Param("experienceRound")ExperienceRound experienceRound, @Param("reservationDate")LocalDate reservationDate);
 
-    boolean existsById(Long experienceReservationId);
-
-
     @Query("SELECT er from ExperienceReservation er where er.seller = :seller and er.stateType != 'CANCEL_RESERVATION'")
     Page<ExperienceReservation> findAllBySeller(@Param("seller") Seller seller, Pageable pageable);
 
@@ -34,4 +31,7 @@ public interface ExperienceReservationRepository extends JpaRepository<Experienc
 
     @Query("SELECT er.user from ExperienceReservation er where er.id = :id")
     Optional<User> findUserById(@Param("id") Long experienceReservationId);
+
+    boolean existsById(Long experienceReservationId);
+
 }

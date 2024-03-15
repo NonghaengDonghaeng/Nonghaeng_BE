@@ -17,4 +17,5 @@ public interface SellerRepository extends JpaRepository<Seller,Long> {
     Optional<Seller> findByUsername(String username);
 
     Optional<Seller> findByRefreshToken(String refreshToken);
+
 }

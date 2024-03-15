@@ -10,7 +10,7 @@ import tour.nonghaeng.domain.experience.entity.ExperienceCloseDate;
 import tour.nonghaeng.domain.experience.repo.ExperienceCloseDateRepository;
 import tour.nonghaeng.global.exception.ExperienceException;
 import tour.nonghaeng.global.exception.code.ExperienceErrorCode;
-import tour.nonghaeng.global.validation.experience.ExperienceOpenDateValidator;
+import tour.nonghaeng.global.validation.experience.ExperienceCloseDateValidator;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,11 +22,13 @@ import java.util.List;
 public class ExperienceCloseDateService {
 
     private final ExperienceCloseDateRepository experienceCloseDateRepository;
-    private final ExperienceOpenDateValidator experienceOpenDateValidator;
+
+    private final ExperienceCloseDateValidator experienceCloseDateValidator;
+
 
     public void addCloseDates(Experience experience, List<AddExpCloseDateDto> closeDateDtoList) {
 
-        experienceOpenDateValidator.addCloseDateDtoValidate(closeDateDtoList);
+        experienceCloseDateValidator.defaultCloseDateDtoValidate(closeDateDtoList);
 
         for (AddExpCloseDateDto closeDateDto : closeDateDtoList) {
             experience.addCloseDate(createAndSave(experience,closeDateDto));
@@ -37,14 +39,14 @@ public class ExperienceCloseDateService {
 
         return experienceCloseDateRepository.findByExperienceAndCloseDate(experience, closeDate).
                 orElseThrow(() -> new ExperienceException(ExperienceErrorCode.NOT_EXIST_EXPERIENCE_CLOSE_DATE_ERROR));
-
     }
 
     private ExperienceCloseDate createAndSave(Experience experience, AddExpCloseDateDto closeDateDto) {
 
-        experienceOpenDateValidator.createAndSaveValidate(experience,closeDateDto);
+        experienceCloseDateValidator.createAndSaveValidate(experience,closeDateDto);
 
         ExperienceCloseDate closeDateEntity = closeDateDto.toEntity(experience);
+
         return experienceCloseDateRepository.save(closeDateEntity);
     }
 

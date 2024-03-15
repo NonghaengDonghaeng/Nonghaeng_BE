@@ -13,6 +13,8 @@ import tour.nonghaeng.domain.tour.dto.TourSummaryDto;
 import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.domain.tour.repo.TourRepository;
 import tour.nonghaeng.global.exception.SellerException;
+import tour.nonghaeng.global.exception.TourException;
+import tour.nonghaeng.global.exception.code.TourErrorCode;
 import tour.nonghaeng.global.validation.tour.TourValidator;
 
 @Service
@@ -22,24 +24,29 @@ import tour.nonghaeng.global.validation.tour.TourValidator;
 public class TourService {
 
     private final TourRepository tourRepository;
+
     private final TourValidator tourValidator;
 
-    public Long create(Seller seller, CreateTourDto dto) {
+
+    public Long createTour(Seller seller, CreateTourDto dto) {
 
         tourValidator.createValidate(seller,dto);
 
         Tour createdTour = dto.toEntity(seller);
+
         return tourRepository.save(createdTour).getId();
     }
 
-    public Page<Tour> findAll(Pageable pageable) {
+    private Page<Tour> getTourPage(Pageable pageable) {
+
         Page<Tour> tourPage = tourRepository.findAll(pageable);
+
         return tourPage;
     }
 
-    public Page<TourSummaryDto> getPageTourSummaryDto(Pageable pageable) {
+    public Page<TourSummaryDto> getTourSummaryDtoPage(Pageable pageable) {
 
-        Page<Tour> tourPages = findAll(pageable);
+        Page<Tour> tourPages = getTourPage(pageable);
 
         tourValidator.pageValidate(tourPages);
 
@@ -49,7 +56,8 @@ public class TourService {
 
     }
 
-    public Page<Tour> findAllTourWithRoom(Pageable pageable) {
+    public Page<Tour> findAllTourPageWithRoom(Pageable pageable) {
+
         return tourRepository.findAllByRoomsIsNotEmpty(pageable);
     }
 
@@ -59,8 +67,9 @@ public class TourService {
     }
 
     public Tour findById(Long tourId) {
-        tourValidator.tourIdValidate(tourId);
-        return tourRepository.findById(tourId).get();
+
+        return tourRepository.findById(tourId)
+                .orElseThrow(() -> new TourException(TourErrorCode.WRONG_TOUR_ID_ERROR));
     }
 
     public Tour findBySeller(Seller seller) {

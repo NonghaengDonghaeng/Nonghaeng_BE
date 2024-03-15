@@ -28,26 +28,25 @@ public class RoomService {
 
     private final RoomRepository roomRepository;
 
+    private final RoomCloseDateService roomCloseDateService;
+    private final TourService tourService;
+
     private final RoomValidator roomValidator;
     private final TourValidator tourValidator;
 
 
-    private final TourService tourService;
-    private final RoomCloseDateService roomCloseDateService;
-
-
     public Long createAndAddRoom(Seller seller, CreateRoomDto dto) {
-        //검증
 
-        Tour tour = tourService.findBySeller(seller);
-        Room room = dto.toEntity(seller, tour);
+        //TODO: dto 검증
+
+        Room room = dto.toEntity(seller, tourService.findBySeller(seller));
 
         return roomRepository.save(room).getId();
     }
 
-    public Page<RoomTourSummaryDto> showTourRoomSummary(Pageable pageable) {
+    public Page<RoomTourSummaryDto> getRoomTourSummaryDtoPage(Pageable pageable) {
 
-        Page<Tour> tourPage = tourService.findAllTourWithRoom(pageable);
+        Page<Tour> tourPage = tourService.findAllTourPageWithRoom(pageable);
 
         tourValidator.pageValidate(tourPage);
 
@@ -55,31 +54,25 @@ public class RoomService {
                 RoomTourSummaryDto.toDto(tour, findMinPriceByTour(tour), findMaxPriceByTour(tour)));
 
         return dto;
-
-
     }
 
-    public List<RoomSummaryDto> showRoomSummaryList(Long tourId, LocalDate date, int numOfRoom) {
+    public List<RoomSummaryDto> getRoomSummaryDtoList(Long tourId, LocalDate date, int numOfRoom) {
 
         Tour tour = tourService.findById(tourId);
-        List<Room> rooms = tour.getRooms();
 
-        roomValidator.showRoomSummaryRequestParamValidate(rooms,date,numOfRoom);
+        roomValidator.showRoomSummaryRequestParamValidate(tour.getRooms(),date,numOfRoom);
 
-        List<RoomSummaryDto> dtoList = rooms.stream().map(room -> RoomSummaryDto.toDto(room)).toList();
+        List<RoomSummaryDto> dtoList = tour.getRooms().stream()
+                .map(room -> RoomSummaryDto.toDto(room)).toList();
 
-        //예약에서 날짜와 roomId를 통해 잔여 객실수를 기존 객실수에서 빼기
+        //TODO: 예약에서 날짜와 roomId를 통해 잔여 객실수를 기존 객실수에서 빼기
 
-
-        //그 이후 객실수와 필요한 객실수 비교 후 조건에 안맞으면 리스트 제외
         List<RoomSummaryDto> filterList = dtoList.stream().filter(roomSummaryDto -> roomSummaryDto.getCurrentNumOfRoom() >= numOfRoom)
                 .toList();
 
-        //그 이후 조건에 충족하는 방이 있는지 한번 더 검증
         roomValidator.roomConditionValidate(filterList);
 
         return filterList;
-
     }
 
     private int findMinPriceByTour(Tour tour) {
@@ -91,16 +84,16 @@ public class RoomService {
     }
 
     public RoomTourDetailDto getRoomTourDetailDto(Long tourId) {
-        Tour tour = tourService.findById(tourId);
 
-        RoomTourDetailDto dto = RoomTourDetailDto.toDto(tour);
+        RoomTourDetailDto dto = RoomTourDetailDto.toDto(tourService.findById(tourId));
 
-        dto.addRoomSummaryDtoList(showRoomSummaryList(tourId, LocalDate.now(), 1));
+        dto.addRoomSummaryDtoList(getRoomSummaryDtoList(tourId, LocalDate.now(), 1));
 
         return dto;
     }
 
     public RoomDetailDto getRoomDetailDto(Long roomId,LocalDate requestDate) {
+
         Room room = findById(roomId);
 
         roomValidator.getRoomDetailDtoValidate(room, requestDate);
@@ -112,7 +105,6 @@ public class RoomService {
         dto.setCurrentNumOfRoom(reservedNumOfRoom);
 
         return dto;
-
     }
 
     public Long addOnlyCloseDates(Long roomId, List<AddRoomCloseDateDto> dtoList) {
@@ -122,12 +114,10 @@ public class RoomService {
         roomCloseDateService.addCloseDates(room, dtoList);
 
         return roomRepository.save(room).getId();
-
-
-
     }
 
-    public Room findById(Long roomId) {
+    private Room findById(Long roomId) {
+
         return roomRepository.findById(roomId)
                 .orElseThrow(() -> new RoomException(RoomErrorCode.NO_EXIST_ROOM_BY_ROOM_ID_ERROR));
     }

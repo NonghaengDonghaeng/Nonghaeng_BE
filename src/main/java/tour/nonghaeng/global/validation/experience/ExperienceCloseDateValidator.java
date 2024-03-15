@@ -13,26 +13,25 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class ExperienceOpenDateValidator {
+public class ExperienceCloseDateValidator {
 
     private final ExperienceCloseDateRepository experienceCloseDateRepository;
 
-    public void addCloseDateDtoValidate(List<AddExpCloseDateDto> addExpCloseDateDtos) {
+    public void defaultCloseDateDtoValidate(List<AddExpCloseDateDto> dtoList) {
 
         LocalDate today = LocalDate.now();
-        List<LocalDate> closeDateList = addExpCloseDateDtos.stream().map(dto -> dto.closeDate()).toList();
 
         //검증: dto 내 과거날짜가 존재하는지
-        if (addExpCloseDateDtos.stream()
+        if (dtoList.stream()
                 .anyMatch(dto -> dto.closeDate().isBefore(today))) {
             throw new ExperienceException(ExperienceErrorCode.PAST_EXPERIENCE_CLOSE_DATE_ADD_ERROR);
         }
-
         //검증: dto 내 중복된 날짜가 존재하는지
-        if (addExpCloseDateDtos.size() != addExpCloseDateDtos.stream().distinct().count()) {
+        if (dtoList.size() != dtoList.stream().distinct().count()) {
             throw new ExperienceException(ExperienceErrorCode.DUPLICATE_EXPERIENCE_CLOSE_DATE_ADD_ERROR);
         }
     }
+
 
     public void createAndSaveValidate(Experience experience, AddExpCloseDateDto addExpCloseDateDto) {
 
@@ -48,25 +47,16 @@ public class ExperienceOpenDateValidator {
 
     }
 
-    public void removeDtoValidate(Experience experience, List<AddExpCloseDateDto> dtoList) {
+    public void removeDtoListValidate(Experience experience, List<AddExpCloseDateDto> dtoList) {
 
-        //검증: dto 내 과거날짜가 존재하는지
-        if (dtoList.stream()
-                .anyMatch(dto -> dto.closeDate().isBefore(LocalDate.now()))) {
-            throw new ExperienceException(ExperienceErrorCode.PAST_EXPERIENCE_CLOSE_DATE_ADD_ERROR);
-        }
-
-        //검증: dto 내 중복된 날짜가 존재하는지
-        if (dtoList.size() != dtoList.stream().distinct().count()) {
-            throw new ExperienceException(ExperienceErrorCode.DUPLICATE_EXPERIENCE_CLOSE_DATE_ADD_ERROR);
-        }
+        defaultCloseDateDtoValidate(dtoList);
 
         for (AddExpCloseDateDto dto : dtoList) {
             removeCloseDateParamValidate(experience, dto.closeDate());
         }
     }
 
-    public void removeCloseDateParamValidate(Experience experience, LocalDate dateParam) {
+    private void removeCloseDateParamValidate(Experience experience, LocalDate dateParam) {
 
         //운영기간에 속하는지
         if (dateParam.isBefore(experience.getStartDate()) || dateParam.isAfter(experience.getEndDate())) {
@@ -79,7 +69,7 @@ public class ExperienceOpenDateValidator {
     }
 
 
-    public void dateParameterValidate(Experience experience, LocalDate dateParam) {
+    public void isOpenDateParameterValidate(Experience experience, LocalDate dateParam) {
 
         //오늘 이후인지
         if (dateParam.isBefore(LocalDate.now())) {

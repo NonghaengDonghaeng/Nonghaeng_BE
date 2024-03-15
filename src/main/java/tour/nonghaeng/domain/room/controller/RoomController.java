@@ -31,8 +31,9 @@ public class RoomController {
 
     //관리자 API: 숙소 등록하기
     @PostMapping("/seller/add")
-    public ResponseEntity<String> addRoom(Authentication authentication,
+    public ResponseEntity<String> create(Authentication authentication,
                                           @RequestBody CreateRoomDto createRoomDto) {
+
         Seller seller = authService.toSellerEntity(authentication);
 
         Long roomId = roomService.createAndAddRoom(seller, createRoomDto);
@@ -44,7 +45,7 @@ public class RoomController {
     @GetMapping
     public ResponseEntity<Page<RoomTourSummaryDto>> showRoomTourSummaryPage(@PageableDefault(size = 5) Pageable pageable) {
 
-        Page<RoomTourSummaryDto> dto = roomService.showTourRoomSummary(pageable);
+        Page<RoomTourSummaryDto> dto = roomService.getRoomTourSummaryDtoPage(pageable);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
@@ -54,7 +55,8 @@ public class RoomController {
     public ResponseEntity<List<RoomSummaryDto>> showRoomSummaryList(@PathVariable Long tourId,
                                                                     @RequestParam(value = "date", defaultValue = "#{T(java.time.LocalDate).now()}") LocalDate date,
                                                                     @RequestParam(value = "num", defaultValue = "1") int num) {
-        List<RoomSummaryDto> dtoList = roomService.showRoomSummaryList(tourId, date, num);
+
+        List<RoomSummaryDto> dtoList = roomService.getRoomSummaryDtoList(tourId, date, num);
 
         return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
@@ -72,10 +74,10 @@ public class RoomController {
     @GetMapping("/{roomId}")
     public ResponseEntity<RoomDetailDto> showRoomDetail(@PathVariable Long roomId,
                                                         @RequestParam(value = "date", defaultValue = "#{T(java.time.LocalDate).now()}") LocalDate requestDate) {
+
         RoomDetailDto roomDetailDto = roomService.getRoomDetailDto(roomId, requestDate);
 
         return new ResponseEntity<>(roomDetailDto, HttpStatus.OK);
-
     }
 
     //관리자 API: 숙소 닫는 날짜 추가
@@ -83,6 +85,7 @@ public class RoomController {
     public ResponseEntity<String> addCloseDate(Authentication authentication,
                                                @PathVariable Long roomId,
                                                @RequestBody List<AddRoomCloseDateDto> addRoomCloseDateDtos) {
+
         roomValidator.ownerValidate(authService.toSellerEntity(authentication),roomId);
 
         roomService.addOnlyCloseDates(roomId, addRoomCloseDateDtos);
