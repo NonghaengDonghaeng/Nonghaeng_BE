@@ -70,13 +70,23 @@ public class ExperienceReservationService {
         return experienceRound.getMaxParticipant() - currentReservationParticipant;
     }
 
-    public Page<ExpReservationSellerSummaryDto> showExpReservationSummaryList(Seller seller, Pageable pageable) {
+    public Page<ExpReservationSellerSummaryDto> showExpReservationSellerSummaryPage(Seller seller, Pageable pageable) {
 
         Page<ExperienceReservation> page = experienceReservationRepository.findAllBySeller(seller, pageable);
 
         experienceReservationValidator.pageValidate(page);
 
         return ExpReservationSellerSummaryDto.toPageDto(page);
+    }
+
+    public Page<ExpReservationUserSummaryDto> showExpReservationUserSummaryPage(User user, Pageable pageable) {
+
+        Page<ExperienceReservation> page = experienceReservationRepository.findAllByUser(user, pageable);
+
+        experienceReservationValidator.pageValidate(page);
+
+        return ExpReservationUserSummaryDto.toPageDto(page);
+
     }
 
     public Long approveExpReservation(Long expReservationId, boolean notApproveFlag) {
@@ -108,6 +118,14 @@ public class ExperienceReservationService {
         int remainOfParticipant = countRemainOfParticipant(experienceReservation.getExperienceRound(), experienceReservation.getReservationDate());
 
         return ExpReservationSellerDetailDto.toDto(experienceReservation,remainOfParticipant);
+    }
+
+    public ExpReservationUserDetailDto getExpReservationUserDetailDto(Long experienceReservationId) {
+
+        ExperienceReservation experienceReservation = findById(experienceReservationId);
+
+        return ExpReservationUserDetailDto.toDto(experienceReservation);
+
     }
 
     public ExpReservationCancelResponseDto cancelExpReservation(User user, Long experienceReservationId) {

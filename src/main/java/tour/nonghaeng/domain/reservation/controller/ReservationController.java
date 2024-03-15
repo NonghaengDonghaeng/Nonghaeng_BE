@@ -40,19 +40,19 @@ public class ReservationController {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
-    //관리자 API : 관리자용 내 예약보기
+    //관리자 API : 관리자용 내 예약요약 보기
     @GetMapping("/seller/experience/my-reservation")
-    public ResponseEntity<Page<ExpReservationSellerSummaryDto>> showMyReservation(Authentication authentication, @PageableDefault(size = 20) Pageable pageable) {
-
+    public ResponseEntity<Page<ExpReservationSellerSummaryDto>> showMyExpReservationSeller(Authentication authentication,
+                                                                                  @PageableDefault(size = 20) Pageable pageable) {
         Seller seller = authService.toSellerEntity(authentication);
 
-        Page<ExpReservationSellerSummaryDto> dtoPage = experienceReservationService.showExpReservationSummaryList(seller, pageable);
-
+        Page<ExpReservationSellerSummaryDto> dtoPage =
+                experienceReservationService.showExpReservationSellerSummaryPage(seller, pageable);
 
         return new ResponseEntity<>(dtoPage, HttpStatus.OK);
     }
 
-    //관리자 API : 예약대기를 예약 승인하기, 혹은 미승인하기(파라미터로 not = true인 경우 미승인)
+    //관리자 API : 예약대기를 예약 승인하기, 혹은 미승인하기(파라미터로 not = true 인 경우 미승인)
     //승인을 다시 미승인인 경우는 아직 배제
     @GetMapping("/seller/experience/approve/{reservationId}")
     public ResponseEntity<String> approveExpReservation(Authentication authentication,
@@ -72,7 +72,7 @@ public class ReservationController {
 
     //관리자 API : 체험예약에 대한 상세정보 보기
     @GetMapping("/seller/experience/{reservationId}")
-    public ResponseEntity<ExpReservationSellerDetailDto> showExpReservationDetailDto(Authentication authentication,
+    public ResponseEntity<ExpReservationSellerDetailDto> showExpReservationSellerDetailDto(Authentication authentication,
                                                                                      @PathVariable("reservationId") Long reservationId) {
         Seller seller = authService.toSellerEntity(authentication);
 
@@ -82,23 +82,44 @@ public class ReservationController {
     }
 
     //소비자 내 체험예약 리스트 보기
+    @GetMapping("/experience/my-reservation")
+    public ResponseEntity<Page<ExpReservationUserSummaryDto>> showMyExpReservationUser(Authentication authentication,
+                                                           @PageableDefault(size = 20) Pageable pageable) {
+        User user = authService.toUserEntity(authentication);
+
+        Page<ExpReservationUserSummaryDto> dto =
+                experienceReservationService.showExpReservationUserSummaryPage(user, pageable);
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
 
     //소비자 내 체험예약 상세보기
+    @GetMapping("/experience/{reservationId}")
+    public ResponseEntity<ExpReservationUserDetailDto> showExpReservationUserDetailDto(Authentication authentication,
+                                                                  @PathVariable("reservationId") Long reservationID) {
+        User user = authService.toUserEntity(authentication);
+
+        experienceReservationValidator.ownerUserValidate(user,reservationID);
+
+        return new ResponseEntity<>(experienceReservationService.getExpReservationUserDetailDto(reservationID), HttpStatus.OK);
+    }
+
 
     //소비자 내 체험예약 취소하기
     @GetMapping("/experience/cancel/{reservationId}")
     public ResponseEntity<ExpReservationCancelResponseDto> cancelExpReservation(Authentication authentication,
-                                                       @PathVariable("reservationId") Long experienceReservationId) {
+                                                                                @PathVariable("reservationId") Long experienceReservationId) {
+
         User user = authService.toUserEntity(authentication);
 
         experienceReservationValidator.ownerUserValidate(user, experienceReservationId);
 
-        ExpReservationCancelResponseDto dto = experienceReservationService.cancelExpReservation(user, experienceReservationId);
+        ExpReservationCancelResponseDto dto =
+                experienceReservationService.cancelExpReservation(user, experienceReservationId);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
 
     }
 
-    //TODO: 소비자가 예약취소, 내 예약보기 등
 }
 
