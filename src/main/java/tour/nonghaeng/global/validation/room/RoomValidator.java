@@ -19,7 +19,9 @@ public class RoomValidator {
 
     private final RoomRepository roomRepository;
 
+
     public void ownerValidate(Seller seller, Long roomId) {
+
         roomIdValidate(roomId);
 
         if (!seller.equals(roomRepository.findSellerByRoomId(roomId).get())) {
@@ -27,30 +29,29 @@ public class RoomValidator {
         }
     }
 
-    public void pageValidate(Page<Room> roomPage) {
-        if (roomPage.isEmpty()) {
-            throw new RoomException(RoomErrorCode.NO_TOUR_ROOM_CONTENT_AT_CURRENT_PAGE_ERROR);
-        }
-    }
+    public void roomConditionValidate(List<RoomSummaryDto> dtoList) {
 
-    public void roomConditionValidate(List<RoomSummaryDto> roomSummaryDtos) {
-        //방이 비어있는지 검사
-        if (roomSummaryDtos.isEmpty()) {
+        if (dtoList.isEmpty()) {
             throw new RoomException(RoomErrorCode.NO_ROOM_AT_THIS_CONDITION);
         }
-        //날짜
+        //날짜검사
     }
 
     public void showRoomSummaryRequestParamValidate(List<Room> rooms, LocalDate requestDate, int numOfRoom) {
+
         isEmptyRoomValidate(rooms);
+
         pastDateValidate(requestDate);
+
         for (Room room : rooms) {
             openDateValidate(room,requestDate);
         }
     }
 
     public void getRoomDetailDtoValidate(Room room, LocalDate requestDate) {
+
         pastDateValidate(requestDate);
+
         openDateValidate(room,requestDate);
     }
 
@@ -81,5 +82,10 @@ public class RoomValidator {
         }
     }
 
+    public void pageValidate(Page<Room> roomPage) {
 
+        if (roomPage.isEmpty()) {
+            throw new RoomException(RoomErrorCode.NO_TOUR_ROOM_CONTENT_AT_CURRENT_PAGE_ERROR);
+        }
+    }
 }

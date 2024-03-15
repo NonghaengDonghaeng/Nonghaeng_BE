@@ -48,10 +48,10 @@ public class ExperienceReservationValidator {
         createExpReservationDtoValidate(experienceRound,currentRemainParticipant,dto);
 
         checkPointValidate(user, dto);
-
     }
 
     public void checkCancelState(ExperienceReservation experienceReservation) {
+
         ReservationStateType stateType = experienceReservation.getStateType();
         if (stateType.equals(ReservationStateType.CANCEL_RESERVATION)
                 || stateType.equals(ReservationStateType.COMPLETE_RESERVATION)) {
@@ -73,28 +73,31 @@ public class ExperienceReservationValidator {
         if (currentRemainParticipant < dto.getNumOfParticipant()) {
             throw new ReservationException(ReservationErrorCode.EXCEEDED_PARTICIPANT);
         }
-
     }
 
     public void checkWaitingState(ExperienceReservation experienceReservation) {
+
         if (!experienceReservation.getStateType().equals(ReservationStateType.WAITING_RESERVATION)) {
             throw new ReservationException(ReservationErrorCode.NOT_WAITING_RESERVATION_STATE);
         }
     }
 
     public void checkPointValidate(User user, CreateExpReservationDto dto) {
+
         if (user.getPoint() < dto.getFinalPrice()) {
             throw new ReservationException(ReservationErrorCode.NOT_ENOUGH_POINT_ERROR);
         }
     }
 
     public void pageValidate(Page<ExperienceReservation> page) {
+
         if (page.isEmpty()) {
             throw new ReservationException(ReservationErrorCode.NO_RESERVATION_CONTENT_AT_CURRENT_PAGE_ERROR);
         }
     }
 
     public void idValidate(Long experienceReservationId) {
+
         if (!experienceReservationRepository.existsById(experienceReservationId)) {
             throw new ReservationException(ReservationErrorCode.NO_EXIST_EXPERIENCE_RESERVATION_BY_ID);
         }

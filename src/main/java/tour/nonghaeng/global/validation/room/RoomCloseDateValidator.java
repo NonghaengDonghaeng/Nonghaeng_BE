@@ -17,7 +17,9 @@ public class RoomCloseDateValidator {
 
     private final RoomCloseDateRepository roomCloseDateRepository;
 
+
     public void addCLoseDateDtoValidate(List<AddRoomCloseDateDto> addRoomCloseDateDtos) {
+
         LocalDate today = LocalDate.now();
 
         if (addRoomCloseDateDtos.stream()
@@ -31,6 +33,7 @@ public class RoomCloseDateValidator {
     }
 
     public void createAndSaveValidate(Room room, AddRoomCloseDateDto addRoomCloseDateDto) {
+
         LocalDate closeDate = addRoomCloseDateDto.getCloseDate();
 
         if (isExistCloseDateValidate(room, closeDate)) {
@@ -39,6 +42,7 @@ public class RoomCloseDateValidator {
     }
 
     private boolean isExistCloseDateValidate(Room room, LocalDate date) {
+
         if (roomCloseDateRepository.existsByRoomAndCloseDate(room, date)) {
             return true;
         }

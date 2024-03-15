@@ -17,6 +17,7 @@ public class ExperienceCloseDateValidator {
 
     private final ExperienceCloseDateRepository experienceCloseDateRepository;
 
+
     public void defaultCloseDateDtoValidate(List<AddExpCloseDateDto> dtoList) {
 
         LocalDate today = LocalDate.now();
@@ -32,7 +33,6 @@ public class ExperienceCloseDateValidator {
         }
     }
 
-
     public void createAndSaveValidate(Experience experience, AddExpCloseDateDto addExpCloseDateDto) {
 
         LocalDate shouldValidateDate = addExpCloseDateDto.closeDate();
@@ -44,7 +44,6 @@ public class ExperienceCloseDateValidator {
         if (shouldValidateDate.isBefore(experience.getStartDate()) || shouldValidateDate.isAfter(experience.getEndDate())) {
             throw new ExperienceException(ExperienceErrorCode.ALREADY_NOT_RUNNING_DATE_ADD_ERROR);
         }
-
     }
 
     public void removeDtoListValidate(Experience experience, List<AddExpCloseDateDto> dtoList) {
@@ -68,7 +67,6 @@ public class ExperienceCloseDateValidator {
         }
     }
 
-
     public void isOpenDateParameterValidate(Experience experience, LocalDate dateParam) {
 
         //오늘 이후인지
@@ -86,6 +84,7 @@ public class ExperienceCloseDateValidator {
     }
 
     private boolean isCloseDateRegister(Experience experience,LocalDate closeDate) {
+
         if (experienceCloseDateRepository.existsByExperienceAndCloseDate(experience, closeDate)) {
             return true;
         }

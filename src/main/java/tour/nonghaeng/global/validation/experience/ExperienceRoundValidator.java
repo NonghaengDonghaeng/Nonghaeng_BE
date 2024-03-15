@@ -22,6 +22,7 @@ public class ExperienceRoundValidator {
 
 
     public void createAndSaveValidate(Experience experience, AddExpRoundDto addExpRoundDto) {
+
         List<ExperienceRound> originExperienceRounds
                 = experienceRoundRepository.findAllByExperienceOrderByStartTime(experience);
 
@@ -41,8 +42,6 @@ public class ExperienceRoundValidator {
             if (startPoint.isBefore(round.getEndTime())) {
                 throw new ExperienceException(ExperienceErrorCode.OVERLAPS_ROUND_TIME_ADD_ERROR);
             }
-
         }
-
     }
 }
