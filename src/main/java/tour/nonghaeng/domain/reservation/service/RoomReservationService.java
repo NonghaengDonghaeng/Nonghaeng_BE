@@ -9,14 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.member.service.UserService;
-import tour.nonghaeng.domain.reservation.dto.room.CreateRoomReservationDto;
-import tour.nonghaeng.domain.reservation.dto.room.RoomReservationResponseDto;
-import tour.nonghaeng.domain.reservation.dto.room.RoomReservationSellerSummaryDto;
-import tour.nonghaeng.domain.reservation.dto.room.RoomReservationUserSummaryDto;
+import tour.nonghaeng.domain.reservation.dto.room.*;
 import tour.nonghaeng.domain.reservation.entity.RoomReservation;
 import tour.nonghaeng.domain.reservation.repo.RoomReservationRepository;
 import tour.nonghaeng.domain.room.entity.Room;
 import tour.nonghaeng.domain.room.service.RoomService;
+import tour.nonghaeng.global.exception.ReservationException;
+import tour.nonghaeng.global.exception.code.ReservationErrorCode;
 import tour.nonghaeng.global.validation.reservation.RoomReservationValidator;
 
 import java.time.LocalDate;
@@ -66,6 +65,20 @@ public class RoomReservationService {
         return RoomReservationSellerSummaryDto.toPageDto(page);
     }
 
+    public RoomReservationUserDetailDto getRoomReservationUserDetailDto(Long roomReservationId) {
+
+        RoomReservation roomReservation = findById(roomReservationId);
+
+        return RoomReservationUserDetailDto.toDto(roomReservation);
+    }
+
+    public RoomReservationSellerDetailDto getRoomReservationSellerDetailDto(Long roomReservationId) {
+
+        RoomReservation roomReservation = findById(roomReservationId);
+
+        return RoomReservationSellerDetailDto.toDto(roomReservation);
+    }
+
     //해당 날짜의 남은 방 수 구하기
     public int countRemainOfRoom(Room room, LocalDate date) {
 
@@ -73,5 +86,11 @@ public class RoomReservationService {
                 .orElse(0);
 
         return room.getNumOfRoom() - currentReservationRoom;
+    }
+
+    private RoomReservation findById(Long roomReservationId) {
+
+        return roomReservationRepository.findById(roomReservationId)
+                .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_EXIST_ROOM_RESERVATION_BY_ID));
     }
 }

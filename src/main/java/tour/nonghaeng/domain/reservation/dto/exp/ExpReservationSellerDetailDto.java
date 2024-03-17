@@ -18,7 +18,7 @@ import java.time.LocalTime;
 @Getter
 public class ExpReservationSellerDetailDto {
 
-    //TODO: userInfo, roundInfo, ExpInfo 로 클래스 분리해서 보내주는 방안
+    //TODO: userInfo, roundInfo, ExpInfo 로 클래스 분리해서 보내주는 방안, email, number 추가하기
 
     private String reservationState;
     private String experienceName;
@@ -51,6 +51,7 @@ public class ExpReservationSellerDetailDto {
     }
 
     public static ExpReservationSellerDetailDto toDto(ExperienceReservation experienceReservation,int remainParticipant) {
+
         return ExpReservationSellerDetailDto.builder()
                 .reservationState(experienceReservation.getStateType().getName())
                 .experienceName(experienceReservation.getExperience().getExperienceName())

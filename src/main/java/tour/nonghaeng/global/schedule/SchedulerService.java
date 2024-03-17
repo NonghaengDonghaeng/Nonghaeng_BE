@@ -41,7 +41,6 @@ public class SchedulerService {
 
         experienceService.findAllIds()
                 .forEach(experienceId -> experienceService.checkOldestCloseDatePastOrNot(experienceId));
-
     }
 
     //테스트를 위한 1분 단위 실행

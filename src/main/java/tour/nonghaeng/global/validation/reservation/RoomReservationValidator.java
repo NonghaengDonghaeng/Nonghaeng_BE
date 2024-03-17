@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.dto.room.CreateRoomReservationDto;
 import tour.nonghaeng.domain.reservation.entity.RoomReservation;
@@ -24,6 +25,24 @@ public class RoomReservationValidator {
 
     private final RoomCloseDateValidator roomCloseDateValidator;
 
+
+    public void ownerSellerValidate(Seller seller, Long roomReservationId) {
+
+        idValidate(roomReservationId);
+
+        if (!seller.equals(roomReservationRepository.findSellerById(roomReservationId))) {
+            throw new ReservationException(ReservationErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
+        }
+    }
+
+    public void ownerUserValidate(User user, Long roomReservationId) {
+
+        idValidate(roomReservationId);
+
+        if (!user.equals(roomReservationRepository.findUserById(roomReservationId))) {
+            throw new ReservationException(ReservationErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
+        }
+    }
 
     public void idValidate(Long roomReservationId) {
         if (!roomReservationRepository.existsById(roomReservationId)) {
