@@ -4,8 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.experience.dto.*;
@@ -79,7 +77,7 @@ public class ExperienceService {
         experienceCloseDateValidator.removeDtoListValidate(experience,dtoList);
 
         for (AddExpCloseDateDto addExpCloseDateDto : dtoList) {
-            ExperienceCloseDate experienceCloseDate = experienceCloseDateService.findByExperienceAndCloseDates(experience, addExpCloseDateDto.closeDate());
+            ExperienceCloseDate experienceCloseDate = experienceCloseDateService.findByExperienceAndCloseDate(experience, addExpCloseDateDto.closeDate());
             experience.removeCloseDate(experienceCloseDate);
         }
         experienceRepository.save(experience);
@@ -120,35 +118,32 @@ public class ExperienceService {
         return ExpDetailDto.toDto(findById(experienceId));
     }
 
+    public List<Experience> findAll() {
+
+        return experienceRepository.findAll();
+    }
+
+    public List<Long> findAllIds() {
+        return experienceRepository.findAllIds();
+    }
+
     private Experience findById(Long experienceId) {
 
         return experienceRepository.findById(experienceId)
                 .orElseThrow(() -> ExperienceException.EXCEPTION);
     }
 
-    //TODO: 스케줄 매일마다 가장 오래된 날짜 오늘과 확인후 삭제작업, 시간대 및 성능적 코드개선 필요
-    @Async
-    @Scheduled(cron = "0 0 0 * * *")
-    public void autoCloseDatesDeleted() {
+    public void checkOldestCloseDatePastOrNot(Long experienceId) {
 
-        log.info("Scheduler 실행: autoCloseDatesDeleted");
+        Optional<LocalDate> oldestCloseDate = experienceRepository.findOldestCloseDate(experienceId);
 
-        List<Experience> experiences = experienceRepository.findAll();
-        for (Experience exp : experiences) {
-            checkOldestCloseDatePastOrNot(exp);
-        }
-    }
-
-    private void checkOldestCloseDatePastOrNot(Experience experience) {
-
-        Optional<LocalDate> oldestOpenDate = experienceRepository.findOldestCloseDate(experience);
-
-        oldestOpenDate.ifPresent(localDate -> {
+        oldestCloseDate.ifPresent(localDate -> {
             if (localDate.isBefore(LocalDate.now())) {
-                log.info("{} 날짜 오늘({})이 지나서 삭제", localDate.toString(), LocalDate.now().toString());
+                Experience experience = findById(experienceId);
+                log.info("{} 날짜 오늘({})이 지나서 삭제", localDate, LocalDate.now());
                 experience.removeCloseDate(
                         experienceCloseDateService
-                                .findByExperienceAndCloseDates(experience, localDate));
+                                .findByExperienceAndCloseDate(experience, localDate));
                 experienceRepository.save(experience);
             }
         });

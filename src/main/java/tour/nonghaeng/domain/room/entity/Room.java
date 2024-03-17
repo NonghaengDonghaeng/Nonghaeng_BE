@@ -103,6 +103,9 @@ public class Room extends BaseTimeEntity {
         this.roomCloseDateList.add(roomCloseDate);
     }
 
+    public void removeCloseDate(RoomCloseDate roomCloseDate) {
+        this.roomCloseDateList.remove(roomCloseDate);
+    }
     //성수기 비성수기의 기준 내용 들어가야됨
     //객실 크기 몇평인지 정보도 넣어야됨
 }

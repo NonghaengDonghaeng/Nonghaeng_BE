@@ -19,6 +19,7 @@ import tour.nonghaeng.global.validation.tour.TourValidator;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -122,5 +123,29 @@ public class RoomService {
                 .orElseThrow(() -> new RoomException(RoomErrorCode.NO_EXIST_ROOM_BY_ROOM_ID_ERROR));
     }
 
+    public List<Room> findAll() {
+
+        return roomRepository.findAll();
+    }
+
+    public List<Long> findAllIds() {
+        return roomRepository.findAllIds();
+    }
+
+    public void checkOldestCloseDatePastOrNot(Long roomId) {
+
+        Optional<LocalDate> oldestCloseDate = roomRepository.findOldestCloseDate(roomId);
+
+        oldestCloseDate.ifPresent(localDate -> {
+            if(localDate.isBefore(LocalDate.now())){
+                Room room = findById(roomId);
+                log.info("{} 날짜 오늘({})이 지나서 삭제", localDate, LocalDate.now());
+                room.removeCloseDate(
+                        roomCloseDateService
+                                .findByRoomAndCloseDate(room, localDate));
+                roomRepository.save(room);
+            }
+        });
+    }
 }
 

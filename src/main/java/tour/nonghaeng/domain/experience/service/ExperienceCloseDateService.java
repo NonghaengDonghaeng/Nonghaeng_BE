@@ -35,7 +35,7 @@ public class ExperienceCloseDateService {
         }
     }
 
-    public ExperienceCloseDate findByExperienceAndCloseDates(Experience experience, LocalDate closeDate) {
+    public ExperienceCloseDate findByExperienceAndCloseDate(Experience experience, LocalDate closeDate) {
 
         return experienceCloseDateRepository.findByExperienceAndCloseDate(experience, closeDate).
                 orElseThrow(() -> new ExperienceException(ExperienceErrorCode.NOT_EXIST_EXPERIENCE_CLOSE_DATE_ERROR));

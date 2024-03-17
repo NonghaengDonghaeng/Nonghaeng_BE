@@ -20,6 +20,8 @@ public enum RoomErrorCode implements BaseErrorCode{
 
     NO_EXIST_ROOM_BY_ROOM_ID_ERROR(HttpStatus.BAD_GATEWAY, "ROOM_000_1", "roomID에 해당하는 방이 없습니다."),
 
+    NOT_EXIST_ROOM_CLOSE_DATE_ERROR(HttpStatus.BAD_GATEWAY, "ROOM_101_1", "해당 숙소에 미운영날짜가 아닙니다."),
+
     NO_OWNER_AUTHORIZATION_ERROR(HttpStatus.BAD_GATEWAY, "ROOM_000_2", "해당 숙소에 대한 소유자가 아닙니다."),
     ;
     private HttpStatus status;

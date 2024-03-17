@@ -10,6 +10,7 @@ import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.member.entity.Seller;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -20,8 +21,11 @@ public interface ExperienceRepository extends JpaRepository<Experience,Long> {
 
     boolean existsById(Long experienceId);
 
-    @Query("SELECT MIN(eod.closeDate) FROM ExperienceCloseDate eod where eod.experience = :experience")
-    Optional<LocalDate> findOldestCloseDate(@Param("experience") Experience experience);
+    @Query("SELECT MIN(ecd.closeDate) FROM ExperienceCloseDate ecd where ecd.experience.id = :id")
+    Optional<LocalDate> findOldestCloseDate(@Param("id") Long experienceId);
+
+    @Query("select e.id from Experience e")
+    List<Long> findAllIds();
 
     Page<Experience> findAll(Pageable pageable);
 
