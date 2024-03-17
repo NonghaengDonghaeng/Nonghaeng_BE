@@ -2,12 +2,17 @@ package tour.nonghaeng.domain.reservation.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.member.service.UserService;
 import tour.nonghaeng.domain.reservation.dto.room.CreateRoomReservationDto;
 import tour.nonghaeng.domain.reservation.dto.room.RoomReservationResponseDto;
+import tour.nonghaeng.domain.reservation.dto.room.RoomReservationSellerSummaryDto;
+import tour.nonghaeng.domain.reservation.dto.room.RoomReservationUserSummaryDto;
 import tour.nonghaeng.domain.reservation.entity.RoomReservation;
 import tour.nonghaeng.domain.reservation.repo.RoomReservationRepository;
 import tour.nonghaeng.domain.room.entity.Room;
@@ -43,6 +48,24 @@ public class RoomReservationService {
         return RoomReservationResponseDto.toDto(roomReservation);
     }
 
+    public Page<RoomReservationUserSummaryDto> getRoomReservationUserSummaryDtoPage(User user, Pageable pageable) {
+
+        Page<RoomReservation> page = roomReservationRepository.findAllByUser(user, pageable);
+
+        roomReservationValidator.pageValidate(page);
+
+        return RoomReservationUserSummaryDto.toPageDto(page);
+    }
+
+    public Page<RoomReservationSellerSummaryDto> getRoomReservationSellerSummaryDtoPage(Seller seller, Pageable pageable) {
+
+        Page<RoomReservation> page = roomReservationRepository.findAllBySeller(seller, pageable);
+
+        roomReservationValidator.pageValidate(page);
+
+        return RoomReservationSellerSummaryDto.toPageDto(page);
+    }
+
     //해당 날짜의 남은 방 수 구하기
     public int countRemainOfRoom(Room room, LocalDate date) {
 
@@ -51,5 +74,4 @@ public class RoomReservationService {
 
         return room.getNumOfRoom() - currentReservationRoom;
     }
-
 }

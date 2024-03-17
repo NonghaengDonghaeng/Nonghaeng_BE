@@ -48,10 +48,10 @@ public class ExperienceReservationController {
 
         User user = authService.toUserEntity(authentication);
 
-        Page<ExpReservationUserSummaryDto> dto =
+        Page<ExpReservationUserSummaryDto> dtoPage =
                 experienceReservationService.getExpReservationUserSummaryDtoPage(user, pageable);
 
-        return new ResponseEntity<>(dto, HttpStatus.OK);
+        return new ResponseEntity<>(dtoPage, HttpStatus.OK);
     }
 
     //관리자 API : 관리자용 내 예약요약 보기

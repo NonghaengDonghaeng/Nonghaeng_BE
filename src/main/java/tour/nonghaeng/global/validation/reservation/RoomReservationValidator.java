@@ -2,9 +2,11 @@ package tour.nonghaeng.global.validation.reservation;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.dto.room.CreateRoomReservationDto;
+import tour.nonghaeng.domain.reservation.entity.RoomReservation;
 import tour.nonghaeng.domain.reservation.repo.RoomReservationRepository;
 import tour.nonghaeng.domain.room.entity.Room;
 import tour.nonghaeng.global.exception.ReservationException;
@@ -78,6 +80,13 @@ public class RoomReservationValidator {
 
         if (numOfRoom > room.getNumOfRoom() - currentNum) {
             throw new ReservationException(ReservationErrorCode.EXCEEDED_NUM_OF_ROOM);
+        }
+    }
+
+    public void pageValidate(Page<RoomReservation> page) {
+
+        if (page.isEmpty()) {
+            throw new ReservationException(ReservationErrorCode.NO_RESERVATION_CONTENT_AT_CURRENT_PAGE_ERROR);
         }
     }
 
