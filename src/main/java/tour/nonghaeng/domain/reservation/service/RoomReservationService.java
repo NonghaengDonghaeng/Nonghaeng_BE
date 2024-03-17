@@ -23,6 +23,7 @@ import tour.nonghaeng.global.validation.reservation.RoomReservationValidator;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -119,8 +120,7 @@ public class RoomReservationService {
     private CancelPolicy decideCancelPolicy(RoomReservation roomReservation) {
 
         LocalDate reservationAt = roomReservation.getCreatedAt().toLocalDate();
-        //TODO: 여러 리스트중에서 시작날짜를 뽑아내야됨.
-        LocalDateTime roomStartAt = LocalDateTime.of(roomReservation.getReservationDates().get(0).getReservationDate(),
+        LocalDateTime roomStartAt = LocalDateTime.of(findStartDateById(roomReservation.getId()),
                 roomReservation.getRoom().getCheckinTime());
 
         Long diffHour = countDiffHourDate(roomStartAt);
@@ -147,5 +147,11 @@ public class RoomReservationService {
 
         return roomReservationRepository.findById(roomReservationId)
                 .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_EXIST_ROOM_RESERVATION_BY_ID));
+    }
+
+    private LocalDate findStartDateById(Long roomReservationId) {
+        roomReservationRepository.findStartDateById(roomReservationId)
+                .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_RESERVATION_DATE_BY_ID));
+
     }
 }

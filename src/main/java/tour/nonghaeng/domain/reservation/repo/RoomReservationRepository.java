@@ -32,6 +32,9 @@ public interface RoomReservationRepository extends JpaRepository<RoomReservation
     @Query("select rr.seller from RoomReservation rr where rr.id = :id")
     Optional<Seller> findSellerById(@Param("id") Long roomReservationId);
 
+    @Query("select min(rrd.reservationDate) from RoomReservationDate rrd where rrd.roomReservation.id = :id")
+    Optional<LocalDate> findStartDateById(@Param("id") Long id);
+
     boolean existsById(Long roomReservationId);
 
 }

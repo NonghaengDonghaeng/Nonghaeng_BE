@@ -31,6 +31,7 @@ public enum ReservationErrorCode implements BaseErrorCode {
     EXCEEDED_NUM_OF_ROOM(HttpStatus.BAD_GATEWAY, "RES_111_2", "남은 객실 수보다 초과했습니다."),
     //숙박예약 관련
     NO_EXIST_ROOM_RESERVATION_BY_ID(HttpStatus.BAD_GATEWAY, "RES_100_0", "해당 아이디의 숙소예약이 존재하지 않습니다."),
+    NO_RESERVATION_DATE_BY_ID(HttpStatus.BAD_GATEWAY, "RES_100_0", "해당 아이디의 숙소예약에서 예약날짜가 존재하지 않습니다."),
     ;
     private HttpStatus status;
     private String code;
