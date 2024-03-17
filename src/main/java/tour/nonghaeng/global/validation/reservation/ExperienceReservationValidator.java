@@ -8,7 +8,7 @@ import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
-import tour.nonghaeng.domain.reservation.dto.CreateExpReservationDto;
+import tour.nonghaeng.domain.reservation.dto.exp.CreateExpReservationDto;
 import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.repo.ExperienceReservationRepository;
 import tour.nonghaeng.global.exception.ReservationException;
@@ -47,7 +47,7 @@ public class ExperienceReservationValidator {
 
         createExpReservationDtoValidate(experienceRound,currentRemainParticipant,dto);
 
-        checkPointValidate(user, dto);
+        checkPointValidate(user, dto.getFinalPrice());
     }
 
     public void checkCancelState(ExperienceReservation experienceReservation) {
@@ -82,9 +82,9 @@ public class ExperienceReservationValidator {
         }
     }
 
-    public void checkPointValidate(User user, CreateExpReservationDto dto) {
+    public void checkPointValidate(User user, int price) {
 
-        if (user.getPoint() < dto.getFinalPrice()) {
+        if (user.getPoint() < price) {
             throw new ReservationException(ReservationErrorCode.NOT_ENOUGH_POINT_ERROR);
         }
     }

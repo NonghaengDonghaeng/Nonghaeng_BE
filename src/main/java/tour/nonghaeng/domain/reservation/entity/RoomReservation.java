@@ -11,7 +11,8 @@ import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.room.entity.Room;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "ROOM_RESERVATIONS")
@@ -36,12 +37,15 @@ public class RoomReservation extends BaseTimeEntity {
     @JoinColumn(name = "room_id")
     private Room room;
 
+    @OneToMany(mappedBy = "roomReservation", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RoomReservationDate> reservationDates = new ArrayList<>();
+
+
     @Enumerated(EnumType.STRING)
     private ReservationStateType stateType;
 
     private int price;
-
-    private LocalDate reservationDate;
 
     private int numOfRoom;
 
@@ -54,18 +58,22 @@ public class RoomReservation extends BaseTimeEntity {
     private String email;
 
     @Builder
-    private RoomReservation(User user, Seller seller, Room room, ReservationStateType stateType, int price, LocalDate reservationDate, int numOfRoom, int numOfParticipant, String reservationName, String number, String email) {
+    private RoomReservation(User user, Seller seller, Room room, ReservationStateType stateType, int price, int numOfRoom, int numOfParticipant, String reservationName, String number, String email) {
+
         this.user = user;
         this.seller = seller;
         this.room = room;
         this.stateType = stateType;
         this.price = price;
-        this.reservationDate = reservationDate;
         this.numOfRoom = numOfRoom;
         this.numOfParticipant = numOfParticipant;
         this.reservationName = reservationName;
         this.number = number;
         this.email = email;
+    }
+
+    public void addRoomReservationDate(RoomReservationDate roomReservationDate) {
+        this.reservationDates.add(roomReservationDate);
     }
 
     public void approveReservation() {

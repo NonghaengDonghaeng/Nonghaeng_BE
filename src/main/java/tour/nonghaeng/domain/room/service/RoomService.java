@@ -116,7 +116,7 @@ public class RoomService {
         return roomRepository.save(room).getId();
     }
 
-    private Room findById(Long roomId) {
+    public Room findById(Long roomId) {
 
         return roomRepository.findById(roomId)
                 .orElseThrow(() -> new RoomException(RoomErrorCode.NO_EXIST_ROOM_BY_ROOM_ID_ERROR));

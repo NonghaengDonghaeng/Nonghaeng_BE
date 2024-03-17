@@ -1,4 +1,4 @@
-package tour.nonghaeng.domain.reservation.dto;
+package tour.nonghaeng.domain.reservation.dto.exp;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -16,9 +16,7 @@ import java.time.LocalTime;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class ExpReservationSellerDetailDto {
-
-    //TODO: userInfo, roundInfo, ExpInfo 로 클래스 분리해서 보내주는 방안
+public class ExpReservationUserDetailDto {
 
     private String reservationState;
     private String experienceName;
@@ -32,11 +30,10 @@ public class ExpReservationSellerDetailDto {
     private String userName;
     private LocalDateTime reservationAt;
     private int numOfParticipant;
-    private int remainParticipant;
     private int price;
 
     @Builder
-    public ExpReservationSellerDetailDto(String reservationState, String experienceName, Long experienceId, LocalDate reservationDate, LocalTime startTime, LocalTime endTime, String userName, LocalDateTime reservationAt, int numOfParticipant, int remainParticipant,int price) {
+    public ExpReservationUserDetailDto(String reservationState, String experienceName, Long experienceId, LocalDate reservationDate, LocalTime startTime, LocalTime endTime, String userName, LocalDateTime reservationAt, int numOfParticipant, int price) {
         this.reservationState = reservationState;
         this.experienceName = experienceName;
         this.experienceId = experienceId;
@@ -46,12 +43,11 @@ public class ExpReservationSellerDetailDto {
         this.userName = userName;
         this.reservationAt = reservationAt;
         this.numOfParticipant = numOfParticipant;
-        this.remainParticipant = remainParticipant;
         this.price = price;
     }
 
-    public static ExpReservationSellerDetailDto toDto(ExperienceReservation experienceReservation,int remainParticipant) {
-        return ExpReservationSellerDetailDto.builder()
+    public static ExpReservationUserDetailDto toDto(ExperienceReservation experienceReservation) {
+        return ExpReservationUserDetailDto.builder()
                 .reservationState(experienceReservation.getStateType().getName())
                 .experienceName(experienceReservation.getExperience().getExperienceName())
                 .experienceId(experienceReservation.getExperience().getId())
@@ -61,7 +57,6 @@ public class ExpReservationSellerDetailDto {
                 .userName(experienceReservation.getReservationName())
                 .reservationAt(experienceReservation.getCreatedAt())
                 .numOfParticipant(experienceReservation.getNumOfParticipant())
-                .remainParticipant(remainParticipant)
                 .price(experienceReservation.getPrice())
                 .build();
     }

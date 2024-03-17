@@ -56,6 +56,7 @@ public class SecurityConfig {
                         .requestMatchers("/join").permitAll()
                         .requestMatchers("/seller-join").permitAll()
                         .requestMatchers("/*/seller/**").hasRole(Role.SELLER.name())
+                        .requestMatchers("/*/*/seller/**").hasRole(Role.SELLER.name())
                         .anyRequest().authenticated());
 
         //logout 필터 -> jwt 필터 -> customUserLogin 필터 -> customSellerLogin 필터

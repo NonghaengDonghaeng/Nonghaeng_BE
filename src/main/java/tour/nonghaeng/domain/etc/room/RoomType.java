@@ -14,8 +14,8 @@ public enum RoomType {
     //독체, 빌라 이런것도 추가할지 고민중
     ;
 
-    @JsonValue
     private final String code;
+    @JsonValue
     private final String name;
 
 

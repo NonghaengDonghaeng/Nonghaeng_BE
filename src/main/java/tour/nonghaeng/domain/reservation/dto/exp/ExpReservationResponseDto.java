@@ -1,4 +1,4 @@
-package tour.nonghaeng.domain.reservation.dto;
+package tour.nonghaeng.domain.reservation.dto.exp;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -10,54 +10,50 @@ import org.springframework.format.annotation.DateTimeFormat;
 import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class ExpReservationUserDetailDto {
-
-    private String reservationState;
+public class ExpReservationResponseDto {
+    private Long experienceReservationId;
     private String experienceName;
-    private Long experienceId;
+    private String reservationName;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate reservationDate;
-    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime startTime;
-    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime endTime;
-    private String userName;
-    private LocalDateTime reservationAt;
+    private String number;
+    private String email;
     private int numOfParticipant;
-    private int price;
+    private int finalPrice;
 
     @Builder
-    public ExpReservationUserDetailDto(String reservationState, String experienceName, Long experienceId, LocalDate reservationDate, LocalTime startTime, LocalTime endTime, String userName, LocalDateTime reservationAt, int numOfParticipant, int price) {
-        this.reservationState = reservationState;
+    public ExpReservationResponseDto(Long experienceReservationId, String experienceName, String reservationName, LocalDate reservationDate, LocalTime startTime, LocalTime endTime, String number, String email, int numOfParticipant, int finalPrice) {
+        this.experienceReservationId = experienceReservationId;
         this.experienceName = experienceName;
-        this.experienceId = experienceId;
+        this.reservationName = reservationName;
         this.reservationDate = reservationDate;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.userName = userName;
-        this.reservationAt = reservationAt;
+        this.number = number;
+        this.email = email;
         this.numOfParticipant = numOfParticipant;
-        this.price = price;
+        this.finalPrice = finalPrice;
     }
 
-    public static ExpReservationUserDetailDto toDto(ExperienceReservation experienceReservation) {
-        return ExpReservationUserDetailDto.builder()
-                .reservationState(experienceReservation.getStateType().getName())
+    public static ExpReservationResponseDto toDto(ExperienceReservation experienceReservation) {
+        return ExpReservationResponseDto.builder()
+                .experienceReservationId(experienceReservation.getId())
                 .experienceName(experienceReservation.getExperience().getExperienceName())
-                .experienceId(experienceReservation.getExperience().getId())
+                .reservationName(experienceReservation.getReservationName())
                 .reservationDate(experienceReservation.getReservationDate())
                 .startTime(experienceReservation.getExperienceRound().getStartTime())
                 .endTime(experienceReservation.getExperienceRound().getEndTime())
-                .userName(experienceReservation.getReservationName())
-                .reservationAt(experienceReservation.getCreatedAt())
+                .number(experienceReservation.getNumber())
+                .email(experienceReservation.getEmail())
                 .numOfParticipant(experienceReservation.getNumOfParticipant())
-                .price(experienceReservation.getPrice())
+                .finalPrice(experienceReservation.getPrice())
                 .build();
     }
 }

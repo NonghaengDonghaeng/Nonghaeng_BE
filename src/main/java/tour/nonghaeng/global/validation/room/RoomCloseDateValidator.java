@@ -41,6 +41,18 @@ public class RoomCloseDateValidator {
         }
     }
 
+    public void isOpenDateParameterValidate(Room room, LocalDate dateParam) {
+
+        //오늘 이후인지
+        if (dateParam.isBefore(LocalDate.now())) {
+            throw RoomException.EXCEPTION;
+        }
+        //운영종료 리스트에 들어가있는지
+        if (isExistCloseDateValidate(room, dateParam)) {
+            throw RoomException.EXCEPTION;
+        }
+    }
+
     private boolean isExistCloseDateValidate(Room room, LocalDate date) {
 
         if (roomCloseDateRepository.existsByRoomAndCloseDate(room, date)) {

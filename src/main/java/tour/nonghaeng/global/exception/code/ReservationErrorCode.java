@@ -27,6 +27,8 @@ public enum ReservationErrorCode implements BaseErrorCode {
     EXCEEDED_PARTICIPANT(HttpStatus.BAD_GATEWAY, "RES_101_1", "남은 참여자수보다 초과했습니다."),
     NOT_ENOUGH_POINT_ERROR(HttpStatus.BAD_GATEWAY, "RES_200_1", "잔여 포인트가 부족합니다."),
 
+    EXCEEDED_MAX_CAPACITY(HttpStatus.BAD_GATEWAY, "RES_111_1", "방의 최대수용인원을 초과했습니다."),
+    EXCEEDED_NUM_OF_ROOM(HttpStatus.BAD_GATEWAY, "RES_111_2", "남은 객실 수보다 초과했습니다."),
     //숙박예약 관련
     NO_EXIST_ROOM_RESERVATION_BY_ID(HttpStatus.BAD_GATEWAY, "RES_100_0", "해당 아이디의 숙소예약이 존재하지 않습니다."),
     ;

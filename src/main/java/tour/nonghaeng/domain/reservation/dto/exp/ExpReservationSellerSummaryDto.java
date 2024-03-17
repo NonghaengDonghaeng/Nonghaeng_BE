@@ -1,4 +1,4 @@
-package tour.nonghaeng.domain.reservation.dto;
+package tour.nonghaeng.domain.reservation.dto.exp;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

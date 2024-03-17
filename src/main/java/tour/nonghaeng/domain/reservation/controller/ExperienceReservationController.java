@@ -11,30 +11,28 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
-import tour.nonghaeng.domain.reservation.dto.*;
+import tour.nonghaeng.domain.reservation.dto.exp.*;
 import tour.nonghaeng.domain.reservation.service.ExperienceReservationService;
-import tour.nonghaeng.domain.reservation.service.RoomReservationService;
 import tour.nonghaeng.global.auth.service.AuthService;
 import tour.nonghaeng.global.validation.reservation.ExperienceReservationValidator;
 
 @RestController
-@RequestMapping("/reservations")
+@RequestMapping("/reservations/experience")
 @RequiredArgsConstructor
 @Slf4j
-public class ReservationController {
+public class ExperienceReservationController {
 
     private final AuthService authService;
     private final ExperienceReservationService experienceReservationService;
-    private final RoomReservationService roomReservationService;
 
     private final ExperienceReservationValidator experienceReservationValidator;
 
 
     //1. 체험예약
     //체험 예약하기
-    @PostMapping("/experience")
+    @PostMapping
     public ResponseEntity<ExpReservationResponseDto> createExpReservation(Authentication authentication,
-                                                                       @RequestBody CreateExpReservationDto requestDto) {
+                                                                          @RequestBody CreateExpReservationDto requestDto) {
 
         User user = authService.toUserEntity(authentication);
 
@@ -44,7 +42,7 @@ public class ReservationController {
     }
 
     //소비자 내 체험예약 리스트 보기
-    @GetMapping("/experience/my-reservation")
+    @GetMapping("/my-reservation")
     public ResponseEntity<Page<ExpReservationUserSummaryDto>> showMyExpReservationUser(Authentication authentication,
                                                                                        @PageableDefault(size = 20) Pageable pageable) {
 
@@ -57,9 +55,9 @@ public class ReservationController {
     }
 
     //관리자 API : 관리자용 내 예약요약 보기
-    @GetMapping("/seller/experience/my-reservation")
+    @GetMapping("/seller/my-reservation")
     public ResponseEntity<Page<ExpReservationSellerSummaryDto>> showMyExpReservationSeller(Authentication authentication,
-                                                                                  @PageableDefault(size = 20) Pageable pageable) {
+                                                                                           @PageableDefault(size = 20) Pageable pageable) {
 
         Seller seller = authService.toSellerEntity(authentication);
 
@@ -70,7 +68,7 @@ public class ReservationController {
     }
 
     //소비자 내 체험예약 상세보기
-    @GetMapping("/experience/{reservationId}")
+    @GetMapping("/{reservationId}")
     public ResponseEntity<ExpReservationUserDetailDto> showExpReservationUserDetailDto(Authentication authentication,
                                                                                        @PathVariable("reservationId") Long reservationID) {
 
@@ -82,7 +80,7 @@ public class ReservationController {
     }
 
     //관리자 API : 체험예약에 대한 상세정보 보기
-    @GetMapping("/seller/experience/{reservationId}")
+    @GetMapping("/seller/{reservationId}")
     public ResponseEntity<ExpReservationSellerDetailDto> showExpReservationSellerDetailDto(Authentication authentication,
                                                                                            @PathVariable("reservationId") Long reservationId) {
 
@@ -94,7 +92,7 @@ public class ReservationController {
     }
 
     //소비자 내 체험예약 취소하기
-    @GetMapping("/experience/cancel/{reservationId}")
+    @GetMapping("/cancel/{reservationId}")
     public ResponseEntity<ExpReservationCancelResponseDto> cancelExpReservation(Authentication authentication,
                                                                                 @PathVariable("reservationId") Long experienceReservationId) {
 
@@ -110,7 +108,7 @@ public class ReservationController {
 
     //관리자 API : 예약대기를 예약 승인하기, 혹은 미승인하기(파라미터로 not = true 인 경우 미승인)
     //승인을 다시 미승인인 경우는 아직 배제
-    @GetMapping("/seller/experience/approve/{reservationId}")
+    @GetMapping("/seller/approve/{reservationId}")
     public ResponseEntity<String> approveExpReservation(Authentication authentication,
                                                         @PathVariable("reservationId") Long reservationId,
                                                         @RequestParam(name = "not", defaultValue = "false") boolean notApproveFlag) {
