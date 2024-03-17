@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tour.nonghaeng.domain.etc.cancel.CancelPolicy;
+import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.member.service.UserService;
@@ -18,7 +20,9 @@ import tour.nonghaeng.global.exception.ReservationException;
 import tour.nonghaeng.global.exception.code.ReservationErrorCode;
 import tour.nonghaeng.global.validation.reservation.RoomReservationValidator;
 
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -79,6 +83,23 @@ public class RoomReservationService {
         return RoomReservationSellerDetailDto.toDto(roomReservation);
     }
 
+    public RoomReservationCancelResponseDto cancelRoomReservation(User user, Long roomReservationId) {
+
+        RoomReservation roomReservation = findById(roomReservationId);
+
+        roomReservationValidator.checkCancelState(roomReservation);
+
+        CancelPolicy cancelPolicy = decideCancelPolicy(roomReservation);
+
+        userService.payBackPoint(user, roomReservation.getPrice(), cancelPolicy);
+
+        roomReservation.cancelReservation();
+
+        roomReservationRepository.save(roomReservation);
+
+        return RoomReservationCancelResponseDto.toDto(roomReservation, cancelPolicy);
+    }
+
     //해당 날짜의 남은 방 수 구하기
     public int countRemainOfRoom(Room room, LocalDate date) {
 
@@ -86,6 +107,40 @@ public class RoomReservationService {
                 .orElse(0);
 
         return room.getNumOfRoom() - currentReservationRoom;
+    }
+
+    private Long countDiffHourDate(LocalDateTime startAt) {
+
+        Duration duration = Duration.between(LocalDateTime.now(), startAt);
+
+        return duration.getSeconds() / 3600;
+    }
+
+    private CancelPolicy decideCancelPolicy(RoomReservation roomReservation) {
+
+        LocalDate reservationAt = roomReservation.getCreatedAt().toLocalDate();
+        //TODO: 여러 리스트중에서 시작날짜를 뽑아내야됨.
+        LocalDateTime roomStartAt = LocalDateTime.of(roomReservation.getReservationDates().get(0).getReservationDate(),
+                roomReservation.getRoom().getCheckinTime());
+
+        Long diffHour = countDiffHourDate(roomStartAt);
+
+        if (roomReservation.getStateType().equals(ReservationStateType.WAITING_RESERVATION)) {
+            return CancelPolicy.NOT_CONFIRM_CANCEL_POLICY;
+        }
+        if (reservationAt.equals(LocalDate.now())) {
+            return CancelPolicy.MISTAKE_CANCEL_POLICY;
+        }
+        if (diffHour < 7) {
+            return CancelPolicy.IN_SEVEN_HOURS_CANCEL_POLICY;
+        }
+        if (diffHour < 24) {
+            return CancelPolicy.IN_ONE_DAY_CANCEL_POLICY;
+        }
+        if (diffHour < 24 * 7) {
+            return CancelPolicy.IN_ONE_WEEK_CANCEL_POLICY;
+        }
+        return CancelPolicy.DEFAULT_CANCEL_POLICY;
     }
 
     private RoomReservation findById(Long roomReservationId) {

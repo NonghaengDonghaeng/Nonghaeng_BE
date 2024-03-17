@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.dto.room.CreateRoomReservationDto;
@@ -41,6 +42,15 @@ public class RoomReservationValidator {
 
         if (!user.equals(roomReservationRepository.findUserById(roomReservationId))) {
             throw new ReservationException(ReservationErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
+        }
+    }
+
+    public void checkCancelState(RoomReservation roomReservation) {
+
+        ReservationStateType stateType = roomReservation.getStateType();
+        if (stateType.equals(ReservationStateType.CANCEL_RESERVATION)
+                || stateType.equals(ReservationStateType.COMPLETE_RESERVATION)) {
+            throw new ReservationException(ReservationErrorCode.CANT_CANCEL_RESERVATION_STATE);
         }
     }
 
