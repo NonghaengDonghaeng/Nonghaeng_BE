@@ -43,7 +43,7 @@ public class RoomReservationController {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
-    @GetMapping("/my-reservations")
+    @GetMapping("/my-reservation")
     public ResponseEntity<Page<RoomReservationUserSummaryDto>> showMyRoomReservationUser(Authentication authentication,
                                                                                          @PageableDefault(size = 20) Pageable pageable) {
 
