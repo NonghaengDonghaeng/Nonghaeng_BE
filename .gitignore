@@ -38,6 +38,7 @@ out/
 
 ### application ###
 *.yml
+*.properties
 ./src/main/resources/application.yml
 ./src/main/resources/application-cloud.yml
 ./src/main/resources/application-db.yml

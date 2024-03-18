@@ -73,7 +73,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     jwtService.sendAccessAndRefreshToken(response, jwtService.createAccessToken(user.getNumber(),"user"),
                             reIssueRefreshToken );
                 });
+        sellerRepository.findByRefreshToken(refreshToken)
+                .ifPresent(seller -> {
+                    String reIssuedRefreshToken = reIssueSellerRefreshToken(seller);
+                    jwtService.sendAccessAndRefreshToken(response, jwtService.createAccessToken(seller.getUsername(),"seller"),
+                            reIssuedRefreshToken);
+                });
 
+    }
+
+    //RefreshToken 재발금 후 DB 업데이트 후 Flush (Seller)
+    private String reIssueSellerRefreshToken(Seller seller){
+        String reIssuedRefreshToken = jwtService.createRefreshToken();
+        seller.updateRefreshToken(reIssuedRefreshToken);
+        sellerRepository.saveAndFlush(seller);
+        return reIssuedRefreshToken;
     }
 
     //RefreshToken 재발급 후 DB 업데이트

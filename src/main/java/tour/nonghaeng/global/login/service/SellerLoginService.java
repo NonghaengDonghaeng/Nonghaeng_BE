@@ -25,9 +25,9 @@ public class SellerLoginService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("해당 아이디가 존재하지 않습니다."));
 
         return User.builder()
-                .username(tempMember.username())
-                .password(tempMember.password())
-                .roles(tempMember.role().name())
+                .username(tempMember.getUsername())
+                .password(tempMember.getPassword())
+                .roles(tempMember.getRole().name())
                 .build();
     }
 }
