@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.TestPropertySource;
 import tour.nonghaeng.domain.etc.tour.TourType;
 import tour.nonghaeng.domain.member.entity.Seller;
@@ -29,6 +31,7 @@ class TourRepositoryTest {
     private SellerRepository sellerRepository;
 
     private static Tour tour;
+    private static Tour tour2;
     private static Seller seller;
 
     @BeforeEach
@@ -49,13 +52,44 @@ class TourRepositoryTest {
                 .bankAccount(SELLER_BANK_ACCOUNT)
                 .bankAccountName(SELLER_BANK_ACCOUNT_NAME)
                 .build();
+
+        Seller seller2 = Seller.builder()
+                .role(SELLER_ROLE)
+                .areaCode(SELLER_AREA_CODE)
+                .username(SELLER_USER_NAME+"1")
+                .password(SELLER_PASSWORD+"1")
+                .name(SELLER_NAME+"1")
+                .businessNumber(SELLER_BUSINESS_NUMBER+"1")
+                .email(SELLER_EMAIL+"1")
+                .address(SELLER_ADDRESS+"1")
+                .phoneNumber(SELLER_PHONE_NUMBER+"1")
+                .callNumber(SELLER_CALL_NUMBER+"1")
+                .bankCode(SELLER_BANK_CODE)
+                .bankAccount(SELLER_BANK_ACCOUNT)
+                .bankAccountName(SELLER_BANK_ACCOUNT_NAME)
+                .build();
+
         sellerRepository.save(seller);
+        sellerRepository.save(seller2);
 
         tour = Tour.builder()
                 .seller(seller)
                 .tourType(TourType.ETC)
                 .name(TOUR_NAME)
                 .homepageUrl(TOUR_HOMEPAGE_URL)
+                .introduction(TOUR_INTRODUCTION)
+                .oneLineIntro(TOUR_ONE_LINE_INTRO)
+                .summary(TOUR_SUMMARY)
+                .restaurant(TOUR_RESTAURANT)
+                .parking(TOUR_PARKING)
+                .toilet(TOUR_TOILET)
+                .amenities(TOUR_AMENITIES)
+                .build();
+        tour2 = Tour.builder()
+                .seller(seller2)
+                .tourType(TourType.ETC)
+                .name(TOUR_NAME+"1")
+                .homepageUrl(TOUR_HOMEPAGE_URL+"1")
                 .introduction(TOUR_INTRODUCTION)
                 .oneLineIntro(TOUR_ONE_LINE_INTRO)
                 .summary(TOUR_SUMMARY)
@@ -142,11 +176,15 @@ class TourRepositoryTest {
     @DisplayName("findAll")
     void findAll() {
         //given
+
+        PageRequest pageable = PageRequest.of(0, 10);
+
         tourRepository.save(tour);
-        int size = tourRepository.findAll().size();
+        tourRepository.save(tour2);
+        Page<Tour> page = tourRepository.findAll(pageable);
         //when
 
         //then
-        assertThat(size).isEqualTo(1);
+        assertThat(page.getContent().size()).isEqualTo(2);
     }
 }
