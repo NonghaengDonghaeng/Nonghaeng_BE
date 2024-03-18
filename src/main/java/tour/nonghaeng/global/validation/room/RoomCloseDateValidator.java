@@ -45,11 +45,11 @@ public class RoomCloseDateValidator {
 
         //오늘 이후인지
         if (dateParam.isBefore(LocalDate.now())) {
-            throw RoomException.EXCEPTION;
+            throw new RoomException(RoomErrorCode.PAST_ROOM_CLOSE_DATE_ADD_ERROR);
         }
         //운영종료 리스트에 들어가있는지
         if (isExistCloseDateValidate(room, dateParam)) {
-            throw RoomException.EXCEPTION;
+            throw new RoomException(RoomErrorCode.NOT_RUNNING_PERIOD_ERROR);
         }
     }
 

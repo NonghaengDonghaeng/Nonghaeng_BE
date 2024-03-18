@@ -20,7 +20,7 @@ public enum ReservationErrorCode implements BaseErrorCode {
     CANT_CANCEL_RESERVATION_STATE(HttpStatus.BAD_GATEWAY, "RES_009_1", "해당 예약을 취소할 수 없습니다."),
 
     //이 예약에 대한 판매자가 아닐경우 에로코드
-    NO_OWNER_AUTHORIZATION_ERROR(HttpStatus.BAD_GATEWAY, "RES_000_2", "해당 체험 예약에 대한 소유자가 아닙니다."),
+    NO_OWNER_AUTHORIZATION_ERROR(HttpStatus.BAD_GATEWAY, "RES_000_2", "해당 예약에 대한 소유자가 아닙니다."),
     //체험예약
     NO_EXIST_EXPERIENCE_RESERVATION_BY_ID(HttpStatus.BAD_GATEWAY, "RES_100_0", "해당 아이디의 체험예약이 존재하지 않습니다."),
     WRONG_FINAL_PRICE_ERROR(HttpStatus.BAD_GATEWAY, "RES_102_1", "최종가격이 잘못되었습니다."),

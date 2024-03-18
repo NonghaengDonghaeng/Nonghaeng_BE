@@ -31,7 +31,7 @@ public class RoomReservationValidator {
 
         idValidate(roomReservationId);
 
-        if (!seller.equals(roomReservationRepository.findSellerById(roomReservationId))) {
+        if (!seller.equals(roomReservationRepository.findSellerById(roomReservationId).get())) {
             throw new ReservationException(ReservationErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
         }
     }
@@ -40,7 +40,7 @@ public class RoomReservationValidator {
 
         idValidate(roomReservationId);
 
-        if (!user.equals(roomReservationRepository.findUserById(roomReservationId))) {
+        if (!user.equals(roomReservationRepository.findUserById(roomReservationId).get())) {
             throw new ReservationException(ReservationErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
         }
     }

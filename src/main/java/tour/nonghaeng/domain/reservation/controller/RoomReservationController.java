@@ -76,7 +76,7 @@ public class RoomReservationController {
         return new ResponseEntity<>(roomReservationService.getRoomReservationUserDetailDto(reservationId), HttpStatus.OK);
     }
 
-    @GetMapping("/{reservationId}")
+    @GetMapping("/seller/{reservationId}")
     public ResponseEntity<RoomReservationSellerDetailDto> showRoomReservationSellerDetailDto(Authentication authentication,
                                                                                              @PathVariable("reservationId") Long reservationId) {
         Seller seller = authService.toSellerEntity(authentication);
@@ -86,7 +86,7 @@ public class RoomReservationController {
         return new ResponseEntity<>(roomReservationService.getRoomReservationSellerDetailDto(reservationId), HttpStatus.OK);
     }
 
-    @GetMapping("/cancel/{reservationId")
+    @GetMapping("/cancel/{reservationId}")
     public ResponseEntity<RoomReservationCancelResponseDto> cancelRoomReservation(Authentication authentication,
                                                                                   @PathVariable("reservationId") Long roomReservationId) {
 
