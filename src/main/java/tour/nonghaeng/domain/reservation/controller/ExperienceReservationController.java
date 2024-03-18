@@ -122,13 +122,8 @@ public class ExperienceReservationController {
         if (notApproveFlag == true) {
             return new ResponseEntity<>("체험예약 미승인완료(체험예약 id:" + id + ")", HttpStatus.OK);
         }
+
         return new ResponseEntity<>("체험예약 승인완료(체험예약 id:" + id + ")", HttpStatus.OK);
     }
-
-
-
-
-
-
 }
 

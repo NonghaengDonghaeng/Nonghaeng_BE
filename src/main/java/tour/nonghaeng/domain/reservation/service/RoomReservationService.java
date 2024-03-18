@@ -23,7 +23,6 @@ import tour.nonghaeng.global.validation.reservation.RoomReservationValidator;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -82,6 +81,21 @@ public class RoomReservationService {
         RoomReservation roomReservation = findById(roomReservationId);
 
         return RoomReservationSellerDetailDto.toDto(roomReservation);
+    }
+
+    public Long approveRoomReservation(Long roomReservationId,boolean notApproveFlag) {
+
+        RoomReservation roomReservation = findById(roomReservationId);
+
+        roomReservationValidator.checkWaitingState(roomReservation);
+
+        if (notApproveFlag) {
+            roomReservation.notApproveReservation();
+            userService.payBackPoint(roomReservation.getUser(), roomReservation.getPrice(), CancelPolicy.NOT_CONFIRM_CANCEL_POLICY);
+        }
+        roomReservation.approveReservation();
+
+        return roomReservationRepository.save(roomReservation).getId();
     }
 
     public RoomReservationCancelResponseDto cancelRoomReservation(User user, Long roomReservationId) {
@@ -150,8 +164,7 @@ public class RoomReservationService {
     }
 
     private LocalDate findStartDateById(Long roomReservationId) {
-        roomReservationRepository.findStartDateById(roomReservationId)
+        return roomReservationRepository.findStartDateById(roomReservationId)
                 .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_RESERVATION_DATE_BY_ID));
-
     }
 }

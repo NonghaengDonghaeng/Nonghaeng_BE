@@ -45,6 +45,13 @@ public class RoomReservationValidator {
         }
     }
 
+    public void checkWaitingState(RoomReservation roomReservation) {
+
+        if (!roomReservation.getStateType().equals(ReservationStateType.WAITING_RESERVATION)) {
+            throw new ReservationException(ReservationErrorCode.NOT_WAITING_RESERVATION_STATE);
+        }
+    }
+
     public void checkCancelState(RoomReservation roomReservation) {
 
         ReservationStateType stateType = roomReservation.getStateType();
