@@ -10,13 +10,14 @@ public class TestExperienceRound {
     public static final int EXPERIENCE_ROUND_START_TIME = 10;
     public static final int EXPERIENCE_ROUND_END_TIME = 11;
 
-    public static int num = 0;
+    public static int num = -1;
 
     public static ExperienceRound makeTestExperienceRound(Experience experience) {
+        num++;
         return ExperienceRound.builder()
                 .experience(experience)
-                .startTime(LocalTime.of(EXPERIENCE_ROUND_START_TIME + (num++), 0))
-                .endTime(LocalTime.of(EXPERIENCE_ROUND_END_TIME + (num++), 0))
+                .startTime(LocalTime.of(EXPERIENCE_ROUND_START_TIME + (num), 0))
+                .endTime(LocalTime.of(EXPERIENCE_ROUND_END_TIME + (num), 0))
                 .maxParticipant(experience.getMaxParticipant())
                 .build();
     }
