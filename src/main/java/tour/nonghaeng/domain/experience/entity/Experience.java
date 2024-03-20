@@ -71,8 +71,8 @@ public class Experience extends BaseTimeEntity {
     private String precautions;             //유의사항
 
     @Builder
-    public Experience(Seller seller, Tour tour, ExperienceType experienceType, String experienceName, LocalDate startDate, LocalDate endDate, int minParticipant, int maxParticipant, int price, int durationHours, String checkPoint, String detailIntroduction, String summary, String supplies, String precautions) {
-        this.seller = seller;
+    public Experience(Tour tour, ExperienceType experienceType, String experienceName, LocalDate startDate, LocalDate endDate, int minParticipant, int maxParticipant, int price, int durationHours, String checkPoint, String detailIntroduction, String summary, String supplies, String precautions) {
+        this.seller = tour.getSeller();
         this.tour = tour;
         this.experienceType = experienceType;
         this.experienceName = experienceName;

@@ -43,7 +43,7 @@ public class ExperienceService {
 
         //TODO: dto 검증
 
-        Experience experience = dto.toEntity(seller, tourService.findBySeller(seller));
+        Experience experience = dto.toEntity(tourService.findBySeller(seller));
 
         experienceRoundService.addRounds(experience,dto.expRoundDtoList());
 

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import tour.nonghaeng.domain.etc.experience.ExperienceType;
 import tour.nonghaeng.domain.experience.entity.Experience;
-import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.tour.entity.Tour;
 
 import java.time.LocalDate;
@@ -27,9 +26,8 @@ public record CreateExpDto(
         String precautions,
         List<AddExpRoundDto> expRoundDtoList
 ) {
-    public Experience toEntity(Seller seller, Tour tour) {
+    public Experience toEntity(Tour tour) {
         return Experience.builder()
-                .seller(seller)
                 .tour(tour)
                 .experienceType(this.experienceType)
                 .experienceName(this.experienceName)

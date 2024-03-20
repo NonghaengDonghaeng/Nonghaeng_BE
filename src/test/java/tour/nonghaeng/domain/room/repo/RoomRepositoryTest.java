@@ -1,8 +1,6 @@
 package tour.nonghaeng.domain.room.repo;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -27,6 +25,7 @@ import static tour.nonghaeng.global.tour.TestTour.makeTestTour;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @TestPropertySource(locations = "/application-data.properties")
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class RoomRepositoryTest {
 
     @Autowired
@@ -45,9 +44,6 @@ class RoomRepositoryTest {
     private static Seller seller;
     private static Room room1;
     private static Room room2;
-    private static RoomCloseDate roomCloseDate1;
-    private static RoomCloseDate roomCloseDate2;
-
 
     @BeforeEach
     void setUp() {
@@ -113,12 +109,13 @@ class RoomRepositoryTest {
     }
 
     @Test
+    @Order(1)
     void findOldestCloseDate() {
         //given
         Room savedRoom = roomRepository.save(room1);
 
-        roomCloseDate1 = makeTestRoomCloseDate(room1);
-        roomCloseDate2 = makeTestRoomCloseDate(room1);
+        RoomCloseDate roomCloseDate1 = makeTestRoomCloseDate(room1);
+        RoomCloseDate roomCloseDate2 = makeTestRoomCloseDate(room1);
         roomCloseDateRepository.save(roomCloseDate1);
         roomCloseDateRepository.save(roomCloseDate2);
         //when

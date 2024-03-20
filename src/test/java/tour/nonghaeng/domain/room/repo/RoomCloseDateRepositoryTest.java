@@ -62,6 +62,21 @@ class RoomCloseDateRepositoryTest {
     }
 
     @Test
+    @DisplayName("저장 및 조회")
+    void 저장및조회() {
+        //given
+        RoomCloseDate savedRoomCloseDate = roomCloseDateRepository.save(roomCloseDate1);
+        //when
+        Room getRoom = savedRoomCloseDate.getRoom();
+        Seller getSeller = savedRoomCloseDate.getRoom().getSeller();
+        Tour getTour = savedRoomCloseDate.getRoom().getTour();
+        //then
+        assertThat(getRoom).isSameAs(room);
+        assertThat(getSeller).isSameAs(seller);
+        assertThat(getTour).isSameAs(tour);
+    }
+
+    @Test
     @DisplayName("existsByRoomAndCloseDate: 방와 오픈날짜 존재하는지 체크, 존재할 때")
     void existsByRoomAndCloseDate_CASE1() {
         //given
