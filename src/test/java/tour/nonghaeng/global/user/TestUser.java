@@ -13,16 +13,17 @@ public class TestUser {
     public static final Role USER_ROLE = Role.USER;
     public static final AreaCode USER_AREA_CODE = AreaCode.DAEJEON;
 
-    public static int num = 0;
+    public static int num = -1;
 
     public static User makeTestUser() {
+        num++;
         return User.builder()
                 .role(USER_ROLE)
                 .areaCode(USER_AREA_CODE)
-                .number(USER_NUMBER)
-                .name(USER_NAME)
+                .number(USER_NUMBER+String.valueOf(num))
+                .name(USER_NAME+String.valueOf(num))
                 .password(USER_PASSWORD)
-                .email(USER_EMAIL)
+                .email(USER_EMAIL+String.valueOf(num))
                 .build();
     }
 
