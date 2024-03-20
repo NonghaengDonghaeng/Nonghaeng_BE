@@ -57,10 +57,10 @@ public class ExperienceReservation extends BaseTimeEntity {
     private String email;
 
     @Builder
-    public ExperienceReservation(User user, Seller seller, Experience experience, ExperienceRound experienceRound, ReservationStateType stateType, int price, LocalDate reservationDate, int numOfParticipant, String reservationName, String number, String email) {
+    public ExperienceReservation(User user, ExperienceRound experienceRound, ReservationStateType stateType, int price, LocalDate reservationDate, int numOfParticipant, String reservationName, String number, String email) {
         this.user = user;
-        this.seller = seller;
-        this.experience = experience;
+        this.seller = experienceRound.getExperience().getSeller();
+        this.experience = experienceRound.getExperience();
         this.experienceRound = experienceRound;
         this.stateType = stateType;
         this.price = price;

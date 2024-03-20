@@ -42,8 +42,6 @@ public class CreateExpReservationDto {
     public ExperienceReservation toEntity(User user, ExperienceRound experienceRound) {
         return ExperienceReservation.builder()
                 .user(user)
-                .seller(experienceRound.getExperience().getSeller())
-                .experience(experienceRound.getExperience())
                 .experienceRound(experienceRound)
                 .stateType(ReservationStateType.WAITING_RESERVATION)
                 .price(this.getFinalPrice())
