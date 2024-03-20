@@ -7,17 +7,10 @@ import java.time.LocalDate;
 
 public class TestExperienceCloseDate {
 
-    public static final int EXPERIENCE_CLOSE_DATE_YEAR = 2024;
-    public static final int EXPERIENCE_CLOSE_DATE_MONTH = 5;
-    public static final int EXPERIENCE_CLOSE_DATE_DAY = 5;
-
-    public static int num = -1;
-
-    public static ExperienceCloseDate makeTestExperienceCloseDate(Experience experience) {
-        num++;
+    public static ExperienceCloseDate makeTestExperienceCloseDate(Experience experience,LocalDate closeDate) {
         return ExperienceCloseDate.builder()
                 .experience(experience)
-                .closeDate(LocalDate.of(EXPERIENCE_CLOSE_DATE_YEAR, EXPERIENCE_CLOSE_DATE_MONTH, EXPERIENCE_CLOSE_DATE_DAY + num))
+                .closeDate(closeDate)
                 .build();
     }
 

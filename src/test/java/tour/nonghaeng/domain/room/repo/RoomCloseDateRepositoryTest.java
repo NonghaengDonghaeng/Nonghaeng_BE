@@ -57,8 +57,10 @@ class RoomCloseDateRepositoryTest {
         room = makeTestRoom(tour, 0);
         roomRepository.save(room);
 
-        roomCloseDate1 = makeTestRoomCloseDate(room);
-        roomCloseDate2 = makeTestRoomCloseDate(room);
+        LocalDate closeDate1 = LocalDate.of(2024, 5, 5);
+        LocalDate closeDate2 = LocalDate.of(2024, 5, 6);
+        roomCloseDate1 = makeTestRoomCloseDate(room,closeDate1);
+        roomCloseDate2 = makeTestRoomCloseDate(room,closeDate2);
     }
 
     @Test
@@ -83,8 +85,8 @@ class RoomCloseDateRepositoryTest {
         roomCloseDateRepository.save(roomCloseDate1);
         roomCloseDateRepository.save(roomCloseDate2);
         //when
-        boolean result1 = roomCloseDateRepository.existsByRoomAndCloseDate(room,LocalDate.of(ROOM_CLOSE_DATE_YEAR, ROOM_CLOSE_DATE_MONTH, ROOM_CLOSE_DATE_DAY));
-        boolean result2 = roomCloseDateRepository.existsByRoomAndCloseDate(room,LocalDate.of(ROOM_CLOSE_DATE_YEAR, ROOM_CLOSE_DATE_MONTH, ROOM_CLOSE_DATE_DAY+1));
+        boolean result1 = roomCloseDateRepository.existsByRoomAndCloseDate(room,LocalDate.of(2024, 5, 5));
+        boolean result2 = roomCloseDateRepository.existsByRoomAndCloseDate(room,LocalDate.of(2024, 5, 6));
         //then
         assertThat(result1).isTrue();
         assertThat(result2).isTrue();
@@ -97,8 +99,8 @@ class RoomCloseDateRepositoryTest {
         roomCloseDateRepository.save(roomCloseDate1);
         roomCloseDateRepository.save(roomCloseDate2);
         //when
-        boolean result1 = roomCloseDateRepository.existsByRoomAndCloseDate(room,LocalDate.of(ROOM_CLOSE_DATE_YEAR, ROOM_CLOSE_DATE_MONTH+1, ROOM_CLOSE_DATE_DAY));
-        boolean result2 = roomCloseDateRepository.existsByRoomAndCloseDate(room,LocalDate.of(ROOM_CLOSE_DATE_YEAR, ROOM_CLOSE_DATE_MONTH+1, ROOM_CLOSE_DATE_DAY+1));
+        boolean result1 = roomCloseDateRepository.existsByRoomAndCloseDate(room,LocalDate.of(2024,6,6));
+        boolean result2 = roomCloseDateRepository.existsByRoomAndCloseDate(room,LocalDate.of(2024,6,10));
         //then
         assertThat(result1).isFalse();
         assertThat(result2).isFalse();
@@ -111,8 +113,8 @@ class RoomCloseDateRepositoryTest {
         RoomCloseDate savedRoomCloseDate1 = roomCloseDateRepository.save(roomCloseDate1);
         RoomCloseDate savedRoomCloseDate2 = roomCloseDateRepository.save(roomCloseDate2);
 
-        LocalDate closeDate1 = LocalDate.of(ROOM_CLOSE_DATE_YEAR, ROOM_CLOSE_DATE_MONTH, ROOM_CLOSE_DATE_DAY);
-        LocalDate closeDate2 = LocalDate.of(ROOM_CLOSE_DATE_YEAR, ROOM_CLOSE_DATE_MONTH, ROOM_CLOSE_DATE_DAY+1);
+        LocalDate closeDate1 = LocalDate.of(2024,5,5);
+        LocalDate closeDate2 = LocalDate.of(2024,5,6);
 
         //when
         Optional<RoomCloseDate> byRoomAndCloseDate1 = roomCloseDateRepository.findByRoomAndCloseDate(room, closeDate1);

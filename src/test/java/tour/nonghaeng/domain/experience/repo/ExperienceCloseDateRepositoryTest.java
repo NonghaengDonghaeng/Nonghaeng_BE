@@ -59,7 +59,7 @@ class ExperienceCloseDateRepositoryTest {
     @DisplayName("저장 및 조회")
     void 저장및조회() {
         //given
-        ExperienceCloseDate experienceCloseDate = makeTestExperienceCloseDate(experience);
+        ExperienceCloseDate experienceCloseDate = makeTestExperienceCloseDate(experience,LocalDate.of(2024,5,5));
         ExperienceCloseDate saved = experienceCloseDateRepository.save(experienceCloseDate);
         //when
         Optional<ExperienceCloseDate> byId = experienceCloseDateRepository.findById(experienceCloseDate.getId());
@@ -72,11 +72,11 @@ class ExperienceCloseDateRepositoryTest {
     @DisplayName("existsByExperienceAndCloseDate: 존재할때와 존재하지 않을때 모두")
     void existsByExperienceAndCloseDate() {
         //given
-        ExperienceCloseDate experienceCloseDate = makeTestExperienceCloseDate(experience);
+        ExperienceCloseDate experienceCloseDate = makeTestExperienceCloseDate(experience,LocalDate.of(2024,5,5));
 
         experienceCloseDateRepository.save(experienceCloseDate);
         LocalDate localDate1 = experienceCloseDate.getCloseDate();
-        LocalDate localDate2 = LocalDate.of(EXPERIENCE_CLOSE_DATE_YEAR, EXPERIENCE_CLOSE_DATE_MONTH+1, EXPERIENCE_CLOSE_DATE_DAY+1);
+        LocalDate localDate2 = LocalDate.of(2024,6,1);
         //when
         boolean result1 = experienceCloseDateRepository.existsByExperienceAndCloseDate(experience, localDate1);
         boolean result2 = experienceCloseDateRepository.existsByExperienceAndCloseDate(experience, localDate2);
@@ -91,18 +91,18 @@ class ExperienceCloseDateRepositoryTest {
     @Order(1)
     void findByExperienceAndCloseDate() {
         //given
-        ExperienceCloseDate experienceCloseDate1 = makeTestExperienceCloseDate(experience);
-        ExperienceCloseDate experienceCloseDate2 = makeTestExperienceCloseDate(experience);
-        ExperienceCloseDate experienceCloseDate3 = makeTestExperienceCloseDate(experience);
-        ExperienceCloseDate experienceCloseDate4 = makeTestExperienceCloseDate(experience);
+        ExperienceCloseDate experienceCloseDate1 = makeTestExperienceCloseDate(experience,LocalDate.of(2024,5,5));
+        ExperienceCloseDate experienceCloseDate2 = makeTestExperienceCloseDate(experience,LocalDate.of(2024,5,6));
+        ExperienceCloseDate experienceCloseDate3 = makeTestExperienceCloseDate(experience,LocalDate.of(2024,5,7));
+        ExperienceCloseDate experienceCloseDate4 = makeTestExperienceCloseDate(experience,LocalDate.of(2024,5,8));
 
         experienceCloseDateRepository.save(experienceCloseDate1);
         experienceCloseDateRepository.save(experienceCloseDate2);
         experienceCloseDateRepository.save(experienceCloseDate3);
         experienceCloseDateRepository.save(experienceCloseDate4);
 
-        LocalDate findLocalDate1 = LocalDate.of(EXPERIENCE_CLOSE_DATE_YEAR, EXPERIENCE_CLOSE_DATE_MONTH, EXPERIENCE_CLOSE_DATE_DAY);
-        LocalDate findLocalDate2 = LocalDate.of(EXPERIENCE_CLOSE_DATE_YEAR, EXPERIENCE_CLOSE_DATE_MONTH, EXPERIENCE_CLOSE_DATE_DAY+2);
+        LocalDate findLocalDate1 = LocalDate.of(2024,5,5);
+        LocalDate findLocalDate2 = LocalDate.of(2024,5,7);
         //when
         Optional<ExperienceCloseDate> byExperienceAndCloseDate1 =
                 experienceCloseDateRepository.findByExperienceAndCloseDate(experience, findLocalDate1);

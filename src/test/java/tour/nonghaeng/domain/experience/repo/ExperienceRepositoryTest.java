@@ -106,8 +106,8 @@ class ExperienceRepositoryTest {
         //given
         Experience savedExperience = experienceRepository.save(experience);
 
-        ExperienceCloseDate experienceCloseDate1 = makeTestExperienceCloseDate(experience);
-        ExperienceCloseDate experienceCloseDate2 = makeTestExperienceCloseDate(experience);
+        ExperienceCloseDate experienceCloseDate1 = makeTestExperienceCloseDate(experience,LocalDate.of(2024,5,5));
+        ExperienceCloseDate experienceCloseDate2 = makeTestExperienceCloseDate(experience,LocalDate.of(2024,5,6));
         experienceCloseDateRepository.save(experienceCloseDate1);
         experienceCloseDateRepository.save(experienceCloseDate2);
 
@@ -116,7 +116,7 @@ class ExperienceRepositoryTest {
         //then
         oldestCloseDate.ifPresent(oldestCloseDate1 -> {
             assertThat(oldestCloseDate1).isEqualTo(experienceCloseDate1.getCloseDate());
-            assertThat(oldestCloseDate1).isEqualTo(LocalDate.of(EXPERIENCE_CLOSE_DATE_YEAR, EXPERIENCE_CLOSE_DATE_MONTH, EXPERIENCE_CLOSE_DATE_DAY));
+            assertThat(oldestCloseDate1).isEqualTo(LocalDate.of(2024,5,5));
         });
     }
 

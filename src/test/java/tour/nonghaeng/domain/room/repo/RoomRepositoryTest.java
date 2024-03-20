@@ -114,15 +114,15 @@ class RoomRepositoryTest {
         //given
         Room savedRoom = roomRepository.save(room1);
 
-        RoomCloseDate roomCloseDate1 = makeTestRoomCloseDate(room1);
-        RoomCloseDate roomCloseDate2 = makeTestRoomCloseDate(room1);
+        RoomCloseDate roomCloseDate1 = makeTestRoomCloseDate(room1,LocalDate.of(2024,5,5));
+        RoomCloseDate roomCloseDate2 = makeTestRoomCloseDate(room1,LocalDate.of(2024,5,6));
         roomCloseDateRepository.save(roomCloseDate1);
         roomCloseDateRepository.save(roomCloseDate2);
         //when
         Optional<LocalDate> oldestCloseDate = roomRepository.findOldestCloseDate(savedRoom.getId());
         //then
         oldestCloseDate.ifPresent(closeDate ->
-                assertThat(closeDate).isEqualTo(LocalDate.of(ROOM_CLOSE_DATE_YEAR, ROOM_CLOSE_DATE_MONTH, ROOM_CLOSE_DATE_DAY)));
+                assertThat(closeDate).isEqualTo(LocalDate.of(2024,5,5)));
     }
 
     @Test
