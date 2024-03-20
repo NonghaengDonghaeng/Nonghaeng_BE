@@ -3,7 +3,6 @@ package tour.nonghaeng.domain.room.dto;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import tour.nonghaeng.domain.etc.room.RoomType;
-import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.room.entity.Room;
 import tour.nonghaeng.domain.tour.entity.Tour;
 
@@ -31,9 +30,8 @@ public record CreateRoomDto(
     String precautions
 ) {
 
-    public Room toEntity(Seller seller, Tour tour) {
+    public Room toEntity(Tour tour) {
         return Room.builder()
-                .seller(seller)
                 .tour(tour)
                 .roomType(this.roomType)
                 .roomName(this.roomName)

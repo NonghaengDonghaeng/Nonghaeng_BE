@@ -7,21 +7,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.TestPropertySource;
-import tour.nonghaeng.domain.etc.room.RoomType;
-import tour.nonghaeng.domain.etc.tour.TourType;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.repo.SellerRepository;
 import tour.nonghaeng.domain.room.entity.Room;
+import tour.nonghaeng.domain.room.entity.RoomCloseDate;
 import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.domain.tour.repo.TourRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static tour.nonghaeng.global.room.TestRoom.*;
-import static tour.nonghaeng.global.seller.TestSeller.*;
-import static tour.nonghaeng.global.tour.TestTour.TOUR_NAME;
+import static tour.nonghaeng.global.room.TestRoom.makeTestRoom;
+import static tour.nonghaeng.global.room.TestRoomCloseDate.*;
+import static tour.nonghaeng.global.seller.TestSeller.makeTestSeller;
+import static tour.nonghaeng.global.tour.TestTour.makeTestTour;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -37,72 +38,35 @@ class RoomRepositoryTest {
     @Autowired
     private TourRepository tourRepository;
 
+    @Autowired
+    private RoomCloseDateRepository roomCloseDateRepository;
+
     private static Tour tour;
     private static Seller seller;
-    private static Room room;
+    private static Room room1;
     private static Room room2;
+    private static RoomCloseDate roomCloseDate1;
+    private static RoomCloseDate roomCloseDate2;
 
 
     @BeforeEach
     void setUp() {
-        seller = Seller.builder()
-                .role(SELLER_ROLE)
-                .areaCode(SELLER_AREA_CODE)
-                .username(SELLER_USER_NAME)
-                .password(SELLER_PASSWORD)
-                .name(SELLER_NAME)
-                .businessNumber(SELLER_BUSINESS_NUMBER)
-                .email(SELLER_EMAIL)
-                .phoneNumber(SELLER_PHONE_NUMBER)
-                .build();
+        seller = makeTestSeller();
         sellerRepository.save(seller);
 
-        tour = Tour.builder()
-                .seller(seller)
-                .tourType(TourType.CAMPING)
-                .name(TOUR_NAME)
-                .build();
+        tour = makeTestTour(seller);
         tourRepository.save(tour);
 
-        room = Room.builder()
-                .tour(tour)
-                .seller(seller)
-                .roomType(RoomType.VILLAGE)
-                .roomName(ROOM_NAME)
-                .summary(ROOM_SUMMARY)
-                .pricePeak(ROOM_PRICE_PEAK)
-                .priceOffPeak(ROOM_PRICE_OFF_PEAK)
-                .priceHoliday(ROOM_PRICE_HOLIDAY)
-                .standardCapacity(ROOM_STANDARD_CAPACITY)
-                .maxCapacity(ROOM_MAX_CAPACITY)
-                .additionalCost(ROOM_ADDITIONAL_COST)
-                .checkinTime(ROOM_CHECKIN_TIME)
-                .checkoutTime(ROOM_CHECKOUT_TIME)
-                .numOfRoom(ROOM_NUM_OF_ROOM)
-                .build();
-        room2 = Room.builder()
-                .tour(tour)
-                .seller(seller)
-                .roomType(RoomType.VILLAGE)
-                .roomName(ROOM_NAME+"1")
-                .summary(ROOM_SUMMARY)
-                .pricePeak(ROOM_PRICE_PEAK+1000)
-                .priceOffPeak(ROOM_PRICE_OFF_PEAK+1000)
-                .priceHoliday(ROOM_PRICE_HOLIDAY+1000)
-                .standardCapacity(ROOM_STANDARD_CAPACITY)
-                .maxCapacity(ROOM_MAX_CAPACITY)
-                .additionalCost(ROOM_ADDITIONAL_COST)
-                .checkinTime(ROOM_CHECKIN_TIME)
-                .checkoutTime(ROOM_CHECKOUT_TIME)
-                .numOfRoom(ROOM_NUM_OF_ROOM)
-                .build();
+        room1 = makeTestRoom(tour, 0);
+        room2 = makeTestRoom(tour, 1000);
+
     }
 
     @Test
-    @DisplayName("숙소 저장 및 조회")
+    @DisplayName("숙소 저장 및 id로 조회")
     void 숙소저장및조회() {
         //given
-        Room savedRoom = roomRepository.save(room);
+        Room savedRoom = roomRepository.save(room1);
         //when
         Room findRoom = roomRepository.findById(savedRoom.getId()).get();
         //then
@@ -110,13 +74,23 @@ class RoomRepositoryTest {
     }
 
     @Test
+    @DisplayName("findMinPriceByTour: 여행지 숙소의 최소가격 찾기")
     void findMinPriceByTour() {
+        //given
+        roomRepository.save(room1);
+        roomRepository.save(room2);
+        //when
+        Integer minPriceByTour = roomRepository.findMinPriceByTour(tour);
+        //then
+        assertThat(minPriceByTour).isEqualTo(10000);
+
     }
 
     @Test
+    @DisplayName("findMaxPriceByTour: 여행지 숙소의 최고가격 찾기")
     void findMaxPriceByTour() {
         //given
-        roomRepository.save(room);
+        roomRepository.save(room1);
         roomRepository.save(room2);
         //when
         Integer maxPriceByTour = roomRepository.findMaxPriceByTour(tour);
@@ -125,10 +99,10 @@ class RoomRepositoryTest {
     }
 
     @Test
-    @DisplayName("숙소아이디로 판매자 찾기")
+    @DisplayName("findSellerByRoomId: roomId로 판매자 찾기")
     void findSellerByRoomId() {
         //given
-        Room savedRoom = roomRepository.save(room);
+        Room savedRoom = roomRepository.save(room1);
 
         //when
         Optional<Seller> sellerByRoomId = roomRepository.findSellerByRoomId(savedRoom.getId());
@@ -140,37 +114,49 @@ class RoomRepositoryTest {
 
     @Test
     void findOldestCloseDate() {
+        //given
+        Room savedRoom = roomRepository.save(room1);
+
+        roomCloseDate1 = makeTestRoomCloseDate(room1);
+        roomCloseDate2 = makeTestRoomCloseDate(room1);
+        roomCloseDateRepository.save(roomCloseDate1);
+        roomCloseDateRepository.save(roomCloseDate2);
+        //when
+        Optional<LocalDate> oldestCloseDate = roomRepository.findOldestCloseDate(savedRoom.getId());
+        //then
+        oldestCloseDate.ifPresent(closeDate ->
+                assertThat(closeDate).isEqualTo(LocalDate.of(ROOM_CLOSE_DATE_YEAR, ROOM_CLOSE_DATE_MONTH, ROOM_CLOSE_DATE_DAY)));
     }
 
     @Test
-    @DisplayName("findAllIds")
+    @DisplayName("findAllIds: 모든 roomId 리스트 뽑기")
     void findAllIds() {
         //given
-        roomRepository.save(room);
+        roomRepository.save(room1);
         roomRepository.save(room2);
         //when
         List<Long> allIds = roomRepository.findAllIds();
         //then
         assertThat(allIds.size()).isEqualTo(2);
-        assertThat(allIds).contains(room.getId());
+        assertThat(allIds).contains(room1.getId());
         assertThat(allIds).contains(room2.getId());
     }
 
     @Test
-    @DisplayName("existsById: 존재할때")
+    @DisplayName("existsById: roomId가 존재할때 true")
     void existsByIdCase1() {
         //given
-        Room savedRoom = roomRepository.save(room);
+        Room savedRoom = roomRepository.save(room1);
         //when
         boolean result = roomRepository.existsById(savedRoom.getId());
         //then
         assertThat(result).isTrue();
     }
     @Test
-    @DisplayName("existsById: 존재하지 않을때")
+    @DisplayName("existsById: roomId가 존재하지 않을때 false")
     void existsByIdCase2() {
         //given
-        Room savedRoom = roomRepository.save(room);
+        Room savedRoom = roomRepository.save(room1);
         //when
         boolean result = roomRepository.existsById(1000L);
         //then

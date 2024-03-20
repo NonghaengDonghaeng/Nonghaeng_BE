@@ -26,14 +26,7 @@ class UserRepositoryTest {
 
     @BeforeEach
     void setup() {
-        user = User.builder()
-                .role(USER_ROLE)
-                .areaCode(USER_AREA_CODE)
-                .number(USER_NUMBER)
-                .name(USER_NAME)
-                .password(USER_PASSWORD)
-                .email(USER_EMAIL)
-                .build();
+        user = makeTestUser();
     }
 
     @Test

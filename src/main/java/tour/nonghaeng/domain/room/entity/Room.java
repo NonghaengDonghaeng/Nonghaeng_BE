@@ -76,9 +76,9 @@ public class Room extends BaseTimeEntity {
     private String precautions;         //유의사항(전 객실 금연입니다.)
 
     @Builder
-    public Room(Tour tour, Seller seller, RoomType roomType, String roomName, String summary, int pricePeak, int priceOffPeak, int priceHoliday, int standardCapacity, int maxCapacity, int additionalCost, LocalTime checkinTime, LocalTime checkoutTime, int numOfRoom, String roomConfiguration, String inclusions, String requirement, String facilities, String usageTips, String precautions) {
+    public Room(Tour tour, RoomType roomType, String roomName, String summary, int pricePeak, int priceOffPeak, int priceHoliday, int standardCapacity, int maxCapacity, int additionalCost, LocalTime checkinTime, LocalTime checkoutTime, int numOfRoom, String roomConfiguration, String inclusions, String requirement, String facilities, String usageTips, String precautions) {
         this.tour = tour;
-        this.seller = seller;
+        this.seller = tour.getSeller();
         this.roomType = roomType;
         this.roomName = roomName;
         this.summary = summary;

@@ -13,6 +13,7 @@ import tour.nonghaeng.domain.etc.role.Role;
 import tour.nonghaeng.domain.member.entity.Seller;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static tour.nonghaeng.global.seller.TestSeller.makeTestSeller;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -40,21 +41,7 @@ class SellerRepositoryTest {
 
     @BeforeEach
     void setup() {
-        seller = Seller.builder()
-                .role(SELLER_ROLE)
-                .areaCode(SELLER_AREA_CODE)
-                .username(SELLER_USER_NAME)
-                .password(SELLER_PASSWORD)
-                .name(SELLER_NAME)
-                .businessNumber(SELLER_BUSINESS_NUMBER)
-                .email(SELLER_EMAIL)
-                .address(SELLER_ADDRESS)
-                .phoneNumber(SELLER_PHONE_NUMBER)
-                .callNumber(SELLER_CALL_NUMBER)
-                .bankCode(SELLER_BANK_CODE)
-                .bankAccount(SELLER_BANK_ACCOUNT)
-                .bankAccountName(SELLER_BANK_ACCOUNT_NAME)
-                .build();
+        seller = makeTestSeller();
     }
 
     @Test

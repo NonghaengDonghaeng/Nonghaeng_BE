@@ -40,7 +40,7 @@ public class RoomService {
 
         //TODO: dto 검증
 
-        Room room = dto.toEntity(seller, tourService.findBySeller(seller));
+        Room room = dto.toEntity(tourService.findBySeller(seller));
 
         return roomRepository.save(room).getId();
     }
