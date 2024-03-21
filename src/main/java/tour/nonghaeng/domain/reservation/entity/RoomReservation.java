@@ -58,10 +58,10 @@ public class RoomReservation extends BaseTimeEntity {
     private String email;
 
     @Builder
-    private RoomReservation(User user, Seller seller, Room room, ReservationStateType stateType, int price, int numOfRoom, int numOfParticipant, String reservationName, String number, String email) {
+    private RoomReservation(User user, Room room, ReservationStateType stateType, int price, int numOfRoom, int numOfParticipant, String reservationName, String number, String email) {
 
         this.user = user;
-        this.seller = seller;
+        this.seller = room.getSeller();
         this.room = room;
         this.stateType = stateType;
         this.price = price;

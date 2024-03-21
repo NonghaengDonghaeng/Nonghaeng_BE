@@ -21,21 +21,22 @@ public class TestSeller {
     public static final String SELLER_BANK_ACCOUNT = "12-34567-89";
     public static final String SELLER_BANK_ACCOUNT_NAME = "tesSeller";
 
-    public static int num = 0;
+    public static int num = -1;
 
 
     public static Seller makeTestSeller() {
+        num++;
         return Seller.builder()
                 .role(SELLER_ROLE)
                 .areaCode(SELLER_AREA_CODE)
-                .username(SELLER_USER_NAME + String.valueOf(num++))
+                .username(SELLER_USER_NAME + String.valueOf(num))
                 .password(SELLER_PASSWORD)
-                .name(SELLER_NAME + String.valueOf(num++))
-                .businessNumber(SELLER_BUSINESS_NUMBER + String.valueOf(num++))
-                .email(SELLER_EMAIL + String.valueOf(num++))
-                .address(SELLER_ADDRESS + String.valueOf(num++))
-                .phoneNumber(SELLER_PHONE_NUMBER + String.valueOf(num++))
-                .callNumber(SELLER_CALL_NUMBER + String.valueOf(num++))
+                .name(SELLER_NAME + String.valueOf(num))
+                .businessNumber(SELLER_BUSINESS_NUMBER + String.valueOf(num))
+                .email(SELLER_EMAIL + String.valueOf(num))
+                .address(SELLER_ADDRESS + String.valueOf(num))
+                .phoneNumber(SELLER_PHONE_NUMBER + String.valueOf(num))
+                .callNumber(SELLER_CALL_NUMBER + String.valueOf(num))
                 .bankCode(SELLER_BANK_CODE)
                 .bankAccount(SELLER_BANK_ACCOUNT)
                 .bankAccountName(SELLER_BANK_ACCOUNT_NAME)

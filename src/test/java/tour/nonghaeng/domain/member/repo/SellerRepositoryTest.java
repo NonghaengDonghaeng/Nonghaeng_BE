@@ -50,7 +50,7 @@ class SellerRepositoryTest {
         //given
         Seller savedSeller = sellerRepository.save(seller);
         //when
-        Seller findSeller = sellerRepository.findByUsername(SELLER_USER_NAME).get();
+        Seller findSeller = sellerRepository.findByUsername(savedSeller.getUsername()).get();
         //then
         assertThat(savedSeller).isSameAs(findSeller);
         assertThat(savedSeller.getId()).isEqualTo(findSeller.getId());

@@ -67,6 +67,7 @@ class ExperienceReservationRepositoryTest {
     private static ExperienceRound experienceRound;
     private static ExperienceCloseDate experienceCloseDate;
     private static LocalDate reservationDate;
+
     @BeforeEach
     void setUp() {
         user = makeTestUser();
@@ -98,9 +99,9 @@ class ExperienceReservationRepositoryTest {
         ExperienceReservation experienceReservation = makeTestExperienceReservation(user, experienceRound, reservationDate);
         ExperienceReservation saved = experienceReservationRepository.save(experienceReservation);
         //when
-        Optional<ExperienceReservation> byId = experienceReservationRepository.findById(saved.getId());
+        Optional<ExperienceReservation> find = experienceReservationRepository.findById(saved.getId());
         //then
-        byId.ifPresent(experienceReservation1 -> {
+        find.ifPresent(experienceReservation1 -> {
             assertThat(experienceReservation1.getExperienceRound()).isSameAs(experienceRound);
             assertThat(experienceReservation1.getExperience()).isSameAs(experience);
             assertThat(experienceReservation1.getUser()).isSameAs(user);
@@ -111,6 +112,7 @@ class ExperienceReservationRepositoryTest {
     }
 
     @Test
+    @DisplayName("회차와 예약날짜를 보고 참가자 수 찾기")
     void countParticipantByExperienceRoundAndReservationDate() {
         //given
         ExperienceReservation experienceReservation1 = makeTestExperienceReservation(user, experienceRound, reservationDate, 1);
@@ -128,9 +130,10 @@ class ExperienceReservationRepositoryTest {
     }
 
     @Test
+    @DisplayName("판매자로 체험예약모두 찾기")
     void findAllBySeller() {
         //given
-        ExperienceRound experienceRound1 = createExperienceRound();
+        ExperienceRound experienceRound1 = createExperienceRound(12);
 
         ExperienceReservation experienceReservation1 = makeTestExperienceReservation(user, experienceRound, reservationDate, 1);
         ExperienceReservation experienceReservation2 = makeTestExperienceReservation(user, experienceRound, LocalDate.of(2024,3,4), 2);
@@ -150,9 +153,10 @@ class ExperienceReservationRepositoryTest {
     }
 
     @Test
+    @DisplayName("소비자로 체험예약모두 찾기")
     void findAllByUser() {
         //given
-        ExperienceRound experienceRound1 = createExperienceRound();
+        ExperienceRound experienceRound1 = createExperienceRound(12);
 
         ExperienceReservation experienceReservation1 = makeTestExperienceReservation(user, experienceRound, reservationDate, 1);
         ExperienceReservation experienceReservation2 = makeTestExperienceReservation(user, experienceRound, LocalDate.of(2024,3,4), 2);
@@ -172,6 +176,7 @@ class ExperienceReservationRepositoryTest {
     }
 
     @Test
+    @DisplayName("체험예약아이디로 판매자 찾기")
     void findSellerById() {
         //given
         ExperienceReservation experienceReservation1 = makeTestExperienceReservation(user, experienceRound, reservationDate, 1);
@@ -185,6 +190,7 @@ class ExperienceReservationRepositoryTest {
     }
 
     @Test
+    @DisplayName("체험예약아이디로 소비자찾기")
     void findUserById() {
         //given
         ExperienceReservation experienceReservation1 = makeTestExperienceReservation(user, experienceRound, reservationDate, 1);
@@ -197,6 +203,7 @@ class ExperienceReservationRepositoryTest {
     }
 
     @Test
+    @DisplayName("존재하는 체험예약아이디인지 확인")
     void existsById() {
         //given
         ExperienceReservation experienceReservation1 = makeTestExperienceReservation(user, experienceRound, reservationDate, 1);
@@ -210,14 +217,14 @@ class ExperienceReservationRepositoryTest {
         assertThat(result2).isFalse();
     }
 
-    private ExperienceRound createExperienceRound() {
+    private ExperienceRound createExperienceRound(int startTime) {
         Seller seller1 = makeTestSeller();
         sellerRepository.save(seller1);
         Tour tour1 = makeTestTour(seller1);
         tourRepository.save(tour1);
         Experience experience1 = makeTestExperience(tour1);
         experienceRepository.save(experience1);
-        ExperienceRound experienceRound1 = makeTestExperienceRound(experience1);
+        ExperienceRound experienceRound1 = makeTestExperienceRound(experience1,startTime);
         return experienceRoundRepository.save(experienceRound1);
     }
 

@@ -1,6 +1,5 @@
 package tour.nonghaeng.domain.member.repo;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,9 @@ import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.global.login.dto.TempMember;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static tour.nonghaeng.global.user.TestUser.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static tour.nonghaeng.global.user.TestUser.makeTestUser;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -36,11 +37,11 @@ class UserRepositoryTest {
 
         User savedUser = userRepository.save(user);
         //when
-        User findUser = userRepository.findByNumber("010-1234-1234").get();
+        User findUser = userRepository.findByNumber(savedUser.getNumber()).get();
         //then
-        Assertions.assertSame(savedUser, findUser);
-        Assertions.assertEquals(savedUser.getName(), findUser.getName());
-        Assertions.assertEquals(savedUser.getId(), findUser.getId());
+        assertSame(savedUser, findUser);
+        assertEquals(savedUser.getName(), findUser.getName());
+        assertEquals(savedUser.getId(), findUser.getId());
     }
 
     @Test
@@ -49,7 +50,7 @@ class UserRepositoryTest {
         //given
         User savedUser = userRepository.save(user);
         //when
-        TempMember findTempMember = userRepository.findByTempUserByNumber("010-1234-1234").get();
+        TempMember findTempMember = userRepository.findByTempUserByNumber(savedUser.getNumber()).get();
         //then
 
         assertThat(savedUser.getNumber()).isEqualTo(findTempMember.getUsername());

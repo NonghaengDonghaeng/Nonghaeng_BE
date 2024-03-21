@@ -8,16 +8,24 @@ import java.time.LocalTime;
 public class TestExperienceRound {
 
     public static final int EXPERIENCE_ROUND_START_TIME = 10;
-    public static final int EXPERIENCE_ROUND_END_TIME = 11;
 
-    public static int num = -1;
 
     public static ExperienceRound makeTestExperienceRound(Experience experience) {
-        num++;
+
         return ExperienceRound.builder()
                 .experience(experience)
-                .startTime(LocalTime.of(EXPERIENCE_ROUND_START_TIME + (num), 0))
-                .endTime(LocalTime.of(EXPERIENCE_ROUND_END_TIME + (num), 0))
+                .startTime(LocalTime.of(EXPERIENCE_ROUND_START_TIME,0))
+                .endTime(LocalTime.of(EXPERIENCE_ROUND_START_TIME+2, 0))
+                .maxParticipant(experience.getMaxParticipant())
+                .build();
+    }
+
+    public static ExperienceRound makeTestExperienceRound(Experience experience,int startTime) {
+
+        return ExperienceRound.builder()
+                .experience(experience)
+                .startTime(LocalTime.of(startTime, 0))
+                .endTime(LocalTime.of(startTime+2, 0))
                 .maxParticipant(experience.getMaxParticipant())
                 .build();
     }

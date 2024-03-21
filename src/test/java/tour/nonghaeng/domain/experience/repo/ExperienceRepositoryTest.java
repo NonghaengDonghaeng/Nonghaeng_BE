@@ -19,9 +19,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static tour.nonghaeng.global.experience.TestExperience.EXPERIENCE_NAME;
 import static tour.nonghaeng.global.experience.TestExperience.makeTestExperience;
-import static tour.nonghaeng.global.experience.TestExperienceCloseDate.*;
+import static tour.nonghaeng.global.experience.TestExperienceCloseDate.makeTestExperienceCloseDate;
 import static tour.nonghaeng.global.seller.TestSeller.makeTestSeller;
 import static tour.nonghaeng.global.tour.TestTour.makeTestTour;
 
@@ -148,15 +147,16 @@ class ExperienceRepositoryTest {
         PageRequest pageable = PageRequest.of(0, 10);
         Experience experience2 = makeTestExperience(tour);
         Experience experience3 = makeTestExperience(tour);
-        experienceRepository.save(experience);
-        experienceRepository.save(experience2);
-        experienceRepository.save(experience3);
+        Experience saved1 = experienceRepository.save(experience);
+        Experience saved2 = experienceRepository.save(experience2);
+        Experience saved3 = experienceRepository.save(experience3);
         //when
         Page<Experience> all = experienceRepository.findAll(pageable);
         //then
         assertThat(all).isInstanceOf(Page.class);
         assertThat(all.getContent().size()).isEqualTo(3);
-        assertThat(all.getContent().get(0).getExperienceName()).isEqualTo(EXPERIENCE_NAME + String.valueOf(0));
-        assertThat(all.getContent().get(1).getExperienceName()).isEqualTo(EXPERIENCE_NAME + String.valueOf(1));
+        assertThat(all.getContent()).contains(saved1);
+        assertThat(all.getContent()).contains(saved3);
+        assertThat(all.getContent()).contains(saved2);
     }
 }

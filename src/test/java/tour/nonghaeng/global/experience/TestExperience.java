@@ -28,7 +28,7 @@ public class TestExperience {
         return Experience.builder()
                 .tour(tour)
                 .experienceType(EXPERIENCE_TYPE)
-                .experienceName(EXPERIENCE_NAME + String.valueOf(num++))
+                .experienceName(EXPERIENCE_NAME)
                 .startDate(EXPERIENCE_START_DATE)
                 .endDate(EXPERIENCE_END_DATE)
                 .minParticipant(EXPERIENCE_MIN_PARTICIPANT)

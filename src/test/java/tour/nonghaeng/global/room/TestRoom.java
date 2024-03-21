@@ -20,8 +20,27 @@ public class TestRoom {
     public static final LocalTime ROOM_CHECKOUT_TIME = LocalTime.of(11, 00);
     public static final int ROOM_NUM_OF_ROOM = 5;
 
-    public static int num = 0;
+    public static int num = -1;
 
+
+    public static Room makeTestRoom(Tour tour) {
+        num++;
+        return Room.builder()
+                .tour(tour)
+                .roomType(RoomType.VILLAGE)
+                .roomName(ROOM_NAME + String.valueOf(num))
+                .summary(ROOM_SUMMARY + String.valueOf(num))
+                .pricePeak(ROOM_PRICE_PEAK)
+                .priceOffPeak(ROOM_PRICE_OFF_PEAK)
+                .priceHoliday(ROOM_PRICE_HOLIDAY)
+                .standardCapacity(ROOM_STANDARD_CAPACITY)
+                .maxCapacity(ROOM_MAX_CAPACITY)
+                .additionalCost(ROOM_ADDITIONAL_COST)
+                .checkinTime(ROOM_CHECKIN_TIME)
+                .checkoutTime(ROOM_CHECKOUT_TIME)
+                .numOfRoom(ROOM_NUM_OF_ROOM)
+                .build();
+    }
 
     public static Room makeTestRoom(Tour tour,int morePrice) {
         return Room.builder()

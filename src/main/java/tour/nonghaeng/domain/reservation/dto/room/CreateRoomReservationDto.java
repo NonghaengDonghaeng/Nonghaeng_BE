@@ -46,7 +46,6 @@ public class CreateRoomReservationDto {
 
         RoomReservation roomReservation = RoomReservation.builder()
                 .user(user)
-                .seller(room.getSeller())
                 .room(room)
                 .stateType(ReservationStateType.WAITING_RESERVATION)
                 .price(this.getFinalPrice())
