@@ -18,10 +18,10 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static tour.nonghaeng.global.room.TestRoom.makeTestRoom;
-import static tour.nonghaeng.global.room.TestRoomCloseDate.*;
-import static tour.nonghaeng.global.seller.TestSeller.makeTestSeller;
-import static tour.nonghaeng.global.tour.TestTour.makeTestTour;
+import static tour.nonghaeng.global.testEntity.room.TestRoom.makeTestRoom;
+import static tour.nonghaeng.global.testEntity.room.TestRoomCloseDate.*;
+import static tour.nonghaeng.global.testEntity.seller.TestSeller.makeTestSeller;
+import static tour.nonghaeng.global.testEntity.tour.TestTour.makeTestTour;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

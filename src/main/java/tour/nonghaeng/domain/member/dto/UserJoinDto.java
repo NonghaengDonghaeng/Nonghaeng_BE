@@ -1,11 +1,13 @@
 package tour.nonghaeng.domain.member.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 import tour.nonghaeng.domain.etc.area.AreaCode;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.etc.role.Role;
 import tour.nonghaeng.domain.etc.social.SocialType;
 
+@Builder
 public record UserJoinDto(
         @JsonProperty("area_code")
         AreaCode areaCode,

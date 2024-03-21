@@ -25,13 +25,13 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static tour.nonghaeng.global.experience.TestExperience.makeTestExperience;
-import static tour.nonghaeng.global.experience.TestExperienceCloseDate.makeTestExperienceCloseDate;
-import static tour.nonghaeng.global.experience.TestExperienceRound.makeTestExperienceRound;
-import static tour.nonghaeng.global.reservation.TestExperienceReservation.makeTestExperienceReservation;
-import static tour.nonghaeng.global.seller.TestSeller.makeTestSeller;
-import static tour.nonghaeng.global.tour.TestTour.makeTestTour;
-import static tour.nonghaeng.global.user.TestUser.makeTestUser;
+import static tour.nonghaeng.global.testEntity.experience.TestExperience.makeTestExperience;
+import static tour.nonghaeng.global.testEntity.experience.TestExperienceCloseDate.makeTestExperienceCloseDate;
+import static tour.nonghaeng.global.testEntity.experience.TestExperienceRound.makeTestExperienceRound;
+import static tour.nonghaeng.global.testEntity.reservation.TestExperienceReservation.makeTestExperienceReservation;
+import static tour.nonghaeng.global.testEntity.seller.TestSeller.makeTestSeller;
+import static tour.nonghaeng.global.testEntity.tour.TestTour.makeTestTour;
+import static tour.nonghaeng.global.testEntity.user.TestUser.makeTestUser;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

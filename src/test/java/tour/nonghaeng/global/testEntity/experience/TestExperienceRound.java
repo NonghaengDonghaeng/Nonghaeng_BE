@@ -1,4 +1,4 @@
-package tour.nonghaeng.global.experience;
+package tour.nonghaeng.global.testEntity.experience;
 
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;

@@ -1,4 +1,4 @@
-package tour.nonghaeng.global.reservation;
+package tour.nonghaeng.global.testEntity.reservation;
 
 import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;

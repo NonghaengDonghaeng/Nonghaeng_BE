@@ -25,12 +25,12 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static tour.nonghaeng.global.reservation.TestRoomReservation.makeTestRoomReservation;
-import static tour.nonghaeng.global.room.TestRoom.makeTestRoom;
-import static tour.nonghaeng.global.room.TestRoomCloseDate.makeTestRoomCloseDate;
-import static tour.nonghaeng.global.seller.TestSeller.makeTestSeller;
-import static tour.nonghaeng.global.tour.TestTour.makeTestTour;
-import static tour.nonghaeng.global.user.TestUser.makeTestUser;
+import static tour.nonghaeng.global.testEntity.reservation.TestRoomReservation.makeTestRoomReservation;
+import static tour.nonghaeng.global.testEntity.room.TestRoom.makeTestRoom;
+import static tour.nonghaeng.global.testEntity.room.TestRoomCloseDate.makeTestRoomCloseDate;
+import static tour.nonghaeng.global.testEntity.seller.TestSeller.makeTestSeller;
+import static tour.nonghaeng.global.testEntity.tour.TestTour.makeTestTour;
+import static tour.nonghaeng.global.testEntity.user.TestUser.makeTestUser;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

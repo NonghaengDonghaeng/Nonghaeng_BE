@@ -1,4 +1,4 @@
-package tour.nonghaeng.global.room;
+package tour.nonghaeng.global.testEntity.room;
 
 import tour.nonghaeng.domain.room.entity.Room;
 import tour.nonghaeng.domain.room.entity.RoomCloseDate;

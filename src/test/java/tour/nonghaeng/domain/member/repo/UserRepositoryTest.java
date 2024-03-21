@@ -13,7 +13,7 @@ import tour.nonghaeng.global.login.dto.TempMember;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
-import static tour.nonghaeng.global.user.TestUser.makeTestUser;
+import static tour.nonghaeng.global.testEntity.user.TestUser.makeTestUser;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

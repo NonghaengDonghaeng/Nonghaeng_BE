@@ -1,4 +1,4 @@
-package tour.nonghaeng.global.seller;
+package tour.nonghaeng.global.testEntity.seller;
 
 import tour.nonghaeng.domain.etc.area.AreaCode;
 import tour.nonghaeng.domain.etc.bank.BankCode;

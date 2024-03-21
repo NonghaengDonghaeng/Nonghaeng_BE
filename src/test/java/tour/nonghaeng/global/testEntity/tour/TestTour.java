@@ -1,4 +1,4 @@
-package tour.nonghaeng.global.tour;
+package tour.nonghaeng.global.testEntity.tour;
 
 import tour.nonghaeng.domain.etc.tour.TourType;
 import tour.nonghaeng.domain.member.entity.Seller;

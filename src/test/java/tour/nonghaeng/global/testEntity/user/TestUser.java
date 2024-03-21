@@ -1,4 +1,4 @@
-package tour.nonghaeng.global.user;
+package tour.nonghaeng.global.testEntity.user;
 
 import tour.nonghaeng.domain.etc.area.AreaCode;
 import tour.nonghaeng.domain.etc.role.Role;

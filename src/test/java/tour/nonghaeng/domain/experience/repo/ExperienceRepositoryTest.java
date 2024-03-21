@@ -19,10 +19,10 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static tour.nonghaeng.global.experience.TestExperience.makeTestExperience;
-import static tour.nonghaeng.global.experience.TestExperienceCloseDate.makeTestExperienceCloseDate;
-import static tour.nonghaeng.global.seller.TestSeller.makeTestSeller;
-import static tour.nonghaeng.global.tour.TestTour.makeTestTour;
+import static tour.nonghaeng.global.testEntity.experience.TestExperience.makeTestExperience;
+import static tour.nonghaeng.global.testEntity.experience.TestExperienceCloseDate.makeTestExperienceCloseDate;
+import static tour.nonghaeng.global.testEntity.seller.TestSeller.makeTestSeller;
+import static tour.nonghaeng.global.testEntity.tour.TestTour.makeTestTour;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

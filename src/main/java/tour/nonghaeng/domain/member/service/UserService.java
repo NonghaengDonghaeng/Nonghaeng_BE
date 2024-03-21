@@ -25,7 +25,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
 
-    public void join(UserJoinDto dto) throws Exception {
+    public void join(UserJoinDto dto){
 
         //TODO : 인증과정에서의 예외처리
         userValidator.joinValidate(dto);

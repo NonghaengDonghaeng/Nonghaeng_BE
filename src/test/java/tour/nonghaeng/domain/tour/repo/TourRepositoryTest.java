@@ -14,8 +14,8 @@ import tour.nonghaeng.domain.member.repo.SellerRepository;
 import tour.nonghaeng.domain.tour.entity.Tour;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static tour.nonghaeng.global.seller.TestSeller.*;
-import static tour.nonghaeng.global.tour.TestTour.makeTestTour;
+import static tour.nonghaeng.global.testEntity.seller.TestSeller.*;
+import static tour.nonghaeng.global.testEntity.tour.TestTour.makeTestTour;
 
 
 @DataJpaTest
