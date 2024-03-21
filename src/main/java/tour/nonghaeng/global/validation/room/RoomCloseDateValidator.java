@@ -18,6 +18,7 @@ public class RoomCloseDateValidator {
     private final RoomCloseDateRepository roomCloseDateRepository;
 
 
+    //TODO: 함수이름 리팩토링해야됨 CL -> Cl
     public void addCLoseDateDtoValidate(List<AddRoomCloseDateDto> addRoomCloseDateDtos) {
 
         LocalDate today = LocalDate.now();
@@ -27,6 +28,8 @@ public class RoomCloseDateValidator {
             throw new RoomException(RoomErrorCode.PAST_ROOM_CLOSE_DATE_ADD_ERROR);
         }
 
+        //중복처리를 위한 AddRoomCloseDateDto 클래스에 equals() 함수 재정의 - 날짜가 같으면 같도록
+        //equals() 기본은 메모리 주소를 봐서 다른 객체면 다르게 처리됨.
         if (addRoomCloseDateDtos.size() != addRoomCloseDateDtos.stream().distinct().count()) {
             throw new RoomException(RoomErrorCode.DUPLICATE_ROOM_CLOSE_DATE_ADD_ERROR);
         }

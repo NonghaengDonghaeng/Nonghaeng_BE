@@ -72,6 +72,8 @@ class ExperienceCloseDateValidatorTest {
             AddExpCloseDateDto dto2 = new AddExpCloseDateDto(LocalDate.of(2024, 5, 6));
             AddExpCloseDateDto dto3 = new AddExpCloseDateDto(LocalDate.of(2024, 5, 5));
             List<AddExpCloseDateDto> dtoList = List.of(dto1, dto2, dto3);
+
+            assertThat(2).isEqualTo(dtoList.stream().distinct().count());
             //when
             BaseErrorCode errorCode = assertThrows(ExperienceException.class,
                     () -> experienceCloseDateValidator.defaultCloseDateDtoValidate(dtoList)).getBaseErrorCode();
