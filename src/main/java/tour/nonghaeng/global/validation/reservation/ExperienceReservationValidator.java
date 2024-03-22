@@ -54,7 +54,8 @@ public class ExperienceReservationValidator {
 
         ReservationStateType stateType = experienceReservation.getStateType();
         if (stateType.equals(ReservationStateType.CANCEL_RESERVATION)
-                || stateType.equals(ReservationStateType.COMPLETE_RESERVATION)) {
+                || stateType.equals(ReservationStateType.COMPLETE_RESERVATION)
+                ||stateType.equals(ReservationStateType.NOT_CONFIRM_RESERVATION)) {
             throw new ReservationException(ReservationErrorCode.CANT_CANCEL_RESERVATION_STATE);
         }
     }
