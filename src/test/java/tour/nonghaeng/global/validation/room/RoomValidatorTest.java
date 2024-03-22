@@ -10,19 +10,25 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tour.nonghaeng.domain.member.entity.Seller;
+import tour.nonghaeng.domain.room.dto.RoomSummaryDto;
 import tour.nonghaeng.domain.room.entity.Room;
+import tour.nonghaeng.domain.room.entity.RoomCloseDate;
 import tour.nonghaeng.domain.room.repo.RoomRepository;
 import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.global.exception.RoomException;
 import tour.nonghaeng.global.exception.code.BaseErrorCode;
 import tour.nonghaeng.global.exception.code.RoomErrorCode;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static tour.nonghaeng.global.testEntity.room.TestRoom.makeTestRoom;
+import static tour.nonghaeng.global.testEntity.room.TestRoomCloseDate.makeTestRoomCloseDate;
 import static tour.nonghaeng.global.testEntity.seller.TestSeller.makeTestSeller;
 import static tour.nonghaeng.global.testEntity.tour.TestTour.makeTestTour;
 
@@ -98,15 +104,99 @@ class RoomValidatorTest {
         @DisplayName("예외1: 비어있을때")
         void roomConditionValidate1() {
             //given
+            List<RoomSummaryDto> dtoList = new ArrayList<>();
+            //when
+            BaseErrorCode errorCode = assertThrows(RoomException.class,
+                    () -> roomValidator.roomConditionValidate(dtoList)).getBaseErrorCode();
+            //then
+            assertThat(errorCode).isSameAs(RoomErrorCode.NO_ROOM_AT_THIS_CONDITION);
+        }
 
+        @Test
+        @DisplayName("정상")
+        void roomConditionValidate2() {
+            //given
+            Room room2 = makeTestRoom(tour);
+            RoomSummaryDto dto1 = RoomSummaryDto.toDto(room);
+            RoomSummaryDto dto2 = RoomSummaryDto.toDto(room2);
+            List<RoomSummaryDto> dtoList = List.of(dto1, dto2);
+            //when & then
+            assertDoesNotThrow(() -> roomValidator.roomConditionValidate(dtoList));
+        }
+    }
+
+    @Nested
+    @DisplayName("showRoomSummaryRequestParamValidate() 테스트")
+    class showRoomSummaryRequestParamValidate{
+        @Test
+        @DisplayName("예외1: 방이 비어 있을 때")
+        void showRoomSummaryRequestParamValidate1() {
+            //given
+            LocalDate date = LocalDate.of(2024, 5, 5);
+            List<Room> dtoList = new ArrayList<>();
+            //when
+            BaseErrorCode errorCode = assertThrows(RoomException.class,
+                    () -> roomValidator.showRoomSummaryRequestParamValidate(dtoList, date)).getBaseErrorCode();
+            //then
+            assertThat(errorCode).isSameAs(RoomErrorCode.NO_ROOM_IN_THIS_TOUR);
+        }
+        @Test
+        @DisplayName("예외2: 과거날짜요청할 때")
+        void showRoomSummaryRequestParamValidate2() {
+            //given
+            LocalDate date = LocalDate.of(2023, 1, 1);
+            Room room2 = makeTestRoom(tour);
+            List<Room> dtoList = List.of(room, room2);
+            //when
+            BaseErrorCode errorCode = assertThrows(RoomException.class,
+                    () -> roomValidator.showRoomSummaryRequestParamValidate(dtoList, date)).getBaseErrorCode();
+            //then
+            assertThat(errorCode).isSameAs(RoomErrorCode.PAST_DATE_FOR_ROOM_LIST_REQUEST_ERROR);
+        }
+        @Test
+        @DisplayName("예외3: 오픈날짜가 아닐때")
+        void showRoomSummaryRequestParamValidate3() {
+            //given
+            LocalDate closeDate = LocalDate.of(2024, 5, 5);
+            RoomCloseDate roomCloseDate = makeTestRoomCloseDate(room, closeDate);
+            room.addCloseDate(roomCloseDate);
+            List<Room> dtoList = List.of(room);
+            //when
+            BaseErrorCode errorCode = assertThrows(RoomException.class,
+                    () -> roomValidator.showRoomSummaryRequestParamValidate(dtoList, closeDate)).getBaseErrorCode();
+            //then
+            assertThat(errorCode).isSameAs(RoomErrorCode.CLOSE_DATE_FOR_ROOM_LIST_REQUEST_ERROR);
+        }
+        @Test
+        @DisplayName("정상")
+        void showRoomSummaryRequestParamValidate4() {
+            //given
+            LocalDate requestDate = LocalDate.of(2024, 5, 1);
+            LocalDate closeDate = LocalDate.of(2024, 5, 5);
+            RoomCloseDate roomCloseDate = makeTestRoomCloseDate(room, closeDate);
+            room.addCloseDate(roomCloseDate);
+            List<Room> dtoList = List.of(room);
+            //when & then
+            assertDoesNotThrow(() -> roomValidator.showRoomSummaryRequestParamValidate(dtoList, requestDate));
+        }
+    }
+
+    @Nested
+    @DisplayName("getRoomDetailDtoValidate() 테스트")
+    class getRoomDetailDtoValidate{
+        @Test
+        @DisplayName("예외1: 과거날짜를 요청할때")
+        void getRoomDetailDtoValidate1() {
+            //given
+            LocalDate requestDate = LocalDate.of(2023, 1, 1);
             //when
 
             //then
         }
 
         @Test
-        @DisplayName("정상")
-        void roomConditionValidate2() {
+        @DisplayName("예외2: 미운영날짜 요청할때")
+        void getRoomDetailDtoValidate2() {
             //given
 
             //when
@@ -114,16 +204,19 @@ class RoomValidatorTest {
             //then
         }
 
+        @Test
+        @DisplayName("예외1: ")
+        void getRoomDetailDtoValidate3() {
+            //given
+
+            //when
+
+            //then
+        }
     }
 
 
-    @Test
-    void showRoomSummaryRequestParamValidate() {
-    }
 
-    @Test
-    void getRoomDetailDtoValidate() {
-    }
 
     @Test
     void pageValidate() {

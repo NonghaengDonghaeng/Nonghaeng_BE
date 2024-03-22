@@ -37,7 +37,7 @@ public class RoomValidator {
         //날짜검사
     }
 
-    public void showRoomSummaryRequestParamValidate(List<Room> rooms, LocalDate requestDate, int numOfRoom) {
+    public void showRoomSummaryRequestParamValidate(List<Room> rooms, LocalDate requestDate) {
 
         isEmptyRoomValidate(rooms);
 

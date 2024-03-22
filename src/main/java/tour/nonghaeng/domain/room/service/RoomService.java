@@ -61,7 +61,7 @@ public class RoomService {
 
         Tour tour = tourService.findById(tourId);
 
-        roomValidator.showRoomSummaryRequestParamValidate(tour.getRooms(),date,numOfRoom);
+        roomValidator.showRoomSummaryRequestParamValidate(tour.getRooms(),date);
 
         List<RoomSummaryDto> dtoList = tour.getRooms().stream()
                 .map(room -> RoomSummaryDto.toDto(room)).toList();
