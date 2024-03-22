@@ -30,6 +30,20 @@ public class TestExperienceReservation {
                 .build();
     }
 
+    public static ExperienceReservation makeTestExperienceReservation(User user, ExperienceRound experienceRound,LocalDate reservationDate,ReservationStateType stateType) {
+        return ExperienceReservation.builder()
+                .user(user)
+                .experienceRound(experienceRound)
+                .stateType(stateType)
+                .price(EXPERIENCE_RESERVATION_PRICE)
+                .reservationDate(reservationDate)
+                .numOfParticipant(EXPERIENCE_RESERVATION_NUM_OF_PARTICIPANT)
+                .number(EXPERIENCE_RESERVATION_NUMBER)
+                .reservationName(EXPERIENCE_RESERVATION_NAME)
+                .email(EXPERIENCE_RESERVATION_EMAIL)
+                .build();
+    }
+
 
     public static ExperienceReservation makeTestExperienceReservation(User user, ExperienceRound experienceRound,LocalDate reservationDate,int numOfParticipant) {
         return ExperienceReservation.builder()
