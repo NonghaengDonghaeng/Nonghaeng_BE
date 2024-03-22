@@ -9,6 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.room.dto.RoomSummaryDto;
 import tour.nonghaeng.domain.room.entity.Room;
@@ -189,36 +191,63 @@ class RoomValidatorTest {
         void getRoomDetailDtoValidate1() {
             //given
             LocalDate requestDate = LocalDate.of(2023, 1, 1);
-            //when
 
+            //when
+            BaseErrorCode errorCode = assertThrows(RoomException.class,
+                    () -> roomValidator.getRoomDetailDtoValidate(room, requestDate)).getBaseErrorCode();
             //then
+            assertThat(errorCode).isSameAs(RoomErrorCode.PAST_DATE_FOR_ROOM_LIST_REQUEST_ERROR);
         }
 
         @Test
         @DisplayName("예외2: 미운영날짜 요청할때")
         void getRoomDetailDtoValidate2() {
             //given
-
+            LocalDate closeDate = LocalDate.of(2024, 5, 5);
+            room.addCloseDate(RoomCloseDate.builder().closeDate(closeDate).build());
             //when
-
+            BaseErrorCode errorCode = assertThrows(RoomException.class,
+                    () -> roomValidator.getRoomDetailDtoValidate(room, closeDate)).getBaseErrorCode();
             //then
+            assertThat(errorCode).isSameAs(RoomErrorCode.CLOSE_DATE_FOR_ROOM_LIST_REQUEST_ERROR);
         }
 
         @Test
-        @DisplayName("예외1: ")
+        @DisplayName("정상 ")
         void getRoomDetailDtoValidate3() {
             //given
+            LocalDate closeDate = LocalDate.of(2024, 5, 5);
+            LocalDate requestDate = LocalDate.of(2024, 7, 7);
+            room.addCloseDate(RoomCloseDate.builder().closeDate(closeDate).build());
+            //when & then
+            assertDoesNotThrow(() -> roomValidator.getRoomDetailDtoValidate(room, requestDate));
 
-            //when
-
-            //then
         }
     }
 
+    @Nested
+    @DisplayName("pageValidate() 테스트")
+    class pageValidate{
+        @Test
+        @DisplayName("예외1: 빈페이지일때")
+        void pageValidate1() {
+            //given
+            Page<Room> emptyPage = new PageImpl<>(new ArrayList<>());
+            //when
+            BaseErrorCode errorCode = assertThrows(RoomException.class,
+                    () -> roomValidator.pageValidate(emptyPage)).getBaseErrorCode();
+            //then
+            assertThat(errorCode).isSameAs(RoomErrorCode.NO_TOUR_ROOM_CONTENT_AT_CURRENT_PAGE_ERROR);
+        }
 
-
-
-    @Test
-    void pageValidate() {
+        @Test
+        @DisplayName("정상")
+        void pageValidate2() {
+            //given
+            Page<Room> roomPage = new PageImpl<>(List.of(room));
+            //when & then
+            assertDoesNotThrow(() -> roomValidator.pageValidate(roomPage));
+        }
     }
+
 }
