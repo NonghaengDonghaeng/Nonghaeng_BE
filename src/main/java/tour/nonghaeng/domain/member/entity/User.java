@@ -88,6 +88,10 @@ public class User extends BaseTimeEntity {
         this.role = Role.USER;
     }
 
+    public void givePoint(int point) {
+        this.point += point;
+    }
+
     public int payPoint(int price) {
         this.point -= price;
         return this.getPoint();
