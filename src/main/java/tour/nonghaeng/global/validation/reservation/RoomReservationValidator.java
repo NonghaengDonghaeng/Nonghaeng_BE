@@ -52,11 +52,14 @@ public class RoomReservationValidator {
         }
     }
 
+    //TODO: 미승인인 경우도 추가하기
     public void checkCancelState(RoomReservation roomReservation) {
 
         ReservationStateType stateType = roomReservation.getStateType();
         if (stateType.equals(ReservationStateType.CANCEL_RESERVATION)
-                || stateType.equals(ReservationStateType.COMPLETE_RESERVATION)) {
+                || stateType.equals(ReservationStateType.COMPLETE_RESERVATION)
+                || stateType.equals(ReservationStateType.NOT_CONFIRM_RESERVATION)) {
+
             throw new ReservationException(ReservationErrorCode.CANT_CANCEL_RESERVATION_STATE);
         }
     }
