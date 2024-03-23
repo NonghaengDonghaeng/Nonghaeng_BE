@@ -42,11 +42,34 @@ public class TestRoomReservation {
                 ));
         return testRoomReservation;
     }
+
     public static RoomReservation makeTestRoomReservation(User user, Room room, List<LocalDate> reservationDates,int numOfRoom){
         RoomReservation testRoomReservation = RoomReservation.builder()
                 .user(user)
                 .room(room)
                 .stateType(ROOM_RESERVATION_STATE_TYPE)
+                .price(ROOM_RESERVATION_PRICE)
+                .numOfRoom(numOfRoom)
+                .numOfParticipant(ROOM_RESERVATION_NUM_OF_PARTICIPANT)
+                .reservationName(ROOM_RESERVATION_NAME)
+                .number(ROOM_RESERVATION_NUMBER)
+                .email(ROOM_RESERVATION_EMAIL)
+                .build();
+        reservationDates.forEach(reservationDate ->
+                testRoomReservation.addRoomReservationDate(
+                        RoomReservationDate.builder()
+                                .roomReservation(testRoomReservation)
+                                .reservationDate(reservationDate)
+                                .build()
+                ));
+        return testRoomReservation;
+    }
+
+    public static RoomReservation makeTestRoomReservation(User user, Room room, List<LocalDate> reservationDates,int numOfRoom,ReservationStateType stateType){
+        RoomReservation testRoomReservation = RoomReservation.builder()
+                .user(user)
+                .room(room)
+                .stateType(stateType)
                 .price(ROOM_RESERVATION_PRICE)
                 .numOfRoom(numOfRoom)
                 .numOfParticipant(ROOM_RESERVATION_NUM_OF_PARTICIPANT)
