@@ -77,6 +77,7 @@ public class RoomReservationValidator {
         checkPointValidate(user,dto.getFinalPrice());
     }
 
+    //TODO: 가격구하는 함수 따로 만들기
     public void createRoomReservationDtoValidate(Room room, CreateRoomReservationDto dto) {
 
         //최대인원확인
@@ -94,7 +95,7 @@ public class RoomReservationValidator {
         //TODO: 성수기,공휴일에 따라 변하기
         int price = room.getPriceOffPeak();
 
-        if (dto.getFinalPrice() != (price + additionalCost * additionNum) * dto.getNumOfRoom() * dto.getReservationDates().size()) {
+        if (dto.getFinalPrice() != (price * dto.getNumOfRoom()+ (additionalCost * additionNum))  * dto.getReservationDates().size()) {
             throw new ReservationException(ReservationErrorCode.WRONG_FINAL_PRICE_ERROR);
         }
         //운영날짜 확인
