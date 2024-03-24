@@ -34,7 +34,7 @@ public class SchedulerService {
     //1시간 단위로 스케줄링
     //TODO: 스케줄 매일마다 가장 오래된 날짜 오늘과 확인후 삭제작업, 시간대 및 성능적 코드개선 필요
     @Async
-    @Scheduled(cron = SCHEDULE_CRON_FOR_ONE_MINUTES)
+    @Scheduled(cron = SCHEDULE_CRON_FOR_ONE_DAYS)
     public void autoExpCloseDateDelete() {
 
         log.info("Scheduler 실행: autoExpCloseDatesDeleted");
@@ -45,7 +45,7 @@ public class SchedulerService {
 
     //테스트를 위한 1분 단위 실행
     @Async
-    @Scheduled(cron = SCHEDULE_CRON_FOR_ONE_MINUTES)
+    @Scheduled(cron = SCHEDULE_CRON_FOR_ONE_DAYS)
     public void autoRoomCloseDateDelete() {
 
         log.info("Scheduler 실행: autoRoomCloseDatesDeleted");
