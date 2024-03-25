@@ -7,4 +7,5 @@ import tour.nonghaeng.domain.photo.entity.RoomPhoto;
 @Repository
 public interface RoomPhotoRepository extends JpaRepository<RoomPhoto, Long> {
 
+    boolean existsById(Long tourPhotoId);
 }

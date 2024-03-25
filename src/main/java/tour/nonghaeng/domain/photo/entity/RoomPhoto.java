@@ -2,6 +2,7 @@ package tour.nonghaeng.domain.photo.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.room.entity.Room;
@@ -24,7 +25,8 @@ public class RoomPhoto{
     @Column(name = "img_url")
     private String imgUrl;
 
-    public RoomPhoto(Room room, String imgUrl) {
+    @Builder
+    private RoomPhoto(Room room, String imgUrl) {
         this.room = room;
         this.imgUrl = imgUrl;
     }

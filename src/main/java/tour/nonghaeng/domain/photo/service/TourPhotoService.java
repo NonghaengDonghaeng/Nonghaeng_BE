@@ -30,12 +30,13 @@ public class TourPhotoService {
 
     private final TourPhotoValidator tourPhotoValidator;
 
-    public Long upload(Seller seller, MultipartFile image) {
+    public Long upload(Seller seller, MultipartFile imageFile) {
 
         Tour tour = tourService.findBySeller(seller);
-        String imgUrl = amazonS3Service.uploadImage(PHOTO_TYPE, image);
 
-        return createTourPhoto(tour, imgUrl);
+        String imgUrl = amazonS3Service.uploadImage(PHOTO_TYPE, imageFile);
+
+        return createTourPhoto(tour, imgUrl).getId();
     }
 
     public void delete(Seller seller, Long tourPhotoId) {
@@ -47,11 +48,12 @@ public class TourPhotoService {
         deleteTourPhoto(tourPhotoId);
     }
 
-    private Long createTourPhoto(Tour tour, String imgUrl) {
+    private TourPhoto createTourPhoto(Tour tour, String imgUrl) {
+
         return tourPhotoRepository.save(TourPhoto.builder()
-                    .tour(tour)
-                    .imgUrl(imgUrl)
-                    .build()).getId();
+                .tour(tour)
+                .imgUrl(imgUrl)
+                .build());
     }
 
     private void deleteTourPhoto(Long tourPhotoId) {
