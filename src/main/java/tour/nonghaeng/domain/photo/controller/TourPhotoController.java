@@ -12,15 +12,15 @@ import tour.nonghaeng.domain.photo.service.TourPhotoService;
 import tour.nonghaeng.global.auth.service.AuthService;
 
 @RestController
-@RequestMapping("/images")
+@RequestMapping("/image/tours")
 @RequiredArgsConstructor
 @Slf4j
 public class TourPhotoController {
 
     private final TourPhotoService tourPhotoService;
     private final AuthService authService;
-
-    @PostMapping("/seller/tours/upload")
+    
+    @PostMapping("/seller/upload")
     public ResponseEntity<String> upload(Authentication authentication,
                                          @RequestPart("image") MultipartFile image) {
 
@@ -31,7 +31,7 @@ public class TourPhotoController {
         return new ResponseEntity<>("업로드 완료. id:" + String.valueOf(uploadId), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/seller/tours/delete/{tourPhotoId}")
+    @DeleteMapping("/seller/delete/{tourPhotoId}")
     public ResponseEntity<String> delete(Authentication authentication,
                                          @PathVariable("tourPhotoId") Long tourPhotoId) {
 
