@@ -127,7 +127,7 @@ public class ExperienceService {
         return experienceRepository.findAllIds();
     }
 
-    private Experience findById(Long experienceId) {
+    public Experience findById(Long experienceId) {
 
         return experienceRepository.findById(experienceId)
                 .orElseThrow(() -> ExperienceException.EXCEPTION);
