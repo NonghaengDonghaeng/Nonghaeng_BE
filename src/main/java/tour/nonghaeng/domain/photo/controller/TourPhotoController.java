@@ -31,7 +31,7 @@ public class TourPhotoController {
         return new ResponseEntity<>("업로드 완료. id:" + String.valueOf(uploadId), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/seller/delete/{tourPhotoId}")
+    @DeleteMapping("/seller/{tourPhotoId}")
     public ResponseEntity<String> delete(Authentication authentication,
                                          @PathVariable("tourPhotoId") Long tourPhotoId) {
 
