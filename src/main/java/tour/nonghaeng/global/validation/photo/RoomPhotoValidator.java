@@ -14,6 +14,7 @@ public class RoomPhotoValidator {
 
     private final RoomPhotoRepository roomPhotoRepository;
 
+
     public void ownerValidate(Seller seller, Long roomPhotoId) {
 
         roomPhotoIdValidate(roomPhotoId);
@@ -23,7 +24,6 @@ public class RoomPhotoValidator {
         if (!seller.equals(roomPhoto.getRoom().getSeller())) {
             throw new PhotoException(PhotoErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
         }
-
     }
 
     private void roomPhotoIdValidate(Long roomPhotoId) {
