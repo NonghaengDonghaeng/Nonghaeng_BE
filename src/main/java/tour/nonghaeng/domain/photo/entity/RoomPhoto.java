@@ -9,25 +9,18 @@ import tour.nonghaeng.domain.room.entity.Room;
 
 @Entity
 @Table(name = "ROOM_PHOTOS")
+@DiscriminatorValue("room_photo")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class RoomPhoto{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "room_photo_id")
-    private Long id;
+public class RoomPhoto extends Photo{
 
     @ManyToOne
     @JoinColumn(name = "room_id")
     private Room room;
 
-    @Column(name = "img_url")
-    private String imgUrl;
-
     @Builder
     private RoomPhoto(Room room, String imgUrl) {
+        super(imgUrl);
         this.room = room;
-        this.imgUrl = imgUrl;
     }
 }

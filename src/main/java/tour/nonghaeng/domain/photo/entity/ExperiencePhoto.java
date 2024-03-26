@@ -11,24 +11,15 @@ import tour.nonghaeng.domain.experience.entity.Experience;
 @Table(name = "EXPERIENCE_PHOTOS")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class ExperiencePhoto {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "experience_photo_id")
-    private Long id;
+public class ExperiencePhoto extends Photo{
 
     @ManyToOne
     @JoinColumn(name = "experience_id")
     private Experience experience;
 
-    @Column(name = "img_url")
-    private String imgUrl;
-
-
     @Builder
     private ExperiencePhoto(Experience experience, String imgUrl) {
+        super(imgUrl);
         this.experience = experience;
-        this.imgUrl = imgUrl;
     }
 }
