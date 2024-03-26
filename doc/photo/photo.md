@@ -8,3 +8,4 @@
 - https://ict-nroo.tistory.com/128
 
 - 첫번째로 우선 구현 후 합치도록 변경할 예정
+- https://inpa.tistory.com/entry/AWS-%F0%9F%93%9A-S3-%EB%B2%84%ED%82%B7-%EC%83%9D%EC%84%B1-%EC%82%AC%EC%9A%A9%EB%B2%95-%EC%8B%A4%EC%A0%84-%EA%B5%AC%EC%B6%95
