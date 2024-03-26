@@ -9,25 +9,18 @@ import tour.nonghaeng.domain.tour.entity.Tour;
 
 @Entity
 @Table(name = "TOUR_PHOTOS")
+@DiscriminatorValue("tour_photo")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class TourPhoto {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "tour_photo_id")
-    private Long id;
+public class TourPhoto extends Photo {
 
     @ManyToOne
     @JoinColumn(name = "tour_id")
     private Tour tour;
 
-    @Column(name = "img_url")
-    private String imgUrl;
-
     @Builder
-    private TourPhoto(Tour tour, String imgUrl) {
+    private TourPhoto(Tour tour,String imgUrl) {
+        super(imgUrl);
         this.tour = tour;
-        this.imgUrl = imgUrl;
     }
 }
