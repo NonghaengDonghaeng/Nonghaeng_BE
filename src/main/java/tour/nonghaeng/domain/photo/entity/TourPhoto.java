@@ -23,4 +23,5 @@ public class TourPhoto extends Photo {
         super(imgUrl);
         this.tour = tour;
     }
+
 }

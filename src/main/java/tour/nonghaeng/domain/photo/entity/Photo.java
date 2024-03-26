@@ -20,7 +20,14 @@ public class Photo {
     @Column(name = "img_url")
     private String imgUrl;
 
+    private boolean representative;
+
     public Photo(String imgUrl) {
         this.imgUrl = imgUrl;
+        this.representative = false;
+    }
+
+    public void changeRepresentative(){
+        this.representative = true;
     }
 }

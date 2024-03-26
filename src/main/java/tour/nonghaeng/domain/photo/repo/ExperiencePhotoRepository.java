@@ -8,4 +8,5 @@ import tour.nonghaeng.domain.photo.entity.ExperiencePhoto;
 public interface ExperiencePhotoRepository extends JpaRepository<ExperiencePhoto, Long> {
 
     boolean existsById(Long experiencePhotoId);
+
 }
