@@ -13,6 +13,7 @@ import tour.nonghaeng.domain.photo.entity.ExperiencePhoto;
 import tour.nonghaeng.domain.photo.repo.ExperiencePhotoRepository;
 import tour.nonghaeng.domain.s3.AmazonS3Service;
 import tour.nonghaeng.global.exception.PhotoException;
+import tour.nonghaeng.global.validation.experience.ExperienceValidator;
 import tour.nonghaeng.global.validation.photo.ExperiencePhotoValidator;
 
 @Service
@@ -29,9 +30,11 @@ public class ExperiencePhotoService {
     private final AmazonS3Service amazonS3Service;
 
     private final ExperiencePhotoValidator experiencePhotoValidator;
-
+    private final ExperienceValidator experienceValidator;
 
     public Long upload(Seller seller, Long experienceId, MultipartFile imageFile) {
+
+        experienceValidator.ownerValidate(seller, experienceId);
 
         Experience experience = experienceService.findById(experienceId);
 
