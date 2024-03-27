@@ -15,6 +15,9 @@ public enum PhotoErrorCode implements BaseErrorCode{
     //tour_photo
     NO_EXIST_TOUR_PHOTO_BY_ID_ERROR(HttpStatus.BAD_GATEWAY, "img_000_1", "tourPhotoId에 해당하는 체험이 없습니다."),
 
+    EMPTY_PHOTO_LIST_ERROR(HttpStatus.BAD_GATEWAY, "img_404_2", "사진이 존재하지 않습니다."),
+
+    TOO_MANY_REPRESENTATIVE_PHOTO_ERROR(HttpStatus.BAD_GATEWAY, "img_404_1", "대표사진이 너무 많습니다."),
 
 
     ;
