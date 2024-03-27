@@ -22,7 +22,7 @@ public interface TourPhotoRepository extends JpaRepository<TourPhoto, Long> {
     @Query("select count(tp) = 1 from TourPhoto tp where tp.tour = :tour and tp.representative=true")
     boolean hasExactlyOneRepresentativePhoto(@Param("tour") Tour tour);
 
-    @Query("select tp.id from TourPhoto tp where tp.representative=true")
+    @Query("select tp.id from TourPhoto tp where tp.tour = :tour and tp.representative=true")
     Optional<Long> findRepresentativePhotoId(@Param("tour") Tour tour);
 
     @Query("select tp from TourPhoto tp where tp.tour = :tour")
