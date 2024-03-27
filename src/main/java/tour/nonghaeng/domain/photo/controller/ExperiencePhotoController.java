@@ -51,7 +51,6 @@ public class ExperiencePhotoController {
         experiencePhotoValidator.ownerValidate(seller, experiencePhotoId);
 
         experiencePhotoService.delete(experiencePhotoId);
-        .
 
         return new ResponseEntity<>("삭제완료", HttpStatus.OK);
     }
