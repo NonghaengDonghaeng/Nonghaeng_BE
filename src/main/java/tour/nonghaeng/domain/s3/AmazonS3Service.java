@@ -14,6 +14,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import tour.nonghaeng.domain.etc.photo.PhotoType;
 import tour.nonghaeng.global.exception.S3Exception;
 import tour.nonghaeng.global.exception.code.S3ErrorCode;
+import tour.nonghaeng.global.validation.s3.AmazonS3Validator;
 
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -29,6 +30,8 @@ import java.util.UUID;
 public class AmazonS3Service {
 
     private final S3Client s3Client;
+
+    private final AmazonS3Validator amazonS3Validator;
 
     @Value("${spring.cloud.aws.s3.bucket}")
     private String bucket;
@@ -95,6 +98,8 @@ public class AmazonS3Service {
 
         String originalFilename = image.getOriginalFilename();
         String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
+        log.info(fileExtension);
+        amazonS3Validator.checkExtensionValidate(fileExtension);
 
         return "image_" + new Date().getTime() + "_"
                 + UUID.randomUUID().toString().concat(fileExtension);
