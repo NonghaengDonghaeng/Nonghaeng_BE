@@ -15,8 +15,6 @@ public class TourPhotoValidator {
 
     private final TourPhotoRepository tourPhotoRepository;
 
-    private final PhotoValidator photoValidator;
-
 
     public void ownerValidate(Seller seller, Long tourPhotoId) {
 

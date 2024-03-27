@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.entity.RoomPhoto;
 import tour.nonghaeng.domain.photo.repo.RoomPhotoRepository;
+import tour.nonghaeng.domain.room.entity.Room;
 import tour.nonghaeng.global.exception.PhotoException;
 import tour.nonghaeng.global.exception.code.PhotoErrorCode;
 
@@ -23,6 +24,13 @@ public class RoomPhotoValidator {
 
         if (!seller.equals(roomPhoto.getRoom().getSeller())) {
             throw new PhotoException(PhotoErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
+        }
+    }
+
+    public void changeRepresentativeValidate(Room room) {
+
+        if (roomPhotoRepository.countRepresentative(room) > 1) {
+            throw new PhotoException(PhotoErrorCode.TOO_MANY_REPRESENTATIVE_PHOTO_ERROR);
         }
     }
 

@@ -52,7 +52,6 @@ public class TourPhotoService {
         deleteTourPhoto(tourPhotoId);
     }
 
-    //TODO: 검증로직 작성
     public List<PhotoInfoDto> getTourPhotoInfoListDto(Long tourId) {
 
         List<Photo> photoList = tourPhotoRepository.findAllByTour(tourService.findById(tourId));
