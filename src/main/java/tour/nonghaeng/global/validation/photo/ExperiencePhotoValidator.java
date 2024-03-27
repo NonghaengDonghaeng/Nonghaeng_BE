@@ -2,6 +2,7 @@ package tour.nonghaeng.global.validation.photo;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.entity.ExperiencePhoto;
 import tour.nonghaeng.domain.photo.repo.ExperiencePhotoRepository;
@@ -22,6 +23,13 @@ public class ExperiencePhotoValidator {
 
         if (!seller.equals(experiencePhoto.getExperience().getSeller())) {
             throw new PhotoException(PhotoErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
+        }
+    }
+
+    public void changeRepresentativeValidate(Experience experience) {
+
+        if (experiencePhotoRepository.countRepresentative(experience) > 1) {
+            throw new PhotoException(PhotoErrorCode.TOO_MANY_REPRESENTATIVE_PHOTO_ERROR);
         }
     }
 

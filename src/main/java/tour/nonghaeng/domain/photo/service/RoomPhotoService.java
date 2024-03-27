@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import tour.nonghaeng.domain.etc.photo.PhotoType;
-import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.entity.Photo;
 import tour.nonghaeng.domain.photo.entity.RoomPhoto;
@@ -38,9 +37,7 @@ public class RoomPhotoService {
     private final RoomValidator roomValidator;
     private final PhotoValidator photoValidator;
 
-    public Long upload(Seller seller, Long roomId, MultipartFile imageFile) {
-
-        roomValidator.ownerValidate(seller,roomId);
+    public Long upload(Long roomId, MultipartFile imageFile) {
 
         Room room = roomService.findById(roomId);
 
@@ -49,9 +46,7 @@ public class RoomPhotoService {
         return createRoomPhoto(room, imgUrl).getId();
     }
 
-    public void delete(Seller seller, Long roomPhotoId) {
-
-        roomPhotoValidator.ownerValidate(seller, roomPhotoId);
+    public void delete(Long roomPhotoId) {
 
         amazonS3Service.deleteImage(PHOTO_TYPE,getUrlById(roomPhotoId));
 

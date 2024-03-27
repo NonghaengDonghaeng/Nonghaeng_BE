@@ -8,13 +8,17 @@ import org.springframework.web.multipart.MultipartFile;
 import tour.nonghaeng.domain.etc.photo.PhotoType;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
-import tour.nonghaeng.domain.member.entity.Seller;
+import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.entity.ExperiencePhoto;
+import tour.nonghaeng.domain.photo.entity.Photo;
 import tour.nonghaeng.domain.photo.repo.ExperiencePhotoRepository;
 import tour.nonghaeng.domain.s3.AmazonS3Service;
 import tour.nonghaeng.global.exception.PhotoException;
 import tour.nonghaeng.global.validation.experience.ExperienceValidator;
 import tour.nonghaeng.global.validation.photo.ExperiencePhotoValidator;
+import tour.nonghaeng.global.validation.photo.PhotoValidator;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -31,10 +35,9 @@ public class ExperiencePhotoService {
 
     private final ExperiencePhotoValidator experiencePhotoValidator;
     private final ExperienceValidator experienceValidator;
+    private final PhotoValidator photoValidator;
 
-    public Long upload(Seller seller, Long experienceId, MultipartFile imageFile) {
-
-        experienceValidator.ownerValidate(seller, experienceId);
+    public Long upload(Long experienceId, MultipartFile imageFile) {
 
         Experience experience = experienceService.findById(experienceId);
 
@@ -44,13 +47,42 @@ public class ExperiencePhotoService {
 
     }
 
-    public void delete(Seller seller, Long experiencePhotoId) {
-
-        experiencePhotoValidator.ownerValidate(seller, experiencePhotoId);
+    public void delete(Long experiencePhotoId) {
 
         amazonS3Service.deleteImage(PHOTO_TYPE, getUrlById(experiencePhotoId));
 
         deleteExperiencePhoto(experiencePhotoId);
+    }
+
+    public List<PhotoInfoDto> getExpPhotoInfoListDto(Long experienceId) {
+
+        List<Photo> photoList = experiencePhotoRepository.findAllByExperience(experienceService.findById(experienceId));
+
+        photoValidator.emptyPhotoListValidate(photoList);
+
+        List<PhotoInfoDto> dto = PhotoInfoDto.toDto(photoList);
+
+        return dto;
+    }
+
+    public void changeRepresentativePhoto(Long expPhotoId) {
+
+        ExperiencePhoto experiencePhoto = findById(expPhotoId);
+        Experience experience = experiencePhoto.getExperience();
+
+        experiencePhotoValidator.changeRepresentativeValidate(experience);
+
+        experiencePhotoRepository.findRepresentativePhotoId(experience)
+                .ifPresent(id->{
+                    ExperiencePhoto beforeRepresentativePhoto = findById(id);
+                    beforeRepresentativePhoto.offRepresentative();
+                    experiencePhotoRepository.save(beforeRepresentativePhoto);
+                });
+
+        experiencePhoto.onRepresentative();
+
+        experiencePhotoRepository.save(experiencePhoto);
+
     }
 
     private ExperiencePhoto createExperiencePhoto(Experience experience, String imgUrl) {

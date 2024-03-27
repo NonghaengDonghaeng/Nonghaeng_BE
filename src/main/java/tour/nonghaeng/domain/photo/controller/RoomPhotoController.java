@@ -12,6 +12,7 @@ import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.service.RoomPhotoService;
 import tour.nonghaeng.global.auth.service.AuthService;
 import tour.nonghaeng.global.validation.photo.RoomPhotoValidator;
+import tour.nonghaeng.global.validation.room.RoomValidator;
 
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class RoomPhotoController {
     private final AuthService authService;
 
     private final RoomPhotoValidator roomPhotoValidator;
+    private final RoomValidator roomValidator;
 
     @PostMapping("/seller/upload/{roomId}")
     public ResponseEntity<String> upload(Authentication authentication,
@@ -33,7 +35,9 @@ public class RoomPhotoController {
 
         Seller seller = authService.toSellerEntity(authentication);
 
-        Long uploadId = roomPhotoService.upload(seller, roomId, imageFile);
+        roomValidator.ownerValidate(seller,roomId);
+
+        Long uploadId = roomPhotoService.upload(roomId, imageFile);
 
         return new ResponseEntity<>("업로드 완료. id:" + String.valueOf(uploadId), HttpStatus.CREATED);
     }
@@ -44,7 +48,9 @@ public class RoomPhotoController {
 
         Seller seller = authService.toSellerEntity(authentication);
 
-        roomPhotoService.delete(seller, roomPhotoId);
+        roomPhotoValidator.ownerValidate(seller,roomPhotoId);
+
+        roomPhotoService.delete(roomPhotoId);
 
         return new ResponseEntity<>("삭제완료", HttpStatus.OK);
     }
