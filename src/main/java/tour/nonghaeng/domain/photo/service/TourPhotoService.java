@@ -58,10 +58,11 @@ public class TourPhotoService {
 
         photoValidator.emptyPhotoListValidate(photoList);
 
-        List<PhotoInfoDto> dto = PhotoInfoDto.toDto(photoList);
+        List<PhotoInfoDto> dto = PhotoInfoDto.toDtoList(photoList);
 
         return dto;
     }
+
 
     //대표사진이 없으면 대표사진 설정, 대표사진이 있으면 변경
     public void changeRepresentativePhoto(Long tourPhotoId) {

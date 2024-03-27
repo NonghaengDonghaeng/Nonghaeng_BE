@@ -59,7 +59,7 @@ public class RoomPhotoService {
 
         photoValidator.emptyPhotoListValidate(photoList);
 
-        List<PhotoInfoDto> dto = PhotoInfoDto.toDto(photoList);
+        List<PhotoInfoDto> dto = PhotoInfoDto.toDtoList(photoList);
 
         return dto;
     }

@@ -25,7 +25,7 @@ public class PhotoInfoDto {
         this.representative = representative;
     }
 
-    public static List<PhotoInfoDto> toDto(List<Photo> photos) {
+    public static List<PhotoInfoDto> toDtoList(List<Photo> photos) {
         return photos.stream().map(photo ->
             PhotoInfoDto.builder()
                     .photoId(photo.getId())
