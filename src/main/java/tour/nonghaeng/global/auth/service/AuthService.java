@@ -31,13 +31,16 @@ public class AuthService {
     public User toUserEntity(Authentication authentication) {
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
         return userRepository.findByNumber(userDetails.getUsername())
                 .orElseThrow(() ->
                         new UserException(UserErrorCode.NO_EXIST_USER_BY_NUMBER_ERROR));
     }
 
     public Seller toSellerEntity(Authentication authentication) {
+
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
         return sellerRepository.findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new SellerException(SellerErrorCode.NO_EXIST_SELLER_BY_USERNAME));
     }
