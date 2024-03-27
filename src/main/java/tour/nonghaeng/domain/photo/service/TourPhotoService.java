@@ -15,6 +15,7 @@ import tour.nonghaeng.domain.s3.AmazonS3Service;
 import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.domain.tour.service.TourService;
 import tour.nonghaeng.global.exception.PhotoException;
+import tour.nonghaeng.global.validation.photo.PhotoValidator;
 import tour.nonghaeng.global.validation.photo.TourPhotoValidator;
 
 import java.util.List;
@@ -33,6 +34,7 @@ public class TourPhotoService {
     private final AmazonS3Service amazonS3Service;
 
     private final TourPhotoValidator tourPhotoValidator;
+    private final PhotoValidator photoValidator;
 
     public Long upload(Seller seller, MultipartFile imageFile) {
 
@@ -55,7 +57,7 @@ public class TourPhotoService {
 
         List<Photo> photoList = tourPhotoRepository.findAllByTour(tourService.findById(tourId));
 
-        tourPhotoValidator.emptyPhotoListValidate(photoList);
+        photoValidator.emptyPhotoListValidate(photoList);
 
         List<PhotoInfoDto> dto = PhotoInfoDto.toDto(photoList);
 
