@@ -33,6 +33,14 @@ public class ExperiencePhotoValidator {
         }
     }
 
+    public void deleteValidate(Experience experience, Long experiencePhotoId) {
+
+        if (experiencePhotoRepository.findRepresentativePhotoId(experience).get()
+                .equals(experiencePhotoId)) {
+            throw new PhotoException(PhotoErrorCode.CANT_DELETE_REPRESENTATIVE_PHOTO_ERROR);
+        }
+    }
+
     private void experiencePhotoIdValidate(Long experiencePhotoId) {
         if (!experiencePhotoRepository.existsById(experiencePhotoId)) {
             throw new PhotoException(PhotoErrorCode.DEFAULT_PHOTO_ERROR);

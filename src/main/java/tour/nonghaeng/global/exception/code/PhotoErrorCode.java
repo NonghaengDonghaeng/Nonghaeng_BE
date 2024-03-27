@@ -19,6 +19,7 @@ public enum PhotoErrorCode implements BaseErrorCode{
 
     WRONG_NUM_OF_REPRESENTATIVE_PHOTO_ERROR(HttpStatus.BAD_GATEWAY, "img_404_1", "대표사진이 너무 많습니다."),
 
+    CANT_DELETE_REPRESENTATIVE_PHOTO_ERROR(HttpStatus.BAD_GATEWAY, "img_100_1", "대표사진은 삭제할 수 없습니다."),
 
     ;
     private HttpStatus status;

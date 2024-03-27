@@ -34,6 +34,16 @@ public class TourPhotoValidator {
         }
     }
 
+    public void deleteValidate(Tour tour,Long tourPhotoId) {
+
+        //대표사진은 삭제할 수 없음
+        if (tourPhotoRepository.findRepresentativePhotoId(tour).get()
+                .equals(tourPhotoId)) {
+
+            throw new PhotoException(PhotoErrorCode.CANT_DELETE_REPRESENTATIVE_PHOTO_ERROR);
+        }
+    }
+
     private void tourPhotoIdValidate(Long tourPhotoId) {
         if (!tourPhotoRepository.existsById(tourPhotoId)) {
             throw new PhotoException(PhotoErrorCode.NO_EXIST_TOUR_PHOTO_BY_ID_ERROR);

@@ -100,6 +100,8 @@ public class TourPhotoService {
 
     private void deleteTourPhoto(Long tourPhotoId) {
 
+        tourPhotoValidator.deleteValidate(findById(tourPhotoId).getTour(),tourPhotoId);
+
         tourPhotoRepository.delete(findById(tourPhotoId));
     }
 

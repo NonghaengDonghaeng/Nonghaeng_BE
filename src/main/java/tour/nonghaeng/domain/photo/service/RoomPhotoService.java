@@ -85,6 +85,8 @@ public class RoomPhotoService {
 
     private void deleteRoomPhoto(Long roomPhotoId) {
 
+        roomPhotoValidator.deleteValidate(findById(roomPhotoId).getRoom(),roomPhotoId);
+
         roomPhotoRepository.delete(findById(roomPhotoId));
     }
 

@@ -101,6 +101,8 @@ public class ExperiencePhotoService {
 
     private void deleteExperiencePhoto(Long experiencePhotoId) {
 
+        experiencePhotoValidator.deleteValidate(findById(experiencePhotoId).getExperience(), experiencePhotoId);
+
         experiencePhotoRepository.delete(findById(experiencePhotoId));
     }
 
