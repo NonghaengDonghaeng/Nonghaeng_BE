@@ -16,7 +16,6 @@ import tour.nonghaeng.domain.s3.AmazonS3Service;
 import tour.nonghaeng.global.exception.PhotoException;
 import tour.nonghaeng.global.validation.photo.PhotoValidator;
 import tour.nonghaeng.global.validation.photo.RoomPhotoValidator;
-import tour.nonghaeng.global.validation.room.RoomValidator;
 
 import java.util.List;
 
@@ -34,7 +33,6 @@ public class RoomPhotoService {
     private final AmazonS3Service amazonS3Service;
 
     private final RoomPhotoValidator roomPhotoValidator;
-    private final RoomValidator roomValidator;
     private final PhotoValidator photoValidator;
 
     public Long upload(Long roomId, MultipartFile imageFile) {

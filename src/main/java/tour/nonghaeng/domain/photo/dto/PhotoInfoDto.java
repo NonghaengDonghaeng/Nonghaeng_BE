@@ -34,4 +34,12 @@ public class PhotoInfoDto {
                     .build()
         ).toList();
     }
+
+    public static PhotoInfoDto toDto(Photo photo) {
+        return PhotoInfoDto.builder()
+                .photoId(photo.getId())
+                .imgUrl(photo.getImgUrl())
+                .representative(photo.isRepresentative())
+                .build();
+    }
 }

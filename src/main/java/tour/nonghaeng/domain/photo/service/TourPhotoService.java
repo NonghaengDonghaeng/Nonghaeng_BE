@@ -63,6 +63,14 @@ public class TourPhotoService {
         return dto;
     }
 
+    public PhotoInfoDto getRepresentTourPhotoDto(Long tourId) {
+
+        Tour tour = tourService.findById(tourId);
+
+        Long representId = tourPhotoRepository.findRepresentativePhotoId(tour).get();
+
+        return PhotoInfoDto.toDto(findById(representId));
+    }
 
     //대표사진이 없으면 대표사진 설정, 대표사진이 있으면 변경
     public void changeRepresentativePhoto(Long tourPhotoId) {
