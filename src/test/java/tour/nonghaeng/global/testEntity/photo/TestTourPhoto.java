@@ -11,7 +11,7 @@ public class TestTourPhoto {
                 .imgUrl(imgUrl)
                 .build();
         if (representative) {
-            tourPhoto.changeRepresentative();
+            tourPhoto.onRepresentative();
         }
         return tourPhoto;
     }

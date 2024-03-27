@@ -27,7 +27,11 @@ public class Photo {
         this.representative = false;
     }
 
-    public void changeRepresentative(){
+    public void onRepresentative(){
         this.representative = true;
+    }
+
+    public void offRepresentative() {
+        this.representative = false;
     }
 }
