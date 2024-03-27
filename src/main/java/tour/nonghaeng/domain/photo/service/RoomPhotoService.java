@@ -95,10 +95,16 @@ public class RoomPhotoService {
 
     private RoomPhoto createRoomPhoto(Room room, String imgUrl) {
 
-        return roomPhotoRepository.save(RoomPhoto.builder()
+        RoomPhoto createdRoomPhoto = RoomPhoto.builder()
                 .room(room)
                 .imgUrl(imgUrl)
-                .build());
+                .build();
+
+        if (!roomPhotoRepository.hasExactlyOneRepresentativePhoto(room)) {
+            createdRoomPhoto.onRepresentative();
+        }
+
+        return roomPhotoRepository.save(createdRoomPhoto);
     }
 
     public RoomPhoto findById(Long roomPhotoId) {

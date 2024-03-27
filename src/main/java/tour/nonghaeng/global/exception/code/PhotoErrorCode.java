@@ -17,7 +17,7 @@ public enum PhotoErrorCode implements BaseErrorCode{
 
     EMPTY_PHOTO_LIST_ERROR(HttpStatus.BAD_GATEWAY, "img_404_2", "사진이 존재하지 않습니다."),
 
-    TOO_MANY_REPRESENTATIVE_PHOTO_ERROR(HttpStatus.BAD_GATEWAY, "img_404_1", "대표사진이 너무 많습니다."),
+    WRONG_NUM_OF_REPRESENTATIVE_PHOTO_ERROR(HttpStatus.BAD_GATEWAY, "img_404_1", "대표사진이 너무 많습니다."),
 
 
     ;

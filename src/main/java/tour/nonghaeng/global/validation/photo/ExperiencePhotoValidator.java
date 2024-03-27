@@ -28,8 +28,8 @@ public class ExperiencePhotoValidator {
 
     public void changeRepresentativeValidate(Experience experience) {
 
-        if (experiencePhotoRepository.countRepresentative(experience) > 1) {
-            throw new PhotoException(PhotoErrorCode.TOO_MANY_REPRESENTATIVE_PHOTO_ERROR);
+        if (!experiencePhotoRepository.hasExactlyOneRepresentativePhoto(experience)) {
+            throw new PhotoException(PhotoErrorCode.WRONG_NUM_OF_REPRESENTATIVE_PHOTO_ERROR);
         }
     }
 

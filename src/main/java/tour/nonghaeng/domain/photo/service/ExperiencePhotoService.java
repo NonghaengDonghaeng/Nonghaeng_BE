@@ -87,10 +87,16 @@ public class ExperiencePhotoService {
 
     private ExperiencePhoto createExperiencePhoto(Experience experience, String imgUrl) {
 
-        return experiencePhotoRepository.save(ExperiencePhoto.builder()
+        ExperiencePhoto createdExperiencePhoto = ExperiencePhoto.builder()
                 .experience(experience)
                 .imgUrl(imgUrl)
-                .build());
+                .build();
+
+        if (!experiencePhotoRepository.hasExactlyOneRepresentativePhoto(experience)) {
+            createdExperiencePhoto.onRepresentative();
+        }
+
+        return experiencePhotoRepository.save(createdExperiencePhoto);
     }
 
     private void deleteExperiencePhoto(Long experiencePhotoId) {

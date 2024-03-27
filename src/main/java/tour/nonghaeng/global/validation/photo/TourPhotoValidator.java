@@ -29,8 +29,8 @@ public class TourPhotoValidator {
 
     public void changeRepresentativeValidate(Tour tour) {
 
-        if (tourPhotoRepository.countRepresentative(tour) > 1) {
-            throw new PhotoException(PhotoErrorCode.TOO_MANY_REPRESENTATIVE_PHOTO_ERROR);
+        if (!tourPhotoRepository.hasExactlyOneRepresentativePhoto(tour)) {
+            throw new PhotoException(PhotoErrorCode.WRONG_NUM_OF_REPRESENTATIVE_PHOTO_ERROR);
         }
     }
 

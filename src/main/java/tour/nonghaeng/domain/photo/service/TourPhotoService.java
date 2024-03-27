@@ -86,10 +86,16 @@ public class TourPhotoService {
 
     private TourPhoto createTourPhoto(Tour tour, String imgUrl) {
 
-        return tourPhotoRepository.save(TourPhoto.builder()
+        TourPhoto cretedTourPhoto = TourPhoto.builder()
                 .tour(tour)
                 .imgUrl(imgUrl)
-                .build());
+                .build();
+
+        if (!tourPhotoRepository.hasExactlyOneRepresentativePhoto(tour)) {
+            cretedTourPhoto.onRepresentative();
+        }
+
+        return tourPhotoRepository.save(cretedTourPhoto);
     }
 
     private void deleteTourPhoto(Long tourPhotoId) {
