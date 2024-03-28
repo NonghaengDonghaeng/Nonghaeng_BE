@@ -30,16 +30,12 @@ public class ExperienceReservation extends Reservation {
 
     private LocalDate reservationDate;
 
-    private int numOfParticipant;
-
 
     @Builder
     public ExperienceReservation(User user, ExperienceRound experienceRound, ReservationStateType stateType, int price, LocalDate reservationDate, int numOfParticipant, String reservationName, String number, String email) {
-        super(user,experienceRound.getExperience().getSeller(),stateType,price,reservationName,number,email);
+        super(user, experienceRound.getExperience().getSeller(), stateType, numOfParticipant, price, reservationName, number, email);
         this.experience = experienceRound.getExperience();
         this.experienceRound = experienceRound;
         this.reservationDate = reservationDate;
-        this.numOfParticipant = numOfParticipant;
-
     }
 }

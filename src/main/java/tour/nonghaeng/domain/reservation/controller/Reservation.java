@@ -32,6 +32,8 @@ public class Reservation extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private ReservationStateType stateType;
 
+    private int numOfParticipant;
+
     private int price;
 
     private String reservationName;
@@ -40,10 +42,11 @@ public class Reservation extends BaseTimeEntity {
 
     private String email;
 
-    public Reservation(User user, Seller seller, ReservationStateType stateType, int price, String reservationName, String number, String email) {
+    public Reservation(User user, Seller seller, ReservationStateType stateType, int numOfParticipant, int price, String reservationName, String number, String email) {
         this.user = user;
         this.seller = seller;
         this.stateType = stateType;
+        this.numOfParticipant = numOfParticipant;
         this.price = price;
         this.reservationName = reservationName;
         this.number = number;
