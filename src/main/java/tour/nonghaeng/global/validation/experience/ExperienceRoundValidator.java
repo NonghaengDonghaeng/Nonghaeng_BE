@@ -23,11 +23,14 @@ public class ExperienceRoundValidator {
 
     public void createAndSaveValidate(Experience experience, AddExpRoundDto addExpRoundDto) {
 
-        List<ExperienceRound> originExperienceRounds
-                = experienceRoundRepository.findAllByExperienceOrderByStartTime(experience);
+        if (!experienceRoundRepository.existsByExperience(experience)) {
+            return;
+        }
+
+        List<ExperienceRound> originExperienceRounds = experienceRoundRepository.findAllByExperienceOrderByStartTime(experience);
 
         LocalTime startPoint = addExpRoundDto.startTime();
-        LocalTime endPoint = addExpRoundDto.endTime();
+        LocalTime endPoint = addExpRoundDto.endTime() == null ? addExpRoundDto.startTime().plusHours(2) : addExpRoundDto.endTime();
 
         //검증1: 이미 등록된 회차에 안 겹치는지 확인
         for (ExperienceRound round : originExperienceRounds) {

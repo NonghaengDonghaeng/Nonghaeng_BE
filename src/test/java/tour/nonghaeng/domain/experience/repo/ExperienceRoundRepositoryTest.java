@@ -84,7 +84,7 @@ class ExperienceRoundRepositoryTest {
         experienceRoundRepository.save(experienceRound2);
         experienceRoundRepository.save(experienceRound3);
         //when
-        List<ExperienceRound> list = experienceRoundRepository.findAllByExperienceOrderByStartTime(experience);
+        List<ExperienceRound> list = experienceRoundRepository.findAllByExperienceOrderByStartTime(experience).get();
         //then
         assertThat(list.size()).isEqualTo(4);
         assertThat(list).contains(experienceRound);

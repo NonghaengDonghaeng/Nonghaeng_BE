@@ -12,4 +12,5 @@ public interface ExperienceRoundRepository extends JpaRepository<ExperienceRound
 
     List<ExperienceRound> findAllByExperienceOrderByStartTime(Experience experience);
 
+    boolean existsByExperience(Experience experience);
 }

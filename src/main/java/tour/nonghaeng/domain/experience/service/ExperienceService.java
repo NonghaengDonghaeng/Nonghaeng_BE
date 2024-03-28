@@ -45,6 +45,8 @@ public class ExperienceService {
 
         Experience experience = dto.toEntity(tourService.findBySeller(seller));
 
+        experienceRepository.save(experience);
+
         experienceRoundService.addRounds(experience,dto.expRoundDtoList());
 
         return experienceRepository.save(experience).getId();
