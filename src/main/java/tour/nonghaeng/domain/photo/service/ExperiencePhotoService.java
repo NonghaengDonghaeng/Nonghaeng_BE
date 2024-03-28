@@ -63,12 +63,23 @@ public class ExperiencePhotoService {
         return dto;
     }
 
+    public PhotoInfoDto getRepresentExpPhotoDto(Long experienceId) {
+
+        Experience experience = experienceService.findById(experienceId);
+
+        experiencePhotoValidator.numOfRepresentPhotoValidate(experience);
+
+        Long representId = experiencePhotoRepository.findRepresentativePhotoId(experience).get();
+
+        return PhotoInfoDto.toDto(findById(experienceId));
+    }
+
     public void changeRepresentativePhoto(Long expPhotoId) {
 
         ExperiencePhoto experiencePhoto = findById(expPhotoId);
         Experience experience = experiencePhoto.getExperience();
 
-        experiencePhotoValidator.changeRepresentativeValidate(experience);
+        experiencePhotoValidator.numOfRepresentPhotoValidate(experience);
 
         experiencePhotoRepository.findRepresentativePhotoId(experience)
                 .ifPresent(id->{

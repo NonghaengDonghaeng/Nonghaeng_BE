@@ -67,6 +67,8 @@ public class TourPhotoService {
 
         Tour tour = tourService.findById(tourId);
 
+        tourPhotoValidator.numOfRepresentPhotoValidate(tour);
+
         Long representId = tourPhotoRepository.findRepresentativePhotoId(tour).get();
 
         return PhotoInfoDto.toDto(findById(representId));
@@ -78,7 +80,7 @@ public class TourPhotoService {
         TourPhoto tourPhoto = findById(tourPhotoId);
         Tour tour = tourPhoto.getTour();
 
-        tourPhotoValidator.changeRepresentativeValidate(tour);
+        tourPhotoValidator.numOfRepresentPhotoValidate(tour);
 
         tourPhotoRepository.findRepresentativePhotoId(tour)
                 .ifPresent(id->{

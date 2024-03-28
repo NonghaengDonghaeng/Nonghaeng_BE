@@ -62,12 +62,23 @@ public class RoomPhotoService {
         return dto;
     }
 
+    public PhotoInfoDto getRepresentRoomPhotoDto(Long roomId) {
+
+        Room room = roomService.findById(roomId);
+
+        roomPhotoValidator.numOfRepresentPhotoValidate(room);
+
+        Long representId = roomPhotoRepository.findRepresentativePhotoId(room).get();
+
+        return PhotoInfoDto.toDto(findById(representId));
+    }
+
     public void changeRepresentativePhoto(Long roomPhotoId) {
 
         RoomPhoto roomPhoto = findById(roomPhotoId);
         Room room = roomPhoto.getRoom();
 
-        roomPhotoValidator.changeRepresentativeValidate(room);
+        roomPhotoValidator.numOfRepresentPhotoValidate(room);
 
         roomPhotoRepository.findRepresentativePhotoId(room)
                 .ifPresent(id->{
