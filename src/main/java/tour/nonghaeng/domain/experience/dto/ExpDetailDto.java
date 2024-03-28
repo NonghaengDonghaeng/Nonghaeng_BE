@@ -7,8 +7,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.experience.entity.Experience;
+import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -30,9 +32,10 @@ public class ExpDetailDto {
     private String precautions;
     private TourInfo tourInfo;
     private SellerInfo sellerInfo;
+    private List<PhotoInfoDto> photoInfoDtoList;
 
     @Builder
-    public ExpDetailDto(String experienceName, String experienceTypeName, LocalDate startDate, LocalDate endDate, int minParticipant, int maxParticipant, int price, int durationHours, String checkPoint, String detailIntroduction, String summary, String supplies, String precautions,TourInfo tourInfo, SellerInfo sellerInfo) {
+    public ExpDetailDto(String experienceName, String experienceTypeName, LocalDate startDate, LocalDate endDate, int minParticipant, int maxParticipant, int price, int durationHours, String checkPoint, String detailIntroduction, String summary, String supplies, String precautions, TourInfo tourInfo, SellerInfo sellerInfo, List<PhotoInfoDto> photoInfoDtoList) {
         this.experienceName = experienceName;
         this.experienceTypeName = experienceTypeName;
         this.startDate = startDate;
@@ -48,6 +51,7 @@ public class ExpDetailDto {
         this.precautions = precautions;
         this.tourInfo = tourInfo;
         this.sellerInfo = sellerInfo;
+        this.photoInfoDtoList = photoInfoDtoList;
     }
 
     @Builder
@@ -89,6 +93,9 @@ public class ExpDetailDto {
                         .address(experience.getSeller().getAddress())
                         .callNumber(experience.getSeller().getCallNumber())
                         .build())
+                .photoInfoDtoList(experience.getExperiencePhotoList().stream()
+                        .map(experiencePhoto -> PhotoInfoDto.toDto(experiencePhoto))
+                        .toList())
                 .build();
     }
 

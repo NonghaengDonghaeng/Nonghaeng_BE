@@ -8,11 +8,13 @@ import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.etc.BaseTimeEntity;
 import tour.nonghaeng.domain.etc.experience.ExperienceType;
 import tour.nonghaeng.domain.member.entity.Seller;
+import tour.nonghaeng.domain.photo.entity.ExperiencePhoto;
 import tour.nonghaeng.domain.tour.entity.Tour;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table(name = "EXPERIENCES")
@@ -40,6 +42,10 @@ public class Experience extends BaseTimeEntity {
     @OneToMany(mappedBy = "experience", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ExperienceCloseDate> experienceCloseDates = new ArrayList<>();
+
+    @OneToMany(mappedBy = "experience", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ExperiencePhoto> experiencePhotoList;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -100,5 +106,16 @@ public class Experience extends BaseTimeEntity {
 
     public void removeCloseDate(ExperienceCloseDate experienceCloseDate) {
         this.experienceCloseDates.remove(experienceCloseDate);
+    }
+
+    public Optional<ExperiencePhoto> findRepresentPhoto() {
+
+        for (ExperiencePhoto ep : this.experiencePhotoList) {
+            if (ep.isRepresentative()) {
+                return Optional.ofNullable(ep);
+            }
+        }
+
+        return Optional.ofNullable(null);
     }
 }

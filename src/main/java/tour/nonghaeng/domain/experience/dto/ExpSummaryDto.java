@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import tour.nonghaeng.domain.experience.entity.Experience;
+import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -22,9 +23,10 @@ public class ExpSummaryDto {
     private String areaName;
     private String tourName;
     private String summary;
+    private PhotoInfoDto photoInfoDto;
 
     @Builder
-    public ExpSummaryDto(Long experienceId, String experienceName, int price, int minParticipant, int maxParticipant, String areaName, String tourName, String summary) {
+    public ExpSummaryDto(Long experienceId, String experienceName, int price, int minParticipant, int maxParticipant, String areaName, String tourName, String summary, PhotoInfoDto photoInfoDto) {
         this.experienceId = experienceId;
         this.experienceName = experienceName;
         this.price = price;
@@ -33,6 +35,7 @@ public class ExpSummaryDto {
         this.areaName = areaName;
         this.tourName = tourName;
         this.summary = summary;
+        this.photoInfoDto = photoInfoDto;
     }
 
     public static Page<ExpSummaryDto> toPageDto(Page<Experience> expPage) {
@@ -45,6 +48,7 @@ public class ExpSummaryDto {
                 .areaName(exp.getTour().getAreaCode().getAreaName())
                 .tourName(exp.getTour().getName())
                 .summary(exp.getSummary())
+                .photoInfoDto(PhotoInfoDto.toDto(exp.findRepresentPhoto().get()))
                 .build());
     }
 }
