@@ -9,7 +9,6 @@ import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
 import tour.nonghaeng.domain.member.entity.User;
-import tour.nonghaeng.domain.reservation.controller.Reservation;
 
 import java.time.LocalDate;
 

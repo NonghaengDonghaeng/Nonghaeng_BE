@@ -1,4 +1,4 @@
-package tour.nonghaeng.domain.reservation.controller;
+package tour.nonghaeng.domain.reservation.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

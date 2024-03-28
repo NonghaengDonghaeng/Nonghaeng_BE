@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.entity.User;
-import tour.nonghaeng.domain.reservation.controller.Reservation;
 import tour.nonghaeng.domain.room.entity.Room;
 
 import java.util.ArrayList;
