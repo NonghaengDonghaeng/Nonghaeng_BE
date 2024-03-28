@@ -25,13 +25,6 @@ public class SchedulerService {
     private final RoomService roomService;
 
 
-//    @Scheduled(fixedDelay = FIXED_DELAY)
-//    public void runTest() {
-//
-//        log.info("10초마다 실행 스케줄러 test");
-//    }
-
-    //1시간 단위로 스케줄링
     //TODO: 스케줄 매일마다 가장 오래된 날짜 오늘과 확인후 삭제작업, 시간대 및 성능적 코드개선 필요
     @Async
     @Scheduled(cron = SCHEDULE_CRON_FOR_ONE_DAYS)
@@ -43,7 +36,6 @@ public class SchedulerService {
                 .forEach(experienceId -> experienceService.checkOldestCloseDatePastOrNot(experienceId));
     }
 
-    //테스트를 위한 1분 단위 실행
     @Async
     @Scheduled(cron = SCHEDULE_CRON_FOR_ONE_DAYS)
     public void autoRoomCloseDateDelete() {
@@ -53,4 +45,6 @@ public class SchedulerService {
         roomService.findAllIds()
                 .forEach(roomId -> roomService.checkOldestCloseDatePastOrNot(roomId));
     }
+
+
 }
