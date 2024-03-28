@@ -92,6 +92,7 @@ public class Tour extends BaseTimeEntity {
                 return Optional.ofNullable(tp);
             }
         }
+
         return Optional.ofNullable(null);
     }
 }

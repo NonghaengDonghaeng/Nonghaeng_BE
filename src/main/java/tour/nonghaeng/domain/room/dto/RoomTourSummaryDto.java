@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
+import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.tour.entity.Tour;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
@@ -21,9 +22,10 @@ public class RoomTourSummaryDto {
     private String oneLineIntro;
     private int minPrice;
     private int maxPrice;
+    private PhotoInfoDto photoInfoDto;
 
     @Builder
-    public RoomTourSummaryDto(Long tourId, String tourName, String areaName, String roomTypeName, String oneLineIntro, int minPrice, int maxPrice) {
+    public RoomTourSummaryDto(Long tourId, String tourName, String areaName, String roomTypeName, String oneLineIntro, int minPrice, int maxPrice, PhotoInfoDto photoInfoDto) {
         this.tourId = tourId;
         this.tourName = tourName;
         this.areaName = areaName;
@@ -31,6 +33,7 @@ public class RoomTourSummaryDto {
         this.oneLineIntro = oneLineIntro;
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
+        this.photoInfoDto = photoInfoDto;
     }
 
     public static Page<RoomTourSummaryDto> toPageDto(Page<Tour> tourPage) {
@@ -55,6 +58,7 @@ public class RoomTourSummaryDto {
                 .oneLineIntro(tour.getOneLineIntro())
                 .minPrice(minPrice)
                 .maxPrice(maxPrice)
+                .photoInfoDto(PhotoInfoDto.toDto(tour.findRepresentPhoto().get()))
                 .build();
     }
 

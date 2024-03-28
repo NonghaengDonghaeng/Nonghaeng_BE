@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.room.entity.Room;
 
 import java.time.LocalTime;
@@ -25,9 +26,10 @@ public class RoomSummaryDto {
     private LocalTime checkinTime;
     private LocalTime checkoutTime;
     private String roomConfiguration;
+    private PhotoInfoDto photoInfoDto;
 
     @Builder
-    public RoomSummaryDto(Long roomId, String roomName, int currentNumOfRoom, int price, int priceHoliday, int standardCapacity, int maxCapacity, LocalTime checkinTime, LocalTime checkoutTime, String roomConfiguration) {
+    public RoomSummaryDto(Long roomId, String roomName, int currentNumOfRoom, int price, int priceHoliday, int standardCapacity, int maxCapacity, LocalTime checkinTime, LocalTime checkoutTime, String roomConfiguration, PhotoInfoDto photoInfoDto) {
         this.roomId = roomId;
         this.roomName = roomName;
         this.currentNumOfRoom = currentNumOfRoom;
@@ -38,6 +40,7 @@ public class RoomSummaryDto {
         this.checkinTime = checkinTime;
         this.checkoutTime = checkoutTime;
         this.roomConfiguration = roomConfiguration;
+        this.photoInfoDto = photoInfoDto;
     }
 
     public static RoomSummaryDto toDto(Room room) {
@@ -52,6 +55,7 @@ public class RoomSummaryDto {
                 .checkinTime(room.getCheckinTime())
                 .checkoutTime(room.getCheckoutTime())
                 .roomConfiguration(room.getRoomConfiguration())
+                .photoInfoDto(PhotoInfoDto.toDto(room.findRepresentPhoto().get()))
                 .build();
     }
 

@@ -8,11 +8,13 @@ import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.etc.BaseTimeEntity;
 import tour.nonghaeng.domain.etc.room.RoomType;
 import tour.nonghaeng.domain.member.entity.Seller;
+import tour.nonghaeng.domain.photo.entity.RoomPhoto;
 import tour.nonghaeng.domain.tour.entity.Tour;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table(name = "ROOMS")
@@ -36,6 +38,10 @@ public class Room extends BaseTimeEntity {
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RoomCloseDate> roomCloseDateList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RoomPhoto> roomPhotoList = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, name = "room_type")
@@ -105,6 +111,17 @@ public class Room extends BaseTimeEntity {
 
     public void removeCloseDate(RoomCloseDate roomCloseDate) {
         this.roomCloseDateList.remove(roomCloseDate);
+    }
+
+    public Optional<RoomPhoto> findRepresentPhoto() {
+
+        for (RoomPhoto rp : this.roomPhotoList) {
+            if (rp.isRepresentative()) {
+                return Optional.ofNullable(rp);
+            }
+        }
+
+        return Optional.ofNullable(null);
     }
     //성수기 비성수기의 기준 내용 들어가야됨
     //객실 크기 몇평인지 정보도 넣어야됨
