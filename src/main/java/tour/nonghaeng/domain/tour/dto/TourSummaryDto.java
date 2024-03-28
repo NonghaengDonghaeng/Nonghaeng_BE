@@ -46,26 +46,8 @@ public class TourSummaryDto{
                 .countExperience(tour.getExperiences().size())
                 .countRoom(tour.getRooms().size())
                 .oneLineIntro(tour.getOneLineIntro())
+                .photoInfoDto(PhotoInfoDto.toDto(tour.findRepresentPhoto().get()))
                 .build()
         );
     }
-
-    public static TourSummaryDto toDto(Tour tour) {
-        return TourSummaryDto.builder()
-                .tourId(tour.getId())
-                .name(tour.getName())
-                .areaName(tour.getAreaCode().getAreaName())
-                .tourType(tour.getTourType().name())
-                .countExperience(tour.getExperiences().size())
-                .countRoom(tour.getRooms().size())
-                .oneLineIntro(tour.getOneLineIntro())
-                .build();
-    }
-
-    public TourSummaryDto addPhotoInfoDto(PhotoInfoDto photoInfoDto) {
-        this.photoInfoDto = photoInfoDto;
-        return this;
-    }
-
-
 }

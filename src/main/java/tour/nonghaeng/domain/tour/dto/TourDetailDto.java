@@ -63,6 +63,7 @@ public class TourDetailDto {
                 .build();
         tourDetailDto.addRoomSummaryList(tour);
         tourDetailDto.addExpSummaryList(tour);
+        tourDetailDto.addPhotoInfoDtoList(tour);
 
         return tourDetailDto;
 
@@ -81,8 +82,11 @@ public class TourDetailDto {
                 .toList();
     }
 
-    public void addPhotoInfoDtoList(List<PhotoInfoDto> photoInfoDtoList) {
-        this.photoInfoDtoList = photoInfoDtoList;
+    public void addPhotoInfoDtoList(Tour tour) {
+
+        this.photoInfoDtoList = tour.getTourPhotos().stream()
+                .map(tourPhoto -> PhotoInfoDto.toDto(tourPhoto))
+                .toList();
     }
 
     @AllArgsConstructor

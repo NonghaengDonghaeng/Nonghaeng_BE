@@ -10,10 +10,12 @@ import tour.nonghaeng.domain.etc.area.AreaCode;
 import tour.nonghaeng.domain.etc.tour.TourType;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.member.entity.Seller;
+import tour.nonghaeng.domain.photo.entity.TourPhoto;
 import tour.nonghaeng.domain.room.entity.Room;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table(name = "TOURS")
@@ -37,6 +39,10 @@ public class Tour extends BaseTimeEntity {
     @OneToMany(mappedBy = "tour", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Room> rooms = new ArrayList<>();
+
+    @OneToMany(mappedBy = "tour", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TourPhoto> tourPhotos = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private AreaCode areaCode;
@@ -79,4 +85,13 @@ public class Tour extends BaseTimeEntity {
         this.amenities = amenities;
     }
 
+    public Optional<TourPhoto> findRepresentPhoto() {
+
+        for (TourPhoto tp : this.tourPhotos) {
+            if (tp.isRepresentative()) {
+                return Optional.ofNullable(tp);
+            }
+        }
+        return Optional.ofNullable(null);
+    }
 }
