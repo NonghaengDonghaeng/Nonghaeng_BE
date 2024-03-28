@@ -27,7 +27,7 @@ public class RoomPhotoValidator {
         }
     }
 
-    public void changeRepresentativeValidate(Room room) {
+    public void numOfRepresentPhotoValidate(Room room) {
 
         if (!roomPhotoRepository.hasExactlyOneRepresentativePhoto(room)) {
             throw new PhotoException(PhotoErrorCode.WRONG_NUM_OF_REPRESENTATIVE_PHOTO_ERROR);

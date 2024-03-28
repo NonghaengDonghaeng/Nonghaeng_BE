@@ -26,7 +26,7 @@ public class ExperiencePhotoValidator {
         }
     }
 
-    public void changeRepresentativeValidate(Experience experience) {
+    public void numOfRepresentPhotoValidate(Experience experience) {
 
         if (!experiencePhotoRepository.hasExactlyOneRepresentativePhoto(experience)) {
             throw new PhotoException(PhotoErrorCode.WRONG_NUM_OF_REPRESENTATIVE_PHOTO_ERROR);
