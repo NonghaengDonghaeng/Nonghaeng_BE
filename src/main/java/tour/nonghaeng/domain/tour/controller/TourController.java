@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import tour.nonghaeng.domain.tour.dto.CreateTourDto;
 import tour.nonghaeng.domain.tour.dto.TourDetailDto;
 import tour.nonghaeng.domain.tour.dto.TourSummaryDto;
+import tour.nonghaeng.domain.tour.service.TourIntegrateService;
 import tour.nonghaeng.domain.tour.service.TourService;
 import tour.nonghaeng.global.auth.service.AuthService;
 
@@ -22,6 +23,7 @@ import tour.nonghaeng.global.auth.service.AuthService;
 public class TourController {
 
     private final TourService tourService;
+    private final TourIntegrateService tourIntegrateService;
     private final AuthService authService;
 
 
@@ -29,7 +31,7 @@ public class TourController {
     @GetMapping
     public ResponseEntity<Page<TourSummaryDto>> showTourSummaryPage(@PageableDefault(size=3) Pageable pageable) {
 
-        Page<TourSummaryDto> tourSummaryDtoPage = tourService.getTourSummaryDtoPage(pageable);
+        Page<TourSummaryDto> tourSummaryDtoPage = tourIntegrateService.getTourSummaryDtoPage(pageable);
 
         return new ResponseEntity<>(tourSummaryDtoPage, HttpStatus.OK);
     }
@@ -47,7 +49,7 @@ public class TourController {
     @GetMapping("/{tourId}")
     public ResponseEntity<TourDetailDto> showTourDetail(@PathVariable Long tourId) {
 
-        TourDetailDto dto = tourService.getTourDetailDto(tourId);
+        TourDetailDto dto = tourIntegrateService.getTourDetailDto(tourId);
 
         return new ResponseEntity<>(dto,HttpStatus.OK);
     }

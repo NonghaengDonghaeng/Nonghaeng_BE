@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
+import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.tour.entity.Tour;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
@@ -21,9 +22,10 @@ public class TourSummaryDto{
     private int countExperience;
     private int countRoom;
     private String oneLineIntro;
+    private PhotoInfoDto photoInfoDto;
 
     @Builder
-    public TourSummaryDto(Long tourId, String name, String areaName, String tourType, int countExperience, int countRoom, String oneLineIntro) {
+    private TourSummaryDto(Long tourId, String name, String areaName, String tourType, int countExperience, int countRoom, String oneLineIntro,PhotoInfoDto photoInfoDto) {
         this.tourId = tourId;
         this.name = name;
         this.areaName = areaName;
@@ -31,6 +33,7 @@ public class TourSummaryDto{
         this.countExperience = countExperience;
         this.countRoom = countRoom;
         this.oneLineIntro = oneLineIntro;
+        this.photoInfoDto = photoInfoDto;
     }
 
     public static Page<TourSummaryDto> toPageDto(Page<Tour> tourPage) {
@@ -45,6 +48,23 @@ public class TourSummaryDto{
                 .oneLineIntro(tour.getOneLineIntro())
                 .build()
         );
+    }
+
+    public static TourSummaryDto toDto(Tour tour) {
+        return TourSummaryDto.builder()
+                .tourId(tour.getId())
+                .name(tour.getName())
+                .areaName(tour.getAreaCode().getAreaName())
+                .tourType(tour.getTourType().name())
+                .countExperience(tour.getExperiences().size())
+                .countRoom(tour.getRooms().size())
+                .oneLineIntro(tour.getOneLineIntro())
+                .build();
+    }
+
+    public TourSummaryDto addPhotoInfoDto(PhotoInfoDto photoInfoDto) {
+        this.photoInfoDto = photoInfoDto;
+        return this;
     }
 
 

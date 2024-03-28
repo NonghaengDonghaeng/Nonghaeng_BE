@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.tour.entity.Tour;
 
 import java.util.List;
@@ -26,10 +27,11 @@ public class TourDetailDto {
     private String areaName;
     private List<RoomSummary> roomSummaryList;
     private List<ExpSummary> expSummaryList;
+    private List<PhotoInfoDto> photoInfoDtoList;
 
 
     @Builder
-    public TourDetailDto(String name, String homepageUrl, String introduction, String oneLineIntro, String summary, String restaurant, String parking, String toilet, String amenities, String areaName, List<RoomSummary> roomSummaryList, List<ExpSummary> expSummaryList) {
+    public TourDetailDto(String name, String homepageUrl, String introduction, String oneLineIntro, String summary, String restaurant, String parking, String toilet, String amenities, String areaName, List<RoomSummary> roomSummaryList, List<ExpSummary> expSummaryList, List<PhotoInfoDto> photoInfoDtoList) {
         this.name = name;
         this.homepageUrl = homepageUrl;
         this.introduction = introduction;
@@ -42,6 +44,7 @@ public class TourDetailDto {
         this.areaName = areaName;
         this.roomSummaryList = roomSummaryList;
         this.expSummaryList = expSummaryList;
+        this.photoInfoDtoList = photoInfoDtoList;
     }
 
     public static TourDetailDto toDto(Tour tour) {
@@ -76,6 +79,10 @@ public class TourDetailDto {
         this.expSummaryList = tour.getExperiences().stream()
                 .map(experience -> new ExpSummary(experience.getId(), experience.getExperienceName(), experience.getPrice()))
                 .toList();
+    }
+
+    public void addPhotoInfoDtoList(List<PhotoInfoDto> photoInfoDtoList) {
+        this.photoInfoDtoList = photoInfoDtoList;
     }
 
     @AllArgsConstructor

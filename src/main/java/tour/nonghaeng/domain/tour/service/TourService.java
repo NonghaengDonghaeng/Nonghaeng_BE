@@ -37,7 +37,7 @@ public class TourService {
         return tourRepository.save(createdTour).getId();
     }
 
-    private Page<Tour> getTourPage(Pageable pageable) {
+    public Page<Tour> getTourPage(Pageable pageable) {
 
         Page<Tour> tourPage = tourRepository.findAll(pageable);
 
