@@ -8,9 +8,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
 import tour.nonghaeng.domain.member.entity.Seller;
@@ -28,14 +25,12 @@ import tour.nonghaeng.global.exception.code.ReservationErrorCode;
 import tour.nonghaeng.global.validation.experience.ExperienceCloseDateValidator;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static tour.nonghaeng.global.testEntity.experience.TestExperience.makeTestExperience;
 import static tour.nonghaeng.global.testEntity.experience.TestExperienceRound.makeTestExperienceRound;
 import static tour.nonghaeng.global.testEntity.reservation.TestExperienceReservation.makeTestExperienceReservation;
@@ -79,129 +74,6 @@ class ExperienceReservationValidatorTest {
         fakeRoundId = 10L;
     }
 
-    @Nested
-    @DisplayName("ownerSellerValidate() 테스트")
-    class ownerSellerValidate{
-        @Test
-        @DisplayName("예외1: id가 유효하지 않을때")
-        void ownerSellerValidate1() {
-            //given
-            when(experienceReservationRepository.existsById(fakeReservationId)).thenReturn(false);
-            //when
-            BaseErrorCode errorCode = assertThrows(ReservationException.class,
-                    () -> experienceReservationValidator.ownerSellerValidate(seller, fakeReservationId)).getBaseErrorCode();
-            //then
-            assertThat(errorCode).isSameAs(ReservationErrorCode.NO_EXIST_EXPERIENCE_RESERVATION_BY_ID);
-        }
-        @Test
-        @DisplayName("예외2: 다른판매자일때")
-        void ownerSellerValidate2() {
-            //given
-            Seller seller2 = makeTestSeller();
-            when(experienceReservationRepository.existsById(fakeReservationId)).thenReturn(true);
-            when(experienceReservationRepository.findSellerById(fakeReservationId)).thenReturn(Optional.ofNullable(seller2));
-
-            //when
-            BaseErrorCode errorCode = assertThrows(ReservationException.class,
-                    () -> experienceReservationValidator.ownerSellerValidate(seller, fakeReservationId)).getBaseErrorCode();
-            //then
-            assertThat(errorCode).isSameAs(ReservationErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
-        }
-        @Test
-        @DisplayName("정상동작 ")
-        void ownerSellerValidate3() {
-            //given
-            when(experienceReservationRepository.existsById(fakeReservationId)).thenReturn(true);
-            when(experienceReservationRepository.findSellerById(fakeReservationId)).thenReturn(Optional.ofNullable(seller));
-            //when & then
-            assertDoesNotThrow(() -> experienceReservationValidator.ownerSellerValidate(seller, fakeReservationId));
-        }
-    }
-
-    @Nested
-    @DisplayName("ownerUserValidate() 테스트")
-    class ownerUserValidate {
-        @Test
-        @DisplayName("예외1: 유효하지 않은 id 일 때")
-        void ownerUserValidate1() {
-            //given
-            when(experienceReservationRepository.existsById(fakeReservationId)).thenReturn(false);
-            //when
-            BaseErrorCode errorCode = assertThrows(ReservationException.class,
-                    () -> experienceReservationValidator.ownerUserValidate(user, fakeReservationId)).getBaseErrorCode();
-            //then
-            assertThat(errorCode).isSameAs(ReservationErrorCode.NO_EXIST_EXPERIENCE_RESERVATION_BY_ID);
-        }
-        @Test
-        @DisplayName("예외2: 소유자가 일치하지 않을 때")
-        void ownerUserValidate2() {
-            //given
-            User user2 = makeTestUser();
-            when(experienceReservationRepository.existsById(fakeReservationId)).thenReturn(true);
-            when(experienceReservationRepository.findUserById(fakeReservationId)).thenReturn(Optional.ofNullable(user2));
-            //when
-            BaseErrorCode errorCode = assertThrows(ReservationException.class,
-                    () -> experienceReservationValidator.ownerUserValidate(user, fakeReservationId)).getBaseErrorCode();
-            //then
-            assertThat(errorCode).isSameAs(ReservationErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
-        }
-        @Test
-        @DisplayName("정상동작")
-        void ownerUserValidate3() {
-            //given
-            when(experienceReservationRepository.existsById(fakeReservationId)).thenReturn(true);
-            when(experienceReservationRepository.findUserById(fakeReservationId)).thenReturn(Optional.ofNullable(user));
-            //when & then
-            assertDoesNotThrow(() -> experienceReservationValidator.ownerUserValidate(user, fakeReservationId));
-        }
-    }
-
-    @Nested
-    @DisplayName("checkCancelState() 테스트")
-    class checkCancelState{
-        @Test
-        @DisplayName("예외1: 이미 취소된 상태")
-        void checkCancelState1() {
-            //given
-            experienceReservation = makeTestExperienceReservation(user, experienceRound, reservationDate, ReservationStateType.CANCEL_RESERVATION);
-            //when
-            BaseErrorCode errorCode = assertThrows(ReservationException.class,
-                    () -> experienceReservationValidator.checkCancelState(experienceReservation)).getBaseErrorCode();
-            //then
-            assertThat(errorCode).isSameAs(ReservationErrorCode.CANT_CANCEL_RESERVATION_STATE);
-        }
-        @Test
-        @DisplayName("예외2: 이미 완료된 상태")
-        void checkCancelState2() {
-            //given
-            experienceReservation = makeTestExperienceReservation(user, experienceRound, reservationDate, ReservationStateType.COMPLETE_RESERVATION);
-            //when
-            BaseErrorCode errorCode = assertThrows(ReservationException.class,
-                    () -> experienceReservationValidator.checkCancelState(experienceReservation)).getBaseErrorCode();
-            //then
-            assertThat(errorCode).isSameAs(ReservationErrorCode.CANT_CANCEL_RESERVATION_STATE);
-        }
-        @Test
-        @DisplayName("예외2: 이미 미승인 상태")
-        void checkCancelState3() {
-            //given
-            experienceReservation = makeTestExperienceReservation(user, experienceRound, reservationDate, ReservationStateType.NOT_CONFIRM_RESERVATION);
-            //when
-            BaseErrorCode errorCode = assertThrows(ReservationException.class,
-                    () -> experienceReservationValidator.checkCancelState(experienceReservation)).getBaseErrorCode();
-            //then
-            assertThat(errorCode).isSameAs(ReservationErrorCode.CANT_CANCEL_RESERVATION_STATE);
-        }
-        @Test
-        @DisplayName("정상: 대기중,승인 상태")
-        void checkCancelState() {
-            //given
-            ExperienceReservation experienceReservation1 = makeTestExperienceReservation(user, experienceRound, reservationDate, ReservationStateType.CONFIRM_RESERVATION);
-            //when & then
-            assertDoesNotThrow(() -> experienceReservationValidator.checkCancelState(experienceReservation));
-            assertDoesNotThrow(() -> experienceReservationValidator.checkCancelState(experienceReservation1));
-        }
-    }
 
     @Nested
     @DisplayName("createExpReservationDtoValidate() 테스트")
@@ -268,117 +140,6 @@ class ExperienceReservationValidatorTest {
         }
     }
 
-    @Nested
-    @DisplayName("checkWaitingState() 테스트")
-    class checkWaitingState{
-        @Test
-        @DisplayName("예외1: 대기상태가 아닐때 ")
-        void checkWaitingState1() {
-            //given
-            ExperienceReservation cancelReservation = makeTestExperienceReservation(user, experienceRound, reservationDate, ReservationStateType.CANCEL_RESERVATION);
-            ExperienceReservation confirmReservation = makeTestExperienceReservation(user, experienceRound, reservationDate, ReservationStateType.CONFIRM_RESERVATION);
-            ExperienceReservation notConfirmReservation = makeTestExperienceReservation(user, experienceRound, reservationDate, ReservationStateType.NOT_CONFIRM_RESERVATION);
-            ExperienceReservation completeReservation = makeTestExperienceReservation(user, experienceRound, reservationDate, ReservationStateType.COMPLETE_RESERVATION);
-            //when
-            BaseErrorCode errorCode1 = assertThrows(ReservationException.class,
-                    () -> experienceReservationValidator.checkWaitingState(cancelReservation)).getBaseErrorCode();
-            BaseErrorCode errorCode2 = assertThrows(ReservationException.class,
-                    () -> experienceReservationValidator.checkWaitingState(confirmReservation)).getBaseErrorCode();
-            BaseErrorCode errorCode3 = assertThrows(ReservationException.class,
-                    () -> experienceReservationValidator.checkWaitingState(notConfirmReservation)).getBaseErrorCode();
-            BaseErrorCode errorCode4 = assertThrows(ReservationException.class,
-                    () -> experienceReservationValidator.checkWaitingState(completeReservation)).getBaseErrorCode();
-            //then
-            assertThat(ReservationErrorCode.NOT_WAITING_RESERVATION_STATE)
-                    .isSameAs(errorCode1)
-                    .isSameAs(errorCode2)
-                    .isSameAs(errorCode3)
-                    .isSameAs(errorCode4);
-        }
-        @Test
-        @DisplayName("정상")
-        void checkWaitingState2() {
-            //when & then
-            assertDoesNotThrow(()->experienceReservationValidator.checkWaitingState(experienceReservation));
-        }
-    }
-
-    @Nested
-    @DisplayName("checkPointValidate() 테스트")
-    class checkPointValidate{
-        @Test
-        @DisplayName("예외1: 포인트 부족")
-        void checkPointValidate1() {
-            //given
-            user.givePoint(1000);
-            int needPoint = 2000;
-            //when
-            BaseErrorCode errorCode = assertThrows(ReservationException.class,
-                    () -> experienceReservationValidator.checkPointValidate(user, needPoint)).getBaseErrorCode();
-            //then
-            assertThat(errorCode).isSameAs(ReservationErrorCode.NOT_ENOUGH_POINT_ERROR);
-        }
-
-        @Test
-        @DisplayName("정상")
-        void checkPointValidate2() {
-            //given
-            user.givePoint(2000);
-            int needPoint = 1000;
-            //when & then
-            assertDoesNotThrow(() -> experienceReservationValidator.checkPointValidate(user, needPoint));
-        }
-    }
-
-    @Nested
-    @DisplayName("pageValidate() 테스트")
-    class  pageValidate{
-        @Test
-        @DisplayName("예외1: 빈페이지")
-        void pageValidate1() {
-            //given
-            Page<ExperienceReservation> page = new PageImpl<>(new ArrayList<>());
-            //when
-            BaseErrorCode errorCode = assertThrows(ReservationException.class,
-                    () -> experienceReservationValidator.pageValidate(page)).getBaseErrorCode();
-            //then
-            assertThat(errorCode).isSameAs(ReservationErrorCode.NO_RESERVATION_CONTENT_AT_CURRENT_PAGE_ERROR);
-        }
-        @Test
-        @DisplayName("정상 ")
-        void pageValidate2() {
-            //given
-            Page<ExperienceReservation> page = new PageImpl<>(List.of(experienceReservation));
-            //when & then
-            assertDoesNotThrow(()->experienceReservationValidator.pageValidate(page));
-        }
-    }
-
-    @Nested
-    @DisplayName("idValidate() 테스트")
-    class idValidate{
-
-        @Test
-        @DisplayName("예외1: 유효하지않는 id")
-        void idValidate() {
-            //given
-            when(experienceReservationRepository.existsById(fakeReservationId)).thenReturn(false);
-            //when
-            BaseErrorCode errorCode = assertThrows(ReservationException.class,
-                    () -> experienceReservationValidator.idValidate(fakeReservationId)).getBaseErrorCode();
-            //then
-            assertThat(errorCode).isSameAs(ReservationErrorCode.NO_EXIST_EXPERIENCE_RESERVATION_BY_ID);
-        }
-
-        @Test
-        @DisplayName("정상동작")
-        void idValidate2() {
-            //given
-            when(experienceReservationRepository.existsById(fakeReservationId)).thenReturn(true);
-            //when & then
-            assertDoesNotThrow(() -> experienceReservationValidator.idValidate(fakeReservationId));
-        }
-    }
 
     private CreateExpReservationDto makeTestCreateExpReservationDto(ExperienceRound experienceRound) {
         return CreateExpReservationDto.builder()

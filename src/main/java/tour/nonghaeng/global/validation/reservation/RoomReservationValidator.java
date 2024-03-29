@@ -2,13 +2,9 @@ package tour.nonghaeng.global.validation.reservation;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
-import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.dto.room.CreateRoomReservationDto;
-import tour.nonghaeng.domain.reservation.entity.RoomReservation;
 import tour.nonghaeng.domain.reservation.repo.RoomReservationRepository;
 import tour.nonghaeng.domain.room.entity.Room;
 import tour.nonghaeng.global.exception.ReservationException;
@@ -25,56 +21,14 @@ public class RoomReservationValidator {
     private final RoomReservationRepository roomReservationRepository;
 
     private final RoomCloseDateValidator roomCloseDateValidator;
+    private final ReservationValidator reservationValidator;
 
-
-    public void ownerSellerValidate(Seller seller, Long roomReservationId) {
-
-        idValidate(roomReservationId);
-
-        if (!seller.equals(roomReservationRepository.findSellerById(roomReservationId).get())) {
-            throw new ReservationException(ReservationErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
-        }
-    }
-
-    public void ownerUserValidate(User user, Long roomReservationId) {
-
-        idValidate(roomReservationId);
-
-        if (!user.equals(roomReservationRepository.findUserById(roomReservationId).get())) {
-            throw new ReservationException(ReservationErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
-        }
-    }
-
-    public void checkWaitingState(RoomReservation roomReservation) {
-
-        if (!roomReservation.getStateType().equals(ReservationStateType.WAITING_RESERVATION)) {
-            throw new ReservationException(ReservationErrorCode.NOT_WAITING_RESERVATION_STATE);
-        }
-    }
-
-    //TODO: 미승인인 경우도 추가하기
-    public void checkCancelState(RoomReservation roomReservation) {
-
-        ReservationStateType stateType = roomReservation.getStateType();
-        if (stateType.equals(ReservationStateType.CANCEL_RESERVATION)
-                || stateType.equals(ReservationStateType.COMPLETE_RESERVATION)
-                || stateType.equals(ReservationStateType.NOT_CONFIRM_RESERVATION)) {
-
-            throw new ReservationException(ReservationErrorCode.CANT_CANCEL_RESERVATION_STATE);
-        }
-    }
-
-    public void idValidate(Long roomReservationId) {
-        if (!roomReservationRepository.existsById(roomReservationId)) {
-            throw new ReservationException(ReservationErrorCode.NO_EXIST_ROOM_RESERVATION_BY_ID);
-        }
-    }
 
     public void roomReservationValidate(Room room, User user, CreateRoomReservationDto dto) {
 
         createRoomReservationDtoValidate(room,dto);
 
-        checkPointValidate(user,dto.getFinalPrice());
+        reservationValidator.checkPointValidate(user,dto.getFinalPrice());
     }
 
     //TODO: 가격구하는 함수 따로 만들기
@@ -106,13 +60,6 @@ public class RoomReservationValidator {
 
     }
 
-    public void checkPointValidate(User user, int price) {
-
-        if (user.getPoint() < price) {
-            throw new ReservationException(ReservationErrorCode.NOT_ENOUGH_POINT_ERROR);
-        }
-    }
-
     private void checkRemainRoomByDate(Room room, int numOfRoom, LocalDate reservationDate) {
 
         Integer currentNum = roomReservationRepository.countByRoomAndReservationDate(room, reservationDate)
@@ -122,13 +69,4 @@ public class RoomReservationValidator {
             throw new ReservationException(ReservationErrorCode.EXCEEDED_NUM_OF_ROOM);
         }
     }
-
-    public void pageValidate(Page<RoomReservation> page) {
-
-        if (page.isEmpty()) {
-            throw new ReservationException(ReservationErrorCode.NO_RESERVATION_CONTENT_AT_CURRENT_PAGE_ERROR);
-        }
-    }
-
-
 }

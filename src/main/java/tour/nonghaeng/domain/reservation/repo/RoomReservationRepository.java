@@ -26,12 +26,6 @@ public interface RoomReservationRepository extends JpaRepository<RoomReservation
     @Query("select rr from RoomReservation rr where rr.seller = :seller")
     Page<RoomReservation> findAllBySeller(@Param("seller") Seller seller, Pageable pageable);
 
-    @Query("select rr.user from RoomReservation rr where rr.id = :id")
-    Optional<User> findUserById(@Param("id") Long roomReservationId);
-
-    @Query("select rr.seller from RoomReservation rr where rr.id = :id")
-    Optional<Seller> findSellerById(@Param("id") Long roomReservationId);
-
     @Query("select min(rrd.reservationDate) from RoomReservationDate rrd where rrd.roomReservation.id = :id")
     Optional<LocalDate> findStartDateById(@Param("id") Long id);
 

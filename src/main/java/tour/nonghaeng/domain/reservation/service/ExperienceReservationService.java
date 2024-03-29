@@ -19,6 +19,7 @@ import tour.nonghaeng.domain.reservation.repo.ExperienceReservationRepository;
 import tour.nonghaeng.global.exception.ReservationException;
 import tour.nonghaeng.global.exception.code.ReservationErrorCode;
 import tour.nonghaeng.global.validation.reservation.ExperienceReservationValidator;
+import tour.nonghaeng.global.validation.reservation.ReservationValidator;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -37,6 +38,7 @@ public class ExperienceReservationService {
     private final UserService userService;
 
     private final ExperienceReservationValidator experienceReservationValidator;
+    private final ReservationValidator reservationValidator;
 
 
     public ExpReservationResponseDto createExpReservation(User user, CreateExpReservationDto requestDto) {
@@ -60,7 +62,7 @@ public class ExperienceReservationService {
 
         Page<ExperienceReservation> page = experienceReservationRepository.findAllBySeller(seller, pageable);
 
-        experienceReservationValidator.pageValidate(page);
+        reservationValidator.pageValidate(page);
 
         return ExpReservationSellerSummaryDto.toPageDto(page);
     }
@@ -69,7 +71,7 @@ public class ExperienceReservationService {
 
         Page<ExperienceReservation> page = experienceReservationRepository.findAllByUser(user, pageable);
 
-        experienceReservationValidator.pageValidate(page);
+        reservationValidator.pageValidate(page);
 
         return ExpReservationUserSummaryDto.toPageDto(page);
     }
@@ -95,7 +97,7 @@ public class ExperienceReservationService {
         ExperienceReservation experienceReservation = findById(expReservationId);
 
         //검증: 예약 대기 상태인지 확인
-        experienceReservationValidator.checkWaitingState(experienceReservation);
+        reservationValidator.checkWaitingState(experienceReservation);
 
         if (notApproveFlag) {
             experienceReservation.notApproveReservation();
@@ -110,7 +112,7 @@ public class ExperienceReservationService {
 
         ExperienceReservation experienceReservation = findById(experienceReservationId);
 
-        experienceReservationValidator.checkCancelState(experienceReservation);
+        reservationValidator.checkCancelState(experienceReservation);
 
         CancelPolicy cancelPolicy = decideCancelPolicy(experienceReservation);
 

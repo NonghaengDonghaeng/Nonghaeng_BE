@@ -176,33 +176,6 @@ class ExperienceReservationRepositoryTest {
     }
 
     @Test
-    @DisplayName("체험예약아이디로 판매자 찾기")
-    void findSellerById() {
-        //given
-        ExperienceReservation experienceReservation1 = makeTestExperienceReservation(user, experienceRound, reservationDate, 1);
-        experienceReservationRepository.save(experienceReservation1);
-        //when
-        Optional<Seller> sellerById = experienceReservationRepository.findSellerById(experienceReservation1.getId());
-        //then
-        sellerById.ifPresent(seller1 -> assertThat(seller1).isSameAs(seller));
-
-
-    }
-
-    @Test
-    @DisplayName("체험예약아이디로 소비자찾기")
-    void findUserById() {
-        //given
-        ExperienceReservation experienceReservation1 = makeTestExperienceReservation(user, experienceRound, reservationDate, 1);
-        ExperienceReservation saved = experienceReservationRepository.save(experienceReservation1);
-        //when
-        Optional<User> userById = experienceReservationRepository.findUserById(saved.getId());
-        //then
-        userById.ifPresent(user1 -> assertThat(user1).isSameAs(user));
-
-    }
-
-    @Test
     @DisplayName("존재하는 체험예약아이디인지 확인")
     void existsById() {
         //given
