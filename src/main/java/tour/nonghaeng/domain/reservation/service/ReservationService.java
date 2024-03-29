@@ -37,12 +37,7 @@ public class ReservationService {
 
     public Page<? extends ReservationUserSummaryDto> getReservationUserSummaryDtoPage(User user, Pageable pageable,String type) {
 
-        Page<Reservation> reservationPage;
-        if (type.equals("room")) {
-            reservationPage = roomReservationRepository.findReservationAllByUser(user, pageable);
-        } else {
-            reservationPage = experienceReservationRepository.findReservationAllByUser(user, pageable);
-        }
+        Page<Reservation> reservationPage = findReservationPage(user, pageable, type);
         //여기서 toDto 는 오버라이딩된 toDto 함수 사용됨
         Page<ReservationUserSummaryDto> dtoPage = reservationPage.map(reservation -> reservation.toDto());
 
@@ -62,5 +57,13 @@ public class ReservationService {
                 .toList();
 
         return new PageImpl<>(filteredList, dtoPage.getPageable(), dtoPage.getTotalElements());
+    }
+
+    private Page<Reservation> findReservationPage(User user, Pageable pageable,String type) {
+
+        if (type.equals("room")) {
+            return roomReservationRepository.findReservationAllByUser(user, pageable);
+        }
+        return experienceReservationRepository.findReservationAllByUser(user, pageable);
     }
 }
