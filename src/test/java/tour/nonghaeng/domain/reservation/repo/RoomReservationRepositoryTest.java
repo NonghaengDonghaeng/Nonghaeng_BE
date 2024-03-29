@@ -190,29 +190,6 @@ class RoomReservationRepositoryTest {
     }
 
     @Test
-    void findUserById() {
-        //given
-        RoomReservation roomReservation = makeTestRoomReservation(user, room, reservationDates);
-        RoomReservation saved = roomReservationRepository.save(roomReservation);
-        //when
-        Optional<User> userById = roomReservationRepository.findUserById(saved.getId());
-        //then
-        userById.ifPresent(user1 -> assertThat(user1).isSameAs(user));
-    }
-
-    @Test
-    void findSellerById() {
-        //given
-        RoomReservation roomReservation = makeTestRoomReservation(user, room, reservationDates);
-        RoomReservation saved = roomReservationRepository.save(roomReservation);
-        //when
-        Optional<Seller> sellerById = roomReservationRepository.findSellerById(saved.getId());
-        //then
-        sellerById.ifPresent(seller1 -> assertThat(seller1).isSameAs(seller));
-
-    }
-
-    @Test
     void findStartDateById() {
         //given
         RoomReservation roomReservation1 = makeTestRoomReservation(user, room, reservationDates);

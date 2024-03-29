@@ -29,8 +29,6 @@ public class RoomReservation extends Reservation {
     private int numOfRoom;
 
 
-
-
     @Builder
     private RoomReservation(User user, Room room, ReservationStateType stateType, int price, int numOfRoom, int numOfParticipant, String reservationName, String number, String email) {
         super(user,room.getSeller(),stateType,numOfParticipant,price,reservationName,number,email);
