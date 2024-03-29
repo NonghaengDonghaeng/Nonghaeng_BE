@@ -8,9 +8,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.dto.room.CreateRoomReservationDto;
@@ -27,7 +24,6 @@ import tour.nonghaeng.global.exception.code.RoomErrorCode;
 import tour.nonghaeng.global.validation.room.RoomCloseDateValidator;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,175 +74,6 @@ class RoomReservationValidatorTest {
         fakeId = 1L;
     }
 
-
-    @Nested
-    @DisplayName("ownerSellerValidate() 테스트")
-    class ownerSellerValidate{
-
-        @Test
-        @DisplayName("예외1: 아이디가 유효하지 않을 때")
-        void ownerSellerValidate() {
-            //given
-            when(roomReservationRepository.existsById(fakeId)).thenReturn(false);
-            //when
-            BaseErrorCode errorCode = assertThrows(ReservationException.class,
-                    () -> roomReservationValidator.ownerSellerValidate(seller, fakeId)).getBaseErrorCode();
-            //then
-            assertThat(errorCode).isSameAs(ReservationErrorCode.NO_EXIST_ROOM_RESERVATION_BY_ID);
-        }
-
-        @Test
-        @DisplayName("예외2: 셀러가 동일하지 않을 때")
-        void ownerSellerValidate2() {
-            //given
-            Seller seller2 = makeTestSeller();
-            when(roomReservationRepository.existsById(fakeId)).thenReturn(true);
-            when(roomReservationRepository.findSellerById(fakeId)).thenReturn(Optional.ofNullable(seller));
-            //when
-            BaseErrorCode errorCode = assertThrows(ReservationException.class,
-                    () -> roomReservationValidator.ownerSellerValidate(seller2, fakeId)).getBaseErrorCode();
-            //then
-            assertThat(errorCode).isSameAs(ReservationErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
-        }
-
-        @Test
-        @DisplayName("정상")
-        void ownerSellerValidate3() {
-            //given
-            when(roomReservationRepository.existsById(fakeId)).thenReturn(true);
-            when(roomReservationRepository.findSellerById(fakeId)).thenReturn(Optional.ofNullable(seller));
-            //when & then
-            assertDoesNotThrow(() -> roomReservationValidator.ownerSellerValidate(seller, fakeId));
-        }
-    }
-
-    @Nested
-    @DisplayName("ownerUserValidate() 테스트")
-    class ownerUserValidate{
-
-        @Test
-        @DisplayName("예외1: 소비자 소유가 아닐때")
-        void ownerUserValidate() {
-            //given
-            User user2 = makeTestUser();
-            when(roomReservationRepository.existsById(fakeId)).thenReturn(true);
-            when(roomReservationRepository.findUserById(fakeId)).thenReturn(Optional.ofNullable(user));
-            //when
-            BaseErrorCode errorCode = assertThrows(ReservationException.class,
-                    () -> roomReservationValidator.ownerUserValidate(user2, fakeId)).getBaseErrorCode();
-            //then
-            assertThat(errorCode).isSameAs(ReservationErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
-        }
-
-        @Test
-        @DisplayName("정상")
-        void ownerUserValidate2() {
-            //given
-            when(roomReservationRepository.existsById(fakeId)).thenReturn(true);
-            when(roomReservationRepository.findUserById(fakeId)).thenReturn(Optional.ofNullable(user));
-            //when & then
-            assertDoesNotThrow(() -> roomReservationValidator.ownerUserValidate(user, fakeId));
-        }
-    }
-
-    @Nested
-    @DisplayName("checkWaitingState() 테스트")
-    class checkWaitingState{
-
-        @Test
-        @DisplayName("예외1: 예약대기상태가 아닐 떄")
-        void checkWaitingState1() {
-            //given
-            RoomReservation roomReservation1 = makeTestRoomReservation(user, room, reservationDates, 1, ReservationStateType.CANCEL_RESERVATION);
-            RoomReservation roomReservation2 = makeTestRoomReservation(user, room, reservationDates, 1, ReservationStateType.CONFIRM_RESERVATION);
-            RoomReservation roomReservation3 = makeTestRoomReservation(user, room, reservationDates, 1, ReservationStateType.NOT_CONFIRM_RESERVATION);
-            RoomReservation roomReservation4 = makeTestRoomReservation(user, room, reservationDates, 1, ReservationStateType.COMPLETE_RESERVATION);
-            //when
-            BaseErrorCode errorCode1 = assertThrows(ReservationException.class,
-                    () -> roomReservationValidator.checkWaitingState(roomReservation1)).getBaseErrorCode();
-            BaseErrorCode errorCode2 = assertThrows(ReservationException.class,
-                    () -> roomReservationValidator.checkWaitingState(roomReservation2)).getBaseErrorCode();
-            BaseErrorCode errorCode3 = assertThrows(ReservationException.class,
-                    () -> roomReservationValidator.checkWaitingState(roomReservation3)).getBaseErrorCode();
-            BaseErrorCode errorCode4 = assertThrows(ReservationException.class,
-                    () -> roomReservationValidator.checkWaitingState(roomReservation4)).getBaseErrorCode();
-            //then
-            assertThat(ReservationErrorCode.NOT_WAITING_RESERVATION_STATE)
-                    .isSameAs(errorCode1)
-                    .isSameAs(errorCode2)
-                    .isSameAs(errorCode3)
-                    .isSameAs(errorCode4);
-        }
-
-        @Test
-        @DisplayName("정상: 예약대기상태")
-        void checkWaitingState2() {
-            //when & then
-            assertDoesNotThrow(() -> roomReservationValidator.checkWaitingState(roomReservation));
-        }
-    }
-
-    @Nested
-    @DisplayName("checkCancelState() 테스트")
-    class checkCancelState{
-
-        @Test
-        @DisplayName("예외1: 미승인,취소,완료 상태일때 ")
-        void checkCancelState() {
-            //given
-            RoomReservation roomReservation1 = makeTestRoomReservation(user, room, reservationDates,1, ReservationStateType.CANCEL_RESERVATION);
-            RoomReservation roomReservation2 = makeTestRoomReservation(user, room, reservationDates, 1, ReservationStateType.NOT_CONFIRM_RESERVATION);
-            RoomReservation roomReservation3 = makeTestRoomReservation(user, room, reservationDates, 1, ReservationStateType.COMPLETE_RESERVATION);
-            //when
-            BaseErrorCode errorCode1 = assertThrows(ReservationException.class,
-                    () -> roomReservationValidator.checkCancelState(roomReservation1)).getBaseErrorCode();
-            BaseErrorCode errorCode2 = assertThrows(ReservationException.class,
-                    () -> roomReservationValidator.checkCancelState(roomReservation2)).getBaseErrorCode();
-            BaseErrorCode errorCode3 = assertThrows(ReservationException.class,
-                    () -> roomReservationValidator.checkCancelState(roomReservation3)).getBaseErrorCode();
-            //then
-            assertThat(ReservationErrorCode.CANT_CANCEL_RESERVATION_STATE)
-                    .isSameAs(errorCode1)
-                    .isSameAs(errorCode2)
-                    .isSameAs(errorCode3);
-        }
-
-        @Test
-        @DisplayName("정상: 승인,대기 상태일때")
-        void checkCancelState2() {
-            //given
-            RoomReservation roomReservation1 = makeTestRoomReservation(user, room, reservationDates, 1, ReservationStateType.CONFIRM_RESERVATION);
-            //when & then
-            assertDoesNotThrow(() -> roomReservationValidator.checkCancelState(roomReservation));
-            assertDoesNotThrow(() -> roomReservationValidator.checkCancelState(roomReservation1));
-        }
-    }
-
-    @Nested
-    @DisplayName("idValidate() 테스트")
-    class idValidate{
-
-        @Test
-        @DisplayName("예외1: 유효하지 않은 아이디일 때")
-        void idValidate() {
-            //given
-            when(roomReservationRepository.existsById(fakeId)).thenReturn(false);
-            //when
-            BaseErrorCode errorCode = assertThrows(ReservationException.class,
-                    () -> roomReservationValidator.idValidate(fakeId)).getBaseErrorCode();
-            //then
-            assertThat(errorCode).isSameAs(ReservationErrorCode.NO_EXIST_ROOM_RESERVATION_BY_ID);
-        }
-
-        @Test
-        @DisplayName("정상")
-        void idValidate2() {
-            //given
-            when(roomReservationRepository.existsById(fakeId)).thenReturn(true);
-            //when & then
-            assertDoesNotThrow(()->roomReservationValidator.idValidate(fakeId));
-        }
-    }
 
     @Nested
     @DisplayName("createRoomReservationDtoValidate() 테스트")
@@ -372,58 +199,5 @@ class RoomReservationValidatorTest {
         }
     }
 
-    @Nested
-    @DisplayName("checkPointValidate() 테스트")
-    class checkPointValidate{
-
-        @Test
-        @DisplayName("예외1: 포인트 부족")
-        void checkPointValidate() {
-            //given
-            user.givePoint(1000);
-            int finalPrice = 2000;
-            //when
-            BaseErrorCode errorCode = assertThrows(ReservationException.class,
-                    () -> roomReservationValidator.checkPointValidate(user, finalPrice)).getBaseErrorCode();
-            //then
-            assertThat(errorCode).isSameAs(ReservationErrorCode.NOT_ENOUGH_POINT_ERROR);
-        }
-
-        @Test
-        @DisplayName("정상 ")
-        void checkPointValidate2() {
-            //given
-            user.givePoint(3000);
-            int finalPrice = 1000;
-            //when & then
-            assertDoesNotThrow(() -> roomReservationValidator.checkPointValidate(user, finalPrice));
-        }
-    }
-
-    @Nested
-    @DisplayName("pageValidate() 테스트")
-    class pageValidate{
-
-        @Test
-        @DisplayName("예외1: 빈페이지")
-        void pageValidate1() {
-            //given
-            Page<RoomReservation> page = new PageImpl<>(new ArrayList<>());
-            //when
-            BaseErrorCode errorCode = assertThrows(ReservationException.class,
-                    () -> roomReservationValidator.pageValidate(page)).getBaseErrorCode();
-            //then
-            assertThat(errorCode).isSameAs(ReservationErrorCode.NO_RESERVATION_CONTENT_AT_CURRENT_PAGE_ERROR);
-        }
-
-        @Test
-        @DisplayName("정상")
-        void pageValidate2() {
-            //given
-            Page<RoomReservation> page = new PageImpl<>(List.of(roomReservation));
-            //when & then
-            assertDoesNotThrow(() -> roomReservationValidator.pageValidate(page));
-        }
-    }
 
 }
