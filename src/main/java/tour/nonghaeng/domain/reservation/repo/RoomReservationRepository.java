@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.reservation.entity.Reservation;
 import tour.nonghaeng.domain.reservation.entity.RoomReservation;
 import tour.nonghaeng.domain.room.entity.Room;
 
@@ -30,5 +31,8 @@ public interface RoomReservationRepository extends JpaRepository<RoomReservation
     Optional<LocalDate> findStartDateById(@Param("id") Long id);
 
     boolean existsById(Long roomReservationId);
+
+    @Query("select rr from RoomReservation rr where rr.user = :user")
+    Page<Reservation> findReservationAllByUser(@Param("user") User user, Pageable pageable);
 
 }
