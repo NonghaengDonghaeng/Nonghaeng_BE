@@ -9,6 +9,8 @@ import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.reservation.dto.ReservationUserSummaryDto;
+import tour.nonghaeng.domain.reservation.dto.exp.ExpReservationUserSummaryDto;
 
 import java.time.LocalDate;
 
@@ -37,4 +39,17 @@ public class ExperienceReservation extends Reservation {
         this.experienceRound = experienceRound;
         this.reservationDate = reservationDate;
     }
+
+    @Override
+    public ReservationUserSummaryDto toDto() {
+        return ExpReservationUserSummaryDto.builder()
+                .experienceReservationId(this.getId())
+                .experienceName(this.getExperience().getExperienceName())
+                .reservationState(this.getStateType().getName())
+                .reservationDate(this.getReservationDate())
+                .price(this.getPrice())
+                .numOfParticipant(this.getNumOfParticipant())
+                .build();
+    }
+
 }

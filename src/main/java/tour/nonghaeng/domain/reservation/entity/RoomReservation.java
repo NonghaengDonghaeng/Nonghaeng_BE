@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.reservation.dto.ReservationUserSummaryDto;
+import tour.nonghaeng.domain.reservation.dto.room.RoomReservationUserSummaryDto;
 import tour.nonghaeng.domain.room.entity.Room;
 
 import java.util.ArrayList;
@@ -38,6 +40,21 @@ public class RoomReservation extends Reservation {
 
     public void addRoomReservationDate(RoomReservationDate roomReservationDate) {
         this.reservationDates.add(roomReservationDate);
+    }
+
+    @Override
+    public ReservationUserSummaryDto toDto() {
+        return RoomReservationUserSummaryDto.builder()
+                .roomReservationId(this.getId())
+                .roomName(this.getRoom().getRoomName())
+                .reservationState(this.getStateType().getName())
+                .reservationDates(this.getReservationDates()
+                        .stream().map(roomReservationDate -> roomReservationDate.getReservationDate())
+                        .toList())
+                .price(this.getPrice())
+                .numOfParticipant(this.getNumOfParticipant())
+                .numOfRoom(this.getNumOfRoom())
+                .build();
     }
 
 }

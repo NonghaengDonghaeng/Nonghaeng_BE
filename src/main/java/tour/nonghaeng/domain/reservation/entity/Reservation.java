@@ -7,6 +7,7 @@ import tour.nonghaeng.domain.etc.BaseTimeEntity;
 import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.reservation.dto.ReservationUserSummaryDto;
 
 @Entity
 @Table(name="RESERVATIONS")
@@ -14,7 +15,7 @@ import tour.nonghaeng.domain.member.entity.User;
 @DiscriminatorColumn
 @NoArgsConstructor
 @Getter
-public class Reservation extends BaseTimeEntity {
+public abstract class Reservation extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -76,4 +77,6 @@ public class Reservation extends BaseTimeEntity {
         this.stateType = ReservationStateType.CANCEL_RESERVATION;
         return this;
     }
+
+    public abstract ReservationUserSummaryDto toDto();
 }
