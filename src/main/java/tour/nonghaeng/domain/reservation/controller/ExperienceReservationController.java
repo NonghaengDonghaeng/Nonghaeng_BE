@@ -15,6 +15,7 @@ import tour.nonghaeng.domain.reservation.dto.exp.*;
 import tour.nonghaeng.domain.reservation.service.ExperienceReservationService;
 import tour.nonghaeng.global.auth.service.AuthService;
 import tour.nonghaeng.global.validation.reservation.ExperienceReservationValidator;
+import tour.nonghaeng.global.validation.reservation.ReservationValidator;
 
 @RestController
 @RequestMapping("/reservations/experience")
@@ -26,7 +27,7 @@ public class ExperienceReservationController {
     private final ExperienceReservationService experienceReservationService;
 
     private final ExperienceReservationValidator experienceReservationValidator;
-
+    private final ReservationValidator reservationValidator;
 
     //1. 체험예약
     //체험 예약하기
@@ -74,7 +75,7 @@ public class ExperienceReservationController {
 
         User user = authService.toUserEntity(authentication);
 
-        experienceReservationValidator.ownerUserValidate(user,reservationID);
+        reservationValidator.ownerUserValidate(user,reservationID);
 
         return new ResponseEntity<>(experienceReservationService.getExpReservationUserDetailDto(reservationID), HttpStatus.OK);
     }
@@ -86,7 +87,7 @@ public class ExperienceReservationController {
 
         Seller seller = authService.toSellerEntity(authentication);
 
-        experienceReservationValidator.ownerSellerValidate(seller, reservationId);
+        reservationValidator.ownerSellerValidate(seller, reservationId);
 
         return new ResponseEntity<>(experienceReservationService.getExpReservationSellerDetailDto(reservationId), HttpStatus.OK);
     }
@@ -98,7 +99,7 @@ public class ExperienceReservationController {
 
         User user = authService.toUserEntity(authentication);
 
-        experienceReservationValidator.ownerUserValidate(user, experienceReservationId);
+        reservationValidator.ownerUserValidate(user, experienceReservationId);
 
         ExpReservationCancelResponseDto dto =
                 experienceReservationService.cancelExpReservation(user, experienceReservationId);
@@ -115,7 +116,7 @@ public class ExperienceReservationController {
 
         Seller seller = authService.toSellerEntity(authentication);
 
-        experienceReservationValidator.ownerSellerValidate(seller, reservationId);
+        reservationValidator.ownerSellerValidate(seller, reservationId);
 
         Long id = experienceReservationService.approveExpReservation(reservationId, notApproveFlag);
 

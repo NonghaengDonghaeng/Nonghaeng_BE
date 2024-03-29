@@ -14,6 +14,7 @@ import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.dto.room.*;
 import tour.nonghaeng.domain.reservation.service.RoomReservationService;
 import tour.nonghaeng.global.auth.service.AuthService;
+import tour.nonghaeng.global.validation.reservation.ReservationValidator;
 import tour.nonghaeng.global.validation.reservation.RoomReservationValidator;
 
 @RestController
@@ -26,6 +27,7 @@ public class RoomReservationController {
     private final RoomReservationService roomReservationService;
 
     private final RoomReservationValidator roomReservationValidator;
+    private final ReservationValidator reservationValidator;
 
 
     //숙소예약
@@ -71,7 +73,7 @@ public class RoomReservationController {
                                                                                          @PathVariable("reservationId") Long reservationId) {
         User user = authService.toUserEntity(authentication);
 
-        roomReservationValidator.ownerUserValidate(user, reservationId);
+        reservationValidator.ownerUserValidate(user, reservationId);
 
         return new ResponseEntity<>(roomReservationService.getRoomReservationUserDetailDto(reservationId), HttpStatus.OK);
     }
@@ -81,7 +83,7 @@ public class RoomReservationController {
                                                                                              @PathVariable("reservationId") Long reservationId) {
         Seller seller = authService.toSellerEntity(authentication);
 
-        roomReservationValidator.ownerSellerValidate(seller, reservationId);
+        reservationValidator.ownerSellerValidate(seller, reservationId);
 
         return new ResponseEntity<>(roomReservationService.getRoomReservationSellerDetailDto(reservationId), HttpStatus.OK);
     }
@@ -92,7 +94,7 @@ public class RoomReservationController {
 
         User user = authService.toUserEntity(authentication);
 
-        roomReservationValidator.ownerUserValidate(user, roomReservationId);
+        reservationValidator.ownerUserValidate(user, roomReservationId);
 
         RoomReservationCancelResponseDto dto =
                 roomReservationService.cancelRoomReservation(user, roomReservationId);
@@ -107,7 +109,7 @@ public class RoomReservationController {
 
         Seller seller = authService.toSellerEntity(authentication);
 
-        roomReservationValidator.ownerSellerValidate(seller, roomReservationId);
+        reservationValidator.ownerSellerValidate(seller, roomReservationId);
 
         Long id = roomReservationService.approveRoomReservation(roomReservationId, notApproveFlag);
 

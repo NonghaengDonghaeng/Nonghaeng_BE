@@ -18,6 +18,7 @@ import tour.nonghaeng.domain.room.entity.Room;
 import tour.nonghaeng.domain.room.service.RoomService;
 import tour.nonghaeng.global.exception.ReservationException;
 import tour.nonghaeng.global.exception.code.ReservationErrorCode;
+import tour.nonghaeng.global.validation.reservation.ReservationValidator;
 import tour.nonghaeng.global.validation.reservation.RoomReservationValidator;
 
 import java.time.Duration;
@@ -36,6 +37,7 @@ public class RoomReservationService {
     private final UserService userService;
 
     private final RoomReservationValidator roomReservationValidator;
+    private final ReservationValidator reservationValidator;
 
 
     public RoomReservationResponseDto createRoomReservation(User user, CreateRoomReservationDto requestDto) {
@@ -55,7 +57,7 @@ public class RoomReservationService {
 
         Page<RoomReservation> page = roomReservationRepository.findAllByUser(user, pageable);
 
-        roomReservationValidator.pageValidate(page);
+        reservationValidator.pageValidate(page);
 
         return RoomReservationUserSummaryDto.toPageDto(page);
     }
@@ -64,7 +66,7 @@ public class RoomReservationService {
 
         Page<RoomReservation> page = roomReservationRepository.findAllBySeller(seller, pageable);
 
-        roomReservationValidator.pageValidate(page);
+        reservationValidator.pageValidate(page);
 
         return RoomReservationSellerSummaryDto.toPageDto(page);
     }
@@ -87,7 +89,7 @@ public class RoomReservationService {
 
         RoomReservation roomReservation = findById(roomReservationId);
 
-        roomReservationValidator.checkWaitingState(roomReservation);
+        reservationValidator.checkWaitingState(roomReservation);
 
         if (notApproveFlag) {
             roomReservation.notApproveReservation();
@@ -102,7 +104,7 @@ public class RoomReservationService {
 
         RoomReservation roomReservation = findById(roomReservationId);
 
-        roomReservationValidator.checkCancelState(roomReservation);
+        reservationValidator.checkCancelState(roomReservation);
 
         CancelPolicy cancelPolicy = decideCancelPolicy(roomReservation);
 

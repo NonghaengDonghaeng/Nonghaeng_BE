@@ -10,6 +10,8 @@ import tour.nonghaeng.global.exception.dto.ErrorReason;
 public enum ReservationErrorCode implements BaseErrorCode {
     DEFAULT_RESERVATION_ERROR(HttpStatus.BAD_GATEWAY,"RES_400_0","예약 기본 오류"),
 
+    NO_EXIST_RESERVATION_ID(HttpStatus.BAD_GATEWAY, "RES_404_4", "해당 id가 존재하지 않습니다."),
+
     //해당 페이지에 예약이 없을시 에러코드
     NO_RESERVATION_CONTENT_AT_CURRENT_PAGE_ERROR(HttpStatus.NOT_FOUND, "RES_105_1", "현재 페이지에 예약이 없습니다."),
 
