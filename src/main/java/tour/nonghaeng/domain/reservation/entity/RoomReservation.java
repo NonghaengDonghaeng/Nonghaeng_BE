@@ -7,7 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.reservation.dto.ReservationUserDetailDto;
 import tour.nonghaeng.domain.reservation.dto.ReservationUserSummaryDto;
+import tour.nonghaeng.domain.reservation.dto.room.RoomReservationUserDetailDto;
 import tour.nonghaeng.domain.reservation.dto.room.RoomReservationUserSummaryDto;
 import tour.nonghaeng.domain.room.entity.Room;
 
@@ -43,7 +45,7 @@ public class RoomReservation extends Reservation {
     }
 
     @Override
-    public ReservationUserSummaryDto toDto() {
+    public ReservationUserSummaryDto toUserSummaryDto() {
         return RoomReservationUserSummaryDto.builder()
                 .roomReservationId(this.getId())
                 .roomName(this.getRoom().getRoomName())
@@ -54,6 +56,22 @@ public class RoomReservation extends Reservation {
                 .price(this.getPrice())
                 .numOfParticipant(this.getNumOfParticipant())
                 .numOfRoom(this.getNumOfRoom())
+                .build();
+    }
+
+    @Override
+    public ReservationUserDetailDto toUserDetailDto() {
+
+        return RoomReservationUserDetailDto.builder()
+                .reservationState(this.getStateType().getName())
+                .tourName(this.getRoom().getTour().getName())
+                .roomName(this.getRoom().getRoomName())
+                .roomId(this.getRoom().getId())
+                .reservationDates(this.getReservationDates().stream().map(roomReservationDate -> roomReservationDate.getReservationDate()).toList())
+                .userName(this.getReservationName())
+                .numOfParticipant(this.getNumOfParticipant())
+                .numOfRoom(this.getNumOfRoom())
+                .price(this.getPrice())
                 .build();
     }
 

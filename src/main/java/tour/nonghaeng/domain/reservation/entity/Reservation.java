@@ -7,6 +7,7 @@ import tour.nonghaeng.domain.etc.BaseTimeEntity;
 import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.reservation.dto.ReservationUserDetailDto;
 import tour.nonghaeng.domain.reservation.dto.ReservationUserSummaryDto;
 
 @Entity
@@ -78,5 +79,7 @@ public abstract class Reservation extends BaseTimeEntity {
         return this;
     }
 
-    public abstract ReservationUserSummaryDto toDto();
+    public abstract ReservationUserSummaryDto toUserSummaryDto();
+
+    public abstract ReservationUserDetailDto toUserDetailDto();
 }

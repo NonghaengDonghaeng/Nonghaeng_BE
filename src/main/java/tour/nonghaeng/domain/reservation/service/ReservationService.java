@@ -20,6 +20,7 @@ import tour.nonghaeng.global.validation.reservation.ReservationValidator;
 import tour.nonghaeng.global.validation.reservation.RoomReservationValidator;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -39,12 +40,12 @@ public class ReservationService {
 
         Page<Reservation> reservationPage = findReservationPage(user, pageable, type);
         //여기서 toDto 는 오버라이딩된 toDto 함수 사용됨
-        Page<ReservationUserSummaryDto> dtoPage = reservationPage.map(reservation -> reservation.toDto());
+        Page<ReservationUserSummaryDto> dtoPage = reservationPage.map(reservation -> reservation.toUserSummaryDto());
 
-        return downCasting(dtoPage);
+        return downCastingUserSummaryDto(dtoPage);
     }
 
-    public Page<? extends ReservationUserSummaryDto> downCasting(Page<ReservationUserSummaryDto> dtoPage) {
+    private Page<? extends ReservationUserSummaryDto> downCastingUserSummaryDto(Page<ReservationUserSummaryDto> dtoPage) {
 
         List<? extends ReservationUserSummaryDto> filteredList = dtoPage.getContent().stream()
                 .map(dto->{
@@ -66,4 +67,20 @@ public class ReservationService {
         }
         return experienceReservationRepository.findReservationAllByUser(user, pageable);
     }
+
+    private Reservation findByReservationId(Long reservationId) {
+        Optional<Reservation> byId = reservationRepository.findById(reservationId);
+        return byId.get();
+
+        int i;
+
+
+
+        int i = 1;
+
+
+    }
+
+
+
 }

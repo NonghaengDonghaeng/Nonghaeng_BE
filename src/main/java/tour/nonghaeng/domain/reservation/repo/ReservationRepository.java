@@ -20,4 +20,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     @Query("select r.seller from Reservation r where r.id = :id")
     Optional<Seller> findSellerById(@Param("id") Long reservationId);
+
+    @Query("select r.dType from Reservation r where r.id = :id")
+    Optional<String> findReservationType(@Param("id") Long reservationId);
+    
 }
