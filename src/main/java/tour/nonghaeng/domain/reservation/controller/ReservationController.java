@@ -8,11 +8,9 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.reservation.dto.ReservationUserDetailDto;
 import tour.nonghaeng.domain.reservation.dto.ReservationUserSummaryDto;
 import tour.nonghaeng.domain.reservation.service.ReservationService;
 import tour.nonghaeng.global.auth.service.AuthService;
@@ -40,5 +38,16 @@ public class ReservationController {
                 reservationService.getReservationUserSummaryDtoPage(user, pageable, type);
 
         return new ResponseEntity<>(dtoPage, HttpStatus.OK);
+    }
+
+    @GetMapping("/{reservationId}")
+    public ResponseEntity<? extends ReservationUserDetailDto> showReservationUserDatailDto(Authentication authentication,
+                                                                                           @PathVariable("reservationId") Long reservationId) {
+
+        User user = authService.toUserEntity(authentication);
+
+        reservationValidator.ownerUserValidate(user, reservationId);
+
+        return new ResponseEntity<>(reservationService.getReservationUserDetailDto(reservationId), HttpStatus.OK);
     }
 }

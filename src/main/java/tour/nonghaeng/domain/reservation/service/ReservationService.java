@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.reservation.dto.ReservationUserDetailDto;
 import tour.nonghaeng.domain.reservation.dto.ReservationUserSummaryDto;
 import tour.nonghaeng.domain.reservation.dto.exp.ExpReservationUserSummaryDto;
 import tour.nonghaeng.domain.reservation.dto.room.RoomReservationUserSummaryDto;
@@ -68,15 +69,29 @@ public class ReservationService {
         return experienceReservationRepository.findReservationAllByUser(user, pageable);
     }
 
+    public ReservationUserDetailDto getReservationUserDetailDto(Long reservationId) {
+
+        Reservation reservation = findByReservationId(reservationId);
+
+        log.info(reservation.toString());
+
+        return reservation.toUserDetailDto();
+
+    }
+
     private Reservation findByReservationId(Long reservationId) {
-        Optional<Reservation> byId = reservationRepository.findById(reservationId);
-        return byId.get();
 
-        int i;
+        Optional<String> maybeReservationType = reservationRepository.findReservationType(reservationId);
+        if (maybeReservationType.isEmpty()) {
+            //예외처리
+        }
+
+        if (maybeReservationType.get().equals("RoomReservation")) {
+            return roomReservationRepository.findReservationById(reservationId);
+        }
+        return experienceReservationRepository.findReservationById(reservationId);
 
 
-
-        int i = 1;
 
 
     }

@@ -66,6 +66,7 @@ public class ExperienceReservation extends Reservation {
                 .userName(this.getReservationName())
                 .reservationAt(this.getCreatedAt())
                 .numOfParticipant(this.getNumOfParticipant())
+                .reservationAt(super.getCreatedAt())
                 .price(this.getPrice())
                 .build();
     }

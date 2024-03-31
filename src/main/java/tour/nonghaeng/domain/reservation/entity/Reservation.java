@@ -82,4 +82,19 @@ public abstract class Reservation extends BaseTimeEntity {
     public abstract ReservationUserSummaryDto toUserSummaryDto();
 
     public abstract ReservationUserDetailDto toUserDetailDto();
+
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "id=" + id +
+                ", user=" + user +
+                ", seller=" + seller +
+                ", stateType=" + stateType +
+                ", numOfParticipant=" + numOfParticipant +
+                ", price=" + price +
+                ", reservationName='" + reservationName + '\'' +
+                ", number='" + number + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

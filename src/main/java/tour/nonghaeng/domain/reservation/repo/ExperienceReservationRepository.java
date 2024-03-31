@@ -32,4 +32,8 @@ public interface ExperienceReservationRepository extends JpaRepository<Experienc
     @Query("select er from ExperienceReservation er where er.user = :user")
     Page<Reservation> findReservationAllByUser(@Param("user") User user, Pageable pageable);
 
+
+    @Query("select er from ExperienceReservation er where er.id = :id")
+    Reservation findReservationById(@Param("id") Long reservationId);
+
 }
