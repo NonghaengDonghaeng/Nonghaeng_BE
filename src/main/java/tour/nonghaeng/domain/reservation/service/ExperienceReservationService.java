@@ -71,12 +71,12 @@ public class ExperienceReservationService {
 
     public Page<Reservation> findReservationPageByUser(User user, Pageable pageable) {
 
-        return experienceReservationRepository.findReservationAllByUser(user, pageable);
+        return experienceReservationRepository.findReservationPageByUser(user, pageable);
     }
 
     public Page<Reservation> findReservationPageBySeller(Seller seller, Pageable pageable) {
 
-        return experienceReservationRepository.findReservationAllBySeller(seller, pageable);
+        return experienceReservationRepository.findReservationPageBySeller(seller, pageable);
     }
 
     public Reservation findReservationById(Long reservationId) {

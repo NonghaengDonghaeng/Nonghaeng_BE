@@ -72,11 +72,11 @@ public class RoomReservationService {
     }
 
     public Page<Reservation> findReservationPageByUser(User user, Pageable pageable) {
-        return roomReservationRepository.findReservationAllByUser(user, pageable);
+        return roomReservationRepository.findReservationPageByUser(user, pageable);
     }
 
     public Page<Reservation> findReservationPageBySeller(Seller seller, Pageable pageable) {
-        return roomReservationRepository.findReservationAllBySeller(seller, pageable);
+        return roomReservationRepository.findReservationPageBySeller(seller, pageable);
     }
 
     public LocalDate findStartDateById(Long roomReservationId) {

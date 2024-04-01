@@ -27,10 +27,10 @@ public interface RoomReservationRepository extends JpaRepository<RoomReservation
     boolean existsById(Long roomReservationId);
 
     @Query("select rr from RoomReservation rr where rr.user = :user")
-    Page<Reservation> findReservationAllByUser(@Param("user") User user, Pageable pageable);
+    Page<Reservation> findReservationPageByUser(@Param("user") User user, Pageable pageable);
 
     @Query("select rr from RoomReservation rr where rr.seller =:seller")
-    Page<Reservation> findReservationAllBySeller(@Param("seller") Seller seller, Pageable pageable);
+    Page<Reservation> findReservationPageBySeller(@Param("seller") Seller seller, Pageable pageable);
 
     @Query("select rr from RoomReservation rr where rr.id = :id")
     Optional<Reservation> findReservationById(@Param("id") Long reservationId);
