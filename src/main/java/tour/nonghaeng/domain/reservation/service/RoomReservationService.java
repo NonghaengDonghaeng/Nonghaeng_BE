@@ -52,22 +52,6 @@ public class RoomReservationService {
         return RoomReservationResponseDto.toDto(roomReservation);
     }
 
-
-    public Long approveRoomReservation(Long roomReservationId,boolean notApproveFlag) {
-
-        RoomReservation roomReservation = findById(roomReservationId);
-
-        reservationValidator.checkWaitingState(roomReservation);
-
-        if (notApproveFlag) {
-            roomReservation.notApproveReservation();
-            userService.payBackPoint(roomReservation.getUser(), roomReservation.getPrice(), CancelPolicy.NOT_CONFIRM_CANCEL_POLICY);
-        }
-        roomReservation.approveReservation();
-
-        return roomReservationRepository.save(roomReservation).getId();
-    }
-
     public RoomReservationCancelResponseDto cancelRoomReservation(User user, Long roomReservationId) {
 
         RoomReservation roomReservation = findById(roomReservationId);

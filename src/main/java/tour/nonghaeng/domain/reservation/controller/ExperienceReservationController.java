@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.dto.exp.CreateExpReservationDto;
 import tour.nonghaeng.domain.reservation.dto.exp.ExpReservationCancelResponseDto;
@@ -56,24 +55,5 @@ public class ExperienceReservationController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    //관리자 API : 예약대기를 예약 승인하기, 혹은 미승인하기(파라미터로 not = true 인 경우 미승인)
-    //승인을 다시 미승인인 경우는 아직 배제
-    @GetMapping("/seller/approve/{reservationId}")
-    public ResponseEntity<String> approveExpReservation(Authentication authentication,
-                                                        @PathVariable("reservationId") Long reservationId,
-                                                        @RequestParam(name = "not", defaultValue = "false") boolean notApproveFlag) {
-
-        Seller seller = authService.toSellerEntity(authentication);
-
-        reservationValidator.ownerSellerValidate(seller, reservationId);
-
-        Long id = experienceReservationService.approveExpReservation(reservationId, notApproveFlag);
-
-        if (notApproveFlag == true) {
-            return new ResponseEntity<>("체험예약 미승인완료(체험예약 id:" + id + ")", HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>("체험예약 승인완료(체험예약 id:" + id + ")", HttpStatus.OK);
-    }
 }
 

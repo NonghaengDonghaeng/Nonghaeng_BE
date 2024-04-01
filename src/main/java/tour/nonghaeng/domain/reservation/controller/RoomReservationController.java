@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.dto.room.CreateRoomReservationDto;
 import tour.nonghaeng.domain.reservation.dto.room.RoomReservationCancelResponseDto;
@@ -56,21 +55,4 @@ public class RoomReservationController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @GetMapping("/seller/approve/{reservationId}")
-    public ResponseEntity<String> approveRoomReservation(Authentication authentication,
-                                                         @PathVariable("reservationId") Long roomReservationId,
-                                                         @RequestParam(name = "not", defaultValue = "false") boolean notApproveFlag) {
-
-        Seller seller = authService.toSellerEntity(authentication);
-
-        reservationValidator.ownerSellerValidate(seller, roomReservationId);
-
-        Long id = roomReservationService.approveRoomReservation(roomReservationId, notApproveFlag);
-
-        if (notApproveFlag == true) {
-            return new ResponseEntity<>("체험예약 미승인 완료", HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>("체험예약 승인 완료(체험예약 id:" + id + ")", HttpStatus.OK);
-    }
 }

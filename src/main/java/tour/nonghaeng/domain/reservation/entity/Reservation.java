@@ -88,4 +88,5 @@ public abstract class Reservation extends BaseTimeEntity {
     public abstract ReservationSellerSummaryDto toSellerSummaryDto();
 
     public abstract ReservationSellerDetailDto toSellerDetailDto(int remainParticipant);
+
 }

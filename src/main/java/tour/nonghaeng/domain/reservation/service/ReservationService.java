@@ -7,8 +7,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tour.nonghaeng.domain.etc.cancel.CancelPolicy;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.member.service.UserService;
 import tour.nonghaeng.domain.reservation.dto.ReservationSellerDetailDto;
 import tour.nonghaeng.domain.reservation.dto.ReservationSellerSummaryDto;
 import tour.nonghaeng.domain.reservation.dto.ReservationUserDetailDto;
@@ -39,6 +41,7 @@ public class ReservationService {
     private final ExperienceReservationRepository experienceReservationRepository;
 
     private final ExperienceReservationService experienceReservationService;
+    private final UserService userService;
 
     private final RoomReservationValidator roomReservationValidator;
     private final ExperienceReservationValidator experienceReservationValidator;
@@ -50,9 +53,9 @@ public class ReservationService {
 
         reservationValidator.pageValidate(reservationPage);
         //여기서 toDto 는 오버라이딩된 toDto 함수 사용됨
-        Page<ReservationUserSummaryDto> dtoPage = reservationPage.map(reservation -> reservation.toUserSummaryDto());
+        Page<? extends ReservationUserSummaryDto> dtoPage = reservationPage.map(reservation -> reservation.toUserSummaryDto());
 
-        return downCastingUserSummaryDto(dtoPage);
+        return dtoPage;
     }
 
     public ReservationUserDetailDto getReservationUserDetailDto(Long reservationId) {
@@ -70,9 +73,9 @@ public class ReservationService {
 
         reservationValidator.pageValidate(reservationPage);
 
-        Page<ReservationSellerSummaryDto> dtoPage = reservationPage.map(reservation -> reservation.toSellerSummaryDto());
+        Page<? extends ReservationSellerSummaryDto> dtoPage = reservationPage.map(reservation -> reservation.toSellerSummaryDto());
 
-        return downCastingSellerSummaryDto(dtoPage);
+        return dtoPage;
     }
 
     public ReservationSellerDetailDto getReservationSellerDetailDto(Long reservationId) {
@@ -91,6 +94,23 @@ public class ReservationService {
         return reservation.toSellerDetailDto(remainOfParticipant);
     }
 
+    public Long approveReservation(Long reservationId, boolean notApproveFlag) {
+
+        Reservation reservation = findByReservationId(reservationId);
+
+        reservationValidator.checkWaitingState(reservation);
+
+        if (notApproveFlag) {
+            reservation.notApproveReservation();
+            userService.payBackPoint(reservation.getUser(), reservation.getPrice(),
+                    CancelPolicy.NOT_CONFIRM_CANCEL_POLICY);
+        }
+        reservation.approveReservation();
+
+        return reservationRepository.save(reservation).getId();
+    }
+
+    //다운캐스팅안해도 될것같애서 안하고 이 구현채를 넘겨서 확인해보기
     private Page<? extends ReservationUserSummaryDto> downCastingUserSummaryDto(Page<ReservationUserSummaryDto> dtoPage) {
 
         List<? extends ReservationUserSummaryDto> filteredList = dtoPage.getContent().stream()

@@ -83,4 +83,20 @@ public class ReservationController {
         return new ResponseEntity<>(reservationService.getReservationSellerDetailDto(reservationId), HttpStatus.OK);
     }
 
+    @GetMapping("/seller/approve/{reservationId}")
+    public ResponseEntity<String> approveReservation(Authentication authentication,
+                                                     @PathVariable("reservationId") Long reservationId,
+                                                     @RequestParam(name = "not", defaultValue = "false") boolean notApproveFlag) {
+        Seller seller = authService.toSellerEntity(authentication);
+
+        reservationValidator.ownerSellerValidate(seller, reservationId);
+
+        Long id = reservationService.approveReservation(reservationId, notApproveFlag);
+
+        if (notApproveFlag == true) {
+            return new ResponseEntity<>("체험예약 미승인 완료", HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>("체험예약 승인 완료(체험예약 id:" + id + ")", HttpStatus.OK);
+    }
 }

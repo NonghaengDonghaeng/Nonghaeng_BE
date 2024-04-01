@@ -58,22 +58,6 @@ public class ExperienceReservationService {
     }
 
 
-    public Long approveExpReservation(Long expReservationId, boolean notApproveFlag) {
-
-        ExperienceReservation experienceReservation = findById(expReservationId);
-
-        //검증: 예약 대기 상태인지 확인
-        reservationValidator.checkWaitingState(experienceReservation);
-
-        if (notApproveFlag) {
-            experienceReservation.notApproveReservation();
-            userService.payBackPoint(experienceReservation.getUser(), experienceReservation.getPrice(), CancelPolicy.NOT_CONFIRM_CANCEL_POLICY);
-        }
-        experienceReservation.approveReservation();
-
-        return experienceReservationRepository.save(experienceReservation).getId();
-    }
-
     public ExpReservationCancelResponseDto cancelExpReservation(User user, Long experienceReservationId) {
 
         ExperienceReservation experienceReservation = findById(experienceReservationId);
