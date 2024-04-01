@@ -4,13 +4,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.etc.BaseTimeEntity;
+import tour.nonghaeng.domain.etc.cancel.CancelPolicy;
 import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
-import tour.nonghaeng.domain.reservation.dto.ReservationSellerDetailDto;
-import tour.nonghaeng.domain.reservation.dto.ReservationSellerSummaryDto;
-import tour.nonghaeng.domain.reservation.dto.ReservationUserDetailDto;
-import tour.nonghaeng.domain.reservation.dto.ReservationUserSummaryDto;
+import tour.nonghaeng.domain.reservation.dto.*;
 
 @Entity
 @Table(name="RESERVATIONS")
@@ -88,5 +86,7 @@ public abstract class Reservation extends BaseTimeEntity {
     public abstract ReservationSellerSummaryDto toSellerSummaryDto();
 
     public abstract ReservationSellerDetailDto toSellerDetailDto(int remainParticipant);
+
+    public abstract ReservationCancelResponseDto toCancelResponseDto(CancelPolicy cancelPolicy);
 
 }

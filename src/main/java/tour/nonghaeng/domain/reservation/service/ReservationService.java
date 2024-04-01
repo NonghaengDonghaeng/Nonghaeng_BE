@@ -8,19 +8,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.etc.cancel.CancelPolicy;
+import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.member.service.UserService;
-import tour.nonghaeng.domain.reservation.dto.ReservationSellerDetailDto;
-import tour.nonghaeng.domain.reservation.dto.ReservationSellerSummaryDto;
-import tour.nonghaeng.domain.reservation.dto.ReservationUserDetailDto;
-import tour.nonghaeng.domain.reservation.dto.ReservationUserSummaryDto;
+import tour.nonghaeng.domain.reservation.dto.*;
 import tour.nonghaeng.domain.reservation.dto.exp.ExpReservationSellerSummaryDto;
 import tour.nonghaeng.domain.reservation.dto.exp.ExpReservationUserSummaryDto;
 import tour.nonghaeng.domain.reservation.dto.room.RoomReservationSellerSummaryDto;
 import tour.nonghaeng.domain.reservation.dto.room.RoomReservationUserSummaryDto;
 import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.entity.Reservation;
+import tour.nonghaeng.domain.reservation.entity.RoomReservation;
 import tour.nonghaeng.domain.reservation.repo.ExperienceReservationRepository;
 import tour.nonghaeng.domain.reservation.repo.ReservationRepository;
 import tour.nonghaeng.domain.reservation.repo.RoomReservationRepository;
@@ -28,6 +27,9 @@ import tour.nonghaeng.global.validation.reservation.ExperienceReservationValidat
 import tour.nonghaeng.global.validation.reservation.ReservationValidator;
 import tour.nonghaeng.global.validation.reservation.RoomReservationValidator;
 
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -41,6 +43,7 @@ public class ReservationService {
     private final ExperienceReservationRepository experienceReservationRepository;
 
     private final ExperienceReservationService experienceReservationService;
+    private final RoomReservationService roomReservationService;
     private final UserService userService;
 
     private final RoomReservationValidator roomReservationValidator;
@@ -110,6 +113,23 @@ public class ReservationService {
         return reservationRepository.save(reservation).getId();
     }
 
+    public ReservationCancelResponseDto cancelReservation(User user, Long reservationId) {
+
+        Reservation reservation = findByReservationId(reservationId);
+
+        reservationValidator.checkCancelState(reservation);
+
+        CancelPolicy cancelPolicy = decideCancelPolicy(reservation);
+
+        userService.payBackPoint(user, reservation.getPrice(), cancelPolicy);
+
+        reservation.cancelReservation();
+
+        reservationRepository.save(reservation);
+
+        return reservation.toCancelResponseDto(cancelPolicy);
+    }
+
     //다운캐스팅안해도 될것같애서 안하고 이 구현채를 넘겨서 확인해보기
     private Page<? extends ReservationUserSummaryDto> downCastingUserSummaryDto(Page<ReservationUserSummaryDto> dtoPage) {
 
@@ -170,6 +190,47 @@ public class ReservationService {
         return experienceReservationRepository.findReservationById(reservationId);
     }
 
+    private CancelPolicy decideCancelPolicy(Reservation reservation) {
+        LocalDate reservationAt = reservation.getCreatedAt().toLocalDate();
+        LocalDateTime startAt = findStartAt(reservation);
+
+        Long diffHour = countDiffHourDate(startAt);
+
+        if (reservation.getStateType().equals(ReservationStateType.WAITING_RESERVATION)) {
+            return CancelPolicy.NOT_CONFIRM_CANCEL_POLICY;
+        }
+        if (reservationAt.equals(LocalDate.now())) {
+            return CancelPolicy.MISTAKE_CANCEL_POLICY;
+        }
+        if (diffHour < 7) {
+            return CancelPolicy.IN_SEVEN_HOURS_CANCEL_POLICY;
+        }
+        if (diffHour < 24) {
+            return CancelPolicy.IN_ONE_DAY_CANCEL_POLICY;
+        }
+        if (diffHour < 24 * 7) {
+            return CancelPolicy.IN_ONE_WEEK_CANCEL_POLICY;
+        }
+        return CancelPolicy.DEFAULT_CANCEL_POLICY;
+    }
+
+    private Long countDiffHourDate(LocalDateTime startAt) {
+
+        Duration duration = Duration.between(LocalDateTime.now(), startAt);
+
+        return duration.getSeconds() / 3600;
+    }
+
+    private LocalDateTime findStartAt(Reservation reservation) {
+        if (reservation instanceof RoomReservation) {
+            RoomReservation roomReservation = (RoomReservation) reservation;
+            LocalDateTime.of(roomReservationService.findStartDateById(roomReservation.getId()),
+                    roomReservation.getRoom().getCheckinTime());
+        }
+        ExperienceReservation experienceReservation = (ExperienceReservation) reservation;
+        return LocalDateTime
+                .of(experienceReservation.getReservationDate(), experienceReservation.getExperienceRound().getStartTime());
+    }
 
 
 }

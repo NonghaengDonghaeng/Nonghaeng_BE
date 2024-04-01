@@ -5,18 +5,13 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import tour.nonghaeng.domain.etc.cancel.CancelPolicy;
 import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
 import tour.nonghaeng.domain.member.entity.User;
-import tour.nonghaeng.domain.reservation.dto.ReservationSellerDetailDto;
-import tour.nonghaeng.domain.reservation.dto.ReservationSellerSummaryDto;
-import tour.nonghaeng.domain.reservation.dto.ReservationUserDetailDto;
-import tour.nonghaeng.domain.reservation.dto.ReservationUserSummaryDto;
-import tour.nonghaeng.domain.reservation.dto.exp.ExpReservationSellerDetailDto;
-import tour.nonghaeng.domain.reservation.dto.exp.ExpReservationSellerSummaryDto;
-import tour.nonghaeng.domain.reservation.dto.exp.ExpReservationUserDetailDto;
-import tour.nonghaeng.domain.reservation.dto.exp.ExpReservationUserSummaryDto;
+import tour.nonghaeng.domain.reservation.dto.*;
+import tour.nonghaeng.domain.reservation.dto.exp.*;
 
 import java.time.LocalDate;
 
@@ -101,6 +96,19 @@ public class ExperienceReservation extends Reservation {
                 .numOfParticipant(this.getNumOfParticipant())
                 .remainParticipant(remainParticipant)
                 .price(this.getPrice())
+                .build();
+    }
+
+    @Override
+    public ReservationCancelResponseDto toCancelResponseDto(CancelPolicy cancelPolicy) {
+        return ExpReservationCancelResponseDto.builder()
+                .cancelPolicy(cancelPolicy.getName())
+                .percent(cancelPolicy.getPercent())
+                .originPayPoint(this.getPrice())
+                .payBackPoint((int) (this.getPrice() * (1 - cancelPolicy.getPercent())))
+                .remainPoint(this.getUser().getPoint())
+                .experienceName(this.getExperience().getExperienceName())
+                .experienceReservationId(this.getId())
                 .build();
     }
 

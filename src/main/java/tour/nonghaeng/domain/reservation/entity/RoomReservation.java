@@ -5,16 +5,11 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import tour.nonghaeng.domain.etc.cancel.CancelPolicy;
 import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.entity.User;
-import tour.nonghaeng.domain.reservation.dto.ReservationSellerDetailDto;
-import tour.nonghaeng.domain.reservation.dto.ReservationSellerSummaryDto;
-import tour.nonghaeng.domain.reservation.dto.ReservationUserDetailDto;
-import tour.nonghaeng.domain.reservation.dto.ReservationUserSummaryDto;
-import tour.nonghaeng.domain.reservation.dto.room.RoomReservationSellerDetailDto;
-import tour.nonghaeng.domain.reservation.dto.room.RoomReservationSellerSummaryDto;
-import tour.nonghaeng.domain.reservation.dto.room.RoomReservationUserDetailDto;
-import tour.nonghaeng.domain.reservation.dto.room.RoomReservationUserSummaryDto;
+import tour.nonghaeng.domain.reservation.dto.*;
+import tour.nonghaeng.domain.reservation.dto.room.*;
 import tour.nonghaeng.domain.room.entity.Room;
 
 import java.util.ArrayList;
@@ -106,6 +101,19 @@ public class RoomReservation extends Reservation {
                 .numOfParticipant(this.getNumOfParticipant())
                 .numOfRoom(this.getNumOfRoom())
                 .price(this.getPrice())
+                .build();
+    }
+
+    @Override
+    public ReservationCancelResponseDto toCancelResponseDto(CancelPolicy cancelPolicy) {
+        return RoomReservationCancelResponseDto.builder()
+                .cancelPolicy(cancelPolicy.getName())
+                .percent(cancelPolicy.getPercent())
+                .originPayPoint(this.getPrice())
+                .payBackPoint((int) (this.getPrice() * (1 - cancelPolicy.getPercent())))
+                .remainPoint(this.getUser().getPoint())
+                .roomName(this.getRoom().getRoomName())
+                .roomReservationId(this.getId())
                 .build();
     }
 

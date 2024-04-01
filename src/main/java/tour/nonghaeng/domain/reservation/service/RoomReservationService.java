@@ -4,12 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tour.nonghaeng.domain.etc.cancel.CancelPolicy;
-import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.member.service.UserService;
 import tour.nonghaeng.domain.reservation.dto.room.CreateRoomReservationDto;
-import tour.nonghaeng.domain.reservation.dto.room.RoomReservationCancelResponseDto;
 import tour.nonghaeng.domain.reservation.dto.room.RoomReservationResponseDto;
 import tour.nonghaeng.domain.reservation.entity.RoomReservation;
 import tour.nonghaeng.domain.reservation.repo.RoomReservationRepository;
@@ -20,9 +17,7 @@ import tour.nonghaeng.global.exception.code.ReservationErrorCode;
 import tour.nonghaeng.global.validation.reservation.ReservationValidator;
 import tour.nonghaeng.global.validation.reservation.RoomReservationValidator;
 
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -52,23 +47,6 @@ public class RoomReservationService {
         return RoomReservationResponseDto.toDto(roomReservation);
     }
 
-    public RoomReservationCancelResponseDto cancelRoomReservation(User user, Long roomReservationId) {
-
-        RoomReservation roomReservation = findById(roomReservationId);
-
-        reservationValidator.checkCancelState(roomReservation);
-
-        CancelPolicy cancelPolicy = decideCancelPolicy(roomReservation);
-
-        userService.payBackPoint(user, roomReservation.getPrice(), cancelPolicy);
-
-        roomReservation.cancelReservation();
-
-        roomReservationRepository.save(roomReservation);
-
-        return RoomReservationCancelResponseDto.toDto(roomReservation, cancelPolicy);
-    }
-
     //해당 날짜의 남은 방 수 구하기
     public int countRemainOfRoom(Room room, LocalDate date) {
 
@@ -78,46 +56,13 @@ public class RoomReservationService {
         return room.getNumOfRoom() - currentReservationRoom;
     }
 
-    private Long countDiffHourDate(LocalDateTime startAt) {
-
-        Duration duration = Duration.between(LocalDateTime.now(), startAt);
-
-        return duration.getSeconds() / 3600;
-    }
-
-    private CancelPolicy decideCancelPolicy(RoomReservation roomReservation) {
-
-        LocalDate reservationAt = roomReservation.getCreatedAt().toLocalDate();
-        LocalDateTime roomStartAt = LocalDateTime.of(findStartDateById(roomReservation.getId()),
-                roomReservation.getRoom().getCheckinTime());
-
-        Long diffHour = countDiffHourDate(roomStartAt);
-
-        if (roomReservation.getStateType().equals(ReservationStateType.WAITING_RESERVATION)) {
-            return CancelPolicy.NOT_CONFIRM_CANCEL_POLICY;
-        }
-        if (reservationAt.equals(LocalDate.now())) {
-            return CancelPolicy.MISTAKE_CANCEL_POLICY;
-        }
-        if (diffHour < 7) {
-            return CancelPolicy.IN_SEVEN_HOURS_CANCEL_POLICY;
-        }
-        if (diffHour < 24) {
-            return CancelPolicy.IN_ONE_DAY_CANCEL_POLICY;
-        }
-        if (diffHour < 24 * 7) {
-            return CancelPolicy.IN_ONE_WEEK_CANCEL_POLICY;
-        }
-        return CancelPolicy.DEFAULT_CANCEL_POLICY;
-    }
-
     private RoomReservation findById(Long roomReservationId) {
 
         return roomReservationRepository.findById(roomReservationId)
                 .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_EXIST_ROOM_RESERVATION_BY_ID));
     }
 
-    private LocalDate findStartDateById(Long roomReservationId) {
+    public LocalDate findStartDateById(Long roomReservationId) {
         return roomReservationRepository.findStartDateById(roomReservationId)
                 .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_RESERVATION_DATE_BY_ID));
     }

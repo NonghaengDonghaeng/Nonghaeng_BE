@@ -7,12 +7,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.etc.cancel.CancelPolicy;
+import tour.nonghaeng.domain.reservation.dto.ReservationCancelResponseDto;
 import tour.nonghaeng.domain.reservation.entity.RoomReservation;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class RoomReservationCancelResponseDto {
+public class RoomReservationCancelResponseDto extends ReservationCancelResponseDto {
 
     private String cancelPolicy;            //정책이름
     private double percent;                 //취소 수수료

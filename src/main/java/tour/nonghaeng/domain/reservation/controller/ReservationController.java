@@ -11,10 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
-import tour.nonghaeng.domain.reservation.dto.ReservationSellerDetailDto;
-import tour.nonghaeng.domain.reservation.dto.ReservationSellerSummaryDto;
-import tour.nonghaeng.domain.reservation.dto.ReservationUserDetailDto;
-import tour.nonghaeng.domain.reservation.dto.ReservationUserSummaryDto;
+import tour.nonghaeng.domain.reservation.dto.*;
 import tour.nonghaeng.domain.reservation.service.ReservationService;
 import tour.nonghaeng.global.auth.service.AuthService;
 import tour.nonghaeng.global.validation.reservation.ReservationValidator;
@@ -98,5 +95,16 @@ public class ReservationController {
         }
 
         return new ResponseEntity<>("체험예약 승인 완료(체험예약 id:" + id + ")", HttpStatus.OK);
+    }
+
+    @GetMapping("/cancel/{reservationId}")
+    public ResponseEntity<? extends ReservationCancelResponseDto> cancelReservation(Authentication authentication,
+                                                                                    @PathVariable("reservationId") Long reservationId) {
+
+        User user = authService.toUserEntity(authentication);
+
+        reservationValidator.ownerUserValidate(user, reservationId);
+
+        return new ResponseEntity<>(reservationService.cancelReservation(user, reservationId), HttpStatus.OK);
     }
 }

@@ -4,25 +4,19 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tour.nonghaeng.domain.etc.cancel.CancelPolicy;
-import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
 import tour.nonghaeng.domain.experience.service.ExperienceRoundService;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.member.service.UserService;
 import tour.nonghaeng.domain.reservation.dto.exp.CreateExpReservationDto;
-import tour.nonghaeng.domain.reservation.dto.exp.ExpReservationCancelResponseDto;
 import tour.nonghaeng.domain.reservation.dto.exp.ExpReservationResponseDto;
 import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.repo.ExperienceReservationRepository;
 import tour.nonghaeng.global.exception.ReservationException;
 import tour.nonghaeng.global.exception.code.ReservationErrorCode;
 import tour.nonghaeng.global.validation.reservation.ExperienceReservationValidator;
-import tour.nonghaeng.global.validation.reservation.ReservationValidator;
 
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -37,7 +31,6 @@ public class ExperienceReservationService {
     private final UserService userService;
 
     private final ExperienceReservationValidator experienceReservationValidator;
-    private final ReservationValidator reservationValidator;
 
 
     public ExpReservationResponseDto createExpReservation(User user, CreateExpReservationDto requestDto) {
@@ -57,24 +50,6 @@ public class ExperienceReservationService {
         return ExpReservationResponseDto.toDto(experienceReservation);
     }
 
-
-    public ExpReservationCancelResponseDto cancelExpReservation(User user, Long experienceReservationId) {
-
-        ExperienceReservation experienceReservation = findById(experienceReservationId);
-
-        reservationValidator.checkCancelState(experienceReservation);
-
-        CancelPolicy cancelPolicy = decideCancelPolicy(experienceReservation);
-
-        userService.payBackPoint(user, experienceReservation.getPrice(), cancelPolicy);
-
-        experienceReservation.cancelReservation();
-
-        experienceReservationRepository.save(experienceReservation);
-
-        return ExpReservationCancelResponseDto.toDto(experienceReservation, cancelPolicy);
-    }
-
     //해당 날짜, 해당 회차에 잔여인원 구하기
     public int countRemainOfParticipant(ExperienceRound experienceRound, LocalDate localDate) {
 
@@ -88,41 +63,6 @@ public class ExperienceReservationService {
         }
 
         return experienceRound.getMaxParticipant() - currentReservationParticipant;
-    }
-
-    private Long countDiffHourDate(LocalDateTime startAt) {
-
-        Duration duration = Duration.between(LocalDateTime.now(), startAt);
-
-        return duration.getSeconds() / 3600;
-    }
-
-    private CancelPolicy decideCancelPolicy(ExperienceReservation experienceReservation) {
-
-        LocalDate reservationAt = experienceReservation.getCreatedAt().toLocalDate();
-        LocalDateTime experienceStartAt = LocalDateTime
-                .of(experienceReservation.getReservationDate(), experienceReservation.getExperienceRound().getStartTime());
-
-        Long diffHour = countDiffHourDate(experienceStartAt);
-
-        //예약 대기중일 경우 수수료 없음
-        if (experienceReservation.getStateType().equals(ReservationStateType.WAITING_RESERVATION)) {
-            return CancelPolicy.NOT_CONFIRM_CANCEL_POLICY;
-        }
-        //당일 취소인 경우 수수료 없음
-        if (reservationAt.equals(LocalDate.now())) {
-            return CancelPolicy.MISTAKE_CANCEL_POLICY;
-        }
-        if (diffHour < 7) {
-            return CancelPolicy.IN_SEVEN_HOURS_CANCEL_POLICY;
-        }
-        if (diffHour < 24) {
-            return CancelPolicy.IN_ONE_DAY_CANCEL_POLICY;
-        }
-        if (diffHour < 24 * 7) {
-            return CancelPolicy.IN_ONE_WEEK_CANCEL_POLICY;
-        }
-        return CancelPolicy.DEFAULT_CANCEL_POLICY;
     }
 
     private ExperienceReservation findById(Long experienceReservationId) {
