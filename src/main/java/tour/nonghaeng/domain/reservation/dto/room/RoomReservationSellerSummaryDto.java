@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
+import tour.nonghaeng.domain.reservation.dto.ReservationSellerSummaryDto;
 import tour.nonghaeng.domain.reservation.entity.RoomReservation;
 import tour.nonghaeng.domain.reservation.entity.RoomReservationDate;
 
@@ -16,7 +17,7 @@ import java.util.List;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class RoomReservationSellerSummaryDto {
+public class RoomReservationSellerSummaryDto extends ReservationSellerSummaryDto {
 
     private Long roomReservationId;
     private String reservationState;

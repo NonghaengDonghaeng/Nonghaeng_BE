@@ -7,6 +7,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.reservation.dto.ReservationSellerDetailDto;
+import tour.nonghaeng.domain.reservation.dto.ReservationSellerSummaryDto;
+import tour.nonghaeng.domain.reservation.dto.ReservationUserDetailDto;
+import tour.nonghaeng.domain.reservation.dto.ReservationUserSummaryDto;
+import tour.nonghaeng.domain.reservation.dto.room.RoomReservationSellerDetailDto;
+import tour.nonghaeng.domain.reservation.dto.room.RoomReservationSellerSummaryDto;
+import tour.nonghaeng.domain.reservation.dto.room.RoomReservationUserDetailDto;
+import tour.nonghaeng.domain.reservation.dto.room.RoomReservationUserSummaryDto;
 import tour.nonghaeng.domain.room.entity.Room;
 
 import java.util.ArrayList;
@@ -38,6 +46,67 @@ public class RoomReservation extends Reservation {
 
     public void addRoomReservationDate(RoomReservationDate roomReservationDate) {
         this.reservationDates.add(roomReservationDate);
+    }
+
+    @Override
+    public ReservationUserSummaryDto toUserSummaryDto() {
+        return RoomReservationUserSummaryDto.builder()
+                .roomReservationId(this.getId())
+                .roomName(this.getRoom().getRoomName())
+                .reservationState(this.getStateType().getName())
+                .reservationDates(this.getReservationDates()
+                        .stream().map(roomReservationDate -> roomReservationDate.getReservationDate())
+                        .toList())
+                .price(this.getPrice())
+                .numOfParticipant(this.getNumOfParticipant())
+                .numOfRoom(this.getNumOfRoom())
+                .build();
+    }
+
+    @Override
+    public ReservationUserDetailDto toUserDetailDto() {
+
+        return RoomReservationUserDetailDto.builder()
+                .reservationState(this.getStateType().getName())
+                .tourName(this.getRoom().getTour().getName())
+                .roomName(this.getRoom().getRoomName())
+                .roomId(this.getRoom().getId())
+                .reservationDates(this.getReservationDates().stream().map(roomReservationDate -> roomReservationDate.getReservationDate()).toList())
+                .userName(this.getReservationName())
+                .numOfParticipant(this.getNumOfParticipant())
+                .numOfRoom(this.getNumOfRoom())
+                .price(this.getPrice())
+                .reservationAt(super.getCreatedAt())
+                .build();
+    }
+
+    @Override
+    public ReservationSellerSummaryDto toSellerSummaryDto() {
+        return RoomReservationSellerSummaryDto.builder()
+                .roomReservationId(this.getId())
+                .reservationState(this.getStateType().getName())
+                .roomName(this.getRoom().getRoomName())
+                .reservationDates(this.getReservationDates().stream().map(RoomReservationDate::getReservationDate).toList())
+                .price(this.getPrice())
+                .numOfParticipant(this.getNumOfParticipant())
+                .numOfRoom(this.getNumOfRoom())
+                .build();
+    }
+
+    @Override
+    public ReservationSellerDetailDto toSellerDetailDto(int remainParticipant) {
+        return RoomReservationSellerDetailDto.builder()
+                .reservationState(this.getStateType().getName())
+                .roomName(this.getRoom().getRoomName())
+                .roomId(this.getRoom().getId())
+                .reservationAt(this.getCreatedAt())
+                .userName(this.getReservationName())
+                .number(this.getNumber())
+                .email(this.getEmail())
+                .numOfParticipant(this.getNumOfParticipant())
+                .numOfRoom(this.getNumOfRoom())
+                .price(this.getPrice())
+                .build();
     }
 
 }

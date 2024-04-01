@@ -4,8 +4,6 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.TestPropertySource;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
@@ -140,54 +138,6 @@ class RoomReservationRepositoryTest {
         num.ifPresent(integer -> assertThat(integer).isEqualTo(3));
     }
 
-    @Test
-    void findAllByUser() {
-        //given
-        User user2 = makeTestUser();
-        userRepository.save(user2);
-
-        RoomReservation roomReservation1 = makeTestRoomReservation(user, room, reservationDates);
-        RoomReservation roomReservation2 = makeTestRoomReservation(user2, room, reservationDates);
-        RoomReservation roomReservation3 = makeTestRoomReservation(user, room,
-                List.of(LocalDate.of(2024, 4, 6),
-                        LocalDate.of(2024, 4, 7)));
-        roomReservationRepository.save(roomReservation1);
-        roomReservationRepository.save(roomReservation2);
-        roomReservationRepository.save(roomReservation3);
-        //when
-        PageRequest pageable = PageRequest.of(0, 10);
-        Page<RoomReservation> page = roomReservationRepository.findAllByUser(user, pageable);
-        //then
-        assertThat(page.getContent().size()).isEqualTo(2);
-        assertThat(page.getContent()).contains(roomReservation1);
-        assertThat(page.getContent()).doesNotContain(roomReservation2);
-    }
-
-    @Test
-    void findAllBySeller() {
-        //given
-        Seller seller2 = makeTestSeller();
-        sellerRepository.save(seller2);
-        Tour tour2 = makeTestTour(seller2);
-        tourRepository.save(tour2);
-        Room room2 = makeTestRoom(tour2);
-        roomRepository.save(room2);
-        RoomReservation roomReservation1 = makeTestRoomReservation(user, room, reservationDates);
-        RoomReservation roomReservation2 = makeTestRoomReservation(user, room2, reservationDates);
-        RoomReservation roomReservation3 = makeTestRoomReservation(user, room, List.of(LocalDate.of(2024, 7, 1),
-                LocalDate.of(2024, 7, 2)));
-
-        roomReservationRepository.save(roomReservation1);
-        roomReservationRepository.save(roomReservation2);
-        roomReservationRepository.save(roomReservation3);
-        //when
-        PageRequest pageable = PageRequest.of(0, 10);
-        Page<RoomReservation> page = roomReservationRepository.findAllBySeller(seller, pageable);
-        //then
-        assertThat(page.getContent().size()).isEqualTo(2);
-        assertThat(page.getContent()).contains(roomReservation1);
-        assertThat(page.getContent()).doesNotContain(roomReservation2);
-    }
 
     @Test
     void findStartDateById() {

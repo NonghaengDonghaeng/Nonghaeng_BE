@@ -2,16 +2,15 @@ package tour.nonghaeng.domain.reservation.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.etc.cancel.CancelPolicy;
 import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
-import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.member.service.UserService;
-import tour.nonghaeng.domain.reservation.dto.room.*;
+import tour.nonghaeng.domain.reservation.dto.room.CreateRoomReservationDto;
+import tour.nonghaeng.domain.reservation.dto.room.RoomReservationCancelResponseDto;
+import tour.nonghaeng.domain.reservation.dto.room.RoomReservationResponseDto;
 import tour.nonghaeng.domain.reservation.entity.RoomReservation;
 import tour.nonghaeng.domain.reservation.repo.RoomReservationRepository;
 import tour.nonghaeng.domain.room.entity.Room;
@@ -53,37 +52,6 @@ public class RoomReservationService {
         return RoomReservationResponseDto.toDto(roomReservation);
     }
 
-    public Page<RoomReservationUserSummaryDto> getRoomReservationUserSummaryDtoPage(User user, Pageable pageable) {
-
-        Page<RoomReservation> page = roomReservationRepository.findAllByUser(user, pageable);
-
-        reservationValidator.pageValidate(page);
-
-        return RoomReservationUserSummaryDto.toPageDto(page);
-    }
-
-    public Page<RoomReservationSellerSummaryDto> getRoomReservationSellerSummaryDtoPage(Seller seller, Pageable pageable) {
-
-        Page<RoomReservation> page = roomReservationRepository.findAllBySeller(seller, pageable);
-
-        reservationValidator.pageValidate(page);
-
-        return RoomReservationSellerSummaryDto.toPageDto(page);
-    }
-
-    public RoomReservationUserDetailDto getRoomReservationUserDetailDto(Long roomReservationId) {
-
-        RoomReservation roomReservation = findById(roomReservationId);
-
-        return RoomReservationUserDetailDto.toDto(roomReservation);
-    }
-
-    public RoomReservationSellerDetailDto getRoomReservationSellerDetailDto(Long roomReservationId) {
-
-        RoomReservation roomReservation = findById(roomReservationId);
-
-        return RoomReservationSellerDetailDto.toDto(roomReservation);
-    }
 
     public Long approveRoomReservation(Long roomReservationId,boolean notApproveFlag) {
 

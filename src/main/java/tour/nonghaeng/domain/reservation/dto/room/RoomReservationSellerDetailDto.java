@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import tour.nonghaeng.domain.reservation.dto.ReservationSellerDetailDto;
 import tour.nonghaeng.domain.reservation.entity.RoomReservation;
 
 import java.time.LocalDate;
@@ -15,7 +16,7 @@ import java.util.List;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class RoomReservationSellerDetailDto {
+public class RoomReservationSellerDetailDto extends ReservationSellerDetailDto {
 
     private String reservationState;
     private String roomName;
