@@ -33,7 +33,7 @@ public interface RoomReservationRepository extends JpaRepository<RoomReservation
     Page<Reservation> findReservationAllBySeller(@Param("seller") Seller seller, Pageable pageable);
 
     @Query("select rr from RoomReservation rr where rr.id = :id")
-    Reservation findReservationById(@Param("id") Long reservationId);
+    Optional<Reservation> findReservationById(@Param("id") Long reservationId);
 
 
 }

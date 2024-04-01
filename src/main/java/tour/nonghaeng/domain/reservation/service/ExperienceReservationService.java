@@ -2,15 +2,19 @@ package tour.nonghaeng.domain.reservation.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
 import tour.nonghaeng.domain.experience.service.ExperienceRoundService;
+import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.member.service.UserService;
 import tour.nonghaeng.domain.reservation.dto.exp.CreateExpReservationDto;
 import tour.nonghaeng.domain.reservation.dto.exp.ExpReservationResponseDto;
 import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;
+import tour.nonghaeng.domain.reservation.entity.Reservation;
 import tour.nonghaeng.domain.reservation.repo.ExperienceReservationRepository;
 import tour.nonghaeng.global.exception.ReservationException;
 import tour.nonghaeng.global.exception.code.ReservationErrorCode;
@@ -63,6 +67,22 @@ public class ExperienceReservationService {
         }
 
         return experienceRound.getMaxParticipant() - currentReservationParticipant;
+    }
+
+    public Page<Reservation> findReservationPageByUser(User user, Pageable pageable) {
+
+        return experienceReservationRepository.findReservationAllByUser(user, pageable);
+    }
+
+    public Page<Reservation> findReservationPageBySeller(Seller seller, Pageable pageable) {
+
+        return experienceReservationRepository.findReservationAllBySeller(seller, pageable);
+    }
+
+    public Reservation findReservationById(Long reservationId) {
+
+        return experienceReservationRepository.findReservationById(reservationId)
+                .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_EXIST_EXPERIENCE_RESERVATION_BY_ID));
     }
 
     private ExperienceReservation findById(Long experienceReservationId) {

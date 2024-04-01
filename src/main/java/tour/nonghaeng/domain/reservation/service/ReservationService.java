@@ -20,12 +20,8 @@ import tour.nonghaeng.domain.reservation.dto.room.RoomReservationUserSummaryDto;
 import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.entity.Reservation;
 import tour.nonghaeng.domain.reservation.entity.RoomReservation;
-import tour.nonghaeng.domain.reservation.repo.ExperienceReservationRepository;
 import tour.nonghaeng.domain.reservation.repo.ReservationRepository;
-import tour.nonghaeng.domain.reservation.repo.RoomReservationRepository;
-import tour.nonghaeng.global.validation.reservation.ExperienceReservationValidator;
 import tour.nonghaeng.global.validation.reservation.ReservationValidator;
-import tour.nonghaeng.global.validation.reservation.RoomReservationValidator;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -39,15 +35,11 @@ import java.util.List;
 public class ReservationService {
 
     private final ReservationRepository reservationRepository;
-    private final RoomReservationRepository roomReservationRepository;
-    private final ExperienceReservationRepository experienceReservationRepository;
 
     private final ExperienceReservationService experienceReservationService;
     private final RoomReservationService roomReservationService;
     private final UserService userService;
 
-    private final RoomReservationValidator roomReservationValidator;
-    private final ExperienceReservationValidator experienceReservationValidator;
     private final ReservationValidator reservationValidator;
 
     public Page<? extends ReservationUserSummaryDto> getReservationUserSummaryDtoPage(User user, Pageable pageable,String type) {
@@ -165,18 +157,18 @@ public class ReservationService {
 
         if (type.equals("room")) {
 
-            return roomReservationRepository.findReservationAllByUser(user, pageable);
+            return roomReservationService.findReservationPageByUser(user, pageable);
         }
-        return experienceReservationRepository.findReservationAllByUser(user, pageable);
+        return experienceReservationService.findReservationPageByUser(user, pageable);
     }
 
     private Page<Reservation> findReservationPageBySeller(Seller seller, Pageable pageable, String type) {
 
         if (type.equals("room")) {
 
-            return roomReservationRepository.findReservationAllBySeller(seller, pageable);
+            return roomReservationService.findReservationPageBySeller(seller, pageable);
         }
-        return experienceReservationRepository.findReservationAllBySeller(seller, pageable);
+        return experienceReservationService.findReservationPageBySeller(seller, pageable);
     }
 
     private Reservation findByReservationId(Long reservationId) {
@@ -184,10 +176,10 @@ public class ReservationService {
         String reservationType = reservationRepository.findReservationType(reservationId);
 
         if (reservationType.equals("RoomReservation")) {
-            return roomReservationRepository.findReservationById(reservationId);
+            return roomReservationService.findReservationById(reservationId);
         }
 
-        return experienceReservationRepository.findReservationById(reservationId);
+        return experienceReservationService.findReservationById(reservationId);
     }
 
     private CancelPolicy decideCancelPolicy(Reservation reservation) {

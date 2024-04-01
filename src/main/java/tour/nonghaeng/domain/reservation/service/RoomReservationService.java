@@ -2,12 +2,16 @@ package tour.nonghaeng.domain.reservation.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.member.service.UserService;
 import tour.nonghaeng.domain.reservation.dto.room.CreateRoomReservationDto;
 import tour.nonghaeng.domain.reservation.dto.room.RoomReservationResponseDto;
+import tour.nonghaeng.domain.reservation.entity.Reservation;
 import tour.nonghaeng.domain.reservation.entity.RoomReservation;
 import tour.nonghaeng.domain.reservation.repo.RoomReservationRepository;
 import tour.nonghaeng.domain.room.entity.Room;
@@ -60,6 +64,19 @@ public class RoomReservationService {
 
         return roomReservationRepository.findById(roomReservationId)
                 .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_EXIST_ROOM_RESERVATION_BY_ID));
+    }
+
+    public Reservation findReservationById(Long reservationId) {
+        return roomReservationRepository.findReservationById(reservationId)
+                .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_EXIST_ROOM_RESERVATION_BY_ID));
+    }
+
+    public Page<Reservation> findReservationPageByUser(User user, Pageable pageable) {
+        return roomReservationRepository.findReservationAllByUser(user, pageable);
+    }
+
+    public Page<Reservation> findReservationPageBySeller(Seller seller, Pageable pageable) {
+        return roomReservationRepository.findReservationAllBySeller(seller, pageable);
     }
 
     public LocalDate findStartDateById(Long roomReservationId) {
