@@ -2,18 +2,17 @@ package tour.nonghaeng.domain.reservation.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.etc.cancel.CancelPolicy;
 import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
 import tour.nonghaeng.domain.experience.service.ExperienceRoundService;
-import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.member.service.UserService;
-import tour.nonghaeng.domain.reservation.dto.exp.*;
+import tour.nonghaeng.domain.reservation.dto.exp.CreateExpReservationDto;
+import tour.nonghaeng.domain.reservation.dto.exp.ExpReservationCancelResponseDto;
+import tour.nonghaeng.domain.reservation.dto.exp.ExpReservationResponseDto;
 import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.repo.ExperienceReservationRepository;
 import tour.nonghaeng.global.exception.ReservationException;
@@ -58,39 +57,6 @@ public class ExperienceReservationService {
         return ExpReservationResponseDto.toDto(experienceReservation);
     }
 
-    public Page<ExpReservationSellerSummaryDto> getExpReservationSellerSummaryDtoPage(Seller seller, Pageable pageable) {
-
-        Page<ExperienceReservation> page = experienceReservationRepository.findAllBySeller(seller, pageable);
-
-        reservationValidator.pageValidate(page);
-
-        return ExpReservationSellerSummaryDto.toPageDto(page);
-    }
-
-    public Page<ExpReservationUserSummaryDto> getExpReservationUserSummaryDtoPage(User user, Pageable pageable) {
-
-        Page<ExperienceReservation> page = experienceReservationRepository.findAllByUser(user, pageable);
-
-        reservationValidator.pageValidate(page);
-
-        return ExpReservationUserSummaryDto.toPageDto(page);
-    }
-
-    public ExpReservationSellerDetailDto getExpReservationSellerDetailDto(Long experienceReservationId) {
-
-        ExperienceReservation experienceReservation = findById(experienceReservationId);
-
-        int remainOfParticipant = countRemainOfParticipant(experienceReservation.getExperienceRound(), experienceReservation.getReservationDate());
-
-        return ExpReservationSellerDetailDto.toDto(experienceReservation,remainOfParticipant);
-    }
-
-    public ExpReservationUserDetailDto getExpReservationUserDetailDto(Long experienceReservationId) {
-
-        ExperienceReservation experienceReservation = findById(experienceReservationId);
-
-        return ExpReservationUserDetailDto.toDto(experienceReservation);
-    }
 
     public Long approveExpReservation(Long expReservationId, boolean notApproveFlag) {
 

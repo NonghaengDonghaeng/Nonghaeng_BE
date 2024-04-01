@@ -21,12 +21,6 @@ public interface RoomReservationRepository extends JpaRepository<RoomReservation
     @Query("select sum(rr.numOfRoom) from RoomReservation rr join rr.reservationDates rd where rr.room = :room and rd.reservationDate = :reservationDate")
     Optional<Integer> countByRoomAndReservationDate(@Param("room") Room room, @Param("reservationDate") LocalDate reservationDate);
 
-    @Query("select rr from RoomReservation rr where rr.user = :user")
-    Page<RoomReservation> findAllByUser(@Param("user") User user, Pageable pageable);
-
-    @Query("select rr from RoomReservation rr where rr.seller = :seller")
-    Page<RoomReservation> findAllBySeller(@Param("seller") Seller seller, Pageable pageable);
-
     @Query("select min(rrd.reservationDate) from RoomReservationDate rrd where rrd.roomReservation.id = :id")
     Optional<LocalDate> findStartDateById(@Param("id") Long id);
 
@@ -34,6 +28,9 @@ public interface RoomReservationRepository extends JpaRepository<RoomReservation
 
     @Query("select rr from RoomReservation rr where rr.user = :user")
     Page<Reservation> findReservationAllByUser(@Param("user") User user, Pageable pageable);
+
+    @Query("select rr from RoomReservation rr where rr.seller =:seller")
+    Page<Reservation> findReservationAllBySeller(@Param("seller") Seller seller, Pageable pageable);
 
     @Query("select rr from RoomReservation rr where rr.id = :id")
     Reservation findReservationById(@Param("id") Long reservationId);

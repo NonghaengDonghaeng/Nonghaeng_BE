@@ -4,8 +4,6 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.TestPropertySource;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.entity.ExperienceCloseDate;
@@ -127,52 +125,6 @@ class ExperienceReservationRepositoryTest {
         //then
         num.ifPresent(integer -> assertThat(integer).isEqualTo(4));
 
-    }
-
-    @Test
-    @DisplayName("판매자로 체험예약모두 찾기")
-    void findAllBySeller() {
-        //given
-        ExperienceRound experienceRound1 = createExperienceRound(12);
-
-        ExperienceReservation experienceReservation1 = makeTestExperienceReservation(user, experienceRound, reservationDate, 1);
-        ExperienceReservation experienceReservation2 = makeTestExperienceReservation(user, experienceRound, LocalDate.of(2024,3,4), 2);
-        ExperienceReservation experienceReservation3 = makeTestExperienceReservation(user, experienceRound1, reservationDate,3);
-
-        experienceReservationRepository.save(experienceReservation1);
-        experienceReservationRepository.save(experienceReservation2);
-        experienceReservationRepository.save(experienceReservation3);
-        //when
-        PageRequest pageable = PageRequest.of(0, 10);
-        Page<ExperienceReservation> allBySeller = experienceReservationRepository.findAllBySeller(seller, pageable);
-        //then
-        assertThat(allBySeller.getContent().size()).isEqualTo(2);
-        assertThat(allBySeller.getContent()).contains(experienceReservation1);
-        assertThat(allBySeller.getContent()).contains(experienceReservation2);
-
-    }
-
-    @Test
-    @DisplayName("소비자로 체험예약모두 찾기")
-    void findAllByUser() {
-        //given
-        ExperienceRound experienceRound1 = createExperienceRound(12);
-
-        ExperienceReservation experienceReservation1 = makeTestExperienceReservation(user, experienceRound, reservationDate, 1);
-        ExperienceReservation experienceReservation2 = makeTestExperienceReservation(user, experienceRound, LocalDate.of(2024,3,4), 2);
-        ExperienceReservation experienceReservation3 = makeTestExperienceReservation(user, experienceRound1, reservationDate,3);
-
-        experienceReservationRepository.save(experienceReservation1);
-        experienceReservationRepository.save(experienceReservation2);
-        experienceReservationRepository.save(experienceReservation3);
-        //when
-        PageRequest pageable = PageRequest.of(0, 10);
-        Page<ExperienceReservation> page = experienceReservationRepository.findAllByUser(user, pageable);
-        //then
-        assertThat(page.getContent().size()).isEqualTo(3);
-        assertThat(page.getContent()).contains(experienceReservation1);
-        assertThat(page.getContent()).contains(experienceReservation2);
-        assertThat(page.getContent()).contains(experienceReservation3);
     }
 
     @Test
