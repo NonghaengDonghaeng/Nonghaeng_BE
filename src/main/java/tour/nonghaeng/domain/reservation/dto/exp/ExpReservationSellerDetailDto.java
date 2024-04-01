@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import tour.nonghaeng.domain.reservation.dto.ReservationSellerDetailDto;
 import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;
 
 import java.time.LocalDate;
@@ -16,7 +17,7 @@ import java.time.LocalTime;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class ExpReservationSellerDetailDto {
+public class ExpReservationSellerDetailDto extends ReservationSellerDetailDto {
 
     //TODO: userInfo, roundInfo, ExpInfo 로 클래스 분리해서 보내주는 방안, email, number 추가하기
 

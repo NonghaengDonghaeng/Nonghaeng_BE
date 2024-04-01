@@ -9,8 +9,12 @@ import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.reservation.dto.ReservationSellerDetailDto;
+import tour.nonghaeng.domain.reservation.dto.ReservationSellerSummaryDto;
 import tour.nonghaeng.domain.reservation.dto.ReservationUserDetailDto;
 import tour.nonghaeng.domain.reservation.dto.ReservationUserSummaryDto;
+import tour.nonghaeng.domain.reservation.dto.exp.ExpReservationSellerDetailDto;
+import tour.nonghaeng.domain.reservation.dto.exp.ExpReservationSellerSummaryDto;
 import tour.nonghaeng.domain.reservation.dto.exp.ExpReservationUserDetailDto;
 import tour.nonghaeng.domain.reservation.dto.exp.ExpReservationUserSummaryDto;
 
@@ -67,6 +71,35 @@ public class ExperienceReservation extends Reservation {
                 .reservationAt(this.getCreatedAt())
                 .numOfParticipant(this.getNumOfParticipant())
                 .reservationAt(super.getCreatedAt())
+                .price(this.getPrice())
+                .build();
+    }
+
+    @Override
+    public ReservationSellerSummaryDto toSellerSummaryDto() {
+        return ExpReservationSellerSummaryDto.builder()
+                .reservationState(this.getStateType().getName())
+                .experienceName(this.getExperience().getExperienceName())
+                .experienceReservationId(this.getId())
+                .reservationDate(this.getReservationDate())
+                .price(this.getPrice())
+                .numOfParticipant(this.getNumOfParticipant())
+                .build();
+    }
+
+    @Override
+    public ReservationSellerDetailDto toSellerDetailDto(int remainParticipant) {
+        return ExpReservationSellerDetailDto.builder()
+                .reservationState(this.getStateType().getName())
+                .experienceName(this.getExperience().getExperienceName())
+                .experienceId(this.getExperience().getId())
+                .reservationDate(this.getReservationDate())
+                .startTime(this.getExperienceRound().getStartTime())
+                .endTime(this.getExperienceRound().getEndTime())
+                .userName(this.getReservationName())
+                .reservationAt(this.getCreatedAt())
+                .numOfParticipant(this.getNumOfParticipant())
+                .remainParticipant(remainParticipant)
                 .price(this.getPrice())
                 .build();
     }

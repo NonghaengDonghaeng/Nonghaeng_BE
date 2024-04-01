@@ -7,6 +7,8 @@ import tour.nonghaeng.domain.etc.BaseTimeEntity;
 import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.reservation.dto.ReservationSellerDetailDto;
+import tour.nonghaeng.domain.reservation.dto.ReservationSellerSummaryDto;
 import tour.nonghaeng.domain.reservation.dto.ReservationUserDetailDto;
 import tour.nonghaeng.domain.reservation.dto.ReservationUserSummaryDto;
 
@@ -83,18 +85,7 @@ public abstract class Reservation extends BaseTimeEntity {
 
     public abstract ReservationUserDetailDto toUserDetailDto();
 
-    @Override
-    public String toString() {
-        return "Reservation{" +
-                "id=" + id +
-                ", user=" + user +
-                ", seller=" + seller +
-                ", stateType=" + stateType +
-                ", numOfParticipant=" + numOfParticipant +
-                ", price=" + price +
-                ", reservationName='" + reservationName + '\'' +
-                ", number='" + number + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
+    public abstract ReservationSellerSummaryDto toSellerSummaryDto();
+
+    public abstract ReservationSellerDetailDto toSellerDetailDto(int remainParticipant);
 }
