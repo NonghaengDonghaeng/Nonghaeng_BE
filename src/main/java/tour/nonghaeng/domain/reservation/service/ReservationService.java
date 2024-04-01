@@ -13,8 +13,12 @@ import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.member.service.UserService;
 import tour.nonghaeng.domain.reservation.dto.*;
+import tour.nonghaeng.domain.reservation.dto.exp.CreateExpReservationDto;
+import tour.nonghaeng.domain.reservation.dto.exp.ExpReservationResponseDto;
 import tour.nonghaeng.domain.reservation.dto.exp.ExpReservationSellerSummaryDto;
 import tour.nonghaeng.domain.reservation.dto.exp.ExpReservationUserSummaryDto;
+import tour.nonghaeng.domain.reservation.dto.room.CreateRoomReservationDto;
+import tour.nonghaeng.domain.reservation.dto.room.RoomReservationResponseDto;
 import tour.nonghaeng.domain.reservation.dto.room.RoomReservationSellerSummaryDto;
 import tour.nonghaeng.domain.reservation.dto.room.RoomReservationUserSummaryDto;
 import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;
@@ -41,6 +45,15 @@ public class ReservationService {
     private final UserService userService;
 
     private final ReservationValidator reservationValidator;
+
+
+    public RoomReservationResponseDto createRoomReservation(User user, CreateRoomReservationDto reservationDto) {
+        return roomReservationService.createRoomReservation(user, reservationDto);
+    }
+
+    public ExpReservationResponseDto createExpReservation(User user, CreateExpReservationDto requestDto) {
+        return experienceReservationService.createExpReservation(user, requestDto);
+    }
 
     public Page<? extends ReservationUserSummaryDto> getReservationUserSummaryDtoPage(User user, Pageable pageable,String type) {
 

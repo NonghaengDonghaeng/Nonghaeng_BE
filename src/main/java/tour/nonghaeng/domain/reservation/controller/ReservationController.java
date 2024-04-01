@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.dto.*;
+import tour.nonghaeng.domain.reservation.dto.exp.CreateExpReservationDto;
+import tour.nonghaeng.domain.reservation.dto.exp.ExpReservationResponseDto;
+import tour.nonghaeng.domain.reservation.dto.room.CreateRoomReservationDto;
+import tour.nonghaeng.domain.reservation.dto.room.RoomReservationResponseDto;
 import tour.nonghaeng.domain.reservation.service.ReservationService;
 import tour.nonghaeng.global.auth.service.AuthService;
 import tour.nonghaeng.global.validation.reservation.ReservationValidator;
@@ -26,6 +30,28 @@ public class ReservationController {
     private final ReservationService reservationService;
 
     private final ReservationValidator reservationValidator;
+
+    @PostMapping("/experience")
+    public ResponseEntity<ExpReservationResponseDto> createExpReservation(Authentication authentication,
+                                                                          @RequestBody CreateExpReservationDto requestDto) {
+
+        User user = authService.toUserEntity(authentication);
+
+        ExpReservationResponseDto responseDto = reservationService.createExpReservation(user, requestDto);
+
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+    @PostMapping("/room")
+    public ResponseEntity<RoomReservationResponseDto> createRoomReservation(Authentication authentication,
+                                                                            @RequestBody CreateRoomReservationDto requestDto) {
+
+        User user = authService.toUserEntity(authentication);
+
+        RoomReservationResponseDto responseDto = reservationService.createRoomReservation(user, requestDto);
+
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
 
     //소비자 내 체험/숙소 예약 리스트보기
     //파라미터 type=room,experience
