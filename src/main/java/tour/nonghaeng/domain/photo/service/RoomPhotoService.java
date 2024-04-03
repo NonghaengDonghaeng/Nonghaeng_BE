@@ -44,13 +44,6 @@ public class RoomPhotoService {
         return createRoomPhoto(room, imgUrl).getId();
     }
 
-    public void delete(Long roomPhotoId) {
-
-        amazonS3Service.deleteImage(PHOTO_TYPE,getUrlById(roomPhotoId));
-
-        deleteRoomPhoto(roomPhotoId);
-    }
-
     public List<PhotoInfoDto> getRoomPhotoInfoListDto(Long roomId) {
 
         List<Photo> photoList = roomPhotoRepository.findAllByRoom(roomService.findById(roomId));
@@ -90,18 +83,6 @@ public class RoomPhotoService {
         roomPhoto.onRepresentative();
 
         roomPhotoRepository.save(roomPhoto);
-    }
-
-    private void deleteRoomPhoto(Long roomPhotoId) {
-
-        roomPhotoValidator.deleteValidate(findById(roomPhotoId).getRoom(),roomPhotoId);
-
-        roomPhotoRepository.delete(findById(roomPhotoId));
-    }
-
-    private String getUrlById(Long roomPhotoId) {
-
-        return findById(roomPhotoId).getImgUrl();
     }
 
     private RoomPhoto createRoomPhoto(Room room, String imgUrl) {
