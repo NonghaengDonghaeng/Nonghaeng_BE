@@ -6,9 +6,9 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum PhotoType {
-    TOUR("tours/","tour_photo"),
-    EXPERIENCE("experiences/","experience_photo"),
-    ROOM("rooms/","room_photo"),
+    TOUR("tours/","tour"),
+    EXPERIENCE("experiences/","experience"),
+    ROOM("rooms/","room"),
     ;
 
     private final String folderName;
