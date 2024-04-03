@@ -45,13 +45,6 @@ public class ExperiencePhotoService {
 
     }
 
-    public void delete(Long experiencePhotoId) {
-
-        amazonS3Service.deleteImage(PHOTO_TYPE, getUrlById(experiencePhotoId));
-
-        deleteExperiencePhoto(experiencePhotoId);
-    }
-
     public List<PhotoInfoDto> getExpPhotoInfoListDto(Long experienceId) {
 
         List<Photo> photoList = experiencePhotoRepository.findAllByExperience(experienceService.findById(experienceId));
@@ -106,18 +99,6 @@ public class ExperiencePhotoService {
         }
 
         return experiencePhotoRepository.save(createdExperiencePhoto);
-    }
-
-    private void deleteExperiencePhoto(Long experiencePhotoId) {
-
-        experiencePhotoValidator.deleteValidate(findById(experiencePhotoId).getExperience(), experiencePhotoId);
-
-        experiencePhotoRepository.delete(findById(experiencePhotoId));
-    }
-
-    private String getUrlById(Long experiencePhotoId) {
-
-        return findById(experiencePhotoId).getImgUrl();
     }
 
     public ExperiencePhoto findById(Long experiencePhotoId) {

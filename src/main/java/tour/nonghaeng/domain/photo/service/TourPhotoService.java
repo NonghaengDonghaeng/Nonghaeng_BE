@@ -45,13 +45,6 @@ public class TourPhotoService {
         return createTourPhoto(tour, imgUrl).getId();
     }
 
-    public void delete(Long tourPhotoId) {
-
-        amazonS3Service.deleteImage(PHOTO_TYPE,getUrlById(tourPhotoId));
-
-        deleteTourPhoto(tourPhotoId);
-    }
-
     public List<PhotoInfoDto> getTourPhotoInfoListDto(Long tourId) {
 
         List<Photo> photoList = tourPhotoRepository.findAllByTour(tourService.findById(tourId));
@@ -94,7 +87,6 @@ public class TourPhotoService {
         tourPhotoRepository.save(tourPhoto);
     }
 
-
     private TourPhoto createTourPhoto(Tour tour, String imgUrl) {
 
         TourPhoto cretedTourPhoto = TourPhoto.builder()
@@ -107,18 +99,6 @@ public class TourPhotoService {
         }
 
         return tourPhotoRepository.save(cretedTourPhoto);
-    }
-
-    private void deleteTourPhoto(Long tourPhotoId) {
-
-        tourPhotoValidator.deleteValidate(findById(tourPhotoId).getTour(),tourPhotoId);
-
-        tourPhotoRepository.delete(findById(tourPhotoId));
-    }
-
-    private String getUrlById(Long tourPhotoId) {
-
-        return findById(tourPhotoId).getImgUrl();
     }
 
     public TourPhoto findById(Long tourPhotoId) {

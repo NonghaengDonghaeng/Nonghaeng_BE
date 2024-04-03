@@ -42,19 +42,6 @@ public class RoomPhotoController {
         return new ResponseEntity<>("업로드 완료. id:" + String.valueOf(uploadId), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/seller/{roomPhotoId}")
-    public ResponseEntity<String> delete(Authentication authentication,
-                                         @PathVariable("roomPhotoId") Long roomPhotoId) {
-
-        Seller seller = authService.toSellerEntity(authentication);
-
-        roomPhotoValidator.ownerValidate(seller,roomPhotoId);
-
-        roomPhotoService.delete(roomPhotoId);
-
-        return new ResponseEntity<>("삭제완료", HttpStatus.OK);
-    }
-
     @GetMapping("/list/{roomId}")
     public ResponseEntity<List<PhotoInfoDto>> showAllImageList(@PathVariable("roomId") Long roomId) {
 

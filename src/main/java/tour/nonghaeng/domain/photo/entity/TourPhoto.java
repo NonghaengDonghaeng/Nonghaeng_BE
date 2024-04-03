@@ -9,7 +9,7 @@ import tour.nonghaeng.domain.tour.entity.Tour;
 
 @Entity
 @Table(name = "TOUR_PHOTOS")
-@DiscriminatorValue("tour_photo")
+@DiscriminatorValue("tour")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class TourPhoto extends Photo {

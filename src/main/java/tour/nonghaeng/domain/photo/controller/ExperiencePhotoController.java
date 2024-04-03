@@ -42,19 +42,6 @@ public class ExperiencePhotoController {
         return new ResponseEntity<>("업로드 완료. id:" + String.valueOf(uploadId), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/seller/{experiencePhotoId}")
-    public ResponseEntity<String> delete(Authentication authentication,
-                                         @PathVariable("experiencePhotoId") Long experiencePhotoId) {
-
-        Seller seller = authService.toSellerEntity(authentication);
-
-        experiencePhotoValidator.ownerValidate(seller, experiencePhotoId);
-
-        experiencePhotoService.delete(experiencePhotoId);
-
-        return new ResponseEntity<>("삭제완료", HttpStatus.OK);
-    }
-
     @GetMapping("/list/{experienceId}")
     public ResponseEntity<List<PhotoInfoDto>> showAllImageList(@PathVariable("experienceId") Long experienceId) {
 
