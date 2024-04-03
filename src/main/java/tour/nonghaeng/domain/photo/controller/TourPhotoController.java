@@ -38,18 +38,6 @@ public class TourPhotoController {
         return new ResponseEntity<>("업로드 완료. id:" + String.valueOf(uploadId), HttpStatus.CREATED);
     }
 
-    //관광사진 삭제
-    @DeleteMapping("/seller/{tourPhotoId}")
-    public ResponseEntity<String> delete(Authentication authentication,
-                                         @PathVariable("tourPhotoId") Long tourPhotoId) {
-
-        tourPhotoValidator.ownerValidate(authService.toSellerEntity(authentication),tourPhotoId);
-
-        tourPhotoService.delete(tourPhotoId);
-
-        return new ResponseEntity<>("삭제완료", HttpStatus.OK);
-    }
-
     //관광사진 목록 조회
     @GetMapping("/list/{tourId}")
     public ResponseEntity<List<PhotoInfoDto>> showAllImageList(@PathVariable("tourId") Long tourId) {
