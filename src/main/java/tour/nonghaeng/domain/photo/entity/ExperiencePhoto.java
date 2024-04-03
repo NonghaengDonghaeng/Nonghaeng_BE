@@ -9,6 +9,7 @@ import tour.nonghaeng.domain.experience.entity.Experience;
 
 @Entity
 @Table(name = "EXPERIENCE_PHOTOS")
+@DiscriminatorValue("experience_photo")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class ExperiencePhoto extends Photo{
