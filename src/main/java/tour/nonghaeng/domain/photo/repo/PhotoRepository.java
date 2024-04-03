@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface PhotoRepository extends JpaRepository<Photo,Long> {
 
     @Query("select p.representative from Photo p where p.id = :id")
-    boolean findRepresentById(@Param("id") Long photoId);
+    boolean isRepresentById(@Param("id") Long photoId);
 
     @Query(value = "SELECT dtype FROM photos where photo_id= :id", nativeQuery = true)
     Optional<String> findPhotoType(@Param("id") Long photoId);
