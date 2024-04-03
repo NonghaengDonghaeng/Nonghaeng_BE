@@ -22,6 +22,8 @@ public class Photo {
 
     private boolean representative;
 
+    //Seller를 연관관계를 맺을지 고민중
+
     public Photo(String imgUrl) {
         this.imgUrl = imgUrl;
         this.representative = false;
