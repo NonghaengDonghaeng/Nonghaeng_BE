@@ -11,7 +11,7 @@ import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.service.RoomPhotoService;
 import tour.nonghaeng.global.auth.service.AuthService;
-import tour.nonghaeng.global.validation.photo.RoomPhotoValidator;
+import tour.nonghaeng.global.validation.photo.PhotoValidator;
 import tour.nonghaeng.global.validation.room.RoomValidator;
 
 import java.util.List;
@@ -25,8 +25,8 @@ public class RoomPhotoController {
     private final RoomPhotoService roomPhotoService;
     private final AuthService authService;
 
-    private final RoomPhotoValidator roomPhotoValidator;
     private final RoomValidator roomValidator;
+    private final PhotoValidator photoValidator;
 
     @PostMapping("/seller/upload/{roomId}")
     public ResponseEntity<String> upload(Authentication authentication,
@@ -37,7 +37,7 @@ public class RoomPhotoController {
 
         roomValidator.ownerValidate(seller,roomId);
 
-        Long uploadId = roomPhotoService.upload(roomId, imageFile);
+        Long uploadId = roomPhotoService.upload(seller, roomId, imageFile);
 
         return new ResponseEntity<>("업로드 완료. id:" + String.valueOf(uploadId), HttpStatus.CREATED);
     }
@@ -54,7 +54,7 @@ public class RoomPhotoController {
     public ResponseEntity<String> changeRepresentativePhoto(Authentication authentication,
                                                             @PathVariable("roomPhotoId") Long roomPhotoId) {
 
-        roomPhotoValidator.ownerValidate(authService.toSellerEntity(authentication), roomPhotoId);
+        photoValidator.ownerValidate(authService.toSellerEntity(authentication), roomPhotoId);
 
         roomPhotoService.changeRepresentativePhoto(roomPhotoId);
 

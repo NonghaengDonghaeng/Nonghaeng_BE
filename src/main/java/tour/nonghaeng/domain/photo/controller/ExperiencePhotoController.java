@@ -12,7 +12,7 @@ import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.service.ExperiencePhotoService;
 import tour.nonghaeng.global.auth.service.AuthService;
 import tour.nonghaeng.global.validation.experience.ExperienceValidator;
-import tour.nonghaeng.global.validation.photo.ExperiencePhotoValidator;
+import tour.nonghaeng.global.validation.photo.PhotoValidator;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class ExperiencePhotoController {
     private final ExperiencePhotoService experiencePhotoService;
     private final AuthService authService;
 
-    private final ExperiencePhotoValidator experiencePhotoValidator;
+    private final PhotoValidator photoValidator;
     private final ExperienceValidator experienceValidator;
 
     @PostMapping("/seller/upload/{experienceId}")
@@ -37,7 +37,7 @@ public class ExperiencePhotoController {
 
         experienceValidator.ownerValidate(seller, experienceId);
 
-        Long uploadId = experiencePhotoService.upload(experienceId, imageFile);
+        Long uploadId = experiencePhotoService.upload(seller,experienceId, imageFile);
 
         return new ResponseEntity<>("업로드 완료. id:" + String.valueOf(uploadId), HttpStatus.CREATED);
     }
@@ -54,7 +54,7 @@ public class ExperiencePhotoController {
     public ResponseEntity<String> changeRepresentativePhoto(Authentication authentication,
                                                             @PathVariable("expPhotoId") Long expPhotoId) {
 
-        experiencePhotoValidator.ownerValidate(authService.toSellerEntity(authentication), expPhotoId);
+        photoValidator.ownerValidate(authService.toSellerEntity(authentication), expPhotoId);
 
         experiencePhotoService.changeRepresentativePhoto(expPhotoId);
 

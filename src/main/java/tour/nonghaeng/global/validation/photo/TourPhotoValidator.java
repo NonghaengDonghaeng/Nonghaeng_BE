@@ -2,8 +2,6 @@ package tour.nonghaeng.global.validation.photo;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import tour.nonghaeng.domain.member.entity.Seller;
-import tour.nonghaeng.domain.photo.entity.TourPhoto;
 import tour.nonghaeng.domain.photo.repo.TourPhotoRepository;
 import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.global.exception.PhotoException;
@@ -15,17 +13,6 @@ public class TourPhotoValidator {
 
     private final TourPhotoRepository tourPhotoRepository;
 
-
-    public void ownerValidate(Seller seller, Long tourPhotoId) {
-
-        tourPhotoIdValidate(tourPhotoId);
-
-        TourPhoto tourPhoto = tourPhotoRepository.findById(tourPhotoId).get();
-
-        if (!seller.equals(tourPhoto.getTour().getSeller())) {
-            throw new PhotoException(PhotoErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
-        }
-    }
 
     public void numOfRepresentPhotoValidate(Tour tour) {
 

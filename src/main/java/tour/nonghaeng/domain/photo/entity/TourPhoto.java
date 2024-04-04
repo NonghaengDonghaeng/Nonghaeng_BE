@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.tour.entity.Tour;
 
 @Entity
@@ -19,8 +20,8 @@ public class TourPhoto extends Photo {
     private Tour tour;
 
     @Builder
-    private TourPhoto(Tour tour,String imgUrl) {
-        super(imgUrl);
+    private TourPhoto(Tour tour, Seller seller, String imgUrl) {
+        super(seller, imgUrl);
         this.tour = tour;
     }
 

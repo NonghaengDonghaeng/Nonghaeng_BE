@@ -3,7 +3,6 @@ package tour.nonghaeng.global.validation.photo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import tour.nonghaeng.domain.etc.photo.PhotoType;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.entity.Photo;
 import tour.nonghaeng.domain.photo.repo.PhotoRepository;
@@ -29,17 +28,8 @@ public class PhotoValidator {
 
         Photo photo = photoRepository.findById(photoId).get();
 
-        PhotoType photoType = PhotoType.ofDtype(photoRepository.findPhotoType(photoId).get());
-
-
-        //TODO: 현재 photo 객체에서만 소유자를 확인할 수 없어서 각각 하위객체를 통해 알아본다.
-        //if 문이 싫다면 photo 객체에 Seller 연관관계 추가하기
-        if (photoType.equals(PhotoType.TOUR)) {
-            tourPhotoValidator.ownerValidate(seller,photoId);
-        } else if (photoType.equals(PhotoType.ROOM)) {
-            roomPhotoValidator.ownerValidate(seller, photoId);
-        }else {
-            experiencePhotoValidator.ownerValidate(seller,photoId);
+        if (!seller.equals(photo.getSeller())) {
+            throw new PhotoException(PhotoErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
         }
 
     }

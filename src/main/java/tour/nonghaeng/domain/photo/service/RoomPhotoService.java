@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import tour.nonghaeng.domain.etc.photo.PhotoType;
+import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.entity.Photo;
 import tour.nonghaeng.domain.photo.entity.RoomPhoto;
@@ -35,13 +36,13 @@ public class RoomPhotoService {
     private final RoomPhotoValidator roomPhotoValidator;
     private final PhotoValidator photoValidator;
 
-    public Long upload(Long roomId, MultipartFile imageFile) {
+    public Long upload(Seller seller, Long roomId, MultipartFile imageFile) {
 
         Room room = roomService.findById(roomId);
 
         String imgUrl = amazonS3Service.uploadImage(PHOTO_TYPE, imageFile);
 
-        return createRoomPhoto(room, imgUrl).getId();
+        return createRoomPhoto(seller, room, imgUrl).getId();
     }
 
     public List<PhotoInfoDto> getRoomPhotoInfoListDto(Long roomId) {
@@ -85,10 +86,11 @@ public class RoomPhotoService {
         roomPhotoRepository.save(roomPhoto);
     }
 
-    private RoomPhoto createRoomPhoto(Room room, String imgUrl) {
+    private RoomPhoto createRoomPhoto(Seller seller, Room room, String imgUrl) {
 
         RoomPhoto createdRoomPhoto = RoomPhoto.builder()
                 .room(room)
+                .seller(seller)
                 .imgUrl(imgUrl)
                 .build();
 

@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import tour.nonghaeng.domain.etc.photo.PhotoType;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
+import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.entity.ExperiencePhoto;
 import tour.nonghaeng.domain.photo.entity.Photo;
@@ -35,13 +36,13 @@ public class ExperiencePhotoService {
     private final ExperiencePhotoValidator experiencePhotoValidator;
     private final PhotoValidator photoValidator;
 
-    public Long upload(Long experienceId, MultipartFile imageFile) {
+    public Long upload(Seller seller, Long experienceId, MultipartFile imageFile) {
 
         Experience experience = experienceService.findById(experienceId);
 
         String imgUrl = amazonS3Service.uploadImage(PHOTO_TYPE, imageFile);
 
-        return createExperiencePhoto(experience, imgUrl).getId();
+        return createExperiencePhoto(seller, experience, imgUrl).getId();
 
     }
 
@@ -87,10 +88,11 @@ public class ExperiencePhotoService {
 
     }
 
-    private ExperiencePhoto createExperiencePhoto(Experience experience, String imgUrl) {
+    private ExperiencePhoto createExperiencePhoto(Seller seller, Experience experience, String imgUrl) {
 
         ExperiencePhoto createdExperiencePhoto = ExperiencePhoto.builder()
                 .experience(experience)
+                .seller(seller)
                 .imgUrl(imgUrl)
                 .build();
 

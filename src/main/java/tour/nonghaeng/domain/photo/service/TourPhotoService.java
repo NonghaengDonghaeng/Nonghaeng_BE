@@ -42,7 +42,7 @@ public class TourPhotoService {
 
         String imgUrl = amazonS3Service.uploadImage(PHOTO_TYPE, imageFile);
 
-        return createTourPhoto(tour, imgUrl).getId();
+        return createTourPhoto(seller, tour, imgUrl).getId();
     }
 
     public List<PhotoInfoDto> getTourPhotoInfoListDto(Long tourId) {
@@ -87,10 +87,11 @@ public class TourPhotoService {
         tourPhotoRepository.save(tourPhoto);
     }
 
-    private TourPhoto createTourPhoto(Tour tour, String imgUrl) {
+    private TourPhoto createTourPhoto(Seller seller, Tour tour, String imgUrl) {
 
         TourPhoto cretedTourPhoto = TourPhoto.builder()
                 .tour(tour)
+                .seller(seller)
                 .imgUrl(imgUrl)
                 .build();
 

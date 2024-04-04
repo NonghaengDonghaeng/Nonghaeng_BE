@@ -2,8 +2,6 @@ package tour.nonghaeng.global.validation.photo;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import tour.nonghaeng.domain.member.entity.Seller;
-import tour.nonghaeng.domain.photo.entity.RoomPhoto;
 import tour.nonghaeng.domain.photo.repo.RoomPhotoRepository;
 import tour.nonghaeng.domain.room.entity.Room;
 import tour.nonghaeng.global.exception.PhotoException;
@@ -15,17 +13,6 @@ public class RoomPhotoValidator {
 
     private final RoomPhotoRepository roomPhotoRepository;
 
-
-    public void ownerValidate(Seller seller, Long roomPhotoId) {
-
-        roomPhotoIdValidate(roomPhotoId);
-
-        RoomPhoto roomPhoto = roomPhotoRepository.findById(roomPhotoId).get();
-
-        if (!seller.equals(roomPhoto.getRoom().getSeller())) {
-            throw new PhotoException(PhotoErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
-        }
-    }
 
     public void numOfRepresentPhotoValidate(Room room) {
 

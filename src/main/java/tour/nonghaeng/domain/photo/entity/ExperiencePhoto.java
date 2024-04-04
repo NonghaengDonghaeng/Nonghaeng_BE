@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.experience.entity.Experience;
+import tour.nonghaeng.domain.member.entity.Seller;
 
 @Entity
 @Table(name = "EXPERIENCE_PHOTOS")
@@ -19,8 +20,8 @@ public class ExperiencePhoto extends Photo{
     private Experience experience;
 
     @Builder
-    private ExperiencePhoto(Experience experience, String imgUrl) {
-        super(imgUrl);
+    private ExperiencePhoto(Experience experience, Seller seller, String imgUrl) {
+        super(seller, imgUrl);
         this.experience = experience;
     }
 }

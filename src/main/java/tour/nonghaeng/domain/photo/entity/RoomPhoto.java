@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.room.entity.Room;
 
 @Entity
@@ -19,8 +20,8 @@ public class RoomPhoto extends Photo{
     private Room room;
 
     @Builder
-    private RoomPhoto(Room room, String imgUrl) {
-        super(imgUrl);
+    private RoomPhoto(Room room, Seller seller, String imgUrl) {
+        super(seller, imgUrl);
         this.room = room;
     }
 }
