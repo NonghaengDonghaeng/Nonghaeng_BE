@@ -49,11 +49,11 @@ public class SchedulerService {
     }
 
     @Async
-    @Scheduled(cron = SCHEDULE_CRON_FOR_ONE_DAYS)
+    @Scheduled(cron = SCHEDULE_CRON_FOR_ONE_MINUTES)
     public void autoCompleteReservation() {
 
         log.info("Scheduler 실행: autoCompleteReservation");
 
-        reservationService.autoChangeCompleteReservation();
+        reservationService.autoChangeCompleteOrCancelReservation();
     }
 }

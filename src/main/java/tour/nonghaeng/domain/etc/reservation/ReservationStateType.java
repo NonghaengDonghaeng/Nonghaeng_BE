@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum ReservationStateType {
-    PAY_RESERVATION("001","결제 완료"),       //이 경우와 예약대기와 같음으로 뺄 필요가 있음(현재는 배제할것)
+
     WAITING_RESERVATION("002","예약 대기"),   //예약하면 대기중
 
     CONFIRM_RESERVATION("003","예약 승인"),   //판매자가 승인하면 승인

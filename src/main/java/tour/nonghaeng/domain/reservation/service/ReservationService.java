@@ -113,13 +113,19 @@ public class ReservationService {
         reservationValidator.checkWaitingState(reservation);
 
         if (notApproveFlag) {
-            reservation.notApproveReservation();
-            userService.payBackPoint(reservation.getUser(), reservation.getPrice(),
-                    CancelPolicy.NOT_CONFIRM_CANCEL_POLICY);
+            notApproveReservation(reservation);
         }
         reservation.approveReservation();
 
         return reservationRepository.save(reservation).getId();
+    }
+
+    private void notApproveReservation(Reservation reservation) {
+
+        reservation.notApproveReservation();
+
+        userService.payBackPoint(reservation.getUser(), reservation.getPrice(),
+                CancelPolicy.NOT_CONFIRM_CANCEL_POLICY);
     }
 
     public ReservationCancelResponseDto cancelReservation(User user, Long reservationId) {
@@ -247,12 +253,29 @@ public class ReservationService {
                 .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_EXIST_RESERVATION_ID));
     }
 
-    public void autoChangeCompleteReservation() {
+    public void autoChangeCompleteOrCancelReservation() {
+
         List<Reservation> allConfirmReservation = reservationRepository.findAllConfirmReservation();
 
         allConfirmReservation.forEach(reservation -> {
             completeReservation(reservation);
         });
+
+        List<Reservation> allWaitingReservation = reservationRepository.findAllWaitingReservation();
+
+        allWaitingReservation.forEach(reservation -> {
+            autoCancelReservation(reservation);
+        });
+
+    }
+
+
+    private void autoCancelReservation(Reservation reservation) {
+        if (checkPastReservation(reservation)) {
+            reservation.cancelReservation();
+            userService.payBackPoint(reservation.getUser(), reservation.getPrice(), CancelPolicy.NOT_CONFIRM_CANCEL_POLICY);
+            reservationRepository.save(reservation);
+        }
     }
 
     private void completeReservation(Reservation reservation) {
