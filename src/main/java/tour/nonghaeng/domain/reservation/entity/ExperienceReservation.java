@@ -17,7 +17,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "EXPERIENCE_RESERVATIONS")
-@DiscriminatorValue("experience_reservation")
+@DiscriminatorValue("experience")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class ExperienceReservation extends Reservation {

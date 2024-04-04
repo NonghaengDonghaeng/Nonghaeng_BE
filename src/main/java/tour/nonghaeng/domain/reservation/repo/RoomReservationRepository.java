@@ -24,6 +24,9 @@ public interface RoomReservationRepository extends JpaRepository<RoomReservation
     @Query("select min(rrd.reservationDate) from RoomReservationDate rrd where rrd.roomReservation.id = :id")
     Optional<LocalDate> findStartDateById(@Param("id") Long id);
 
+    @Query("select max(rrd.reservationDate) from RoomReservationDate rrd where rrd.roomReservation.id = :id")
+    Optional<LocalDate> findEndDateById(@Param("id") Long id);
+
     boolean existsById(Long roomReservationId);
 
     @Query("select rr from RoomReservation rr where rr.user = :user")

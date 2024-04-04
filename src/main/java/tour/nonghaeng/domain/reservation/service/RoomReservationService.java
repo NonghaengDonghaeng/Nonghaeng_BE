@@ -83,4 +83,9 @@ public class RoomReservationService {
         return roomReservationRepository.findStartDateById(roomReservationId)
                 .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_RESERVATION_DATE_BY_ID));
     }
+
+    public LocalDate findEndDateById(Long roomReservationId) {
+        return roomReservationRepository.findEndDateById(roomReservationId)
+                .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_RESERVATION_DATE_BY_ID));
+    }
 }

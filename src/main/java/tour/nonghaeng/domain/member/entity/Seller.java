@@ -89,4 +89,10 @@ public class Seller extends BaseTimeEntity {
     public void passwordEncode(PasswordEncoder passwordEncoder) {
         this.password = passwordEncoder.encode(this.password);
     }
+
+    public int payBackPoint(int price) {
+        this.point += price;
+
+        return this.point;
+    }
 }

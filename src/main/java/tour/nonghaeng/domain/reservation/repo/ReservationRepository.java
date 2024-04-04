@@ -8,6 +8,7 @@ import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.entity.Reservation;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -24,4 +25,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query(value = "SELECT dtype FROM reservations where reservation_id = :id", nativeQuery = true)
     String findReservationType(@Param("id") Long reservationId);
 
+    @Query("select r from Reservation r where r.stateType = 'CONFIRM_RESERVATION'")
+    List<Reservation> findAllConfirmReservation();
 }

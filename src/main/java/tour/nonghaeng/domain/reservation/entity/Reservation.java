@@ -62,6 +62,13 @@ public abstract class Reservation extends BaseTimeEntity {
         return false;
     }
 
+    public boolean isApproveState() {
+        if (this.stateType == ReservationStateType.CONFIRM_RESERVATION) {
+            return true;
+        }
+        return false;
+    }
+
     public void approveReservation() {
         if (isWaitingState()) {
             this.stateType = ReservationStateType.CONFIRM_RESERVATION;
@@ -77,6 +84,12 @@ public abstract class Reservation extends BaseTimeEntity {
     public Reservation cancelReservation() {
         this.stateType = ReservationStateType.CANCEL_RESERVATION;
         return this;
+    }
+
+    public void changeCompleteReservation() {
+        if (isApproveState()) {
+            this.stateType = ReservationStateType.COMPLETE_RESERVATION;
+        }
     }
 
     public abstract ReservationUserSummaryDto toUserSummaryDto();

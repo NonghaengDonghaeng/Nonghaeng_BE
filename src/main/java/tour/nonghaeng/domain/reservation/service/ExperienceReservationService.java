@@ -90,4 +90,8 @@ public class ExperienceReservationService {
         return experienceReservationRepository.findById(experienceReservationId)
                 .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_EXIST_EXPERIENCE_RESERVATION_BY_ID));
     }
+
+    public LocalDate findEndDateById(Long reservationId) {
+        return findById(reservationId).getReservationDate();
+    }
 }

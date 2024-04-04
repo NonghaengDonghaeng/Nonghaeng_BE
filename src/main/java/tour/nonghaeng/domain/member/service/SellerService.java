@@ -32,4 +32,13 @@ public class SellerService {
         joinSeller.passwordEncode(passwordEncoder);
         sellerRepository.save(joinSeller);
     }
+
+    public int payBackPoint(Seller seller, int price) {
+
+        seller.payBackPoint(price);
+
+        sellerRepository.save(seller);
+
+        return seller.getPoint();
+    }
 }

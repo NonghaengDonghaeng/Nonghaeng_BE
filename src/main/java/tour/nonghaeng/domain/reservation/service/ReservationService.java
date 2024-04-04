@@ -11,6 +11,7 @@ import tour.nonghaeng.domain.etc.cancel.CancelPolicy;
 import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.member.service.SellerService;
 import tour.nonghaeng.domain.member.service.UserService;
 import tour.nonghaeng.domain.reservation.dto.*;
 import tour.nonghaeng.domain.reservation.dto.exp.CreateExpReservationDto;
@@ -25,6 +26,8 @@ import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.entity.Reservation;
 import tour.nonghaeng.domain.reservation.entity.RoomReservation;
 import tour.nonghaeng.domain.reservation.repo.ReservationRepository;
+import tour.nonghaeng.global.exception.ReservationException;
+import tour.nonghaeng.global.exception.code.ReservationErrorCode;
 import tour.nonghaeng.global.validation.reservation.ReservationValidator;
 
 import java.time.Duration;
@@ -43,6 +46,7 @@ public class ReservationService {
     private final ExperienceReservationService experienceReservationService;
     private final RoomReservationService roomReservationService;
     private final UserService userService;
+    private final SellerService sellerService;
 
     private final ReservationValidator reservationValidator;
 
@@ -237,5 +241,45 @@ public class ReservationService {
                 .of(experienceReservation.getReservationDate(), experienceReservation.getExperienceRound().getStartTime());
     }
 
+    public Reservation findById(Long reservationId) {
+
+        return reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_EXIST_RESERVATION_ID));
+    }
+
+    public void autoChangeCompleteReservation() {
+        List<Reservation> allConfirmReservation = reservationRepository.findAllConfirmReservation();
+
+        allConfirmReservation.forEach(reservation -> {
+            completeReservation(reservation);
+        });
+    }
+
+    private void completeReservation(Reservation reservation) {
+
+        if (checkPastReservation(reservation)) {
+
+            reservation.changeCompleteReservation();
+            sellerService.payBackPoint(reservation.getSeller(), reservation.getPrice());
+            reservationRepository.save(reservation);
+        }
+    }
+
+    private boolean checkPastReservation(Reservation reservation) {
+
+        if (reservation.getStateType().equals("room")) {
+
+            return checkPast(roomReservationService.findEndDateById(reservation.getId()));
+        }
+        return checkPast(experienceReservationService.findEndDateById(reservation.getId()));
+    }
+
+    private boolean checkPast(LocalDate reservationDate) {
+
+        if (reservationDate.isAfter(LocalDate.now())) {
+            return true;
+        }
+        return false;
+    }
 
 }

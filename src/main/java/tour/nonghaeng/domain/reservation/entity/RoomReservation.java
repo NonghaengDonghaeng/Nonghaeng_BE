@@ -17,6 +17,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "ROOM_RESERVATIONS")
+@DiscriminatorValue("room")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class RoomReservation extends Reservation {

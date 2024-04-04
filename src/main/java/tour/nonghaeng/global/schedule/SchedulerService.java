@@ -7,6 +7,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
+import tour.nonghaeng.domain.reservation.service.ReservationService;
 import tour.nonghaeng.domain.room.service.RoomService;
 
 @Service
@@ -23,6 +24,7 @@ public class SchedulerService {
 
     private final ExperienceService experienceService;
     private final RoomService roomService;
+    private final ReservationService reservationService;
 
 
     //TODO: 스케줄 매일마다 가장 오래된 날짜 오늘과 확인후 삭제작업, 시간대 및 성능적 코드개선 필요
@@ -46,5 +48,12 @@ public class SchedulerService {
                 .forEach(roomId -> roomService.checkOldestCloseDatePastOrNot(roomId));
     }
 
+    @Async
+    @Scheduled(cron = SCHEDULE_CRON_FOR_ONE_DAYS)
+    public void autoCompleteReservation() {
 
+        log.info("Scheduler 실행: autoCompleteReservation");
+
+        reservationService.autoChangeCompleteReservation();
+    }
 }
