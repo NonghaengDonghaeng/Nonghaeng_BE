@@ -54,6 +54,16 @@ public class SchedulerService {
 
         log.info("Scheduler 실행: autoCompleteReservation");
 
-        reservationService.autoChangeCompleteOrCancelReservation();
+        reservationService.autoChangeCompleteReservation();
     }
+
+    @Async
+    @Scheduled(cron = SCHEDULE_CRON_FOR_ONE_MINUTES)
+    public void autoCancelReservation() {
+
+        log.info("Scheduler 실행: autoCancelReservation");
+
+        reservationService.autoChangeCancelReservation();
+    }
+
 }

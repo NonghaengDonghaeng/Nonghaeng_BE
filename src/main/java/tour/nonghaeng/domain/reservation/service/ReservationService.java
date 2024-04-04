@@ -253,19 +253,24 @@ public class ReservationService {
                 .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_EXIST_RESERVATION_ID));
     }
 
-    public void autoChangeCompleteOrCancelReservation() {
+    public void autoChangeCompleteReservation() {
 
-        List<Reservation> allConfirmReservation = reservationRepository.findAllConfirmReservation();
+        reservationRepository.findAllConfirmReservation()
+                .ifPresent(
+                        reservations -> reservations.forEach(
+                                reservation -> autoCancelReservation(reservation))
+                );
 
-        allConfirmReservation.forEach(reservation -> {
-            completeReservation(reservation);
-        });
 
-        List<Reservation> allWaitingReservation = reservationRepository.findAllWaitingReservation();
+    }
 
-        allWaitingReservation.forEach(reservation -> {
-            autoCancelReservation(reservation);
-        });
+    public void autoChangeCancelReservation() {
+
+        reservationRepository.findAllWaitingReservation()
+                .ifPresent(
+                        reservations -> reservations.forEach(
+                                reservation -> autoCancelReservation(reservation))
+                );
 
     }
 
@@ -278,7 +283,7 @@ public class ReservationService {
         }
     }
 
-    private void completeReservation(Reservation reservation) {
+    private void autoCompleteReservation(Reservation reservation) {
 
         if (checkPastReservation(reservation)) {
 
@@ -290,11 +295,15 @@ public class ReservationService {
 
     private boolean checkPastReservation(Reservation reservation) {
 
-        if (reservation.getStateType().equals("room")) {
+        String reservationType = reservationRepository.findReservationType(reservation.getId());
+
+        if (reservationType.equals("room")) {
 
             return checkPast(roomReservationService.findEndDateById(reservation.getId()));
+        } else if (reservationType.equals("experience")) {
+            return checkPast(experienceReservationService.findEndDateById(reservation.getId()));
         }
-        return checkPast(experienceReservationService.findEndDateById(reservation.getId()));
+        throw new ReservationException(ReservationErrorCode.DEFAULT_RESERVATION_ERROR);
     }
 
     private boolean checkPast(LocalDate reservationDate) {

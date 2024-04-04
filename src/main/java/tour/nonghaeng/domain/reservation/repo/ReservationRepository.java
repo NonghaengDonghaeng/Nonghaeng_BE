@@ -26,8 +26,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     String findReservationType(@Param("id") Long reservationId);
 
     @Query("select r from Reservation r where r.stateType = 'CONFIRM_RESERVATION'")
-    List<Reservation> findAllConfirmReservation();
+    Optional<List<Reservation>> findAllConfirmReservation();
 
     @Query("select r from Reservation r where r.stateType = 'WAITING_RESERVATION'")
-    List<Reservation> findAllWaitingReservation();
+    Optional<List<Reservation>> findAllWaitingReservation();
 }
