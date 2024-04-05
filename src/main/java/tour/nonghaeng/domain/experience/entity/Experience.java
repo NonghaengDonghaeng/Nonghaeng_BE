@@ -9,6 +9,7 @@ import tour.nonghaeng.domain.etc.BaseTimeEntity;
 import tour.nonghaeng.domain.etc.experience.ExperienceType;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.entity.ExperiencePhoto;
+import tour.nonghaeng.domain.photo.entity.Photo;
 import tour.nonghaeng.domain.tour.entity.Tour;
 
 import java.time.LocalDate;
@@ -108,7 +109,7 @@ public class Experience extends BaseTimeEntity {
         this.experienceCloseDates.remove(experienceCloseDate);
     }
 
-    public Optional<ExperiencePhoto> findRepresentPhoto() {
+    public Optional<Photo> findRepresentPhoto() {
 
         for (ExperiencePhoto ep : this.experiencePhotoList) {
             if (ep.isRepresentative()) {

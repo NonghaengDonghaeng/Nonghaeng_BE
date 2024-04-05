@@ -11,6 +11,7 @@ import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

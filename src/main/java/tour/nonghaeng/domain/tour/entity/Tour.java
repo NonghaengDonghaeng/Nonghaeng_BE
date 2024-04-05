@@ -10,6 +10,7 @@ import tour.nonghaeng.domain.etc.area.AreaCode;
 import tour.nonghaeng.domain.etc.tour.TourType;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.member.entity.Seller;
+import tour.nonghaeng.domain.photo.entity.Photo;
 import tour.nonghaeng.domain.photo.entity.TourPhoto;
 import tour.nonghaeng.domain.room.entity.Room;
 
@@ -85,7 +86,7 @@ public class Tour extends BaseTimeEntity {
         this.amenities = amenities;
     }
 
-    public Optional<TourPhoto> findRepresentPhoto() {
+    public Optional<Photo> findRepresentPhoto() {
 
         for (TourPhoto tp : this.tourPhotos) {
             if (tp.isRepresentative()) {

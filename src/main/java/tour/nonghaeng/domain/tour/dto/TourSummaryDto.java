@@ -36,7 +36,9 @@ public class TourSummaryDto{
         this.photoInfoDto = photoInfoDto;
     }
 
+
     public static Page<TourSummaryDto> toPageDto(Page<Tour> tourPage) {
+
 
         return tourPage.map(tour -> TourSummaryDto.builder()
                 .tourId(tour.getId())
@@ -46,8 +48,11 @@ public class TourSummaryDto{
                 .countExperience(tour.getExperiences().size())
                 .countRoom(tour.getRooms().size())
                 .oneLineIntro(tour.getOneLineIntro())
-                .photoInfoDto(PhotoInfoDto.toDto(tour.findRepresentPhoto().get()))
+                .photoInfoDto(tour.findRepresentPhoto().isPresent() ?
+                        PhotoInfoDto.toDto(tour.findRepresentPhoto().get()) : null)
                 .build()
         );
     }
+
+
 }

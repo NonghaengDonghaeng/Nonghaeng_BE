@@ -29,6 +29,12 @@ public class TourValidator {
         if (tourPages.isEmpty()) {
             throw new TourException(TourErrorCode.NO_TOUR_CONTENT_AT_CURRENT_PAGE_ERROR);
         }
+        //TODO: 대표사진이 없을때
+//        for (Tour tour : tourPages.getContent()) {
+//            if (tour.findRepresentPhoto().isEmpty()) {
+//                throw new TourException(TourErrorCode.NO_REPRESENT_PHOTO_ERROR);
+//            }
+//        }
     }
 
     public void tourIdValidate(Long tourId) {

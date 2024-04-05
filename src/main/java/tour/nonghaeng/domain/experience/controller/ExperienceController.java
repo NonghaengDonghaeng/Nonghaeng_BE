@@ -33,7 +33,7 @@ public class ExperienceController {
 
     //여행 리스트 조회(파라미터 page, 예시 page=0)
     @GetMapping
-    public ResponseEntity<Page<ExpSummaryDto>> showExperienceSummaryPage(@PageableDefault(size = 3) Pageable pageable) {
+    public ResponseEntity<Page<ExpSummaryDto>> showExperienceSummaryPage(@PageableDefault(size = 10) Pageable pageable) {
 
         Page<ExpSummaryDto> pageDto = experienceService.getExpSummaryDtoPage(pageable);
 

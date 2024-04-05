@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.etc.BaseTimeEntity;
 import tour.nonghaeng.domain.etc.room.RoomType;
 import tour.nonghaeng.domain.member.entity.Seller;
+import tour.nonghaeng.domain.photo.entity.Photo;
 import tour.nonghaeng.domain.photo.entity.RoomPhoto;
 import tour.nonghaeng.domain.tour.entity.Tour;
 
@@ -113,7 +114,7 @@ public class Room extends BaseTimeEntity {
         this.roomCloseDateList.remove(roomCloseDate);
     }
 
-    public Optional<RoomPhoto> findRepresentPhoto() {
+    public Optional<Photo> findRepresentPhoto() {
 
         for (RoomPhoto rp : this.roomPhotoList) {
             if (rp.isRepresentative()) {

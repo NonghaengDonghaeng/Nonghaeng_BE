@@ -49,7 +49,7 @@ public class SchedulerService {
     }
 
     @Async
-    @Scheduled(cron = SCHEDULE_CRON_FOR_ONE_MINUTES)
+    @Scheduled(cron = SCHEDULE_CRON_FOR_ONE_DAYS)
     public void autoCompleteReservation() {
 
         log.info("Scheduler 실행: autoCompleteReservation");
@@ -58,7 +58,7 @@ public class SchedulerService {
     }
 
     @Async
-    @Scheduled(cron = SCHEDULE_CRON_FOR_ONE_MINUTES)
+    @Scheduled(cron = SCHEDULE_CRON_FOR_ONE_DAYS)
     public void autoCancelReservation() {
 
         log.info("Scheduler 실행: autoCancelReservation");

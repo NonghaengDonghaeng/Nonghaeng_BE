@@ -48,7 +48,8 @@ public class ExpSummaryDto {
                 .areaName(exp.getTour().getAreaCode().getAreaName())
                 .tourName(exp.getTour().getName())
                 .summary(exp.getSummary())
-                .photoInfoDto(PhotoInfoDto.toDto(exp.findRepresentPhoto().get()))
+                .photoInfoDto(exp.findRepresentPhoto().isPresent() ?
+                        PhotoInfoDto.toDto(exp.findRepresentPhoto().get()) : null)
                 .build());
     }
 }

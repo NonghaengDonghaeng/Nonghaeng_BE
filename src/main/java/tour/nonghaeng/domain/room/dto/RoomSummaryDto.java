@@ -55,7 +55,8 @@ public class RoomSummaryDto {
                 .checkinTime(room.getCheckinTime())
                 .checkoutTime(room.getCheckoutTime())
                 .roomConfiguration(room.getRoomConfiguration())
-                .photoInfoDto(PhotoInfoDto.toDto(room.findRepresentPhoto().get()))
+                .photoInfoDto(room.findRepresentPhoto().isPresent()?
+                        PhotoInfoDto.toDto(room.findRepresentPhoto().get()):null)
                 .build();
     }
 

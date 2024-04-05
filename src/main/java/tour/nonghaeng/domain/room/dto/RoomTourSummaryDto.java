@@ -58,7 +58,8 @@ public class RoomTourSummaryDto {
                 .oneLineIntro(tour.getOneLineIntro())
                 .minPrice(minPrice)
                 .maxPrice(maxPrice)
-                .photoInfoDto(PhotoInfoDto.toDto(tour.findRepresentPhoto().get()))
+                .photoInfoDto(tour.findRepresentPhoto().isPresent() ?
+                        PhotoInfoDto.toDto(tour.findRepresentPhoto().get()) : null)
                 .build();
     }
 
