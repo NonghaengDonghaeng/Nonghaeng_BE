@@ -1,6 +1,7 @@
 package tour.nonghaeng.global.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,8 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import tour.nonghaeng.domain.etc.role.Role;
 import tour.nonghaeng.domain.member.repo.SellerRepository;
 import tour.nonghaeng.domain.member.repo.UserRepository;
@@ -28,6 +31,8 @@ import tour.nonghaeng.global.login.handler.UserLoginFailureHandler;
 import tour.nonghaeng.global.login.handler.UserLoginSuccessHandler;
 import tour.nonghaeng.global.login.service.SellerLoginService;
 import tour.nonghaeng.global.login.service.UserLoginService;
+
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -44,7 +49,22 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
+        http.cors(corsCustomizer -> corsCustomizer.configurationSource(new CorsConfigurationSource() {
+                    @Override
+                    public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+                        CorsConfiguration config = new CorsConfiguration();
+//                        config.setAllowedOrigins(Collections.singletonList("*"));
+                        config.addExposedHeader("Authorization");   //Authorization 추가 코드
+                        config.setAllowedOriginPatterns(Collections.singletonList("*"));
+                        config.setAllowedMethods(Collections.singletonList("*"));
+                        config.setAllowCredentials(true);           //서로다른 도메인에서 쿠키같이 민간한 정보도 전송
+                        config.setAllowedHeaders(Collections.singletonList("*"));
+                        config.setMaxAge(3600L);
+                        return config;
+                        //same-site, secure 설정 나중에 추가
+                    }
+                }))
+                .csrf(csrf -> csrf.disable())
                 .sessionManagement(seesion -> seesion.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .formLogin(formLogin -> formLogin.disable())
                 .httpBasic(httpBasic -> httpBasic.disable())
