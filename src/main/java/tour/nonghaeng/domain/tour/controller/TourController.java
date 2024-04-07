@@ -27,9 +27,12 @@ public class TourController {
 
     //여행 리스트 조회(파라미터 page, 예시 page=0)
     @GetMapping
-    public ResponseEntity<Page<TourSummaryDto>> showTourSummaryPage(@PageableDefault(size=10) Pageable pageable) {
+    public ResponseEntity<Page<TourSummaryDto>> showTourSummaryPage(@PageableDefault(size=2) Pageable pageable,
+                                                                    @RequestParam(name = "keyword",required = false)String keyword,
+                                                                    @RequestParam(name = "area",required = false)String area,
+                                                                    @RequestParam(name = "type",required = false)String type) {
 
-        Page<TourSummaryDto> tourSummaryDtoPage = tourService.getTourSummaryDtoPage(pageable);
+        Page<TourSummaryDto> tourSummaryDtoPage = tourService.getTourSummaryDtoPage(pageable, keyword, area, type);
 
         return new ResponseEntity<>(tourSummaryDtoPage, HttpStatus.OK);
     }

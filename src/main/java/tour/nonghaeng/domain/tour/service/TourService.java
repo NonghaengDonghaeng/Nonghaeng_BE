@@ -4,11 +4,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.tour.dto.CreateTourDto;
 import tour.nonghaeng.domain.tour.dto.TourDetailDto;
+import tour.nonghaeng.domain.tour.dto.TourSpecification;
 import tour.nonghaeng.domain.tour.dto.TourSummaryDto;
 import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.domain.tour.repo.TourRepository;
@@ -37,23 +39,24 @@ public class TourService {
         return tourRepository.save(createdTour).getId();
     }
 
-    public Page<Tour> getTourPage(Pageable pageable) {
+    public Page<Tour> getTourPage(Pageable pageable,String keyword,String area,String type) {
 
-        Page<Tour> tourPage = tourRepository.findAll(pageable);
+        Specification<Tour> spec = TourSpecification.buildSpecification(keyword, area, type);
+
+        Page<Tour> tourPage = tourRepository.findAll(spec, pageable);
 
         return tourPage;
     }
 
-    public Page<TourSummaryDto> getTourSummaryDtoPage(Pageable pageable) {
+    public Page<TourSummaryDto> getTourSummaryDtoPage(Pageable pageable,String keyword,String area,String type) {
 
-        Page<Tour> tourPages = getTourPage(pageable);
+        Page<Tour> tourPage = getTourPage(pageable,keyword,area,type);
 
-        tourValidator.pageValidate(tourPages);
+        tourValidator.pageValidate(tourPage);
 
-        Page<TourSummaryDto> summaryDtoPage = TourSummaryDto.toPageDto(tourPages);
+        Page<TourSummaryDto> summaryDtoPage = TourSummaryDto.toPageDto(tourPage);
 
         return summaryDtoPage;
-
     }
 
     public Page<Tour> findAllTourPageWithRoom(Pageable pageable) {
