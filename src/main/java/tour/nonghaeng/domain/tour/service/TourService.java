@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tour.nonghaeng.domain.etc.area.AreaCode;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.tour.dto.CreateTourDto;
 import tour.nonghaeng.domain.tour.dto.TourDetailDto;
@@ -39,18 +40,18 @@ public class TourService {
         return tourRepository.save(createdTour).getId();
     }
 
-    public Page<Tour> getTourPage(Pageable pageable,String keyword,String area,String type) {
+    public Page<Tour> getTourPage(Pageable pageable,String keyword,AreaCode areaCode,String type) {
 
-        Specification<Tour> spec = TourSpecification.buildSpecification(keyword, area, type);
+        Specification<Tour> spec = TourSpecification.buildSpecification(keyword, areaCode, type);
 
         Page<Tour> tourPage = tourRepository.findAll(spec, pageable);
 
         return tourPage;
     }
 
-    public Page<TourSummaryDto> getTourSummaryDtoPage(Pageable pageable,String keyword,String area,String type) {
+    public Page<TourSummaryDto> getTourSummaryDtoPage(Pageable pageable, String keyword, AreaCode areaCode, String type) {
 
-        Page<Tour> tourPage = getTourPage(pageable,keyword,area,type);
+        Page<Tour> tourPage = getTourPage(pageable,keyword,areaCode,type);
 
         tourValidator.pageValidate(tourPage);
 

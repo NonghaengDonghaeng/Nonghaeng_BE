@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import tour.nonghaeng.domain.etc.area.AreaCode;
 import tour.nonghaeng.domain.tour.dto.CreateTourDto;
 import tour.nonghaeng.domain.tour.dto.TourDetailDto;
 import tour.nonghaeng.domain.tour.dto.TourSummaryDto;
@@ -29,10 +30,10 @@ public class TourController {
     @GetMapping
     public ResponseEntity<Page<TourSummaryDto>> showTourSummaryPage(@PageableDefault(size=2) Pageable pageable,
                                                                     @RequestParam(name = "keyword",required = false)String keyword,
-                                                                    @RequestParam(name = "area",required = false)String area,
+                                                                    @RequestParam(name = "area",required = false)AreaCode areaCode,
                                                                     @RequestParam(name = "type",required = false)String type) {
 
-        Page<TourSummaryDto> tourSummaryDtoPage = tourService.getTourSummaryDtoPage(pageable, keyword, area, type);
+        Page<TourSummaryDto> tourSummaryDtoPage = tourService.getTourSummaryDtoPage(pageable, keyword, areaCode, type);
 
         return new ResponseEntity<>(tourSummaryDtoPage, HttpStatus.OK);
     }
