@@ -1,24 +1,24 @@
 package tour.nonghaeng.domain.member.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Builder;
 import tour.nonghaeng.domain.etc.area.AreaCode;
-import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.etc.role.Role;
 import tour.nonghaeng.domain.etc.social.SocialType;
+import tour.nonghaeng.domain.member.entity.User;
 
 @Builder
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record UserJoinDto(
-        @JsonProperty("area_code")
         AreaCode areaCode,
         String number,
         String name,
         String email,
         String password,
-        @JsonProperty("check_password")
         String checkPassword
 ) {
-        public User toEntity(){
+        public User toEntity() {
                 return User.builder()
                         .role(Role.USER)
                         .areaCode(this.areaCode)
