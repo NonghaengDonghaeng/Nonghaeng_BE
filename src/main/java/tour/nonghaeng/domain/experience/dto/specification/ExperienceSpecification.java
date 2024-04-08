@@ -17,7 +17,7 @@ public class ExperienceSpecification {
             Predicate predicate = criteriaBuilder.conjunction();
 
             if (keyword != null && !keyword.isEmpty()) {
-                predicate = criteriaBuilder.and(predicate,criteriaBuilder.like(criteriaBuilder.lower(root.get("experience_name")), "%" + keyword.toLowerCase() + "%"));
+                predicate = criteriaBuilder.and(predicate,criteriaBuilder.like(criteriaBuilder.lower(root.get("experienceName")), "%" + keyword.toLowerCase() + "%"));
             }
 
             if (areaCode != null) {
