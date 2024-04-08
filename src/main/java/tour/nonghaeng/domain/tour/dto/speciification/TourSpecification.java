@@ -1,4 +1,4 @@
-package tour.nonghaeng.domain.tour.dto;
+package tour.nonghaeng.domain.tour.dto.speciification;
 
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;

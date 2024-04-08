@@ -4,9 +4,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tour.nonghaeng.domain.etc.area.AreaCode;
+import tour.nonghaeng.domain.etc.experience.ExperienceType;
 import tour.nonghaeng.domain.experience.dto.*;
+import tour.nonghaeng.domain.experience.dto.specification.ExperienceSpecification;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.entity.ExperienceCloseDate;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
@@ -52,9 +56,11 @@ public class ExperienceService {
         return experienceRepository.save(experience).getId();
     }
 
-    public Page<ExpSummaryDto> getExpSummaryDtoPage(Pageable pageable) {
+    public Page<ExpSummaryDto> getExpSummaryDtoPage(Pageable pageable, String keyword, AreaCode areaCode, ExperienceType experienceType) {
 
-        Page<Experience> expPage = experienceRepository.findAll(pageable);
+        Specification<Experience> specification = ExperienceSpecification.buildSpecification(keyword, areaCode, experienceType);
+
+        Page<Experience> expPage = experienceRepository.findAll(specification, pageable);
 
         experienceValidator.pageValidate(expPage);
 

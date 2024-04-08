@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import tour.nonghaeng.domain.etc.area.AreaCode;
+import tour.nonghaeng.domain.etc.experience.ExperienceType;
 import tour.nonghaeng.domain.experience.dto.*;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
 import tour.nonghaeng.domain.member.entity.Seller;
@@ -33,9 +35,12 @@ public class ExperienceController {
 
     //여행 리스트 조회(파라미터 page, 예시 page=0)
     @GetMapping
-    public ResponseEntity<Page<ExpSummaryDto>> showExperienceSummaryPage(@PageableDefault(size = 10) Pageable pageable) {
+    public ResponseEntity<Page<ExpSummaryDto>> showExperienceSummaryPage(@PageableDefault(size = 10) Pageable pageable,
+                                                                         @RequestParam(name = "keyword",required = false)String keyword,
+                                                                         @RequestParam(name = "area",required = false) AreaCode areaCode,
+                                                                         @RequestParam(name = "type",required = false) ExperienceType experienceType) {
 
-        Page<ExpSummaryDto> pageDto = experienceService.getExpSummaryDtoPage(pageable);
+        Page<ExpSummaryDto> pageDto = experienceService.getExpSummaryDtoPage(pageable,keyword,areaCode,experienceType);
 
         return new ResponseEntity<>(pageDto, HttpStatus.OK);
     }

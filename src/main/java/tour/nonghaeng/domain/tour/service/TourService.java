@@ -12,7 +12,7 @@ import tour.nonghaeng.domain.etc.tour.TourType;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.tour.dto.CreateTourDto;
 import tour.nonghaeng.domain.tour.dto.TourDetailDto;
-import tour.nonghaeng.domain.tour.dto.TourSpecification;
+import tour.nonghaeng.domain.tour.dto.speciification.TourSpecification;
 import tour.nonghaeng.domain.tour.dto.TourSummaryDto;
 import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.domain.tour.repo.TourRepository;

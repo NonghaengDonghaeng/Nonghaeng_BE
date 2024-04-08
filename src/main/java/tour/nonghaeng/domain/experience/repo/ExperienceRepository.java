@@ -2,7 +2,9 @@ package tour.nonghaeng.domain.experience.repo;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -14,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ExperienceRepository extends JpaRepository<Experience,Long> {
+public interface ExperienceRepository extends JpaRepository<Experience,Long> , JpaSpecificationExecutor<Experience> {
 
     @Query("SELECT e.seller FROM Experience e WHERE e.id = :experienceId")
     Optional<Seller> findSellerByExperienceId(@Param("experienceId") Long experienceId);
@@ -29,4 +31,5 @@ public interface ExperienceRepository extends JpaRepository<Experience,Long> {
 
     Page<Experience> findAll(Pageable pageable);
 
+    Page<Experience> findAll(Specification<Experience> spec, Pageable pageable);
 }
