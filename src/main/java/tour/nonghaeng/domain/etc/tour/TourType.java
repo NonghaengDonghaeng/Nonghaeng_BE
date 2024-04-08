@@ -1,5 +1,6 @@
 package tour.nonghaeng.domain.etc.tour;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -18,6 +19,7 @@ public enum TourType {
     ETC("10","그 외")
     ;
 
+    @JsonValue
     private final String code;
     private final String name;
 
