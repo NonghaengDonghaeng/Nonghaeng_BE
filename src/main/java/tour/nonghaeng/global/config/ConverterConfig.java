@@ -3,10 +3,7 @@ package tour.nonghaeng.global.config;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import tour.nonghaeng.global.converter.AreaCodeConverter;
-import tour.nonghaeng.global.converter.BankCodeConverter;
-import tour.nonghaeng.global.converter.ExperienceTypeConverter;
-import tour.nonghaeng.global.converter.TourTypeConverter;
+import tour.nonghaeng.global.converter.*;
 
 @Configuration
 public class ConverterConfig implements WebMvcConfigurer {
@@ -15,15 +12,19 @@ public class ConverterConfig implements WebMvcConfigurer {
     private final AreaCodeConverter areaCodeConverter;
     private final TourTypeConverter tourTypeConverter;
     private final ExperienceTypeConverter experienceTypeConverter;
+    private final RoomTypeConverter roomTypeConverter;
+
 
     public ConverterConfig(BankCodeConverter bankCodeConverter,
                            AreaCodeConverter areaCodeConverter,
                            TourTypeConverter tourTypeConverter,
-                           ExperienceTypeConverter experienceTypeConverter) {
+                           ExperienceTypeConverter experienceTypeConverter,
+                           RoomTypeConverter roomTypeConverter) {
         this.bankCodeConverter = bankCodeConverter;
         this.areaCodeConverter = areaCodeConverter;
         this.tourTypeConverter = tourTypeConverter;
         this.experienceTypeConverter = experienceTypeConverter;
+        this.roomTypeConverter = roomTypeConverter;
     }
 
 
@@ -33,5 +34,6 @@ public class ConverterConfig implements WebMvcConfigurer {
         registry.addConverter(areaCodeConverter);
         registry.addConverter(tourTypeConverter);
         registry.addConverter(experienceTypeConverter);
+        registry.addConverter(roomTypeConverter);
     }
 }
