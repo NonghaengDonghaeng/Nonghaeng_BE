@@ -50,6 +50,10 @@ public class DummyDataService {
         SellerJoinDto sellerJoinDto4 = new SellerJoinDto("010-4444-4444", "04-1234-1234", "seller4", "testSeller4", "testSeller4@email.com", "seller4", "seller4", "서울", "042-123-4444", AreaCode.SEOUL, BankCode.KOREA, "02-90123-91", "testSeller4");
         SellerJoinDto sellerJoinDto5 = new SellerJoinDto("010-5555-5555", "05-1234-1234", "seller5", "testSeller5", "testSeller5@email.com", "seller5", "seller5", "대전광역시", "042-123-5555", AreaCode.DAEJEON, BankCode.KOREA, "02-852123-91", "testSeller5");
         SellerJoinDto sellerJoinDto6 = new SellerJoinDto("010-6666-6666", "06-1234-1234", "seller6", "testSeller6", "testSeller6@email.com", "seller6", "seller6", "부산", "042-123-6666", AreaCode.BUSAN, BankCode.KOREA, "02-8982323-91", "testSeller6");
+        SellerJoinDto sellerJoinDto7 = new SellerJoinDto("010-6666-1266", "06-1234-1234", "seller7", "testSeller7", "testSeller7@email.com", "seller7", "seller7", "부산", "042-123-6666", AreaCode.SEOUL, BankCode.KOREA, "02-8982323-91", "testSeller7");
+        SellerJoinDto sellerJoinDto8 = new SellerJoinDto("010-6666-6566", "06-1234-1234", "seller8", "testSeller8", "testSeller8@email.com", "seller8", "seller8", "부산", "042-123-6666", AreaCode.DAEJEON, BankCode.KOREA, "02-8982323-91", "testSeller8");
+        SellerJoinDto sellerJoinDto9 = new SellerJoinDto("010-6666-8666", "06-1234-1234", "seller9", "testSeller9", "testSeller9@email.com", "seller9", "seller9", "부산", "042-123-6666", AreaCode.SEJONG, BankCode.KOREA, "02-8982323-91", "testSeller9");
+        SellerJoinDto sellerJoinDto10 = new SellerJoinDto("010-6666-6696", "06-1234-1234", "seller10", "testSeller10", "testSeller10@email.com", "seller10", "seller10", "부산", "042-123-6666", AreaCode.DAEJEON, BankCode.KOREA, "02-8982323-91", "testSeller10");
 
 
         Seller seller1 = sellerService.join(sellerJoinDto1);
@@ -58,7 +62,10 @@ public class DummyDataService {
         Seller seller4 = sellerService.join(sellerJoinDto4);
         Seller seller5 = sellerService.join(sellerJoinDto5);
         Seller seller6 = sellerService.join(sellerJoinDto6);
-
+        Seller seller7 = sellerService.join(sellerJoinDto7);
+        Seller seller8 = sellerService.join(sellerJoinDto8);
+        Seller seller9 = sellerService.join(sellerJoinDto9);
+        Seller seller10 = sellerService.join(sellerJoinDto10);
 
         //user 등록
         UserJoinDto userJoinDto1 = new UserJoinDto(AreaCode.DAEJEON, "user1", "user1", "user1@email.com", "user1", "user1");
@@ -77,12 +84,18 @@ public class DummyDataService {
         CreateTourDto createTourDto5 = new CreateTourDto(TourType.VILLAGE, "5번 체험마을", "5번.com", "5번 체험마을입니다.", "정이 있는 마을", "체험마을", "식당 1개", "주차장 10대 수용가능", "남녀 화장실", "편의점");
         CreateTourDto createTourDto6 = new CreateTourDto(TourType.BED_BREAKFAST, "6번 농촌민박", "6번.com", "6번 농촌민박입니다.", "싼 있는 민박", "민박", "식당 1개", "주차장 10대 수용가능", "남녀 화장실", "편의점");
 
+
+
         Long tourId1 = tourService.createTour(seller1, createTourDto1);
         Long tourId2 = tourService.createTour(seller2, createTourDto2);
         Long tourId3 = tourService.createTour(seller3, createTourDto3);
         Long tourId4 = tourService.createTour(seller4, createTourDto4);
         Long tourId5 = tourService.createTour(seller5, createTourDto5);
         Long tourId6 = tourService.createTour(seller6, createTourDto6);
+        Long tourId7 = tourService.createTour(seller7, createTourDto1);
+        Long tourId8 = tourService.createTour(seller8, createTourDto2);
+        Long tourId9 = tourService.createTour(seller9, createTourDto3);
+        Long tourId10 = tourService.createTour(seller10, createTourDto4);
 
         //체험 생성
         LocalDate startDate = LocalDate.of(2024, 1, 1);
@@ -103,20 +116,66 @@ public class DummyDataService {
         CreateExpDto createExpDto4 = new CreateExpDto(ExperienceType.CULTURE, "제사 지내기체험", startDate, endDate, minParticipant, maxParticipant, 5000, 2, "제사음식 맛있음", "제사를 준비하고 지내보자", "제사", "귀신믿는마음", "귀신에 쇼크올수있음", expRoundDtoList);
         CreateExpDto createExpDto5 = new CreateExpDto(ExperienceType.LEISURE_SPORTS, "둘레길 걷기", startDate, endDate, minParticipant, maxParticipant, 1000, 2, "둘레길 걸어요", "가족과 함께 둘렛길 걸어봐요", "둘레길", "운동화", "물집패", expRoundDtoList);
 
+
         experienceService.createExperience(seller1, createExpDto1);
         experienceService.createExperience(seller1, createExpDto2);
+        experienceService.createExperience(seller1, createExpDto3);
+        experienceService.createExperience(seller1, createExpDto4);
         experienceService.createExperience(seller1, createExpDto5);
+
         experienceService.createExperience(seller2, createExpDto1);
         experienceService.createExperience(seller2, createExpDto2);
+        experienceService.createExperience(seller2, createExpDto3);
         experienceService.createExperience(seller2, createExpDto4);
         experienceService.createExperience(seller2, createExpDto5);
+
         experienceService.createExperience(seller3, createExpDto1);
+        experienceService.createExperience(seller3, createExpDto2);
+        experienceService.createExperience(seller3, createExpDto3);
         experienceService.createExperience(seller3, createExpDto4);
         experienceService.createExperience(seller3, createExpDto5);
+
+        experienceService.createExperience(seller4, createExpDto1);
+        experienceService.createExperience(seller4, createExpDto2);
         experienceService.createExperience(seller4, createExpDto3);
+        experienceService.createExperience(seller4, createExpDto4);
         experienceService.createExperience(seller4, createExpDto5);
+
+        experienceService.createExperience(seller5, createExpDto1);
+        experienceService.createExperience(seller5, createExpDto2);
+        experienceService.createExperience(seller5, createExpDto3);
         experienceService.createExperience(seller5, createExpDto4);
         experienceService.createExperience(seller5, createExpDto5);
+
+        experienceService.createExperience(seller6, createExpDto1);
+        experienceService.createExperience(seller6, createExpDto2);
+        experienceService.createExperience(seller6, createExpDto3);
+        experienceService.createExperience(seller6, createExpDto4);
+        experienceService.createExperience(seller6, createExpDto5);
+
+        experienceService.createExperience(seller7, createExpDto1);
+        experienceService.createExperience(seller7, createExpDto2);
+        experienceService.createExperience(seller7, createExpDto3);
+        experienceService.createExperience(seller7, createExpDto4);
+        experienceService.createExperience(seller7, createExpDto5);
+
+        experienceService.createExperience(seller8, createExpDto1);
+        experienceService.createExperience(seller8, createExpDto2);
+        experienceService.createExperience(seller8, createExpDto3);
+        experienceService.createExperience(seller8, createExpDto4);
+        experienceService.createExperience(seller8, createExpDto5);
+
+        experienceService.createExperience(seller9, createExpDto1);
+        experienceService.createExperience(seller9, createExpDto2);
+        experienceService.createExperience(seller9, createExpDto3);
+        experienceService.createExperience(seller9, createExpDto4);
+        experienceService.createExperience(seller9, createExpDto5);
+
+        experienceService.createExperience(seller10, createExpDto1);
+        experienceService.createExperience(seller10, createExpDto2);
+        experienceService.createExperience(seller10, createExpDto3);
+        experienceService.createExperience(seller10, createExpDto4);
+        experienceService.createExperience(seller10, createExpDto5);
 
         //숙소 생성
         LocalTime checkinTime = LocalTime.of(15, 0);
@@ -131,18 +190,72 @@ public class DummyDataService {
         roomService.createAndAddRoom(seller1,createRoomDto1);
         roomService.createAndAddRoom(seller1,createRoomDto2);
         roomService.createAndAddRoom(seller1,createRoomDto3);
+        roomService.createAndAddRoom(seller1,createRoomDto4);
+        roomService.createAndAddRoom(seller1,createRoomDto5);
+        roomService.createAndAddRoom(seller1,createRoomDto6);
+
+        roomService.createAndAddRoom(seller2,createRoomDto1);
+        roomService.createAndAddRoom(seller2,createRoomDto2);
         roomService.createAndAddRoom(seller2,createRoomDto3);
-        roomService.createAndAddRoom(seller2,createRoomDto5);
         roomService.createAndAddRoom(seller2,createRoomDto4);
-        roomService.createAndAddRoom(seller3,createRoomDto6);
+        roomService.createAndAddRoom(seller2,createRoomDto5);
+        roomService.createAndAddRoom(seller2,createRoomDto6);
+
         roomService.createAndAddRoom(seller3,createRoomDto1);
+        roomService.createAndAddRoom(seller3,createRoomDto2);
         roomService.createAndAddRoom(seller3,createRoomDto3);
-        roomService.createAndAddRoom(seller4, createRoomDto1);
-        roomService.createAndAddRoom(seller4, createRoomDto5);
-        roomService.createAndAddRoom(seller4, createRoomDto6);
-        roomService.createAndAddRoom(seller5, createRoomDto3);
-        roomService.createAndAddRoom(seller5, createRoomDto4);
-        roomService.createAndAddRoom(seller5, createRoomDto5);
+        roomService.createAndAddRoom(seller3,createRoomDto4);
+        roomService.createAndAddRoom(seller3,createRoomDto5);
+        roomService.createAndAddRoom(seller3,createRoomDto6);
+
+        roomService.createAndAddRoom(seller4,createRoomDto1);
+        roomService.createAndAddRoom(seller4,createRoomDto2);
+        roomService.createAndAddRoom(seller4,createRoomDto3);
+        roomService.createAndAddRoom(seller4,createRoomDto4);
+        roomService.createAndAddRoom(seller4,createRoomDto5);
+        roomService.createAndAddRoom(seller4,createRoomDto6);
+
+        roomService.createAndAddRoom(seller5,createRoomDto1);
+        roomService.createAndAddRoom(seller5,createRoomDto2);
+        roomService.createAndAddRoom(seller5,createRoomDto3);
+        roomService.createAndAddRoom(seller5,createRoomDto4);
+        roomService.createAndAddRoom(seller5,createRoomDto5);
+        roomService.createAndAddRoom(seller5,createRoomDto6);
+
+        roomService.createAndAddRoom(seller6,createRoomDto1);
+        roomService.createAndAddRoom(seller6,createRoomDto2);
+        roomService.createAndAddRoom(seller6,createRoomDto3);
+        roomService.createAndAddRoom(seller6,createRoomDto4);
+        roomService.createAndAddRoom(seller6,createRoomDto5);
+        roomService.createAndAddRoom(seller6,createRoomDto6);
+
+        roomService.createAndAddRoom(seller7,createRoomDto1);
+        roomService.createAndAddRoom(seller7,createRoomDto2);
+        roomService.createAndAddRoom(seller7,createRoomDto3);
+        roomService.createAndAddRoom(seller7,createRoomDto4);
+        roomService.createAndAddRoom(seller7,createRoomDto5);
+        roomService.createAndAddRoom(seller7,createRoomDto6);
+
+        roomService.createAndAddRoom(seller8,createRoomDto1);
+        roomService.createAndAddRoom(seller8,createRoomDto2);
+        roomService.createAndAddRoom(seller8,createRoomDto3);
+        roomService.createAndAddRoom(seller8,createRoomDto4);
+        roomService.createAndAddRoom(seller8,createRoomDto5);
+        roomService.createAndAddRoom(seller8,createRoomDto6);
+
+        roomService.createAndAddRoom(seller9,createRoomDto1);
+        roomService.createAndAddRoom(seller9,createRoomDto2);
+        roomService.createAndAddRoom(seller9,createRoomDto3);
+        roomService.createAndAddRoom(seller9,createRoomDto4);
+        roomService.createAndAddRoom(seller9,createRoomDto5);
+        roomService.createAndAddRoom(seller9,createRoomDto6);
+
+        roomService.createAndAddRoom(seller10,createRoomDto1);
+        roomService.createAndAddRoom(seller10,createRoomDto2);
+        roomService.createAndAddRoom(seller10,createRoomDto3);
+        roomService.createAndAddRoom(seller10,createRoomDto4);
+        roomService.createAndAddRoom(seller10,createRoomDto5);
+        roomService.createAndAddRoom(seller10,createRoomDto6);
 
     }
 
