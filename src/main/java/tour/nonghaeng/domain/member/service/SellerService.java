@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.dto.SellerJoinDto;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.repo.SellerRepository;
+import tour.nonghaeng.global.validation.member.SellerValidator;
 
 @Service
 @RequiredArgsConstructor
@@ -16,17 +17,15 @@ import tour.nonghaeng.domain.member.repo.SellerRepository;
 public class SellerService {
 
     private final SellerRepository sellerRepository;
+    private final SellerValidator sellerValidator;
 
     private final PasswordEncoder passwordEncoder;
 
 
-    public void join(SellerJoinDto dto) throws Exception {
+    public void join(SellerJoinDto dto) {
 
         //TODO: 인증과정에서의 예외처리
-
-        if (!dto.password().equals(dto.checkPassword())) {
-            throw new Exception("비밀번호가 일치하지 않습니다.");
-        }
+        sellerValidator.joinValidate(dto);
 
         Seller joinSeller = dto.toEntity();
         joinSeller.passwordEncode(passwordEncoder);
