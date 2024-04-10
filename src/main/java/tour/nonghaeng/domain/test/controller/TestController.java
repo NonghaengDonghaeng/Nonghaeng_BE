@@ -1,6 +1,5 @@
-package tour.nonghaeng.domain.test;
+package tour.nonghaeng.domain.test.controller;
 
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
