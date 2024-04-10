@@ -22,14 +22,15 @@ public class SellerService {
     private final PasswordEncoder passwordEncoder;
 
 
-    public void join(SellerJoinDto dto) {
+    public Seller join(SellerJoinDto dto) {
 
         //TODO: 인증과정에서의 예외처리
         sellerValidator.joinValidate(dto);
 
         Seller joinSeller = dto.toEntity();
         joinSeller.passwordEncode(passwordEncoder);
-        sellerRepository.save(joinSeller);
+
+        return sellerRepository.save(joinSeller);
     }
 
     public int payBackPoint(Seller seller, int price) {

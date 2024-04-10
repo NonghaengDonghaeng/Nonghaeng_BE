@@ -25,7 +25,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
 
-    public void join(UserJoinDto dto){
+    public User join(UserJoinDto dto){
 
         //TODO : 인증과정에서의 예외처리
         userValidator.joinValidate(dto);
@@ -33,7 +33,7 @@ public class UserService {
         User joinUser = dto.toEntity();
         joinUser.passwordEncode(passwordEncoder);
 
-        userRepository.save(joinUser);
+        return userRepository.save(joinUser);
     }
 
     public int payPoint(User user, int price) {

@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.test.service.DummyDataService;
 import tour.nonghaeng.global.auth.service.AuthService;
 import tour.nonghaeng.global.exception.GlobalException;
 
@@ -18,6 +19,7 @@ import tour.nonghaeng.global.exception.GlobalException;
 public class TestController {
 
     private final AuthService authService;
+    private final DummyDataService dummyDataService;
 
     @PostMapping("/exception")
     public ResponseEntity<String> exceptionTest(@RequestParam String number) {
@@ -40,7 +42,7 @@ public class TestController {
         User user = authService.toUserEntity(authentication);
         String name = user.getName();
 
-        return new ResponseEntity<>("user authorization test 성공, user 이름: "+name, HttpStatus.OK);
+        return new ResponseEntity<>("user authorization test 성공, user 이름: " + name, HttpStatus.OK);
     }
 
     @GetMapping("/seller-role")
@@ -48,8 +50,14 @@ public class TestController {
         Seller seller = authService.toSellerEntity(authentication);
         String name = seller.getName();
 
-        return new ResponseEntity<>("seller authorization test 성공, seller 이름: "+name, HttpStatus.OK);
+        return new ResponseEntity<>("seller authorization test 성공, seller 이름: " + name, HttpStatus.OK);
 
     }
 
+
+    @GetMapping("/set-data")
+    public ResponseEntity<String> setDataTest(Authentication authentication) {
+        dummyDataService.setDummyData();
+        return new ResponseEntity<>("set dummy data", HttpStatus.OK);
+    }
 }
