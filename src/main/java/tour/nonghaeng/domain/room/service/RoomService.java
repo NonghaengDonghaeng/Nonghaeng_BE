@@ -3,11 +3,16 @@ package tour.nonghaeng.domain.room.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tour.nonghaeng.domain.etc.area.AreaCode;
+import tour.nonghaeng.domain.etc.room.RoomType;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.room.dto.*;
+import tour.nonghaeng.domain.room.dto.specification.RoomSpecification;
 import tour.nonghaeng.domain.room.entity.Room;
 import tour.nonghaeng.domain.room.repo.RoomRepository;
 import tour.nonghaeng.domain.tour.entity.Tour;
@@ -18,8 +23,7 @@ import tour.nonghaeng.global.validation.room.RoomValidator;
 import tour.nonghaeng.global.validation.tour.TourValidator;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -45,9 +49,9 @@ public class RoomService {
         return roomRepository.save(room).getId();
     }
 
-    public Page<RoomTourSummaryDto> getRoomTourSummaryDtoPage(Pageable pageable) {
+    public Page<RoomTourSummaryDto> getRoomTourSummaryDtoPage(Pageable pageable, String keyword, AreaCode areaCode, RoomType roomType) {
 
-        Page<Tour> tourPage = tourService.findAllTourPageWithRoom(pageable);
+        Page<Tour> tourPage = getTourPageWithRoomSpec(pageable, keyword, areaCode, roomType);
 
         tourValidator.pageValidate(tourPage);
 
@@ -55,6 +59,22 @@ public class RoomService {
                 RoomTourSummaryDto.toDto(tour, findMinPriceByTour(tour), findMaxPriceByTour(tour)));
 
         return dto;
+    }
+
+    private Page<Tour> getTourPageWithRoomSpec(Pageable pageable, String keyword, AreaCode areaCode, RoomType roomType) {
+
+        Specification<Room> roomSpec = RoomSpecification.buildRoomSpecification(keyword, areaCode, roomType);
+
+        List<Room> rooms = roomRepository.findAll(roomSpec, pageable).getContent();
+
+        Set<Tour> uniqueTours = new HashSet<>();
+
+        for(Room room : rooms) {
+            Tour tour = room.getTour();
+            uniqueTours.add(tour);
+        }
+
+        return new PageImpl<>(new ArrayList<>(uniqueTours), pageable, uniqueTours.size());
     }
 
     public List<RoomSummaryDto> getRoomSummaryDtoList(Long tourId, LocalDate date, int numOfRoom) {

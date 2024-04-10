@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import tour.nonghaeng.domain.etc.area.AreaCode;
+import tour.nonghaeng.domain.etc.room.RoomType;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.room.dto.*;
 import tour.nonghaeng.domain.room.service.RoomService;
@@ -43,9 +45,12 @@ public class RoomController {
 
     //숙소정보 리스트 보기
     @GetMapping
-    public ResponseEntity<Page<RoomTourSummaryDto>> showRoomTourSummaryPage(@PageableDefault(size = 5) Pageable pageable) {
+    public ResponseEntity<Page<RoomTourSummaryDto>> showRoomTourSummaryPage(@PageableDefault(size = 5) Pageable pageable,
+                                                                            @RequestParam(name = "keyword",required = false)String keyword,
+                                                                            @RequestParam(name = "area",required = false) AreaCode areaCode,
+                                                                            @RequestParam(name = "type",required = false) RoomType roomType) {
 
-        Page<RoomTourSummaryDto> dto = roomService.getRoomTourSummaryDtoPage(pageable);
+        Page<RoomTourSummaryDto> dto = roomService.getRoomTourSummaryDtoPage(pageable,keyword,areaCode,roomType);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
