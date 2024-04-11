@@ -31,6 +31,9 @@ import tour.nonghaeng.global.login.handler.UserLoginFailureHandler;
 import tour.nonghaeng.global.login.handler.UserLoginSuccessHandler;
 import tour.nonghaeng.global.login.service.SellerLoginService;
 import tour.nonghaeng.global.login.service.UserLoginService;
+import tour.nonghaeng.global.oauth.handler.OAuth2LoginFailureHandler;
+import tour.nonghaeng.global.oauth.handler.OAuth2LoginSuccessHandler;
+import tour.nonghaeng.global.oauth.service.CustomOAuth2UserService;
 
 import java.util.Collections;
 
@@ -41,9 +44,14 @@ public class SecurityConfig {
 
     private final JwtService jwtService;
     private final UserLoginService userLoginService;
-    private final UserRepository userRepository;
     private final SellerLoginService sellerLoginService;
+    private final CustomOAuth2UserService customOAuth2UserService;
+
+    private final UserRepository userRepository;
     private final SellerRepository sellerRepository;
+
+    private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
+    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
     private final ObjectMapper objectMapper;
 
@@ -66,6 +74,7 @@ public class SecurityConfig {
                 }))
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(seesion -> seesion.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .headers(headersConfigurer -> headersConfigurer.frameOptions(config -> config.disable()))
                 .formLogin(formLogin -> formLogin.disable())
                 .httpBasic(httpBasic -> httpBasic.disable())
                 .authorizeHttpRequests(authorizeRequest -> authorizeRequest
@@ -77,7 +86,12 @@ public class SecurityConfig {
                         .requestMatchers("/seller-join").permitAll()
                         .requestMatchers("/*/seller/**").hasRole(Role.SELLER.name())
                         .requestMatchers("/*/*/seller/**").hasRole(Role.SELLER.name())
-                        .anyRequest().authenticated());
+                        .anyRequest().authenticated())
+                .oauth2Login(oauth2Login -> oauth2Login
+                        .userInfoEndpoint(userInfoEndpointConfig ->
+                                userInfoEndpointConfig.userService(customOAuth2UserService))
+                        .successHandler(oAuth2LoginSuccessHandler)
+                        .failureHandler(oAuth2LoginFailureHandler));
 
         //logout 필터 -> jwt 필터 -> customUserLogin 필터 -> customSellerLogin 필터
         http.addFilterAfter(jwtAuthenticationFilter(), LogoutFilter.class);
