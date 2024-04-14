@@ -61,9 +61,9 @@ public class SecurityConfig {
                     @Override
                     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                         CorsConfiguration config = new CorsConfiguration();
-//                        config.setAllowedOrigins(Collections.singletonList("*"));
                         config.addExposedHeader("Authorization");   //Authorization 추가 코드
-                        config.setAllowedOriginPatterns(Collections.singletonList("*"));
+//                        config.setAllowedOriginPatterns(Collections.singletonList("*"));
+                        config.setAllowedOrigins(Collections.singletonList("https://nonghaeng-fe.vercel.app"));
                         config.setAllowedMethods(Collections.singletonList("*"));
                         config.setAllowCredentials(true);           //서로다른 도메인에서 쿠키같이 민간한 정보도 전송
                         config.setAllowedHeaders(Collections.singletonList("*"));
