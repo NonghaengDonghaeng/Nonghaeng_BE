@@ -70,6 +70,7 @@ public class SecurityConfig {
                         config.setMaxAge(3600L);
                         return config;
                         //same-site, secure 설정 나중에 추가
+                        //TODO: allow credentials 할때 와일드카드로 하면 안됨
                     }
                 }))
                 .csrf(csrf -> csrf.disable())
