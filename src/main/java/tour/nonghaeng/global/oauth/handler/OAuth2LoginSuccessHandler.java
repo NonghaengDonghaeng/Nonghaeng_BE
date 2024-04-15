@@ -1,11 +1,13 @@
 package tour.nonghaeng.global.oauth.handler;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -55,12 +57,40 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     private void loginSuccess(HttpServletResponse response, CustomOAuth2User oAuth2User) throws IOException {
         String accessToken = jwtService.createAccessToken(oAuth2User.getNumber(),"user");
         String refreshToken = jwtService.createRefreshToken();
+
         response.addHeader(jwtService.getAccessHeader(), "Bearer " + accessToken);
         response.addHeader(jwtService.getRefreshHeader(), "Bearer " + refreshToken);
 
         jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
         jwtService.updateRefreshToken(oAuth2User.getNumber(), refreshToken);
-        String redirectUrl = "https://nonghaeng-fe.vercel.app/pages/acount/login?accessToken="+accessToken;
+
+
+        String redirectUrl = "https://nonghaeng-fe.vercel.app/acount/login?accessToken="+accessToken;
+
+//        response.addHeader(HttpHeaders.SET_COOKIE,createAuthCookie("Authorization",accessToken).toString());
+        response.addCookie(createCookie("Authorization",accessToken));
         response.sendRedirect(redirectUrl);
+
+    }
+
+    private ResponseCookie createAuthCookie(String key, String value) {
+        ResponseCookie cookie = ResponseCookie.from(key,value)
+                .maxAge(60 * 60 * 60)
+                .sameSite("None")
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .build();
+        return cookie;
+    }
+
+    private Cookie createCookie(String key, String value) {
+        Cookie cookie = new Cookie(key, value);
+        cookie.setMaxAge(60*60*60);
+        cookie.setSecure(true);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+
+        return cookie;
     }
 }

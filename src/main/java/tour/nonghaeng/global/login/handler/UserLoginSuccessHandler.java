@@ -1,7 +1,5 @@
 package tour.nonghaeng.global.login.handler;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import tour.nonghaeng.domain.member.repo.UserRepository;
 import tour.nonghaeng.global.jwt.service.JwtService;
 
@@ -62,4 +59,5 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return userDetails.getUsername();
     }
+
 }
