@@ -45,7 +45,7 @@ public class RoomController {
 
     //숙소정보 리스트 보기
     @GetMapping
-    public ResponseEntity<Page<RoomTourSummaryDto>> showRoomTourSummaryPage(@PageableDefault(size = 5) Pageable pageable,
+    public ResponseEntity<Page<RoomTourSummaryDto>> showRoomTourSummaryPage(@PageableDefault(size = 10) Pageable pageable,
                                                                             @RequestParam(name = "keyword",required = false)String keyword,
                                                                             @RequestParam(name = "area",required = false) AreaCode areaCode,
                                                                             @RequestParam(name = "type",required = false) RoomType roomType) {
