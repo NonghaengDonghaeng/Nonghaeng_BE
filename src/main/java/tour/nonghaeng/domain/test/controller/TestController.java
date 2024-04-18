@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import tour.nonghaeng.domain.etc.role.Role;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.test.service.DummyDataService;
@@ -33,7 +34,10 @@ public class TestController {
 
     @GetMapping("/jwt")
     public ResponseEntity<String> jwtTest(Authentication authentication) {
-        return new ResponseEntity<>("jwt test 성공", HttpStatus.OK);
+
+        Role role = authService.findRole(authentication);
+
+        return new ResponseEntity<>("jwt 검증, 권한: " + role.getKey(), HttpStatus.OK);
     }
 
     @GetMapping("/user-role")
