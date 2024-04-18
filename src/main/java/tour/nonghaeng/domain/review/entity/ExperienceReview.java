@@ -7,6 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.review.dto.ReviewDetailDto;
+import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
+import tour.nonghaeng.domain.review.dto.exp.ExpReviewDetailDto;
+import tour.nonghaeng.domain.review.dto.exp.ExpReviewSummaryDto;
 
 @Entity
 @Table(name = "EXPERIENCE_REVIEWS")
@@ -23,5 +27,29 @@ public class ExperienceReview extends Review {
     public ExperienceReview(User user, String title, String content, Experience experience) {
         super(user, title, content);
         this.experience = experience;
+    }
+
+    @Override
+    public ReviewSummaryDto toReviewSummaryDto() {
+        return ExpReviewSummaryDto.builder()
+                .createDate(this.getCreatedAt().toLocalDate())
+                .reviewId(this.getId())
+                .expName(this.experience.getExperienceName())
+                .author(this.getUser().getName())
+                .title(this.getTitle())
+                .type("experience")
+                .build();
+    }
+
+    @Override
+    public ReviewDetailDto toReviewDetailDto() {
+        return ExpReviewDetailDto.builder()
+                .createDate(this.getCreatedAt().toLocalDate())
+                .expId(this.experience.getId())
+                .expName(this.experience.getExperienceName())
+                .author(this.getUser().getName())
+                .title(this.getTitle())
+                .content(this.getContent())
+                .build();
     }
 }

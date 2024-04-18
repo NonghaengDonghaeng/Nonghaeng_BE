@@ -7,9 +7,12 @@ import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.member.service.UserService;
 import tour.nonghaeng.domain.review.dto.room.CreateRoomReviewDto;
+import tour.nonghaeng.domain.review.entity.Review;
 import tour.nonghaeng.domain.review.repo.RoomReviewRepository;
 import tour.nonghaeng.domain.room.entity.Room;
 import tour.nonghaeng.domain.room.service.RoomService;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -29,5 +32,9 @@ public class RoomReviewService {
         //TODO: validator
 
         return roomReviewRepository.save(requestDto.toEntity(user, room)).getId();
+    }
+
+    public List<Review> findReviewListByUser(User user) {
+        return roomReviewRepository.findReviewByUser(user);
     }
 }

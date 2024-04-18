@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.dto.mypage.MyPageUserDto;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.service.ReservationService;
+import tour.nonghaeng.domain.review.service.ReviewService;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +16,8 @@ import tour.nonghaeng.domain.reservation.service.ReservationService;
 public class MyPageService {
 
     private final ReservationService reservationService;
+    private final ReviewService reviewService;
+
 
     public MyPageUserDto getUserMyPage(User user) {
 
@@ -24,6 +27,7 @@ public class MyPageService {
                 .number(user.getNumber())
                 .point(user.getPoint())
                 .reservations(reservationService.findReservationListByUser(user))
+                .reviews(reviewService.findReviewList(user))
                 .build();
 
         return dto;

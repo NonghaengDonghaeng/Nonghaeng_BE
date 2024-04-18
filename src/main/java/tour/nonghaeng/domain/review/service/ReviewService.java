@@ -5,9 +5,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
 import tour.nonghaeng.domain.review.dto.exp.CreateExpReviewDto;
 import tour.nonghaeng.domain.review.dto.room.CreateRoomReviewDto;
+import tour.nonghaeng.domain.review.entity.Review;
 import tour.nonghaeng.domain.review.repo.ReviewRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,5 +31,18 @@ public class ReviewService {
 
     public Long createRoomReview(User user, CreateRoomReviewDto requestDto) {
         return roomReviewService.createRoomReview(user, requestDto);
+    }
+
+    public List<ReviewSummaryDto> findReviewList(User user) {
+
+        List<ReviewSummaryDto> reviewSummaryList = new ArrayList<>();
+
+        List<Review> roomReviewList = roomReviewService.findReviewListByUser(user);
+        List<Review> expReviewList = experienceReviewService.findReviewListByUser(user);
+
+        roomReviewList.forEach(review -> reviewSummaryList.add(review.toReviewSummaryDto()));
+        expReviewList.forEach(review -> reviewSummaryList.add(review.toReviewSummaryDto()));
+
+        return reviewSummaryList;
     }
 }

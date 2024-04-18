@@ -8,7 +8,10 @@ import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.review.dto.exp.CreateExpReviewDto;
+import tour.nonghaeng.domain.review.entity.Review;
 import tour.nonghaeng.domain.review.repo.ExperienceReviewRepository;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,5 +30,9 @@ public class ExperienceReviewService {
         //TODO: validator
 
         return experienceReviewRepository.save(requestDto.toEntity(user, experience)).getId();
+    }
+
+    public List<Review> findReviewListByUser(User user) {
+        return experienceReviewRepository.findReviewByUser(user);
     }
 }

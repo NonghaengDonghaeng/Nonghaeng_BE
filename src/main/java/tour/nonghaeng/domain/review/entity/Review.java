@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.etc.BaseTimeEntity;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.review.dto.ReviewDetailDto;
+import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
 
 @Entity
 @Table(name = "REVIEWS")
@@ -33,4 +35,8 @@ public abstract class Review extends BaseTimeEntity {
         this.title = title;
         this.content = content;
     }
+
+    public abstract ReviewSummaryDto toReviewSummaryDto();
+
+    public abstract ReviewDetailDto toReviewDetailDto();
 }
