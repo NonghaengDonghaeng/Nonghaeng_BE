@@ -13,6 +13,7 @@ import tour.nonghaeng.domain.reservation.entity.RoomReservation;
 import tour.nonghaeng.domain.room.entity.Room;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -31,6 +32,9 @@ public interface RoomReservationRepository extends JpaRepository<RoomReservation
 
     @Query("select rr from RoomReservation rr where rr.user = :user")
     Page<Reservation> findReservationPageByUser(@Param("user") User user, Pageable pageable);
+
+    @Query("select rr from RoomReservation rr where rr.user = :user")
+    List<Reservation> findReservationListByUser(@Param("user") User user);
 
     @Query("select rr from RoomReservation rr where rr.seller =:seller")
     Page<Reservation> findReservationPageBySeller(@Param("seller") Seller seller, Pageable pageable);

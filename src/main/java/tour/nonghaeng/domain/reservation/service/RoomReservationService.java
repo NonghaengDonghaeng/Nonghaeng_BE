@@ -22,6 +22,7 @@ import tour.nonghaeng.global.validation.reservation.ReservationValidator;
 import tour.nonghaeng.global.validation.reservation.RoomReservationValidator;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -73,6 +74,10 @@ public class RoomReservationService {
 
     public Page<Reservation> findReservationPageByUser(User user, Pageable pageable) {
         return roomReservationRepository.findReservationPageByUser(user, pageable);
+    }
+
+    public List<Reservation> findReservationListByUser(User user) {
+        return roomReservationRepository.findReservationListByUser(user);
     }
 
     public Page<Reservation> findReservationPageBySeller(Seller seller, Pageable pageable) {

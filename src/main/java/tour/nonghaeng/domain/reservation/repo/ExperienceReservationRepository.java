@@ -13,6 +13,7 @@ import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.entity.Reservation;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -25,6 +26,9 @@ public interface ExperienceReservationRepository extends JpaRepository<Experienc
 
     @Query("select er from ExperienceReservation er where er.user = :user")
     Page<Reservation> findReservationPageByUser(@Param("user") User user, Pageable pageable);
+
+    @Query("select er from ExperienceReservation er where er.user = :user")
+    List<Reservation> findReservationListByUser(@Param("user") User user);
 
     @Query("select er from ExperienceReservation er where er.seller = :seller")
     Page<Reservation> findReservationPageBySeller(@Param("seller") Seller seller, Pageable pageable);

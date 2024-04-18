@@ -50,6 +50,7 @@ public class ExperienceReservation extends Reservation {
                 .reservationDate(this.getReservationDate())
                 .price(this.getPrice())
                 .numOfParticipant(this.getNumOfParticipant())
+                .type("experience")
                 .build();
     }
 

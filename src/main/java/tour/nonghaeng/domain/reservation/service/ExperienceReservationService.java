@@ -21,6 +21,7 @@ import tour.nonghaeng.global.exception.code.ReservationErrorCode;
 import tour.nonghaeng.global.validation.reservation.ExperienceReservationValidator;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -72,6 +73,11 @@ public class ExperienceReservationService {
     public Page<Reservation> findReservationPageByUser(User user, Pageable pageable) {
 
         return experienceReservationRepository.findReservationPageByUser(user, pageable);
+    }
+
+    public List<Reservation> findReservationListByUser(User user) {
+
+        return experienceReservationRepository.findReservationListByUser(user);
     }
 
     public Page<Reservation> findReservationPageBySeller(Seller seller, Pageable pageable) {

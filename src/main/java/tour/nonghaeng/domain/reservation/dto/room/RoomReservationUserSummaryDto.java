@@ -25,9 +25,10 @@ public class RoomReservationUserSummaryDto extends ReservationUserSummaryDto {
     private int price;
     private int numOfParticipant;
     private int numOfRoom;
+    private String type;
 
     @Builder
-    private RoomReservationUserSummaryDto(Long roomReservationId, String roomName, String reservationState, List<LocalDate> reservationDates, int price, int numOfParticipant, int numOfRoom) {
+    private RoomReservationUserSummaryDto(Long roomReservationId, String roomName, String reservationState, List<LocalDate> reservationDates, int price, int numOfParticipant, int numOfRoom,String type) {
         this.roomReservationId = roomReservationId;
         this.roomName = roomName;
         this.reservationState = reservationState;
@@ -35,6 +36,7 @@ public class RoomReservationUserSummaryDto extends ReservationUserSummaryDto {
         this.price = price;
         this.numOfParticipant = numOfParticipant;
         this.numOfRoom = numOfRoom;
+        this.type = type;
     }
 
     public static Page<RoomReservationUserSummaryDto> toPageDto(Page<RoomReservation> page) {

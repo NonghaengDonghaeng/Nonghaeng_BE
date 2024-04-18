@@ -33,6 +33,7 @@ import tour.nonghaeng.global.validation.reservation.ReservationValidator;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -174,6 +175,19 @@ public class ReservationService {
                 .toList();
 
         return new PageImpl<>(filteredList, dtoPage.getPageable(), dtoPage.getTotalElements());
+    }
+
+    public List<? extends ReservationUserSummaryDto> findReservationListByUser(User user) {
+
+        List<ReservationUserSummaryDto> reservations = new ArrayList<>();
+
+        List<Reservation> roomReservationList = roomReservationService.findReservationListByUser(user);
+        List<Reservation> expReservationList = experienceReservationService.findReservationListByUser(user);
+
+        roomReservationList.forEach(reservation -> reservations.add(reservation.toUserSummaryDto()));
+        expReservationList.forEach(reservation -> reservations.add(reservation.toUserSummaryDto()));
+
+        return reservations;
     }
 
     private Page<Reservation> findReservationPageByUser(User user, Pageable pageable,String type) {

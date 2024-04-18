@@ -25,15 +25,17 @@ public class ExpReservationUserSummaryDto extends ReservationUserSummaryDto {
     private LocalDate reservationDate;
     private int price;
     private int numOfParticipant;
+    private String type;
 
     @Builder
-    public ExpReservationUserSummaryDto(Long experienceReservationId, String experienceName, String reservationState, LocalDate reservationDate, int price, int numOfParticipant) {
+    public ExpReservationUserSummaryDto(Long experienceReservationId, String experienceName, String reservationState, LocalDate reservationDate, int price, int numOfParticipant,String type) {
         this.experienceReservationId = experienceReservationId;
         this.experienceName = experienceName;
         this.reservationState = reservationState;
         this.reservationDate = reservationDate;
         this.price = price;
         this.numOfParticipant = numOfParticipant;
+        this.type = type;
     }
 
     public static Page<ExpReservationUserSummaryDto> toPageDto(Page<ExperienceReservation> page) {
