@@ -1,0 +1,53 @@
+package tour.nonghaeng.domain.review.controller;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.review.dto.exp.CreateExpReviewDto;
+import tour.nonghaeng.domain.review.dto.room.CreateRoomReviewDto;
+import tour.nonghaeng.domain.review.service.ReviewService;
+import tour.nonghaeng.global.auth.service.AuthService;
+import tour.nonghaeng.global.validation.review.ReviewValidator;
+
+@RestController
+@RequestMapping("/reviews")
+@RequiredArgsConstructor
+@Slf4j
+public class ReviewController {
+
+    private final ReviewService reviewService;
+    private final AuthService authService;
+
+    private final ReviewValidator reviewValidator;
+
+
+    //TODO: 예약을 보고 아무나 리뷰쓰지 못하도록 검증만들기
+    @PostMapping("/experience")
+    public ResponseEntity<String> createExperienceReview(Authentication authentication,
+                                                         @RequestBody CreateExpReviewDto requestDto) {
+
+        User user = authService.toUserEntity(authentication);
+
+        Long expReviewId = reviewService.createExpReview(user, requestDto);
+
+        return new ResponseEntity<>(expReviewId + "체험 리뷰 생성완료", HttpStatus.OK);
+    }
+
+    @PostMapping("/room")
+    public ResponseEntity<String> createRoomReview(Authentication authentication,
+                                                   @RequestBody CreateRoomReviewDto requestDto) {
+
+        User user = authService.toUserEntity(authentication);
+
+        Long roomReviewId = reviewService.createRoomReview(user, requestDto);
+
+        return new ResponseEntity<>(roomReviewId + "숙소 리뷰 생성완료", HttpStatus.OK);
+    }
+}
