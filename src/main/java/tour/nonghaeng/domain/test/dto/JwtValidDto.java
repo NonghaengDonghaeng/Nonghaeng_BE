@@ -12,12 +12,16 @@ import tour.nonghaeng.domain.etc.role.Role;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class JwtValidDto {
-    private boolean valid = true;
+    private String message;
+    private boolean valid;
     private Role role;
 
     @Builder
-    private JwtValidDto(boolean valid, Role role) {
+    private JwtValidDto(String message,boolean valid, Role role) {
+        this.message = message;
         this.valid = valid;
         this.role = role;
     }
+
+
 }

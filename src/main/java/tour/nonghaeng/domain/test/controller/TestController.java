@@ -39,6 +39,7 @@ public class TestController {
         JwtValidDto response = JwtValidDto.builder()
                 .valid(true)
                 .role(role)
+                .message("jwt 유효합니다.")
                 .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
