@@ -23,6 +23,8 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import tour.nonghaeng.domain.etc.role.Role;
 import tour.nonghaeng.domain.member.repo.SellerRepository;
 import tour.nonghaeng.domain.member.repo.UserRepository;
+import tour.nonghaeng.global.auth.handler.MyAccessDeniedHandler;
+import tour.nonghaeng.global.auth.handler.MyAuthenticationEntryPoint;
 import tour.nonghaeng.global.jwt.filter.JwtAuthenticationFilter;
 import tour.nonghaeng.global.jwt.service.JwtService;
 import tour.nonghaeng.global.login.filter.CustomJsonSellerAuthenticationFilter;
@@ -96,12 +98,29 @@ public class SecurityConfig {
                         .successHandler(oAuth2LoginSuccessHandler)
                         .failureHandler(oAuth2LoginFailureHandler));
 
+        http.exceptionHandling(exceptionHandlingConfigurer -> {
+            exceptionHandlingConfigurer.accessDeniedHandler(myAccessDeniedHandler());
+            exceptionHandlingConfigurer.authenticationEntryPoint(myAuthenticationEntryPoint());
+        });
+
         //logout 필터 -> jwt 필터 -> customUserLogin 필터 -> customSellerLogin 필터
         http.addFilterAfter(jwtAuthenticationFilter(), LogoutFilter.class);
         http.addFilterAfter(customJsonUserAuthenticationFilter(), JwtAuthenticationFilter.class);
         http.addFilterAfter(customJsonSellerAuthenticationFilter(), CustomJsonUserAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    //인증예외
+    @Bean
+    public MyAuthenticationEntryPoint myAuthenticationEntryPoint() {
+        return new MyAuthenticationEntryPoint();
+    }
+
+    //인가예외
+    @Bean
+    MyAccessDeniedHandler myAccessDeniedHandler(){
+        return new MyAccessDeniedHandler();
     }
 
     @Bean
