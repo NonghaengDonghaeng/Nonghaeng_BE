@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import tour.nonghaeng.domain.etc.role.Role;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.test.dto.JwtValidDto;
 import tour.nonghaeng.domain.test.service.DummyDataService;
 import tour.nonghaeng.global.auth.service.AuthService;
 import tour.nonghaeng.global.exception.GlobalException;
 
 @RestController
-@RequestMapping("/test")
 @RequiredArgsConstructor
 @Slf4j
 public class TestController {
@@ -22,7 +22,7 @@ public class TestController {
     private final AuthService authService;
     private final DummyDataService dummyDataService;
 
-    @PostMapping("/exception")
+    @PostMapping("/test/exception")
     public ResponseEntity<String> exceptionTest(@RequestParam String number) {
 
         if (number.equals("1")) {
@@ -32,7 +32,18 @@ public class TestController {
         return new ResponseEntity<>("exception test 성공", HttpStatus.OK);
     }
 
-    @GetMapping("/jwt")
+    @GetMapping("/valid")
+    public ResponseEntity<JwtValidDto> jwtValidateApi(Authentication authentication) {
+
+        Role role = authService.findRole(authentication);
+        JwtValidDto response = JwtValidDto.builder()
+                .valid(true)
+                .role(role)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/test/jwt")
     public ResponseEntity<String> jwtTest(Authentication authentication) {
 
         Role role = authService.findRole(authentication);
@@ -40,7 +51,7 @@ public class TestController {
         return new ResponseEntity<>("jwt 검증, 권한: " + role.getKey(), HttpStatus.OK);
     }
 
-    @GetMapping("/user-role")
+    @GetMapping("/test/user-role")
     public ResponseEntity<String> userRoleTest(Authentication authentication) {
 
         User user = authService.toUserEntity(authentication);
@@ -49,7 +60,7 @@ public class TestController {
         return new ResponseEntity<>("user authorization test 성공, user 이름: " + name, HttpStatus.OK);
     }
 
-    @GetMapping("/seller-role")
+    @GetMapping("/test/seller-role")
     public ResponseEntity<String> sellerRoleTest(Authentication authentication) {
         Seller seller = authService.toSellerEntity(authentication);
         String name = seller.getName();
@@ -59,7 +70,7 @@ public class TestController {
     }
 
 
-    @GetMapping("/set-data")
+    @GetMapping("/test/set-data")
     public ResponseEntity<String> setDataTest(Authentication authentication) {
         dummyDataService.setDummyData();
         return new ResponseEntity<>("set dummy data", HttpStatus.OK);
