@@ -3,6 +3,7 @@
 https://nonghaeng-fe.vercel.app
 
 ## TODOLIST
+- 카카오oauth 리다이렉트 주소 바꾸기
 - 서버 nginx 설정하기
 - 홈서버 구축
 - nginx랑 백엔드 연결 설정 및 프론트 홈서버로 배포(버셀말고)
