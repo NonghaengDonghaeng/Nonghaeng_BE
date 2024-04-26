@@ -67,7 +67,7 @@ public class SecurityConfig {
                         CorsConfiguration config = new CorsConfiguration();
                         config.addExposedHeader("Authorization");   //Authorization 추가 코드
 //                        config.setAllowedOriginPatterns(Collections.singletonList("*"));
-                        config.setAllowedOrigins(Collections.singletonList("https://nonghaeng-fe.vercel.app"));
+                        config.setAllowedOrigins(Collections.singletonList("https://nonghaeng.site"));
                         config.setAllowedMethods(Collections.singletonList("*"));
                         config.setAllowCredentials(true);           //서로다른 도메인에서 쿠키같이 민간한 정보도 전송
                         config.setAllowedHeaders(Collections.singletonList("*"));
