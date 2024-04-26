@@ -65,7 +65,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         jwtService.updateRefreshToken(oAuth2User.getNumber(), refreshToken);
 
 
-        String redirectUrl = "https://nonghaeng-fe.vercel.app/acount/login?accessToken="+accessToken;
+        String redirectUrl = "https://nonghaeng.site/acount/login?accessToken="+accessToken;
 
 //        response.addHeader(HttpHeaders.SET_COOKIE,createAuthCookie("Authorization",accessToken).toString());
         response.addCookie(createCookie("Authorization",accessToken));

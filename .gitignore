@@ -44,5 +44,6 @@ out/
 ./src/main/resources/application-db.yml
 ./src/main/resources/application-jwt.yml
 ./src/main/resources/application-oauth.yml
+./src/main/resources/application-web.yml
 .DS_Store
 
