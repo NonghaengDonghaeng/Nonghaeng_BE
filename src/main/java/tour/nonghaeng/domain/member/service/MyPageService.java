@@ -27,7 +27,7 @@ public class MyPageService {
                 .number(user.getNumber())
                 .point(user.getPoint())
                 .reservations(reservationService.findReservationListByUser(user))
-                .reviews(reviewService.findReviewList(user))
+                .reviews(reviewService.findReviewListByUser(user))
                 .build();
 
         return dto;

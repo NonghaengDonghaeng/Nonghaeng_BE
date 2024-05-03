@@ -5,16 +5,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
 import tour.nonghaeng.domain.review.dto.exp.CreateExpReviewDto;
 import tour.nonghaeng.domain.review.dto.room.CreateRoomReviewDto;
 import tour.nonghaeng.domain.review.service.ReviewService;
 import tour.nonghaeng.global.auth.service.AuthService;
 import tour.nonghaeng.global.validation.review.ReviewValidator;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/reviews")
@@ -49,5 +49,16 @@ public class ReviewController {
         Long roomReviewId = reviewService.createRoomReview(user, requestDto);
 
         return new ResponseEntity<>(roomReviewId + "숙소 리뷰 생성완료", HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<List<ReviewSummaryDto>> getReviewSummary(Authentication authentication,
+                                                                   @PathVariable Long id,
+                                                                   @RequestParam(name = "type") String type) {
+        User user = authService.toUserEntity(authentication);
+
+        List<ReviewSummaryDto> reviewList = reviewService.findReviewList(user, id, type);
+
+        return new ResponseEntity<>(reviewList, HttpStatus.OK);
     }
 }

@@ -10,6 +10,7 @@ import tour.nonghaeng.domain.review.dto.exp.CreateExpReviewDto;
 import tour.nonghaeng.domain.review.dto.room.CreateRoomReviewDto;
 import tour.nonghaeng.domain.review.entity.Review;
 import tour.nonghaeng.domain.review.repo.ReviewRepository;
+import tour.nonghaeng.domain.room.service.RoomService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ public class ReviewService {
 
     private final RoomReviewService roomReviewService;
     private final ExperienceReviewService experienceReviewService;
+    private final RoomService roomService;
 
     public Long createExpReview(User user, CreateExpReviewDto requestDto) {
         return experienceReviewService.createExperienceReview(user, requestDto);
@@ -33,7 +35,7 @@ public class ReviewService {
         return roomReviewService.createRoomReview(user, requestDto);
     }
 
-    public List<ReviewSummaryDto> findReviewList(User user) {
+    public List<ReviewSummaryDto> findReviewListByUser(User user) {
 
         List<ReviewSummaryDto> reviewSummaryList = new ArrayList<>();
 
@@ -44,5 +46,12 @@ public class ReviewService {
         expReviewList.forEach(review -> reviewSummaryList.add(review.toReviewSummaryDto()));
 
         return reviewSummaryList;
+    }
+
+    public List<ReviewSummaryDto> findReviewList(User user,Long id, String type){
+        if(type.equals("room")){
+            return roomReviewService.findReviewListByRoomId(id);
+        }
+        return experienceReviewService.findReviewListByExperienceId(id);
     }
 }

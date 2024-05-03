@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
 import tour.nonghaeng.domain.review.dto.exp.CreateExpReviewDto;
 import tour.nonghaeng.domain.review.entity.Review;
 import tour.nonghaeng.domain.review.repo.ExperienceReviewRepository;
@@ -34,5 +35,17 @@ public class ExperienceReviewService {
 
     public List<Review> findReviewListByUser(User user) {
         return experienceReviewRepository.findReviewByUser(user);
+    }
+
+    public List<Review> findReviewListByExperience(Experience experience) {
+        return experienceReviewRepository.findReviewByExperience(experience);
+    }
+
+    public List<ReviewSummaryDto> findReviewListByExperienceId(Long experienceId) {
+
+        Experience experience = experienceService.findById(experienceId);
+        List<Review> roomReviewList = findReviewListByExperience(experience);
+
+        return roomReviewList.stream().map(Review::toReviewSummaryDto).toList();
     }
 }

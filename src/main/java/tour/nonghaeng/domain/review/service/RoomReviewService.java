@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.member.service.UserService;
+import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
 import tour.nonghaeng.domain.review.dto.room.CreateRoomReviewDto;
 import tour.nonghaeng.domain.review.entity.Review;
 import tour.nonghaeng.domain.review.repo.RoomReviewRepository;
@@ -36,5 +37,17 @@ public class RoomReviewService {
 
     public List<Review> findReviewListByUser(User user) {
         return roomReviewRepository.findReviewByUser(user);
+    }
+
+    private List<Review> findReviewListByRoom(Room room) {
+        return roomReviewRepository.findReviewByRoom(room);
+    }
+
+    public List<ReviewSummaryDto> findReviewListByRoomId(Long roomId) {
+
+        Room room = roomService.findById(roomId);
+        List<Review> roomReviewList = findReviewListByRoom(room);
+
+        return roomReviewList.stream().map(Review::toReviewSummaryDto).toList();
     }
 }
