@@ -51,10 +51,12 @@ public class ReviewController {
         return new ResponseEntity<>(roomReviewId + "숙소 리뷰 생성완료", HttpStatus.OK);
     }
 
+
+    //파리미터로 타입으로 분류할지 그냥 url에 어떤 타입인지로 컨트롤러안 매핑함수를 2개로 만들지 고민중
     @GetMapping("/{id}")
     public ResponseEntity<List<ReviewSummaryDto>> getReviewSummary(Authentication authentication,
-                                                                   @PathVariable Long id,
-                                                                   @RequestParam(name = "type") String type) {
+                                                                   @PathVariable("id") Long id,
+                                                                   @RequestParam(value = "type",defaultValue = "room") String type) {
         User user = authService.toUserEntity(authentication);
 
         List<ReviewSummaryDto> reviewList = reviewService.findReviewList(user, id, type);
