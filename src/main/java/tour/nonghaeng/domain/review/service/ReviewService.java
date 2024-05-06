@@ -2,6 +2,9 @@ package tour.nonghaeng.domain.review.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.entity.User;
@@ -53,5 +56,32 @@ public class ReviewService {
             return roomReviewService.findReviewListByRoomId(id);
         }
         return experienceReviewService.findReviewListByExperienceId(id);
+    }
+
+    private Page<Review> findReviewPageByUserAndType(User user,Pageable pageable,String type){
+        if(type.equals("room")){
+            return roomReviewService.findReviewPageByUser(user, pageable);
+        }
+        else if(type.equals("experience")){
+            return experienceReviewService.findReviewPageByUser(user, pageable);
+        }
+        return findReviewPageByUser(user,pageable);
+    }
+
+    private Page<Review> findReviewPageByUser(User user, Pageable pageable) {
+        Page<Review> reviewPageByUser = reviewRepository.findReviewPageByUser(user, pageable);
+
+        List<Review> list = reviewPageByUser.getContent().stream().map(this::downCastingReview).toList();
+
+        return new PageImpl<>(list, pageable, reviewPageByUser.getTotalElements());
+    }
+
+    private Review downCastingReview(Review review) {
+        if (reviewRepository.findReviewTypeById(review.getId()).equals("room")) {
+            return roomReviewService.findReviewById(review.getId());
+        }
+        else{
+            return experienceReviewService.findReviewById(review.getId());
+        }
     }
 }

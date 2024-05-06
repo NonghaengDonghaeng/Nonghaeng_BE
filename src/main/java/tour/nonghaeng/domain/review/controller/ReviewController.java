@@ -2,6 +2,9 @@ package tour.nonghaeng.domain.review.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -28,12 +31,12 @@ public class ReviewController {
     private final ReviewValidator reviewValidator;
 
 
-//    @GetMapping
-//    public ResponseEntity<Page<ReviewSummaryDto>> showReviewSummaryDtoPage(@PageableDefault(size=10) Pageable pageable,
-//                                                                           @RequestParam(name="title",required = false)String title,
-//                                                                           @RequestParam(name="content",required = false)String content) {
-//
-//    }
+    @GetMapping
+    public ResponseEntity<Page<ReviewSummaryDto>> showReviewSummaryDtoPage(@PageableDefault(size=10) Pageable pageable,
+                                                                           @RequestParam(name="title",required = false)String title,
+                                                                           @RequestParam(name="content",required = false)String content) {
+
+    }
 
     //TODO: 예약을 보고 아무나 리뷰쓰지 못하도록 검증만들기
     @PostMapping("/experience")

@@ -2,6 +2,8 @@ package tour.nonghaeng.domain.review.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.entity.User;
@@ -49,5 +51,14 @@ public class RoomReviewService {
         List<Review> roomReviewList = findReviewListByRoom(room);
 
         return roomReviewList.stream().map(Review::toReviewSummaryDto).toList();
+    }
+
+    public Page<Review> findReviewPageByUser(User user, Pageable pageable) {
+        return roomReviewRepository.findReviewPageByUser(user, pageable);
+    }
+
+    //TODO: 예외처리하기
+    public Review findReviewById(Long reviewId) {
+        return roomReviewRepository.findById(reviewId).orElse(null);
     }
 }
