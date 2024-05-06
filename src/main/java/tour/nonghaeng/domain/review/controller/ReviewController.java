@@ -28,6 +28,13 @@ public class ReviewController {
     private final ReviewValidator reviewValidator;
 
 
+//    @GetMapping
+//    public ResponseEntity<Page<ReviewSummaryDto>> showReviewSummaryDtoPage(@PageableDefault(size=10) Pageable pageable,
+//                                                                           @RequestParam(name="title",required = false)String title,
+//                                                                           @RequestParam(name="content",required = false)String content) {
+//
+//    }
+
     //TODO: 예약을 보고 아무나 리뷰쓰지 못하도록 검증만들기
     @PostMapping("/experience")
     public ResponseEntity<String> createExperienceReview(Authentication authentication,

@@ -54,12 +54,12 @@ public class ReservationController {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
-    //소비자 내 체험/숙소 예약 리스트보기
-    //파라미터 type=room,experience
+    //소비자 내 체험/숙소 예약 리스트보기 만약 타입이 안오면 전체로
+    //파라미터 type=room,exp
     @GetMapping("/my-reservation")
     public ResponseEntity<Page<? extends ReservationUserSummaryDto>> showMyReservationUser(Authentication authentication,
                                                                                            @PageableDefault(size = 20) Pageable pageable,
-                                                                                           @RequestParam(value = "type", defaultValue = "room") String type) {
+                                                                                           @RequestParam(value = "type", defaultValue = "all", required = false) String type) {
 
         User user = authService.toUserEntity(authentication);
 

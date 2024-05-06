@@ -62,7 +62,7 @@ public class ReservationService {
 
     public Page<? extends ReservationUserSummaryDto> getReservationUserSummaryDtoPage(User user, Pageable pageable,String type) {
 
-        Page<Reservation> reservationPage = findReservationPageByUser(user, pageable, type);
+        Page<Reservation> reservationPage = findReservationPageByUserAndType(user, pageable, type);
 
         reservationValidator.pageValidate(reservationPage);
         //여기서 toDto 는 오버라이딩된 toDto 함수 사용됨
@@ -190,13 +190,35 @@ public class ReservationService {
         return reservations;
     }
 
-    private Page<Reservation> findReservationPageByUser(User user, Pageable pageable,String type) {
+    //TODO: 여기서 모든 예약페이지를 찾아내고 dtype에 따라 다르게 받아내기
+    private Page<Reservation> findReservationPageByUserAndType(User user, Pageable pageable,String type) {
 
         if (type.equals("room")) {
 
             return roomReservationService.findReservationPageByUser(user, pageable);
         }
-        return experienceReservationService.findReservationPageByUser(user, pageable);
+        else if(type.equals("exp")) {
+
+            return experienceReservationService.findReservationPageByUser(user, pageable);
+        }
+        // type: all 일때
+        return findReservationPageByUser(user, pageable);
+    }
+
+    private Reservation downCastingReservation(Reservation reservation) {
+        if(reservationRepository.findReservationType(reservation.getId()).equals("room")){
+            return roomReservationService.findReservationById(reservation.getId());
+        }else{
+            return experienceReservationService.findReservationById(reservation.getId());
+        }
+    }
+
+    private Page<Reservation> findReservationPageByUser(User user, Pageable pageable) {
+        //모든 유저별 예약리스트받고
+        Page<Reservation> reservationPageByUser = reservationRepository.findReservationPageByUser(user, pageable);
+        //다운캐스팅으로 바꾸고
+        List<Reservation> list = reservationPageByUser.getContent().stream().map(this::downCastingReservation).toList();
+        return new PageImpl<>(list, pageable, reservationPageByUser.getTotalElements());
     }
 
     private Page<Reservation> findReservationPageBySeller(Seller seller, Pageable pageable, String type) {
@@ -212,7 +234,7 @@ public class ReservationService {
 
         String reservationType = reservationRepository.findReservationType(reservationId);
 
-        if (reservationType.equals("RoomReservation")) {
+        if (reservationType.equals("room")) {
             return roomReservationService.findReservationById(reservationId);
         }
 
