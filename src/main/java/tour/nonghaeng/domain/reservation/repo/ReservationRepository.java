@@ -36,6 +36,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query("select r from Reservation r where r.user = :user")
     Page<Reservation> findReservationPageByUser(@Param("user") User user, Pageable pageable);
 
+    @Query("select r.id from Reservation r where r.user = :user")
+    List<Long> findReservationIdListByUser(@Param("user") User user);
+
     @Query("select r from Reservation r where r.user = :user")
     Optional<List<Reservation>> findReservationsByUser(@Param("user") User user);
 }

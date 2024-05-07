@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface SellerRepository extends JpaRepository<Seller,Long> {
 
-    @Query("select new tour.nonghaeng.global.login.dto.TempMember(s.username,s.password,s.role) from Seller s where s.username = :username")
+    @Query("select new tour.nonghaeng.global.auth.login.dto.TempMember(s.username,s.password,s.role) from Seller s where s.username = :username")
     Optional<TempMember> findTempSellerByUsername(String username);
 
     Optional<Seller> findByUsername(String username);

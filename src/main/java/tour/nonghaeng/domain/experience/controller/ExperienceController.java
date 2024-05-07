@@ -14,9 +14,9 @@ import tour.nonghaeng.domain.etc.area.AreaCode;
 import tour.nonghaeng.domain.etc.experience.ExperienceType;
 import tour.nonghaeng.domain.experience.dto.*;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
+import tour.nonghaeng.domain.experience.valid.ExperienceValidator;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.global.auth.auth.service.AuthService;
-import tour.nonghaeng.domain.experience.valid.ExperienceValidator;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -33,7 +33,7 @@ public class ExperienceController {
     private final ExperienceValidator experienceValidator;
 
 
-    //여행 리스트 조회(파라미터 page, 예시 page=0)
+//여행 리스트 조회(파라미터 page, 예시 page=0)
     @GetMapping
     public ResponseEntity<Page<ExpSummaryDto>> showExperienceSummaryPage(@PageableDefault(size = 10) Pageable pageable,
                                                                          @RequestParam(name = "keyword",required = false)String keyword,
@@ -45,7 +45,7 @@ public class ExperienceController {
         return new ResponseEntity<>(pageDto, HttpStatus.OK);
     }
 
-    //체험 상세정보 API
+
     @GetMapping("/{experienceId}")
     public ResponseEntity<ExpDetailDto> showExperienceDetail(@PathVariable Long experienceId) {
 
@@ -53,6 +53,7 @@ public class ExperienceController {
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
+
 
     //관리자 API: 체험 등록하기(첫 등록때 회차도 같이 등록가능)
     @PostMapping("/seller/add")
@@ -64,6 +65,7 @@ public class ExperienceController {
 
         return new ResponseEntity<>("체험등록 성공, 체험 id : " + expId, HttpStatus.OK);
     }
+
 
     //관리자 API: 체험에 대한 회차 추가 등록하기
     @PostMapping("/seller/add-round/{experienceId}")
@@ -92,6 +94,7 @@ public class ExperienceController {
 
         return new ResponseEntity<>("체험(id:" + expId + ")에 미운영날짜(" + count + "개) 등록 완료.", HttpStatus.OK);
     }
+
 
     //관리자 API: 등록된 미운영날짜 다시 운영으로 바꾸기
     @PostMapping("/seller/remove-closedate/{experienceId}")

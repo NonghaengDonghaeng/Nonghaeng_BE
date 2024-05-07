@@ -2,9 +2,6 @@ package tour.nonghaeng.domain.review.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -14,8 +11,8 @@ import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
 import tour.nonghaeng.domain.review.dto.exp.CreateExpReviewDto;
 import tour.nonghaeng.domain.review.dto.room.CreateRoomReviewDto;
 import tour.nonghaeng.domain.review.service.ReviewService;
-import tour.nonghaeng.global.auth.auth.service.AuthService;
 import tour.nonghaeng.domain.review.valid.ReviewValidator;
+import tour.nonghaeng.global.auth.auth.service.AuthService;
 
 import java.util.List;
 
@@ -31,19 +28,20 @@ public class ReviewController {
     private final ReviewValidator reviewValidator;
 
 
-    @GetMapping
-    public ResponseEntity<Page<ReviewSummaryDto>> showReviewSummaryDtoPage(@PageableDefault(size=10) Pageable pageable,
-                                                                           @RequestParam(name="title",required = false)String title,
-                                                                           @RequestParam(name="content",required = false)String content) {
+//    @GetMapping
+//    public ResponseEntity<Page<ReviewSummaryDto>> showReviewSummaryDtoPage(@PageableDefault(size=10) Pageable pageable,
+//                                                                           @RequestParam(name="title",required = false)String title,
+//                                                                           @RequestParam(name="content",required = false)String content) {
+//
+//    }
 
-    }
-
-    //TODO: 예약을 보고 아무나 리뷰쓰지 못하도록 검증만들기
     @PostMapping("/experience")
     public ResponseEntity<String> createExperienceReview(Authentication authentication,
                                                          @RequestBody CreateExpReviewDto requestDto) {
 
         User user = authService.toUserEntity(authentication);
+
+        //TODO: 체험이나 숙박을 한 사람만 리뷰를 쓸수있도록 검증
 
         Long expReviewId = reviewService.createExpReview(user, requestDto);
 
@@ -70,6 +68,26 @@ public class ReviewController {
         User user = authService.toUserEntity(authentication);
 
         List<ReviewSummaryDto> reviewList = reviewService.findReviewList(user, id, type);
+
+        return new ResponseEntity<>(reviewList, HttpStatus.OK);
+    }
+
+    @GetMapping("/room/{roomId}")
+    public ResponseEntity<List<ReviewSummaryDto>> getRoomReviewSummaryDtoList(Authentication authentication,
+                                                                   @PathVariable("roomId") Long roomId) {
+        User user = authService.toUserEntity(authentication);
+
+        List<ReviewSummaryDto> reviewList = reviewService.findReviewList(user, roomId, "room");
+
+        return new ResponseEntity<>(reviewList, HttpStatus.OK);
+    }
+
+    @GetMapping("/experience/{expId}")
+    public ResponseEntity<List<ReviewSummaryDto>> getExperienceReviewSummaryDtoList(Authentication authentication,
+                                                                              @PathVariable("expId") Long expId) {
+        User user = authService.toUserEntity(authentication);
+
+        List<ReviewSummaryDto> reviewList = reviewService.findReviewList(user, expId, "experience");
 
         return new ResponseEntity<>(reviewList, HttpStatus.OK);
     }

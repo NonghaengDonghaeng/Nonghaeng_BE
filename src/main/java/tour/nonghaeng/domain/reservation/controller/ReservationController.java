@@ -117,7 +117,7 @@ public class ReservationController {
 
         Long id = reservationService.approveReservation(reservationId, notApproveFlag);
 
-        if (notApproveFlag == true) {
+        if (notApproveFlag) {
             return new ResponseEntity<>("체험예약 미승인 완료", HttpStatus.OK);
         }
 

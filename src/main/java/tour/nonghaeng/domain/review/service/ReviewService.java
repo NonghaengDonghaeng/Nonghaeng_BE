@@ -15,7 +15,6 @@ import tour.nonghaeng.domain.review.entity.Review;
 import tour.nonghaeng.domain.review.repo.ReviewRepository;
 import tour.nonghaeng.domain.room.service.RoomService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -38,27 +37,38 @@ public class ReviewService {
         return roomReviewService.createRoomReview(user, requestDto);
     }
 
-    public List<ReviewSummaryDto> findReviewListByUser(User user) {
+    public List<ReviewSummaryDto> getReviewSummaryDtoListByUser(User user) {
 
-        List<ReviewSummaryDto> reviewSummaryList = new ArrayList<>();
+        List<Long> reviewIdList = reviewRepository.findReviewIdListByUser(user);
 
-        List<Review> roomReviewList = roomReviewService.findReviewListByUser(user);
-        List<Review> expReviewList = experienceReviewService.findReviewListByUser(user);
+        List<Review> list = reviewIdList.stream().map(this::getUpCastedReview).toList();
 
-        roomReviewList.forEach(review -> reviewSummaryList.add(review.toReviewSummaryDto()));
-        expReviewList.forEach(review -> reviewSummaryList.add(review.toReviewSummaryDto()));
+        return list.stream().map(Review::toReviewSummaryDto).toList();
+    }
 
-        return reviewSummaryList;
+    private Review getUpCastedReview(Long reviewId) {
+
+        String dtype = reviewRepository.findReviewTypeById(reviewId);
+
+        if (dtype.equals("room")) {
+
+            return roomReviewService.findReviewById(reviewId);
+        }
+
+        return experienceReviewService.findReviewById(reviewId);
     }
 
     public List<ReviewSummaryDto> findReviewList(User user,Long id, String type){
+
         if(type.equals("room")){
             return roomReviewService.findReviewListByRoomId(id);
         }
+
         return experienceReviewService.findReviewListByExperienceId(id);
     }
 
     private Page<Review> findReviewPageByUserAndType(User user,Pageable pageable,String type){
+
         if(type.equals("room")){
             return roomReviewService.findReviewPageByUser(user, pageable);
         }

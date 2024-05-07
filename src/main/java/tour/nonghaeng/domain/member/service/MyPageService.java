@@ -26,8 +26,8 @@ public class MyPageService {
                 .email(user.getEmail())
                 .number(user.getNumber())
                 .point(user.getPoint())
-                .reservations(reservationService.findReservationListByUser(user))
-                .reviews(reviewService.findReviewListByUser(user))
+                .reservations(reservationService.getReservationUserSummaryDtoList(user))
+                .reviews(reviewService.getReviewSummaryDtoListByUser(user))
                 .build();
 
         return dto;
