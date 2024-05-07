@@ -10,7 +10,7 @@ import tour.nonghaeng.domain.etc.cancel.CancelPolicy;
 import tour.nonghaeng.domain.member.dto.UserJoinDto;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.member.repo.UserRepository;
-import tour.nonghaeng.global.validation.member.UserValidator;
+import tour.nonghaeng.domain.member.valid.UserValidator;
 
 @Service
 @RequiredArgsConstructor

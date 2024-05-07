@@ -26,9 +26,9 @@ import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.entity.Reservation;
 import tour.nonghaeng.domain.reservation.entity.RoomReservation;
 import tour.nonghaeng.domain.reservation.repo.ReservationRepository;
-import tour.nonghaeng.global.exception.ReservationException;
-import tour.nonghaeng.global.exception.code.ReservationErrorCode;
-import tour.nonghaeng.global.validation.reservation.ReservationValidator;
+import tour.nonghaeng.domain.reservation.exception.ReservationException;
+import tour.nonghaeng.domain.reservation.exception.error.ReservationErrorCode;
+import tour.nonghaeng.domain.reservation.valid.ReservationValidator;
 
 import java.time.Duration;
 import java.time.LocalDate;

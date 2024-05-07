@@ -11,7 +11,7 @@ import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.test.dto.JwtValidDto;
 import tour.nonghaeng.domain.test.service.DummyDataService;
-import tour.nonghaeng.global.auth.service.AuthService;
+import tour.nonghaeng.global.auth.auth.service.AuthService;
 import tour.nonghaeng.global.exception.GlobalException;
 
 @RestController

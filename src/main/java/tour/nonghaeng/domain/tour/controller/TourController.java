@@ -15,7 +15,7 @@ import tour.nonghaeng.domain.tour.dto.CreateTourDto;
 import tour.nonghaeng.domain.tour.dto.TourDetailDto;
 import tour.nonghaeng.domain.tour.dto.TourSummaryDto;
 import tour.nonghaeng.domain.tour.service.TourService;
-import tour.nonghaeng.global.auth.service.AuthService;
+import tour.nonghaeng.global.auth.auth.service.AuthService;
 
 @RestController
 @RequestMapping("/tours")

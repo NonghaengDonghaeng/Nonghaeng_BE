@@ -14,7 +14,7 @@ import tour.nonghaeng.domain.member.dto.mypage.MyPageUserDto;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.member.service.MyPageService;
 import tour.nonghaeng.domain.member.service.UserService;
-import tour.nonghaeng.global.auth.service.AuthService;
+import tour.nonghaeng.global.auth.auth.service.AuthService;
 
 @RestController
 @RequiredArgsConstructor

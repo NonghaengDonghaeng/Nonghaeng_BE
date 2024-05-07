@@ -13,10 +13,10 @@ import tour.nonghaeng.domain.photo.entity.RoomPhoto;
 import tour.nonghaeng.domain.photo.repo.RoomPhotoRepository;
 import tour.nonghaeng.domain.room.entity.Room;
 import tour.nonghaeng.domain.room.service.RoomService;
-import tour.nonghaeng.domain.s3.AmazonS3Service;
-import tour.nonghaeng.global.exception.PhotoException;
-import tour.nonghaeng.global.validation.photo.PhotoValidator;
-import tour.nonghaeng.global.validation.photo.RoomPhotoValidator;
+import tour.nonghaeng.domain.photo.s3.AmazonS3Service;
+import tour.nonghaeng.domain.photo.exception.PhotoException;
+import tour.nonghaeng.domain.photo.valid.PhotoValidator;
+import tour.nonghaeng.domain.photo.valid.RoomPhotoValidator;
 
 import java.util.List;
 

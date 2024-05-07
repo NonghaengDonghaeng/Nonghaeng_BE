@@ -16,10 +16,10 @@ import tour.nonghaeng.domain.tour.dto.speciification.TourSpecification;
 import tour.nonghaeng.domain.tour.dto.TourSummaryDto;
 import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.domain.tour.repo.TourRepository;
-import tour.nonghaeng.global.exception.SellerException;
-import tour.nonghaeng.global.exception.TourException;
-import tour.nonghaeng.global.exception.code.TourErrorCode;
-import tour.nonghaeng.global.validation.tour.TourValidator;
+import tour.nonghaeng.domain.member.exception.SellerException;
+import tour.nonghaeng.domain.tour.exception.TourException;
+import tour.nonghaeng.domain.tour.exception.error.TourErrorCode;
+import tour.nonghaeng.domain.tour.valid.TourValidator;
 
 @Service
 @RequiredArgsConstructor

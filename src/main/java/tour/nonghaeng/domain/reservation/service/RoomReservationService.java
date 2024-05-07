@@ -16,10 +16,10 @@ import tour.nonghaeng.domain.reservation.entity.RoomReservation;
 import tour.nonghaeng.domain.reservation.repo.RoomReservationRepository;
 import tour.nonghaeng.domain.room.entity.Room;
 import tour.nonghaeng.domain.room.service.RoomService;
-import tour.nonghaeng.global.exception.ReservationException;
-import tour.nonghaeng.global.exception.code.ReservationErrorCode;
-import tour.nonghaeng.global.validation.reservation.ReservationValidator;
-import tour.nonghaeng.global.validation.reservation.RoomReservationValidator;
+import tour.nonghaeng.domain.reservation.exception.ReservationException;
+import tour.nonghaeng.domain.reservation.exception.error.ReservationErrorCode;
+import tour.nonghaeng.domain.reservation.valid.ReservationValidator;
+import tour.nonghaeng.domain.reservation.valid.RoomReservationValidator;
 
 import java.time.LocalDate;
 import java.util.List;

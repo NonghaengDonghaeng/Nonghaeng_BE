@@ -9,10 +9,10 @@ import tour.nonghaeng.domain.experience.service.ExperienceService;
 import tour.nonghaeng.domain.photo.entity.Photo;
 import tour.nonghaeng.domain.photo.repo.PhotoRepository;
 import tour.nonghaeng.domain.room.service.RoomService;
-import tour.nonghaeng.domain.s3.AmazonS3Service;
+import tour.nonghaeng.domain.photo.s3.AmazonS3Service;
 import tour.nonghaeng.domain.tour.service.TourService;
-import tour.nonghaeng.global.exception.PhotoException;
-import tour.nonghaeng.global.validation.photo.PhotoValidator;
+import tour.nonghaeng.domain.photo.exception.PhotoException;
+import tour.nonghaeng.domain.photo.valid.PhotoValidator;
 
 @Service
 @RequiredArgsConstructor

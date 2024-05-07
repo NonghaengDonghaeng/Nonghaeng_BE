@@ -16,9 +16,9 @@ import tour.nonghaeng.domain.reservation.dto.exp.ExpReservationResponseDto;
 import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.entity.Reservation;
 import tour.nonghaeng.domain.reservation.repo.ExperienceReservationRepository;
-import tour.nonghaeng.global.exception.ReservationException;
-import tour.nonghaeng.global.exception.code.ReservationErrorCode;
-import tour.nonghaeng.global.validation.reservation.ExperienceReservationValidator;
+import tour.nonghaeng.domain.reservation.exception.ReservationException;
+import tour.nonghaeng.domain.reservation.exception.error.ReservationErrorCode;
+import tour.nonghaeng.domain.reservation.valid.ExperienceReservationValidator;
 
 import java.time.LocalDate;
 import java.util.List;

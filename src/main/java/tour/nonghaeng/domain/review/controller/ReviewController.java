@@ -14,8 +14,8 @@ import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
 import tour.nonghaeng.domain.review.dto.exp.CreateExpReviewDto;
 import tour.nonghaeng.domain.review.dto.room.CreateRoomReviewDto;
 import tour.nonghaeng.domain.review.service.ReviewService;
-import tour.nonghaeng.global.auth.service.AuthService;
-import tour.nonghaeng.global.validation.review.ReviewValidator;
+import tour.nonghaeng.global.auth.auth.service.AuthService;
+import tour.nonghaeng.domain.review.valid.ReviewValidator;
 
 import java.util.List;
 

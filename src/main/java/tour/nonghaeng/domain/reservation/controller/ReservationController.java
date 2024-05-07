@@ -17,8 +17,8 @@ import tour.nonghaeng.domain.reservation.dto.exp.ExpReservationResponseDto;
 import tour.nonghaeng.domain.reservation.dto.room.CreateRoomReservationDto;
 import tour.nonghaeng.domain.reservation.dto.room.RoomReservationResponseDto;
 import tour.nonghaeng.domain.reservation.service.ReservationService;
-import tour.nonghaeng.global.auth.service.AuthService;
-import tour.nonghaeng.global.validation.reservation.ReservationValidator;
+import tour.nonghaeng.global.auth.auth.service.AuthService;
+import tour.nonghaeng.domain.reservation.valid.ReservationValidator;
 
 @RestController
 @RequestMapping("/reservations")

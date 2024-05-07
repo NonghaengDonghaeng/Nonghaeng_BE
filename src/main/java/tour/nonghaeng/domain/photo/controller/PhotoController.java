@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.service.PhotoService;
-import tour.nonghaeng.global.auth.service.AuthService;
-import tour.nonghaeng.global.validation.photo.PhotoValidator;
+import tour.nonghaeng.global.auth.auth.service.AuthService;
+import tour.nonghaeng.domain.photo.valid.PhotoValidator;
 
 @RestController
 @RequestMapping("/images")

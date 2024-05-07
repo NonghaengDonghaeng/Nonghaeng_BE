@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.dto.SellerJoinDto;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.repo.SellerRepository;
-import tour.nonghaeng.global.validation.member.SellerValidator;
+import tour.nonghaeng.domain.member.valid.SellerValidator;
 
 @Service
 @RequiredArgsConstructor

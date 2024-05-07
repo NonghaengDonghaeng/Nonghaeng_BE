@@ -8,9 +8,9 @@ import tour.nonghaeng.domain.experience.dto.AddExpCloseDateDto;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.entity.ExperienceCloseDate;
 import tour.nonghaeng.domain.experience.repo.ExperienceCloseDateRepository;
-import tour.nonghaeng.global.exception.ExperienceException;
-import tour.nonghaeng.global.exception.code.ExperienceErrorCode;
-import tour.nonghaeng.global.validation.experience.ExperienceCloseDateValidator;
+import tour.nonghaeng.domain.experience.exception.ExperienceException;
+import tour.nonghaeng.domain.experience.exception.error.ExperienceErrorCode;
+import tour.nonghaeng.domain.experience.valid.ExperienceCloseDateValidator;
 
 import java.time.LocalDate;
 import java.util.List;

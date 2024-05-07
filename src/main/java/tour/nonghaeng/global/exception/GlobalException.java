@@ -1,6 +1,6 @@
 package tour.nonghaeng.global.exception;
 
-import tour.nonghaeng.global.exception.code.GlobalErrorCode;
+import tour.nonghaeng.global.exception.error.GlobalErrorCode;
 
 public class GlobalException extends NongHaengException{
 

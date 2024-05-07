@@ -18,9 +18,9 @@ import tour.nonghaeng.domain.experience.repo.ExperienceRepository;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.reservation.service.ExperienceReservationService;
 import tour.nonghaeng.domain.tour.service.TourService;
-import tour.nonghaeng.global.exception.ExperienceException;
-import tour.nonghaeng.global.validation.experience.ExperienceCloseDateValidator;
-import tour.nonghaeng.global.validation.experience.ExperienceValidator;
+import tour.nonghaeng.domain.experience.exception.ExperienceException;
+import tour.nonghaeng.domain.experience.valid.ExperienceCloseDateValidator;
+import tour.nonghaeng.domain.experience.valid.ExperienceValidator;
 
 import java.time.LocalDate;
 import java.util.List;

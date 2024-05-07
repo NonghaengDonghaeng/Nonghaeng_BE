@@ -2,7 +2,7 @@ package tour.nonghaeng.global.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import tour.nonghaeng.global.exception.code.BaseErrorCode;
+import tour.nonghaeng.global.exception.error.BaseErrorCode;
 import tour.nonghaeng.global.exception.dto.ErrorReason;
 
 @AllArgsConstructor

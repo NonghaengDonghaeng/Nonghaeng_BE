@@ -13,10 +13,10 @@ import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.entity.ExperiencePhoto;
 import tour.nonghaeng.domain.photo.entity.Photo;
 import tour.nonghaeng.domain.photo.repo.ExperiencePhotoRepository;
-import tour.nonghaeng.domain.s3.AmazonS3Service;
-import tour.nonghaeng.global.exception.PhotoException;
-import tour.nonghaeng.global.validation.photo.ExperiencePhotoValidator;
-import tour.nonghaeng.global.validation.photo.PhotoValidator;
+import tour.nonghaeng.domain.photo.s3.AmazonS3Service;
+import tour.nonghaeng.domain.photo.exception.PhotoException;
+import tour.nonghaeng.domain.photo.valid.ExperiencePhotoValidator;
+import tour.nonghaeng.domain.photo.valid.PhotoValidator;
 
 import java.util.List;
 

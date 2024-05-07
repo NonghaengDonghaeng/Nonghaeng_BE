@@ -15,8 +15,9 @@ import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.tour.dto.CreateTourDto;
 import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.domain.tour.repo.TourRepository;
-import tour.nonghaeng.global.exception.TourException;
-import tour.nonghaeng.global.exception.code.TourErrorCode;
+import tour.nonghaeng.domain.tour.valid.TourValidator;
+import tour.nonghaeng.domain.tour.exception.TourException;
+import tour.nonghaeng.domain.tour.exception.error.TourErrorCode;
 
 import java.util.ArrayList;
 

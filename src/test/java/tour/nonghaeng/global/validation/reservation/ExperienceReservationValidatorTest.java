@@ -15,14 +15,15 @@ import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.dto.exp.CreateExpReservationDto;
 import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.repo.ExperienceReservationRepository;
+import tour.nonghaeng.domain.reservation.valid.ExperienceReservationValidator;
 import tour.nonghaeng.domain.tour.entity.Tour;
-import tour.nonghaeng.global.exception.ExperienceException;
+import tour.nonghaeng.domain.experience.exception.ExperienceException;
 import tour.nonghaeng.global.exception.NongHaengException;
-import tour.nonghaeng.global.exception.ReservationException;
-import tour.nonghaeng.global.exception.code.BaseErrorCode;
-import tour.nonghaeng.global.exception.code.ExperienceErrorCode;
-import tour.nonghaeng.global.exception.code.ReservationErrorCode;
-import tour.nonghaeng.global.validation.experience.ExperienceCloseDateValidator;
+import tour.nonghaeng.domain.reservation.exception.ReservationException;
+import tour.nonghaeng.global.exception.error.BaseErrorCode;
+import tour.nonghaeng.domain.experience.exception.error.ExperienceErrorCode;
+import tour.nonghaeng.domain.reservation.exception.error.ReservationErrorCode;
+import tour.nonghaeng.domain.experience.valid.ExperienceCloseDateValidator;
 
 import java.time.LocalDate;
 

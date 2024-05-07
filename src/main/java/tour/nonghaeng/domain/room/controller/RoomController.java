@@ -14,8 +14,8 @@ import tour.nonghaeng.domain.etc.room.RoomType;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.room.dto.*;
 import tour.nonghaeng.domain.room.service.RoomService;
-import tour.nonghaeng.global.auth.service.AuthService;
-import tour.nonghaeng.global.validation.room.RoomValidator;
+import tour.nonghaeng.global.auth.auth.service.AuthService;
+import tour.nonghaeng.domain.room.valid.RoomValidator;
 
 import java.time.LocalDate;
 import java.util.List;

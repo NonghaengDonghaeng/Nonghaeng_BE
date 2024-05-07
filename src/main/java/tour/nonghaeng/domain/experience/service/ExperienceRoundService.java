@@ -8,9 +8,9 @@ import tour.nonghaeng.domain.experience.dto.AddExpRoundDto;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
 import tour.nonghaeng.domain.experience.repo.ExperienceRoundRepository;
-import tour.nonghaeng.global.exception.ExperienceException;
-import tour.nonghaeng.global.exception.code.ExperienceErrorCode;
-import tour.nonghaeng.global.validation.experience.ExperienceRoundValidator;
+import tour.nonghaeng.domain.experience.exception.ExperienceException;
+import tour.nonghaeng.domain.experience.exception.error.ExperienceErrorCode;
+import tour.nonghaeng.domain.experience.valid.ExperienceRoundValidator;
 
 import java.util.List;
 

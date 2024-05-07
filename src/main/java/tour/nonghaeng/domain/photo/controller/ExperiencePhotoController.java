@@ -10,9 +10,9 @@ import org.springframework.web.multipart.MultipartFile;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.service.ExperiencePhotoService;
-import tour.nonghaeng.global.auth.service.AuthService;
-import tour.nonghaeng.global.validation.experience.ExperienceValidator;
-import tour.nonghaeng.global.validation.photo.PhotoValidator;
+import tour.nonghaeng.global.auth.auth.service.AuthService;
+import tour.nonghaeng.domain.experience.valid.ExperienceValidator;
+import tour.nonghaeng.domain.photo.valid.PhotoValidator;
 
 import java.util.List;
 

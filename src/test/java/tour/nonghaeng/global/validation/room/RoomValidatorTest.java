@@ -16,10 +16,11 @@ import tour.nonghaeng.domain.room.dto.RoomSummaryDto;
 import tour.nonghaeng.domain.room.entity.Room;
 import tour.nonghaeng.domain.room.entity.RoomCloseDate;
 import tour.nonghaeng.domain.room.repo.RoomRepository;
+import tour.nonghaeng.domain.room.valid.RoomValidator;
 import tour.nonghaeng.domain.tour.entity.Tour;
-import tour.nonghaeng.global.exception.RoomException;
-import tour.nonghaeng.global.exception.code.BaseErrorCode;
-import tour.nonghaeng.global.exception.code.RoomErrorCode;
+import tour.nonghaeng.domain.room.exception.RoomException;
+import tour.nonghaeng.global.exception.error.BaseErrorCode;
+import tour.nonghaeng.domain.room.exception.error.RoomErrorCode;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

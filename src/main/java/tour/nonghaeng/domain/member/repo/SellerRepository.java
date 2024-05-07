@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import tour.nonghaeng.domain.member.entity.Seller;
-import tour.nonghaeng.global.login.dto.TempMember;
+import tour.nonghaeng.global.auth.login.dto.TempMember;
 
 import java.util.Optional;
 

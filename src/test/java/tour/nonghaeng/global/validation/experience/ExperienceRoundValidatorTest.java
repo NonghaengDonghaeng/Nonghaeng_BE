@@ -13,11 +13,12 @@ import tour.nonghaeng.domain.experience.dto.AddExpRoundDto;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
 import tour.nonghaeng.domain.experience.repo.ExperienceRoundRepository;
+import tour.nonghaeng.domain.experience.valid.ExperienceRoundValidator;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.tour.entity.Tour;
-import tour.nonghaeng.global.exception.ExperienceException;
-import tour.nonghaeng.global.exception.code.BaseErrorCode;
-import tour.nonghaeng.global.exception.code.ExperienceErrorCode;
+import tour.nonghaeng.domain.experience.exception.ExperienceException;
+import tour.nonghaeng.global.exception.error.BaseErrorCode;
+import tour.nonghaeng.domain.experience.exception.error.ExperienceErrorCode;
 
 import java.time.LocalTime;
 import java.util.List;

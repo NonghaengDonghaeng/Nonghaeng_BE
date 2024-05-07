@@ -12,11 +12,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import tour.nonghaeng.domain.experience.dto.AddExpCloseDateDto;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.repo.ExperienceCloseDateRepository;
+import tour.nonghaeng.domain.experience.valid.ExperienceCloseDateValidator;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.tour.entity.Tour;
-import tour.nonghaeng.global.exception.ExperienceException;
-import tour.nonghaeng.global.exception.code.BaseErrorCode;
-import tour.nonghaeng.global.exception.code.ExperienceErrorCode;
+import tour.nonghaeng.domain.experience.exception.ExperienceException;
+import tour.nonghaeng.global.exception.error.BaseErrorCode;
+import tour.nonghaeng.domain.experience.exception.error.ExperienceErrorCode;
 
 import java.time.LocalDate;
 import java.util.List;
