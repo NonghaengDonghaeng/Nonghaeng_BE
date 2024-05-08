@@ -37,7 +37,7 @@ public class ExperienceValidator {
         }
     }
 
-    private void expIdValidate(Long experienceId) {
+    public void expIdValidate(Long experienceId) {
 
         if (!experienceRepository.existsById(experienceId)) {
             throw new ExperienceException(ExperienceErrorCode.NO_EXIST_EXPERIENCE_BY_EXPERIENCE_ID_ERROR);

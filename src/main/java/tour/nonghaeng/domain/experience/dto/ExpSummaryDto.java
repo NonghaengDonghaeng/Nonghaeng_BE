@@ -38,6 +38,21 @@ public class ExpSummaryDto {
         this.photoInfoDto = photoInfoDto;
     }
 
+    public static ExpSummaryDto toDto(Experience experience) {
+        return ExpSummaryDto.builder()
+                .experienceId(experience.getId())
+                .experienceName(experience.getExperienceName())
+                .price(experience.getPrice())
+                .minParticipant(experience.getMinParticipant())
+                .maxParticipant(experience.getMaxParticipant())
+                .areaName(experience.getTour().getAreaCode().getAreaName())
+                .tourName(experience.getTour().getName())
+                .summary(experience.getSummary())
+                .photoInfoDto(experience.findRepresentPhoto().isPresent() ?
+                        PhotoInfoDto.toDto(experience.findRepresentPhoto().get()) : null)
+                .build();
+    }
+
     public static Page<ExpSummaryDto> toPageDto(Page<Experience> expPage) {
         return expPage.map(exp -> ExpSummaryDto.builder()
                 .experienceId(exp.getId())

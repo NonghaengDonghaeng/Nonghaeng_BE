@@ -6,10 +6,9 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
 import tour.nonghaeng.domain.reservation.dto.ReservationUserSummaryDto;
 import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
-
-import java.util.List;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -20,16 +19,17 @@ public class MyPageUserDto {
     private String email;
     private String number;
     private int point;
-    private List<? extends ReservationUserSummaryDto> reservations;
-    private List<ReviewSummaryDto> reviews;
+    private Page<? extends ReservationUserSummaryDto> reservationPage;
+    private Page<? extends ReviewSummaryDto> reviewPage;
 
     @Builder
-    private MyPageUserDto(String name, String email, String number, int point, List<? extends ReservationUserSummaryDto> reservations,List<ReviewSummaryDto> reviews) {
+    private MyPageUserDto(String name, String email, String number, int point, Page<? extends ReservationUserSummaryDto> reservationPage, Page<? extends ReviewSummaryDto> reviewPage) {
+
         this.name = name;
         this.email = email;
         this.number = number;
         this.point = point;
-        this.reservations = reservations;
-        this.reviews = reviews;
+        this.reservationPage = reservationPage;
+        this.reviewPage = reviewPage;
     }
 }

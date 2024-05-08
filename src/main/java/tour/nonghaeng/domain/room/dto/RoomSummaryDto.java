@@ -60,21 +60,7 @@ public class RoomSummaryDto {
                 .build();
     }
 
-    @Override
-    public String toString() {
-        return "RoomSummaryDto{" +
-                "roomId=" + roomId +
-                ", roomName='" + roomName + '\'' +
-                ", numOfRoom=" + currentNumOfRoom +
-                ", price=" + price +
-                ", priceHoliday=" + priceHoliday +
-                ", standardCapacity=" + standardCapacity +
-                ", maxCapacity=" + maxCapacity +
-                ", checkinTime=" + checkinTime +
-                ", checkoutTime=" + checkoutTime +
-                ", roomConfiguration='" + roomConfiguration + '\'' +
-                '}';
-    }
+
 
     public void setCurrentNumOfRoom(int reservedNumOfRoom) {
         this.currentNumOfRoom -= reservedNumOfRoom;

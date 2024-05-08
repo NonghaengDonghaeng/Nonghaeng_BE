@@ -39,4 +39,5 @@ public abstract class Review extends BaseTimeEntity {
     public abstract ReviewSummaryDto toReviewSummaryDto();
 
     public abstract ReviewDetailDto toReviewDetailDto();
+
 }

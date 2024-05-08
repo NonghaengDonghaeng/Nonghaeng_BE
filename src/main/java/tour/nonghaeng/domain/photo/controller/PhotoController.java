@@ -9,10 +9,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.service.PhotoService;
-import tour.nonghaeng.global.auth.auth.service.AuthService;
 import tour.nonghaeng.domain.photo.valid.PhotoValidator;
+import tour.nonghaeng.global.auth.auth.service.AuthService;
 
 @RestController
 @RequestMapping("/images")
@@ -28,10 +27,7 @@ public class PhotoController {
     @DeleteMapping("/seller/{photoId}")
     public ResponseEntity<String> delete(Authentication authentication,
                                          @PathVariable("photoId") Long photoId) {
-
-        Seller seller = authService.toSellerEntity(authentication);
-
-        photoValidator.ownerValidate(seller, photoId);
+        //TODO: 소유자인지 확인하는 과정 추가하기
 
         photoService.delete(photoId);
 

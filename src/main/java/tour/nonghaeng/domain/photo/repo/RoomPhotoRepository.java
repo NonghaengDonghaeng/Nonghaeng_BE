@@ -28,5 +28,8 @@ public interface RoomPhotoRepository extends JpaRepository<RoomPhoto, Long> {
     @Query("select rp from RoomPhoto rp where rp.room = :room")
     List<Photo> findAllByRoom(@Param("room") Room room);
 
+    @Query("select rp from RoomPhoto rp where rp.id = :id")
+    Optional<Photo> findPhotoById(@Param("id") Long id);
+
 
 }

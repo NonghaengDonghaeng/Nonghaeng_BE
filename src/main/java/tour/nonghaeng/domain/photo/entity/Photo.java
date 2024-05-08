@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.member.entity.Seller;
+import tour.nonghaeng.domain.member.entity.User;
 
 @Entity
 @Table(name = "PHOTOS")
@@ -11,7 +12,7 @@ import tour.nonghaeng.domain.member.entity.Seller;
 @DiscriminatorColumn
 @NoArgsConstructor
 @Getter
-public class Photo {
+public abstract class Photo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,16 +22,11 @@ public class Photo {
     @Column(name = "img_url")
     private String imgUrl;
 
-    @ManyToOne
-    @JoinColumn(name = "seller_id")
-    private Seller seller;
-
     private boolean representative;
 
-    //Seller를 연관관계를 맺을지 고민중
+    //Seller를 연관관계를 맺을지 고민중 맺지 말기 리뷰에서도 써야됨
 
-    public Photo(Seller seller, String imgUrl) {
-        this.seller = seller;
+    public Photo(String imgUrl) {
         this.imgUrl = imgUrl;
         this.representative = false;
     }
@@ -42,4 +38,8 @@ public class Photo {
     public void offRepresentative() {
         this.representative = false;
     }
+
+    public abstract Seller getSeller();
+
+    public abstract User getUser();
 }

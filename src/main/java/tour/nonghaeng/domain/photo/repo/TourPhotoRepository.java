@@ -28,4 +28,7 @@ public interface TourPhotoRepository extends JpaRepository<TourPhoto, Long> {
     @Query("select tp from TourPhoto tp where tp.tour = :tour")
     List<Photo> findAllByTour(@Param("tour") Tour tour);
 
+    @Query("select tp from TourPhoto tp where tp.id = :id")
+    Optional<Photo> findPhotoById(@Param("id") Long id);
+
 }

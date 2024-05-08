@@ -7,38 +7,38 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
-import tour.nonghaeng.domain.tour.entity.Tour;
+import tour.nonghaeng.domain.review.entity.Review;
+
 
 @Entity
-@Table(name = "TOUR_PHOTOS")
-@DiscriminatorValue("tour")
+@Table(name = "REVIEW_PHOTOS")
+@DiscriminatorValue("review")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class TourPhoto extends Photo {
+public class ReviewPhoto extends Photo {
 
     @ManyToOne
-    @JoinColumn(name = "tour_id")
-    private Tour tour;
+    @JoinColumn(name = "review_id")
+    private Review review;
 
     @ManyToOne
-    @JoinColumn(name = "seller_id")
-    private Seller seller;
+    @JoinColumn(name="user_id")
+    private User user;
 
     @Builder
-    private TourPhoto(Tour tour, Seller seller, String imgUrl) {
+    private ReviewPhoto(Review review, User user, String imgUrl) {
         super(imgUrl);
-        this.seller = seller;
-        this.tour = tour;
+        this.review = review;
+        this.user = user;
     }
 
     @Override
     public Seller getSeller() {
-        return this.seller;
+        return null;
     }
 
     @Override
     public User getUser() {
-        return null;
+        return this.user;
     }
-
 }

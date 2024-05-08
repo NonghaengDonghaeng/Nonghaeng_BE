@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import tour.nonghaeng.domain.experience.dto.ExpSummaryDto;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.review.dto.ReviewDetailDto;
@@ -50,6 +51,7 @@ public class ExperienceReview extends Review {
                 .author(this.getUser().getName())
                 .title(this.getTitle())
                 .content(this.getContent())
+                .expSummaryDto(ExpSummaryDto.toDto(this.experience))
                 .build();
     }
 }

@@ -27,4 +27,7 @@ public interface ExperiencePhotoRepository extends JpaRepository<ExperiencePhoto
 
     @Query("select ep from ExperiencePhoto ep where ep.experience = :experience and ep.representative=true")
     List<Photo> findAllByExperience(@Param("experience")Experience experience);
+
+    @Query("select ep from ExperiencePhoto ep where ep.id = :id")
+    Optional<Photo> findPhotoById(@Param("id") Long id);
 }

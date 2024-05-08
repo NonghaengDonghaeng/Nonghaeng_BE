@@ -10,6 +10,7 @@ import tour.nonghaeng.domain.review.dto.ReviewDetailDto;
 import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
 import tour.nonghaeng.domain.review.dto.room.RoomReviewDetailDto;
 import tour.nonghaeng.domain.review.dto.room.RoomReviewSummaryDto;
+import tour.nonghaeng.domain.room.dto.RoomSummaryDto;
 import tour.nonghaeng.domain.room.entity.Room;
 
 @Entity
@@ -50,6 +51,7 @@ public class RoomReview extends Review{
                 .author(this.getUser().getName())
                 .title(this.getTitle())
                 .content(this.getContent())
+                .roomSummaryDto(RoomSummaryDto.toDto(this.room))
                 .build();
     }
 }

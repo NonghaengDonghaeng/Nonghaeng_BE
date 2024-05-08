@@ -76,7 +76,7 @@ public class RoomValidator {
         }
     }
 
-    private void roomIdValidate(Long roomId) {
+    public void roomIdValidate(Long roomId) {
         if (!roomRepository.existsById(roomId)) {
             throw new RoomException(RoomErrorCode.NO_EXIST_ROOM_BY_ROOM_ID_ERROR);
         }

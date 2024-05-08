@@ -18,27 +18,30 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     boolean existsById(Long reservationId);
 
+
     @Query("select r.user from Reservation r where r.id = :id")
     Optional<User> findUserById(@Param("id") Long reservationId);
 
     @Query("select r.seller from Reservation r where r.id = :id")
     Optional<Seller> findSellerById(@Param("id") Long reservationId);
 
-    @Query(value = "SELECT dtype FROM reservations where reservation_id = :id", nativeQuery = true)
-    String findReservationType(@Param("id") Long reservationId);
 
+    //조회시 사용
+    @Query(value = "SELECT dtype FROM reservations where reservation_id = :id", nativeQuery = true)
+    String findReservationTypeById(@Param("id") Long reservationId);
+
+    @Query("select r from Reservation r where r.user = :user")
+    Page<Reservation> findReservationPageByUser(@Param("user") User user, Pageable pageable);
+
+    @Query("select r from Reservation r where r.seller = :seller")
+    Page<Reservation> findReservationPageBySeller(@Param("seller") Seller seller, Pageable pageable);
+
+
+    //스케줄링 서비스에서 사용
     @Query("select r from Reservation r where r.stateType = 'CONFIRM_RESERVATION'")
     Optional<List<Reservation>> findAllConfirmReservation();
 
     @Query("select r from Reservation r where r.stateType = 'WAITING_RESERVATION'")
     Optional<List<Reservation>> findAllWaitingReservation();
 
-    @Query("select r from Reservation r where r.user = :user")
-    Page<Reservation> findReservationPageByUser(@Param("user") User user, Pageable pageable);
-
-    @Query("select r.id from Reservation r where r.user = :user")
-    List<Long> findReservationIdListByUser(@Param("user") User user);
-
-    @Query("select r from Reservation r where r.user = :user")
-    Optional<List<Reservation>> findReservationsByUser(@Param("user") User user);
 }

@@ -3,19 +3,18 @@ package tour.nonghaeng.domain.review.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.review.dto.ReviewDetailDto;
 import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
 import tour.nonghaeng.domain.review.dto.exp.CreateExpReviewDto;
 import tour.nonghaeng.domain.review.dto.room.CreateRoomReviewDto;
 import tour.nonghaeng.domain.review.entity.Review;
 import tour.nonghaeng.domain.review.repo.ReviewRepository;
+import tour.nonghaeng.domain.review.valid.ReviewValidator;
 import tour.nonghaeng.domain.room.service.RoomService;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -29,26 +28,95 @@ public class ReviewService {
     private final ExperienceReviewService experienceReviewService;
     private final RoomService roomService;
 
+    private final ReviewValidator reviewValidator;
+
+
+
+
+    public Review findById(Long reviewId) {
+        return reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 아이디"));
+    }
+
+
+
+    //리뷰 생성 서비스
     public Long createExpReview(User user, CreateExpReviewDto requestDto) {
+
         return experienceReviewService.createExperienceReview(user, requestDto);
     }
 
+
+
     public Long createRoomReview(User user, CreateRoomReviewDto requestDto) {
+
         return roomReviewService.createRoomReview(user, requestDto);
     }
 
-    public List<ReviewSummaryDto> getReviewSummaryDtoListByUser(User user) {
 
-        List<Long> reviewIdList = reviewRepository.findReviewIdListByUser(user);
+    //리뷰 조회 서비스
+    public ReviewDetailDto getReviewDetailDto(Long reviewId) {
 
-        List<Review> list = reviewIdList.stream().map(this::getUpCastedReview).toList();
+        reviewValidator.idValidate(reviewId);
 
-        return list.stream().map(Review::toReviewSummaryDto).toList();
+        Review review = findUpCastedReviewById(reviewId);
+
+        return review.toReviewDetailDto();
     }
 
-    private Review getUpCastedReview(Long reviewId) {
+
+
+    public Page<? extends ReviewSummaryDto> getReviewSummaryDtoPage(Long id, Pageable pageable, String type) {
+
+        Page<Review> reviewPage = getReviewPageByIdAndType(id, pageable, type);
+
+        reviewValidator.pageValidate(reviewPage);
+
+        return reviewPage.map(Review::toReviewSummaryDto);
+    }
+
+    private Page<Review> getReviewPageByIdAndType(Long id, Pageable pageable,String type) {
+
+        if (type.equals("room")) {
+
+            return roomReviewService.findReviewPageByRoomId(id, pageable);
+
+        }
+        //type= experience
+        return experienceReviewService.findReviewPageByExpId(id, pageable);
+
+        //TODO: type = tour 일때
+    }
+
+
+
+    public Page<? extends ReviewSummaryDto> getReviewSummaryDtoPageByUser(User user, Pageable pageable,String type) {
+
+        Page<Review> reviewPage = findReviewPageByUser(user, pageable,type);
+
+        reviewValidator.pageValidate(reviewPage);
+
+        return reviewPage.map(Review::toReviewSummaryDto);
+    }
+
+    private Page<Review> findReviewPageByUser(User user, Pageable pageable,String type) {
+
+        if(type.equals("room")) {
+            return roomReviewService.findReviewPageByUser(user, pageable);
+        }
+        if(type.equals("experience")) {
+            return experienceReviewService.findReviewPageByUser(user, pageable);
+        }
+        return reviewRepository.findReviewPageByUser(user, pageable)
+                .map(review -> findUpCastedReviewById(review.getId()));
+    }
+
+
+    private Review findUpCastedReviewById(Long reviewId) {
 
         String dtype = reviewRepository.findReviewTypeById(reviewId);
+
+        reviewValidator.dtypeValid(dtype);
 
         if (dtype.equals("room")) {
 
@@ -58,40 +126,7 @@ public class ReviewService {
         return experienceReviewService.findReviewById(reviewId);
     }
 
-    public List<ReviewSummaryDto> findReviewList(User user,Long id, String type){
 
-        if(type.equals("room")){
-            return roomReviewService.findReviewListByRoomId(id);
-        }
 
-        return experienceReviewService.findReviewListByExperienceId(id);
-    }
 
-    private Page<Review> findReviewPageByUserAndType(User user,Pageable pageable,String type){
-
-        if(type.equals("room")){
-            return roomReviewService.findReviewPageByUser(user, pageable);
-        }
-        else if(type.equals("experience")){
-            return experienceReviewService.findReviewPageByUser(user, pageable);
-        }
-        return findReviewPageByUser(user,pageable);
-    }
-
-    private Page<Review> findReviewPageByUser(User user, Pageable pageable) {
-        Page<Review> reviewPageByUser = reviewRepository.findReviewPageByUser(user, pageable);
-
-        List<Review> list = reviewPageByUser.getContent().stream().map(this::downCastingReview).toList();
-
-        return new PageImpl<>(list, pageable, reviewPageByUser.getTotalElements());
-    }
-
-    private Review downCastingReview(Review review) {
-        if (reviewRepository.findReviewTypeById(review.getId()).equals("room")) {
-            return roomReviewService.findReviewById(review.getId());
-        }
-        else{
-            return experienceReviewService.findReviewById(review.getId());
-        }
-    }
 }

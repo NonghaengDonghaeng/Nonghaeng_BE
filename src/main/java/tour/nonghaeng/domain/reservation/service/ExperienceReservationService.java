@@ -15,13 +15,12 @@ import tour.nonghaeng.domain.reservation.dto.exp.CreateExpReservationDto;
 import tour.nonghaeng.domain.reservation.dto.exp.ExpReservationResponseDto;
 import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.entity.Reservation;
-import tour.nonghaeng.domain.reservation.repo.ExperienceReservationRepository;
 import tour.nonghaeng.domain.reservation.exception.ReservationException;
 import tour.nonghaeng.domain.reservation.exception.error.ReservationErrorCode;
+import tour.nonghaeng.domain.reservation.repo.ExperienceReservationRepository;
 import tour.nonghaeng.domain.reservation.valid.ExperienceReservationValidator;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -75,10 +74,6 @@ public class ExperienceReservationService {
         return experienceReservationRepository.findReservationPageByUser(user, pageable);
     }
 
-    public List<Reservation> findReservationListByUser(User user) {
-
-        return experienceReservationRepository.findReservationListByUser(user);
-    }
 
     public Page<Reservation> findReservationPageBySeller(Seller seller, Pageable pageable) {
 

@@ -71,14 +71,19 @@ public class TourDetailDto {
     private void addRoomSummaryList(Tour tour) {
 
         this.roomSummaryList = tour.getRooms().stream()
-                .map(room -> new RoomSummary(room.getId(), room.getRoomName(), room.getPricePeak()))
+                .map(room -> new RoomSummary(room.getId(), room.getRoomName(), room.getPricePeak(),
+                        room.findRepresentPhoto().isPresent() ?
+                        PhotoInfoDto.toDto(room.findRepresentPhoto().get()) : null))
                 .toList();
 
     }
 
     private void addExpSummaryList(Tour tour) {
         this.expSummaryList = tour.getExperiences().stream()
-                .map(experience -> new ExpSummary(experience.getId(), experience.getExperienceName(), experience.getPrice()))
+                .map(experience -> new ExpSummary(experience.getId(), experience.getExperienceName(), experience.getPrice(),
+                        experience.findRepresentPhoto().isPresent() ?
+                        PhotoInfoDto.toDto(experience.findRepresentPhoto().get()) : null
+                        ))
                 .toList();
     }
 
@@ -89,20 +94,24 @@ public class TourDetailDto {
                 .toList();
     }
 
+    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     @AllArgsConstructor
     @Getter
     public class RoomSummary {
         private Long roomId;
         private String roomName;
         private int price;
+        private PhotoInfoDto photoInfoDto;
     }
 
+    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     @AllArgsConstructor
     @Getter
     public class ExpSummary {
         private Long expId;
         private String expName;
         private int price;
+        private PhotoInfoDto photoInfoDto;
     }
 
 

@@ -9,6 +9,7 @@ public enum PhotoType {
     TOUR("tours/","tour"),
     EXPERIENCE("experiences/","experience"),
     ROOM("rooms/","room"),
+    REVIEW("reviews/","review"),
     ;
 
     private final String folderName;

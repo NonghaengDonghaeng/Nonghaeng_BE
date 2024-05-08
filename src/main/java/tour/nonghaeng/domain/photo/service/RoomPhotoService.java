@@ -106,4 +106,9 @@ public class RoomPhotoService {
                     .orElseThrow(() -> PhotoException.EXCEPTION);
     }
 
+    public Photo findPhotoById(Long roomPhotoId) {
+        return roomPhotoRepository.findPhotoById(roomPhotoId)
+                .orElseThrow(() -> PhotoException.EXCEPTION);
+    }
+
 }

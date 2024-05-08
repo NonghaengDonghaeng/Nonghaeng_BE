@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.service.ExperiencePhotoService;
+import tour.nonghaeng.domain.photo.valid.ExperiencePhotoValidator;
 import tour.nonghaeng.global.auth.auth.service.AuthService;
 import tour.nonghaeng.domain.experience.valid.ExperienceValidator;
 import tour.nonghaeng.domain.photo.valid.PhotoValidator;
@@ -26,6 +27,7 @@ public class ExperiencePhotoController {
     private final AuthService authService;
 
     private final PhotoValidator photoValidator;
+    private final ExperiencePhotoValidator experiencePhotoValidator;
     private final ExperienceValidator experienceValidator;
 
     @PostMapping("/seller/upload/{experienceId}")
@@ -54,7 +56,7 @@ public class ExperiencePhotoController {
     public ResponseEntity<String> changeRepresentativePhoto(Authentication authentication,
                                                             @PathVariable("expPhotoId") Long expPhotoId) {
 
-        photoValidator.ownerValidate(authService.toSellerEntity(authentication), expPhotoId);
+        experiencePhotoValidator.ownerValidate(authService.toSellerEntity(authentication), expPhotoId);
 
         experiencePhotoService.changeRepresentativePhoto(expPhotoId);
 

@@ -3,7 +3,6 @@ package tour.nonghaeng.domain.reservation.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +28,6 @@ import tour.nonghaeng.domain.reservation.valid.ReservationValidator;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -112,9 +110,8 @@ public class ReservationService {
         reservationValidator.pageValidate(reservationPage);
 
         //여기서 toDto 는 오버라이딩된 toDto 함수 사용됨
-        Page<? extends ReservationUserSummaryDto> dtoPage = reservationPage.map(Reservation::toUserSummaryDto);
 
-        return dtoPage;
+        return reservationPage.map(Reservation::toUserSummaryDto);
     }
 
     private Page<Reservation> getReservationPageByUserAndType(User user, Pageable pageable, String type) {
@@ -122,23 +119,14 @@ public class ReservationService {
         if (type.equals("room")) {
 
             return roomReservationService.findReservationPageByUser(user, pageable);
-        } else if (type.equals("exp")) {
+        } else if (type.equals("experience")) {
 
             return experienceReservationService.findReservationPageByUser(user, pageable);
         }
         // type: all 일때
-        return findReservationPageByUser(user, pageable);
+        return reservationRepository.findReservationPageByUser(user, pageable)
+                .map(reservation -> findUpCastedReservationById(reservation.getId()));
     }
-
-    private Page<Reservation> findReservationPageByUser(User user, Pageable pageable) {
-
-        List<Long> reservationIdList = reservationRepository.findReservationIdListByUser(user);
-
-        List<Reservation> list = reservationIdList.stream().map(this::findUpCastedReservationById).toList();
-
-        return new PageImpl<>(list, pageable, reservationIdList.size());
-    }
-
 
 
     public Page<? extends ReservationSellerSummaryDto> getReservationSellerSummaryDtoPage(Seller seller, Pageable pageable,String type) {
@@ -147,9 +135,7 @@ public class ReservationService {
 
         reservationValidator.pageValidate(reservationPage);
 
-        Page<? extends ReservationSellerSummaryDto> dtoPage = reservationPage.map(Reservation::toSellerSummaryDto);
-
-        return dtoPage;
+        return reservationPage.map(Reservation::toSellerSummaryDto);
     }
 
     private Page<Reservation> findReservationPageBySeller(Seller seller, Pageable pageable, String type) {
@@ -158,28 +144,28 @@ public class ReservationService {
 
             return roomReservationService.findReservationPageBySeller(seller, pageable);
         }
-        return experienceReservationService.findReservationPageBySeller(seller, pageable);
+        else if (type.equals("exp")) {
+
+            return experienceReservationService.findReservationPageBySeller(seller, pageable);
+        }
+        return findReservationPageBySeller(seller, pageable);
     }
 
+    private Page<Reservation> findReservationPageBySeller(Seller seller, Pageable pageable) {
 
-
-    public List<? extends ReservationUserSummaryDto> getReservationUserSummaryDtoList(User user) {
-
-        List<Long> reservationIdList = reservationRepository.findReservationIdListByUser(user);
-
-        List<Reservation> reservations = reservationIdList.stream().map(this::findUpCastedReservationById).toList();
-
-        return reservations.stream().map(Reservation::toUserSummaryDto).toList();
+        return reservationRepository.findReservationPageBySeller(seller, pageable)
+                .map(reservation -> findUpCastedReservationById(reservation.getId()));
     }
 
 
     private Reservation findUpCastedReservationById(Long reservationId) {
 
-        String dtype = reservationRepository.findReservationType(reservationId);
+        String dtype = reservationRepository.findReservationTypeById(reservationId);
 
         //TODO: dtype 검증추가
 
         if (dtype.equals("room")) {
+
             return roomReservationService.findReservationById(reservationId);
         }
 
@@ -188,7 +174,7 @@ public class ReservationService {
 
 
 
-    //취소,승인 서비
+    //취소,승인 서비스
     public Long approveReservation(Long reservationId, boolean notApproveFlag) {
 
         Reservation reservation = findUpCastedReservationById(reservationId);
@@ -319,7 +305,7 @@ public class ReservationService {
 
     private boolean checkPastReservation(Reservation reservation) {
 
-        String dtype = reservationRepository.findReservationType(reservation.getId());
+        String dtype = reservationRepository.findReservationTypeById(reservation.getId());
 
         if (dtype.equals("room")) {
 

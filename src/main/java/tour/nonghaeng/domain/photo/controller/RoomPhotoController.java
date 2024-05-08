@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.service.RoomPhotoService;
+import tour.nonghaeng.domain.photo.valid.RoomPhotoValidator;
 import tour.nonghaeng.global.auth.auth.service.AuthService;
 import tour.nonghaeng.domain.photo.valid.PhotoValidator;
 import tour.nonghaeng.domain.room.valid.RoomValidator;
@@ -26,6 +27,7 @@ public class RoomPhotoController {
     private final AuthService authService;
 
     private final RoomValidator roomValidator;
+    private final RoomPhotoValidator roomPhotoValidator;
     private final PhotoValidator photoValidator;
 
     @PostMapping("/seller/upload/{roomId}")
@@ -35,7 +37,7 @@ public class RoomPhotoController {
 
         Seller seller = authService.toSellerEntity(authentication);
 
-        roomValidator.ownerValidate(seller,roomId);
+        roomPhotoValidator.ownerValidate(seller,roomId);
 
         Long uploadId = roomPhotoService.upload(seller, roomId, imageFile);
 
@@ -54,7 +56,7 @@ public class RoomPhotoController {
     public ResponseEntity<String> changeRepresentativePhoto(Authentication authentication,
                                                             @PathVariable("roomPhotoId") Long roomPhotoId) {
 
-        photoValidator.ownerValidate(authService.toSellerEntity(authentication), roomPhotoId);
+        roomPhotoValidator.ownerValidate(authService.toSellerEntity(authentication), roomPhotoId);
 
         roomPhotoService.changeRepresentativePhoto(roomPhotoId);
 

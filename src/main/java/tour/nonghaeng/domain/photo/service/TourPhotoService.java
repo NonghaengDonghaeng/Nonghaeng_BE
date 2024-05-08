@@ -108,4 +108,9 @@ public class TourPhotoService {
                 .orElseThrow(() -> PhotoException.EXCEPTION);
     }
 
+    public Photo findPhotoById(Long tourPhotoId) {
+        return tourPhotoRepository.findPhotoById(tourPhotoId)
+                .orElseThrow(() -> PhotoException.EXCEPTION);
+    }
+
 }

@@ -54,7 +54,7 @@ public class TourPhotoController {
     public ResponseEntity<String> changeRepresentativePhoto(Authentication authentication,
                                                             @PathVariable("tourPhotoId") Long tourPhotoId) {
 
-        photoValidator.ownerValidate(authService.toSellerEntity(authentication), tourPhotoId);
+        tourPhotoValidator.ownerValidate(authService.toSellerEntity(authentication), tourPhotoId);
 
         tourPhotoService.changeRepresentativePhoto(tourPhotoId);
 

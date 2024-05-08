@@ -2,6 +2,7 @@ package tour.nonghaeng.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.dto.mypage.MyPageUserDto;
@@ -18,6 +19,7 @@ public class MyPageService {
     private final ReservationService reservationService;
     private final ReviewService reviewService;
 
+    private final PageRequest defaultPageRequest = PageRequest.of(0, 4);
 
     public MyPageUserDto getUserMyPage(User user) {
 
@@ -26,8 +28,8 @@ public class MyPageService {
                 .email(user.getEmail())
                 .number(user.getNumber())
                 .point(user.getPoint())
-                .reservations(reservationService.getReservationUserSummaryDtoList(user))
-                .reviews(reviewService.getReviewSummaryDtoListByUser(user))
+                .reservationPage(reservationService.getReservationUserSummaryDtoPage(user, defaultPageRequest,"all"))
+                .reviewPage(reviewService.getReviewSummaryDtoPageByUser(user,defaultPageRequest,"all"))
                 .build();
 
         return dto;

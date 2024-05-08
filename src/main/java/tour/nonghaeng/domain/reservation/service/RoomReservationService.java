@@ -13,16 +13,15 @@ import tour.nonghaeng.domain.reservation.dto.room.CreateRoomReservationDto;
 import tour.nonghaeng.domain.reservation.dto.room.RoomReservationResponseDto;
 import tour.nonghaeng.domain.reservation.entity.Reservation;
 import tour.nonghaeng.domain.reservation.entity.RoomReservation;
-import tour.nonghaeng.domain.reservation.repo.RoomReservationRepository;
-import tour.nonghaeng.domain.room.entity.Room;
-import tour.nonghaeng.domain.room.service.RoomService;
 import tour.nonghaeng.domain.reservation.exception.ReservationException;
 import tour.nonghaeng.domain.reservation.exception.error.ReservationErrorCode;
+import tour.nonghaeng.domain.reservation.repo.RoomReservationRepository;
 import tour.nonghaeng.domain.reservation.valid.ReservationValidator;
 import tour.nonghaeng.domain.reservation.valid.RoomReservationValidator;
+import tour.nonghaeng.domain.room.entity.Room;
+import tour.nonghaeng.domain.room.service.RoomService;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -76,9 +75,7 @@ public class RoomReservationService {
         return roomReservationRepository.findReservationPageByUser(user, pageable);
     }
 
-    public List<Reservation> findReservationListByUser(User user) {
-        return roomReservationRepository.findReservationListByUser(user);
-    }
+
 
     public Page<Reservation> findReservationPageBySeller(Seller seller, Pageable pageable) {
         return roomReservationRepository.findReservationPageBySeller(seller, pageable);

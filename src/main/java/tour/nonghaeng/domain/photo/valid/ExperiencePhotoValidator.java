@@ -4,10 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.member.entity.Seller;
-import tour.nonghaeng.domain.photo.entity.ExperiencePhoto;
-import tour.nonghaeng.domain.photo.repo.ExperiencePhotoRepository;
+import tour.nonghaeng.domain.photo.entity.Photo;
 import tour.nonghaeng.domain.photo.exception.PhotoException;
 import tour.nonghaeng.domain.photo.exception.error.PhotoErrorCode;
+import tour.nonghaeng.domain.photo.repo.ExperiencePhotoRepository;
 
 @Component
 @RequiredArgsConstructor
@@ -15,13 +15,13 @@ public class ExperiencePhotoValidator {
 
     private final ExperiencePhotoRepository experiencePhotoRepository;
 
-    public void ownerValidate(Seller seller, Long experiencePhotoId) {
+    public void ownerValidate(Seller seller, Long photoId) {
 
-        experiencePhotoIdValidate(experiencePhotoId);
+        experiencePhotoIdValidate(photoId);
 
-        ExperiencePhoto experiencePhoto = experiencePhotoRepository.findById(experiencePhotoId).get();
+        Photo photo = experiencePhotoRepository.findPhotoById(photoId).get();
 
-        if (!seller.equals(experiencePhoto.getExperience().getSeller())) {
+        if (!seller.equals(photo.getSeller())) {
             throw new PhotoException(PhotoErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
         }
     }

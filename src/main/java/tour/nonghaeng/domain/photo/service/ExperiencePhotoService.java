@@ -108,4 +108,9 @@ public class ExperiencePhotoService {
         return experiencePhotoRepository.findById(experiencePhotoId)
                 .orElseThrow(() -> PhotoException.EXCEPTION);
     }
+
+    public Photo findPhotoById(Long experiencePhotoId) {
+        return experiencePhotoRepository.findPhotoById(experiencePhotoId)
+                .orElseThrow(() -> PhotoException.EXCEPTION);
+    }
 }

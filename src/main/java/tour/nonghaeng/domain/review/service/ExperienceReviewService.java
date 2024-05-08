@@ -8,13 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
+import tour.nonghaeng.domain.experience.valid.ExperienceValidator;
 import tour.nonghaeng.domain.member.entity.User;
-import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
 import tour.nonghaeng.domain.review.dto.exp.CreateExpReviewDto;
 import tour.nonghaeng.domain.review.entity.Review;
+import tour.nonghaeng.domain.review.exception.ReviewException;
 import tour.nonghaeng.domain.review.repo.ExperienceReviewRepository;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +25,10 @@ public class ExperienceReviewService {
 
     private final ExperienceService experienceService;
 
+    private final ExperienceValidator experienceValidator;
+
+
+
     public Long createExperienceReview(User user, CreateExpReviewDto requestDto) {
 
         Experience experience = experienceService.findById(requestDto.getExpId());
@@ -35,27 +38,24 @@ public class ExperienceReviewService {
         return experienceReviewRepository.save(requestDto.toEntity(user, experience)).getId();
     }
 
-    public List<Review> findReviewListByUser(User user) {
-        return experienceReviewRepository.findReviewByUser(user);
-    }
-
-    public List<Review> findReviewListByExperience(Experience experience) {
-        return experienceReviewRepository.findReviewByExperience(experience);
-    }
-
-    public List<ReviewSummaryDto> findReviewListByExperienceId(Long experienceId) {
-
-        Experience experience = experienceService.findById(experienceId);
-        List<Review> roomReviewList = findReviewListByExperience(experience);
-
-        return roomReviewList.stream().map(Review::toReviewSummaryDto).toList();
-    }
 
     public Page<Review> findReviewPageByUser(User user, Pageable pageable) {
+
         return experienceReviewRepository.findReviewPageByUser(user, pageable);
     }
 
+
+    public Page<Review> findReviewPageByExpId(Long experienceId, Pageable pageable) {
+
+        experienceValidator.expIdValidate(experienceId);
+
+        return experienceReviewRepository.findReviewPageByExpId(experienceId,pageable);
+    }
+
+
+
     public Review findReviewById(Long reviewId) {
-        return experienceReviewRepository.findById(reviewId).orElse(null);
+        return experienceReviewRepository.findReviewById(reviewId)
+                .orElseThrow(() -> ReviewException.EXCEPTION);
     }
 }
