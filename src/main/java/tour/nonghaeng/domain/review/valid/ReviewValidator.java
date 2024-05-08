@@ -17,7 +17,7 @@ public class ReviewValidator {
 
     private final ReviewRepository reviewRepository;
 
-    public void ownerUserValidate(User user, Long reviewId) {
+    public void ownerValidate(User user, Long reviewId) {
 
         idValidate(reviewId);
 

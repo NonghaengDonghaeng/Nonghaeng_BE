@@ -40,7 +40,7 @@ public class ExperienceReview extends Review {
                 .author(this.getUser().getName())
                 .title(this.getTitle())
                 .type("experience")
-                .photoInfoDto(this.findRepresentPhoto().isPresent() ?
+                .photoInfoDto(super.findRepresentPhoto().isPresent() ?
                         PhotoInfoDto.toDto(this.findRepresentPhoto().get()) : null)
                 .build();
     }
@@ -55,9 +55,8 @@ public class ExperienceReview extends Review {
                 .title(this.getTitle())
                 .content(this.getContent())
                 .expSummaryDto(ExpSummaryDto.toDto(this.experience))
-                .photoInfoDtoList(this.getExperience().getExperiencePhotoList().stream()
-                .map(PhotoInfoDto::toDto)
-                .toList())
+                .photoInfoDtoList(this.getReviewPhotos().stream()
+                        .map(PhotoInfoDto::toDto).toList())
                 .build();
     }
 }

@@ -37,7 +37,7 @@ public class RoomPhotoController {
 
         Seller seller = authService.toSellerEntity(authentication);
 
-        roomPhotoValidator.ownerValidate(seller,roomId);
+        roomValidator.ownerValidate(seller,roomId);
 
         Long uploadId = roomPhotoService.upload(seller, roomId, imageFile);
 

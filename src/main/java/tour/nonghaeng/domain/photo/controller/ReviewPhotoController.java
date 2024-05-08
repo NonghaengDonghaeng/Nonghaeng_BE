@@ -37,7 +37,7 @@ public class ReviewPhotoController {
 
         User user = authService.toUserEntity(authentication);
 
-        reviewPhotoValidator.ownerValidate(user, reviewId);
+        reviewValidator.ownerValidate(user, reviewId);
 
         Long uploadId = reviewPhotoService.upload(user, reviewId, imageFile);
 
