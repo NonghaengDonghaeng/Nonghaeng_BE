@@ -5,8 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.etc.BaseTimeEntity;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.photo.entity.Photo;
+import tour.nonghaeng.domain.photo.entity.ReviewPhoto;
 import tour.nonghaeng.domain.review.dto.ReviewDetailDto;
 import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table(name = "REVIEWS")
@@ -29,6 +35,10 @@ public abstract class Review extends BaseTimeEntity {
 
     private String content;
 
+    @OneToMany(mappedBy = "review", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReviewPhoto> reviewPhotos = new ArrayList<>();
+
 
     public Review(User user, String title, String content) {
         this.user = user;
@@ -36,6 +46,16 @@ public abstract class Review extends BaseTimeEntity {
         this.content = content;
     }
 
+    public Optional<Photo> findRepresentPhoto() {
+
+        for (ReviewPhoto rp : this.reviewPhotos) {
+            if (rp.isRepresentative()) {
+                return Optional.ofNullable(rp);
+            }
+        }
+
+        return Optional.ofNullable(null);
+    }
     public abstract ReviewSummaryDto toReviewSummaryDto();
 
     public abstract ReviewDetailDto toReviewDetailDto();

@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.review.dto.ReviewDetailDto;
 import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
 import tour.nonghaeng.domain.review.dto.room.RoomReviewDetailDto;
@@ -39,6 +40,8 @@ public class RoomReview extends Review{
                 .author(this.getUser().getName())
                 .title(this.getTitle())
                 .type("room")
+                .photoInfoDto(this.findRepresentPhoto().isPresent() ?
+                        PhotoInfoDto.toDto(this.findRepresentPhoto().get()) : null)
                 .build();
     }
 
@@ -52,6 +55,9 @@ public class RoomReview extends Review{
                 .title(this.getTitle())
                 .content(this.getContent())
                 .roomSummaryDto(RoomSummaryDto.toDto(this.room))
+                .photoInfoDtoList(this.getRoom().getRoomPhotoList().stream()
+                        .map(PhotoInfoDto::toDto)
+                        .toList())
                 .build();
     }
 }

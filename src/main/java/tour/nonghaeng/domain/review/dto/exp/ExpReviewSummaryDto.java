@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
 
 import java.time.LocalDate;
@@ -23,14 +24,16 @@ public class ExpReviewSummaryDto extends ReviewSummaryDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate createDate;
     private String type;
+    private PhotoInfoDto photoInfoDto;
 
     @Builder
-    private ExpReviewSummaryDto(Long reviewId,String expName, String title, String author, LocalDate createDate,String type) {
+    private ExpReviewSummaryDto(Long reviewId,String expName, String title, String author, LocalDate createDate,String type,PhotoInfoDto photoInfoDto) {
         this.reviewId = reviewId;
         this.expName = expName;
         this.title = title;
         this.author = author;
         this.createDate = createDate;
         this.type = type;
+        this.photoInfoDto = photoInfoDto;
     }
 }

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.experience.dto.ExpSummaryDto;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.review.dto.ReviewDetailDto;
 import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
 import tour.nonghaeng.domain.review.dto.exp.ExpReviewDetailDto;
@@ -39,6 +40,8 @@ public class ExperienceReview extends Review {
                 .author(this.getUser().getName())
                 .title(this.getTitle())
                 .type("experience")
+                .photoInfoDto(this.findRepresentPhoto().isPresent() ?
+                        PhotoInfoDto.toDto(this.findRepresentPhoto().get()) : null)
                 .build();
     }
 
@@ -52,6 +55,9 @@ public class ExperienceReview extends Review {
                 .title(this.getTitle())
                 .content(this.getContent())
                 .expSummaryDto(ExpSummaryDto.toDto(this.experience))
+                .photoInfoDtoList(this.getExperience().getExperiencePhotoList().stream()
+                .map(PhotoInfoDto::toDto)
+                .toList())
                 .build();
     }
 }
