@@ -25,6 +25,8 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
 
+
+
     public User join(UserJoinDto dto){
 
         //TODO : 인증과정에서의 예외처리
@@ -36,12 +38,16 @@ public class UserService {
         return userRepository.save(joinUser);
     }
 
+
+
     public int payPoint(User user, int price) {
 
         user.payPoint(price);
 
         return userRepository.save(user).getPoint();
     }
+
+
 
     public int payBackPoint(User user, int price, CancelPolicy cancelPolicy) {
 

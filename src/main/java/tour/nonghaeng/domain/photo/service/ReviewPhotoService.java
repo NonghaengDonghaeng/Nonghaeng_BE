@@ -36,6 +36,9 @@ public class ReviewPhotoService {
     private final PhotoValidator photoValidator;
     private final ReviewPhotoValidator reviewPhotoValidator;
 
+
+
+
     public Long upload(User user, Long reviewId, MultipartFile imageFile) {
 
         Review review = reviewService.findById(reviewId);
@@ -60,6 +63,8 @@ public class ReviewPhotoService {
         return reviewPhotoRepository.save(createdReviewPhoto);
     }
 
+
+
     public List<PhotoInfoDto> getReviewPhotoInfoListDto(Long reviewId) {
 
         List<Photo> photoList = reviewPhotoRepository.findAllByReview(reviewService.findById(reviewId));
@@ -70,6 +75,8 @@ public class ReviewPhotoService {
 
         return dto;
     }
+
+
 
     public void changeRepresentativePhoto(Long reviewId) {
 
@@ -90,10 +97,11 @@ public class ReviewPhotoService {
         reviewPhotoRepository.save(reviewPhoto);
     }
 
-    public ReviewPhoto findById(Long reviewId) {
+    private ReviewPhoto findById(Long reviewId) {
         return reviewPhotoRepository.findById(reviewId)
                 .orElseThrow(() -> PhotoException.EXCEPTION);
     }
+
 
     public Photo findPhotoById(Long reviewId) {
         return reviewPhotoRepository.findPhotoById(reviewId)

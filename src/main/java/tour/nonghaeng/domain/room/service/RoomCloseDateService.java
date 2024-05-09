@@ -24,6 +24,8 @@ public class RoomCloseDateService {
     private final RoomCloseDateValidator roomCloseDateValidator;
 
 
+
+
     public void addCloseDates(Room room, List<AddRoomCloseDateDto> roomCloseDateDtos) {
 
         roomCloseDateValidator.addCLoseDateDtoValidate(roomCloseDateDtos);
@@ -33,16 +35,18 @@ public class RoomCloseDateService {
         }
     }
 
-    public RoomCloseDate findByRoomAndCloseDate(Room room, LocalDate closeDate) {
-
-        return roomCloseDateRepository.findByRoomAndCloseDate(room, closeDate)
-                .orElseThrow(() -> new RoomException(RoomErrorCode.NOT_EXIST_ROOM_CLOSE_DATE_ERROR));
-    }
-
     private RoomCloseDate createAndSave(Room room, AddRoomCloseDateDto roomCloseDateDto) {
 
         roomCloseDateValidator.createAndSaveValidate(room, roomCloseDateDto);
 
         return roomCloseDateRepository.save(roomCloseDateDto.toEntity(room));
+    }
+
+
+
+    public RoomCloseDate findByRoomAndCloseDate(Room room, LocalDate closeDate) {
+
+        return roomCloseDateRepository.findByRoomAndCloseDate(room, closeDate)
+                .orElseThrow(() -> new RoomException(RoomErrorCode.NOT_EXIST_ROOM_CLOSE_DATE_ERROR));
     }
 }

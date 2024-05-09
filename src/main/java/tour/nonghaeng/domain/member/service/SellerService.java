@@ -22,6 +22,8 @@ public class SellerService {
     private final PasswordEncoder passwordEncoder;
 
 
+
+
     public Seller join(SellerJoinDto dto) {
 
         //TODO: 인증과정에서의 예외처리
@@ -32,6 +34,8 @@ public class SellerService {
 
         return sellerRepository.save(joinSeller);
     }
+
+
 
     public int payBackPoint(Seller seller, int price) {
 

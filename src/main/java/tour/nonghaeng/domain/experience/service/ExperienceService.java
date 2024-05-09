@@ -43,6 +43,8 @@ public class ExperienceService {
     private final ExperienceCloseDateValidator experienceCloseDateValidator;
 
 
+
+
     public Long createExperience(Seller seller, CreateExpDto dto) {
 
         //TODO: dto 검증
@@ -55,6 +57,8 @@ public class ExperienceService {
 
         return experienceRepository.save(experience).getId();
     }
+
+
 
     public Page<ExpSummaryDto> getExpSummaryDtoPage(Pageable pageable, String keyword, AreaCode areaCode, ExperienceType experienceType) {
 
@@ -69,6 +73,8 @@ public class ExperienceService {
         return dto;
     }
 
+
+
     public Long addOnlyCloseDates(Long experienceId, List<AddExpCloseDateDto> dtoList) {
 
         Experience experience = findById(experienceId);
@@ -77,6 +83,8 @@ public class ExperienceService {
 
         return experienceRepository.save(experience).getId();
     }
+
+
 
     public void removeOnlyCloseDates(Long experienceId, List<AddExpCloseDateDto> dtoList) {
 
@@ -91,6 +99,8 @@ public class ExperienceService {
         experienceRepository.save(experience);
     }
 
+
+
     //TODO: experienceRepository 에 다시 저장하지 않아도 이미 반영된다.
     public Long addOnlyRounds(Long experienceId, List<AddExpRoundDto> dtoList) {
 
@@ -100,6 +110,8 @@ public class ExperienceService {
 
         return experienceRepository.save(experience).getId();
     }
+
+
 
     public ExpRoundInfoDto getExpRoundInfoDto(Long experienceId, LocalDate dateParameter) {
 
@@ -121,6 +133,8 @@ public class ExperienceService {
         return dto;
     }
 
+
+
     public ExpDetailDto getExpDetailDto(Long experienceId) {
 
         return ExpDetailDto.toDto(findById(experienceId));
@@ -131,6 +145,8 @@ public class ExperienceService {
         return experienceRepository.findAll();
     }
 
+
+
     public List<Long> findAllIds() {
         return experienceRepository.findAllIds();
     }
@@ -140,6 +156,8 @@ public class ExperienceService {
         return experienceRepository.findById(experienceId)
                 .orElseThrow(() -> ExperienceException.EXCEPTION);
     }
+
+
 
     public void checkOldestCloseDatePastOrNot(Long experienceId) {
 

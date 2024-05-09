@@ -31,6 +31,8 @@ public class RoomController {
 
     private final RoomValidator roomValidator;
 
+
+
     //관리자 API: 숙소 등록하기
     @PostMapping("/seller/add")
     public ResponseEntity<String> create(Authentication authentication,
@@ -42,6 +44,7 @@ public class RoomController {
 
         return new ResponseEntity<>("숙소 등록완료, 숙소Id:" + roomId.toString(), HttpStatus.OK);
     }
+
 
     //숙소정보 리스트 보기
     @GetMapping
@@ -55,6 +58,7 @@ public class RoomController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+
     //숙소 중간페이지 중 방요약만 조회, 파라미터로 날짜와 객실수 받기
     @GetMapping("/list/{tourId}")
     public ResponseEntity<List<RoomSummaryDto>> showRoomSummaryList(@PathVariable Long tourId,
@@ -66,6 +70,7 @@ public class RoomController {
         return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
 
+
     //숙소 중간페이지 정보 요청
     @GetMapping("/middle-page/{tourId}")
     public ResponseEntity<RoomTourDetailDto> showMiddleRoomTourDetail(@PathVariable Long tourId) {
@@ -74,6 +79,7 @@ public class RoomController {
 
         return new ResponseEntity<>(roomTourDetailDto, HttpStatus.OK);
     }
+
 
     //숙소 상세페이지 보기
     @GetMapping("/{roomId}")

@@ -32,6 +32,8 @@ public class TourService {
     private final TourValidator tourValidator;
 
 
+
+
     public Long createTour(Seller seller, CreateTourDto dto) {
 
         tourValidator.createValidate(seller,dto);
@@ -41,6 +43,8 @@ public class TourService {
         return tourRepository.save(createdTour).getId();
     }
 
+
+
     public Page<Tour> getTourPage(Pageable pageable,String keyword,AreaCode areaCode,TourType tourType) {
 
         Specification<Tour> spec = TourSpecification.buildSpecification(keyword, areaCode, tourType);
@@ -49,6 +53,8 @@ public class TourService {
 
         return tourPage;
     }
+
+
 
     public Page<TourSummaryDto> getTourSummaryDtoPage(Pageable pageable, String keyword, AreaCode areaCode, TourType tourType) {
 
@@ -61,21 +67,29 @@ public class TourService {
         return summaryDtoPage;
     }
 
+
+
     public Page<Tour> findAllTourPageWithRoom(Pageable pageable) {
 
         return tourRepository.findAllByRoomsIsNotEmpty(pageable);
     }
+
+
 
     public TourDetailDto getTourDetailDto(Long tourId) {
 
         return TourDetailDto.toDto(findById(tourId));
     }
 
+
+
     public Tour findById(Long tourId) {
 
         return tourRepository.findById(tourId)
                 .orElseThrow(() -> new TourException(TourErrorCode.WRONG_TOUR_ID_ERROR));
     }
+
+
 
     public Tour findBySeller(Seller seller) {
 

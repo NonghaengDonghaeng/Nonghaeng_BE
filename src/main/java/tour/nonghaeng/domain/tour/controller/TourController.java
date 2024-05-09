@@ -27,6 +27,7 @@ public class TourController {
     private final AuthService authService;
 
 
+
     //여행 리스트 조회(파라미터 page, 예시 page=0)
     @GetMapping
     public ResponseEntity<Page<TourSummaryDto>> showTourSummaryPage(@PageableDefault(size=10) Pageable pageable,
@@ -39,6 +40,7 @@ public class TourController {
         return new ResponseEntity<>(tourSummaryDtoPage, HttpStatus.OK);
     }
 
+
     //관리자 API: 여행 등록하기
     @PostMapping("/seller/add")
     public ResponseEntity<String> createTour(Authentication authentication, @RequestBody CreateTourDto createTourDto) {
@@ -47,6 +49,7 @@ public class TourController {
 
         return new ResponseEntity<>("여행지 등록 성공, 여행지 id: "+tourId, HttpStatus.CREATED);
     }
+
 
     //여행 상세 조회
     @GetMapping("/{tourId}")

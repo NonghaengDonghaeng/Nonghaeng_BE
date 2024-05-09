@@ -40,6 +40,8 @@ public class RoomService {
     private final TourValidator tourValidator;
 
 
+
+
     public Long createAndAddRoom(Seller seller, CreateRoomDto dto) {
 
         //TODO: dto 검증
@@ -48,6 +50,8 @@ public class RoomService {
 
         return roomRepository.save(room).getId();
     }
+
+
 
     public Page<RoomTourSummaryDto> getRoomTourSummaryDtoPage(Pageable pageable, String keyword, AreaCode areaCode, RoomType roomType) {
 
@@ -77,6 +81,8 @@ public class RoomService {
         return new PageImpl<>(new ArrayList<>(uniqueTours), pageable, uniqueTours.size());
     }
 
+
+
     public List<RoomSummaryDto> getRoomSummaryDtoList(Long tourId, LocalDate date, int numOfRoom) {
 
         Tour tour = tourService.findById(tourId);
@@ -104,6 +110,8 @@ public class RoomService {
         return roomRepository.findMaxPriceByTour(tour).intValue();
     }
 
+
+
     public RoomTourDetailDto getRoomTourDetailDto(Long tourId) {
 
         RoomTourDetailDto dto = RoomTourDetailDto.toDto(tourService.findById(tourId));
@@ -112,6 +120,8 @@ public class RoomService {
 
         return dto;
     }
+
+
 
     public RoomDetailDto getRoomDetailDto(Long roomId,LocalDate requestDate) {
 
@@ -128,6 +138,8 @@ public class RoomService {
         return dto;
     }
 
+
+
     public Long addOnlyCloseDates(Long roomId, List<AddRoomCloseDateDto> dtoList) {
 
         Room room = findById(roomId);
@@ -137,20 +149,28 @@ public class RoomService {
         return roomRepository.save(room).getId();
     }
 
+
+
     public Room findById(Long roomId) {
 
         return roomRepository.findById(roomId)
                 .orElseThrow(() -> new RoomException(RoomErrorCode.NO_EXIST_ROOM_BY_ROOM_ID_ERROR));
     }
 
+
+
     public List<Room> findAll() {
 
         return roomRepository.findAll();
     }
 
+
+
     public List<Long> findAllIds() {
         return roomRepository.findAllIds();
     }
+
+
 
     public void checkOldestCloseDatePastOrNot(Long roomId) {
 

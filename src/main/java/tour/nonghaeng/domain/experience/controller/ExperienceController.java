@@ -33,7 +33,8 @@ public class ExperienceController {
     private final ExperienceValidator experienceValidator;
 
 
-//여행 리스트 조회(파라미터 page, 예시 page=0)
+
+    //여행 리스트 조회(파라미터 page, 예시 page=0)
     @GetMapping
     public ResponseEntity<Page<ExpSummaryDto>> showExperienceSummaryPage(@PageableDefault(size = 10) Pageable pageable,
                                                                          @RequestParam(name = "keyword",required = false)String keyword,
@@ -107,6 +108,7 @@ public class ExperienceController {
 
         return new ResponseEntity<>("해당 미운영날짜 삭제완료,", HttpStatus.OK);
     }
+
 
     //체험 해당 날짜에 대한 회차정보 보기(파라미터 date, 예시 date=2024-03-11)
     @GetMapping("/round-info/{experienceId}")

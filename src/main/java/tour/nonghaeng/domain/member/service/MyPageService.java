@@ -21,6 +21,9 @@ public class MyPageService {
 
     private final PageRequest defaultPageRequest = PageRequest.of(0, 4);
 
+
+
+
     public MyPageUserDto getUserMyPage(User user) {
 
         MyPageUserDto dto = MyPageUserDto.builder()

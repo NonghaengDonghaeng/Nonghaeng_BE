@@ -42,8 +42,6 @@ public class ReviewController {
     public ResponseEntity<String> createExperienceReview(Authentication authentication,
                                                          @RequestBody CreateExpReviewDto requestDto) {
 
-
-
         Long expReviewId =
                 reviewService.createExpReview(authService.toUserEntity(authentication), requestDto);
 

@@ -26,6 +26,8 @@ public class ExperienceCloseDateService {
     private final ExperienceCloseDateValidator experienceCloseDateValidator;
 
 
+
+
     public void addCloseDates(Experience experience, List<AddExpCloseDateDto> closeDateDtoList) {
 
         experienceCloseDateValidator.defaultCloseDateDtoValidate(closeDateDtoList);
@@ -35,12 +37,6 @@ public class ExperienceCloseDateService {
         }
     }
 
-    public ExperienceCloseDate findByExperienceAndCloseDate(Experience experience, LocalDate closeDate) {
-
-        return experienceCloseDateRepository.findByExperienceAndCloseDate(experience, closeDate).
-                orElseThrow(() -> new ExperienceException(ExperienceErrorCode.NOT_EXIST_EXPERIENCE_CLOSE_DATE_ERROR));
-    }
-
     private ExperienceCloseDate createAndSave(Experience experience, AddExpCloseDateDto closeDateDto) {
 
         experienceCloseDateValidator.createAndSaveValidate(experience,closeDateDto);
@@ -48,6 +44,14 @@ public class ExperienceCloseDateService {
         ExperienceCloseDate closeDateEntity = closeDateDto.toEntity(experience);
 
         return experienceCloseDateRepository.save(closeDateEntity);
+    }
+
+
+
+    public ExperienceCloseDate findByExperienceAndCloseDate(Experience experience, LocalDate closeDate) {
+
+        return experienceCloseDateRepository.findByExperienceAndCloseDate(experience, closeDate).
+                orElseThrow(() -> new ExperienceException(ExperienceErrorCode.NOT_EXIST_EXPERIENCE_CLOSE_DATE_ERROR));
     }
 
 

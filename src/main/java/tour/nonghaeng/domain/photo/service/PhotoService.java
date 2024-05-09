@@ -5,13 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.etc.photo.PhotoType;
-import tour.nonghaeng.domain.experience.service.ExperienceService;
 import tour.nonghaeng.domain.photo.entity.Photo;
-import tour.nonghaeng.domain.photo.repo.PhotoRepository;
-import tour.nonghaeng.domain.room.service.RoomService;
-import tour.nonghaeng.domain.photo.s3.AmazonS3Service;
-import tour.nonghaeng.domain.tour.service.TourService;
 import tour.nonghaeng.domain.photo.exception.PhotoException;
+import tour.nonghaeng.domain.photo.repo.PhotoRepository;
+import tour.nonghaeng.domain.photo.s3.AmazonS3Service;
 import tour.nonghaeng.domain.photo.valid.PhotoValidator;
 
 @Service
@@ -23,11 +20,11 @@ public class PhotoService {
     private final PhotoRepository photoRepository;
 
     private final AmazonS3Service amazonS3Service;
-    private final TourService tourService;
-    private final ExperienceService experienceService;
-    private final RoomService roomService;
 
     private final PhotoValidator photoValidator;
+
+
+
 
     public void delete(Long photoId) {
 
@@ -36,6 +33,14 @@ public class PhotoService {
         amazonS3Service.deleteImage(photoType, getUrlById(photoId));
 
         deletePhoto(photoId);
+    }
+
+    private PhotoType findPhotoTypeById(Long photoId) {
+
+        String dtype = photoRepository.findPhotoType(photoId)
+                .orElseThrow(() -> new PhotoException());
+
+        return PhotoType.ofDtype(dtype);
     }
 
     private void deletePhoto(Long photoId) {
@@ -55,13 +60,5 @@ public class PhotoService {
 
         return photoRepository.findById(photoId)
                 .orElseThrow(() -> PhotoException.EXCEPTION);
-    }
-
-    private PhotoType findPhotoTypeById(Long photoId) {
-
-        String dtype = photoRepository.findPhotoType(photoId)
-                .orElseThrow(() -> new PhotoException());
-
-        return PhotoType.ofDtype(dtype);
     }
 }

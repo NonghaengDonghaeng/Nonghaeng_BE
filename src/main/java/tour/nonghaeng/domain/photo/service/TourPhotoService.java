@@ -36,6 +36,8 @@ public class TourPhotoService {
     private final TourPhotoValidator tourPhotoValidator;
     private final PhotoValidator photoValidator;
 
+
+
     public Long upload(Seller seller, MultipartFile imageFile) {
 
         Tour tour = tourService.findBySeller(seller);
@@ -44,6 +46,19 @@ public class TourPhotoService {
 
         return createTourPhoto(seller, tour, imgUrl).getId();
     }
+
+    private TourPhoto createTourPhoto(Seller seller, Tour tour, String imgUrl) {
+
+        TourPhoto cretedTourPhoto = TourPhoto.builder().tour(tour).seller(seller).imgUrl(imgUrl).build();
+
+        if (!tourPhotoRepository.hasExactlyOneRepresentativePhoto(tour)) {
+            cretedTourPhoto.onRepresentative();
+        }
+
+        return tourPhotoRepository.save(cretedTourPhoto);
+    }
+
+
 
     public List<PhotoInfoDto> getTourPhotoInfoListDto(Long tourId) {
 
@@ -56,6 +71,8 @@ public class TourPhotoService {
         return dto;
     }
 
+
+
     public PhotoInfoDto getRepresentTourPhotoDto(Long tourId) {
 
         Tour tour = tourService.findById(tourId);
@@ -66,6 +83,7 @@ public class TourPhotoService {
 
         return PhotoInfoDto.toDto(findById(representId));
     }
+
 
     //대표사진이 없으면 대표사진 설정, 대표사진이 있으면 변경
     public void changeRepresentativePhoto(Long tourPhotoId) {
@@ -87,22 +105,8 @@ public class TourPhotoService {
         tourPhotoRepository.save(tourPhoto);
     }
 
-    private TourPhoto createTourPhoto(Seller seller, Tour tour, String imgUrl) {
 
-        TourPhoto cretedTourPhoto = TourPhoto.builder()
-                .tour(tour)
-                .seller(seller)
-                .imgUrl(imgUrl)
-                .build();
-
-        if (!tourPhotoRepository.hasExactlyOneRepresentativePhoto(tour)) {
-            cretedTourPhoto.onRepresentative();
-        }
-
-        return tourPhotoRepository.save(cretedTourPhoto);
-    }
-
-    public TourPhoto findById(Long tourPhotoId) {
+    private TourPhoto findById(Long tourPhotoId) {
 
         return tourPhotoRepository.findById(tourPhotoId)
                 .orElseThrow(() -> PhotoException.EXCEPTION);

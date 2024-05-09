@@ -36,6 +36,9 @@ public class RoomPhotoService {
     private final RoomPhotoValidator roomPhotoValidator;
     private final PhotoValidator photoValidator;
 
+
+
+
     public Long upload(Seller seller, Long roomId, MultipartFile imageFile) {
 
         Room room = roomService.findById(roomId);
@@ -44,6 +47,19 @@ public class RoomPhotoService {
 
         return createRoomPhoto(seller, room, imgUrl).getId();
     }
+
+    private RoomPhoto createRoomPhoto(Seller seller, Room room, String imgUrl) {
+
+        RoomPhoto createdRoomPhoto = RoomPhoto.builder().room(room).seller(seller).imgUrl(imgUrl).build();
+
+        if (!roomPhotoRepository.hasExactlyOneRepresentativePhoto(room)) {
+            createdRoomPhoto.onRepresentative();
+        }
+
+        return roomPhotoRepository.save(createdRoomPhoto);
+    }
+
+
 
     public List<PhotoInfoDto> getRoomPhotoInfoListDto(Long roomId) {
 
@@ -86,22 +102,7 @@ public class RoomPhotoService {
         roomPhotoRepository.save(roomPhoto);
     }
 
-    private RoomPhoto createRoomPhoto(Seller seller, Room room, String imgUrl) {
-
-        RoomPhoto createdRoomPhoto = RoomPhoto.builder()
-                .room(room)
-                .seller(seller)
-                .imgUrl(imgUrl)
-                .build();
-
-        if (!roomPhotoRepository.hasExactlyOneRepresentativePhoto(room)) {
-            createdRoomPhoto.onRepresentative();
-        }
-
-        return roomPhotoRepository.save(createdRoomPhoto);
-    }
-
-    public RoomPhoto findById(Long roomPhotoId) {
+    private RoomPhoto findById(Long roomPhotoId) {
         return roomPhotoRepository.findById(roomPhotoId)
                     .orElseThrow(() -> PhotoException.EXCEPTION);
     }
