@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -31,10 +32,13 @@ public class ReviewController {
 
 
     @GetMapping
-    public ResponseEntity<Page<ReviewSummaryDto>> getReviewSummaryDtoPage(Pageable pageable) {
+    public ResponseEntity<Page<? extends ReviewSummaryDto>> getReviewSummaryDtoPage(@PageableDefault(size = 10) Pageable pageable,
+                                                                          @RequestParam(name = "title",required = false)String title,
+                                                                          @RequestParam(name="content",required = false)String content) {
 
+        Page<? extends ReviewSummaryDto> dtoPage = reviewService.getReviewSummaryDtoPageByKeyword(pageable, title, content);
 
-        return new ResponseEntity<>(null,HttpStatus.OK);
+        return new ResponseEntity<>(dtoPage,HttpStatus.OK);
     }
 
     //TODO: 체험이나 숙박을 한 사람만 리뷰를 쓸수있도록 검증

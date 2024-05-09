@@ -2,6 +2,7 @@ package tour.nonghaeng.domain.review.repo;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -25,4 +26,5 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     Page<Review> findReviewPageByUser(@Param("user") User user, Pageable pageable);
 
 
+    Page<Review> findAll(Specification<Review> spec, Pageable pageable);
 }

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.entity.User;
@@ -11,6 +12,7 @@ import tour.nonghaeng.domain.review.dto.ReviewDetailDto;
 import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
 import tour.nonghaeng.domain.review.dto.exp.CreateExpReviewDto;
 import tour.nonghaeng.domain.review.dto.room.CreateRoomReviewDto;
+import tour.nonghaeng.domain.review.dto.specification.ReviewSpecification;
 import tour.nonghaeng.domain.review.entity.Review;
 import tour.nonghaeng.domain.review.repo.ReviewRepository;
 import tour.nonghaeng.domain.review.valid.ReviewValidator;
@@ -55,6 +57,19 @@ public class ReviewService {
 
 
     //리뷰 조회 서비스
+    public Page<? extends ReviewSummaryDto> getReviewSummaryDtoPageByKeyword(Pageable pageable, String title, String content) {
+
+        Specification<Review> specification = ReviewSpecification.buildSpecification(title, content);
+
+        Page<Review> reviewPage = reviewRepository.findAll(specification, pageable);
+
+        Page<Review> upCastedReviewPage = reviewPage.map(review -> findUpCastedReviewById(review.getId()));
+
+        return upCastedReviewPage.map(Review::toReviewSummaryDto);
+    }
+
+
+
     public ReviewDetailDto getReviewDetailDto(Long reviewId) {
 
         reviewValidator.idValidate(reviewId);
