@@ -11,7 +11,7 @@ import tour.nonghaeng.global.exception.dto.ErrorReason;
 public enum ReservationErrorCode implements BaseErrorCode {
     DEFAULT_RESERVATION_ERROR(HttpStatus.BAD_GATEWAY,"RES_400_0","예약 기본 오류"),
 
-    NO_EXIST_RESERVATION_ID(HttpStatus.BAD_GATEWAY, "RES_404_4", "해당 id가 존재하지 않습니다."),
+    NO_EXIST_RESERVATION_ID(HttpStatus.BAD_GATEWAY, "RES_404_4", "해당 예약 id가 존재하지 않습니다."),
 
     //해당 페이지에 예약이 없을시 에러코드
     NO_RESERVATION_CONTENT_AT_CURRENT_PAGE_ERROR(HttpStatus.NOT_FOUND, "RES_105_1", "현재 페이지에 예약이 없습니다."),
@@ -21,6 +21,11 @@ public enum ReservationErrorCode implements BaseErrorCode {
 
     //예약 취소 API 사용시 예약이 이미 취소되거나 완료된 상태일 때
     CANT_CANCEL_RESERVATION_STATE(HttpStatus.BAD_GATEWAY, "RES_009_1", "해당 예약을 취소할 수 없습니다."),
+
+    NOT_COMPLETE_RESERVATION_STATE(HttpStatus.BAD_GATEWAY, "RES_009_3", "완료된 체험이 아닙니다."),
+
+    //예약 타입이 잘못되었을 때
+    NOT_MATCH_TYPE_ERROR(HttpStatus.BAD_GATEWAY, "RES_009_3", "예약 타입이 잘못되었습니다."),
 
     //이 예약에 대한 판매자가 아닐경우 에로코드
     NO_OWNER_AUTHORIZATION_ERROR(HttpStatus.BAD_GATEWAY, "RES_000_2", "해당 예약에 대한 소유자가 아닙니다."),

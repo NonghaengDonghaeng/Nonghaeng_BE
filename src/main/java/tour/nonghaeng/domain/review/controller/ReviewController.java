@@ -41,24 +41,32 @@ public class ReviewController {
         return new ResponseEntity<>(dtoPage,HttpStatus.OK);
     }
 
-    //TODO: 체험이나 숙박을 한 사람만 리뷰를 쓸수있도록 검증
-    @PostMapping("/experience")
+
+    @PostMapping("/experience/{reservationId}")
     public ResponseEntity<String> createExperienceReview(Authentication authentication,
+                                                         @PathVariable("reservationId") Long reservationId,
                                                          @RequestBody CreateExpReviewDto requestDto) {
 
-        Long expReviewId =
-                reviewService.createExpReview(authService.toUserEntity(authentication), requestDto);
+        User user = authService.toUserEntity(authentication);
+
+        reviewValidator.createReviewValidate(user,reservationId,"experience");
+
+        Long expReviewId = reviewService.createExpReview(user, reservationId, requestDto);
 
         return new ResponseEntity<>(expReviewId + "체험 리뷰 생성완료", HttpStatus.OK);
     }
 
 
-    @PostMapping("/room")
+    @PostMapping("/room/{reservationId}")
     public ResponseEntity<String> createRoomReview(Authentication authentication,
+                                                   @PathVariable("reservationId") Long reservationId,
                                                    @RequestBody CreateRoomReviewDto requestDto) {
 
-        Long roomReviewId =
-                reviewService.createRoomReview(authService.toUserEntity(authentication), requestDto);
+        User user = authService.toUserEntity(authentication);
+
+        reviewValidator.createReviewValidate(user,reservationId,"room");
+
+        Long roomReviewId = reviewService.createRoomReview(user, reservationId, requestDto);
 
         return new ResponseEntity<>(roomReviewId + "숙소 리뷰 생성완료", HttpStatus.OK);
     }
@@ -94,11 +102,14 @@ public class ReviewController {
         return new ResponseEntity<>(summaryDtoPage, HttpStatus.OK);
     }
 
-    //TODO: 합쳐서 보내주는 방법 고민하기
-    @GetMapping("/tour/{tourId}")
-    public ResponseEntity<Page<ReviewSummaryDto>> getTourReviewSummaryDtoPage(@PathVariable("tourId") Long tourId, Pageable pageable) {
 
-        return new ResponseEntity<>(null, HttpStatus.OK);
+    @GetMapping("/tour/{tourId}")
+    public ResponseEntity<Page<? extends ReviewSummaryDto>> getTourReviewSummaryDtoPage(@PathVariable("tourId") Long tourId, Pageable pageable) {
+
+        Page<? extends ReviewSummaryDto> summaryDtoPage =
+                reviewService.getReviewSummaryDtoPage(tourId, pageable, "tour");
+
+        return new ResponseEntity<>(summaryDtoPage, HttpStatus.OK);
     }
 
     @GetMapping("/my-review")

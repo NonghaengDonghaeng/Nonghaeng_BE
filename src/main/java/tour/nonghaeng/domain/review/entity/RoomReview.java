@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
+import tour.nonghaeng.domain.reservation.entity.Reservation;
 import tour.nonghaeng.domain.review.dto.ReviewDetailDto;
 import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
 import tour.nonghaeng.domain.review.dto.room.RoomReviewDetailDto;
@@ -26,8 +27,8 @@ public class RoomReview extends Review{
     private Room room;
 
     @Builder
-    private RoomReview(Room room, User user, String title, String content) {
-        super(user,title,content);
+    private RoomReview(Room room, User user, Reservation reservation, String title, String content) {
+        super(user, reservation, title, content);
         this.room = room;
     }
 

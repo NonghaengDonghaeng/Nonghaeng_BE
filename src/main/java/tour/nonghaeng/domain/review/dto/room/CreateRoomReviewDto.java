@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.reservation.entity.Reservation;
 import tour.nonghaeng.domain.review.entity.RoomReview;
 import tour.nonghaeng.domain.room.entity.Room;
 
@@ -26,12 +27,14 @@ public class CreateRoomReviewDto {
         this.content = content;
     }
 
-    public RoomReview toEntity(User user, Room room) {
+    public RoomReview toEntity(User user, Reservation reservation, Room room) {
 
+        String formatTitle = "[" + room.getTour().getName() + "] " + this.title;
         return RoomReview.builder()
                 .user(user)
+                .reservation(reservation)
                 .room(room)
-                .title(this.title)
+                .title(formatTitle)
                 .content(this.content)
                 .build();
     }

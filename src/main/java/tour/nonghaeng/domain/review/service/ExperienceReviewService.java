@@ -10,6 +10,7 @@ import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
 import tour.nonghaeng.domain.experience.valid.ExperienceValidator;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.reservation.entity.Reservation;
 import tour.nonghaeng.domain.review.dto.exp.CreateExpReviewDto;
 import tour.nonghaeng.domain.review.entity.Review;
 import tour.nonghaeng.domain.review.exception.ReviewException;
@@ -29,13 +30,13 @@ public class ExperienceReviewService {
 
 
 
-    public Long createExperienceReview(User user, CreateExpReviewDto requestDto) {
+    public Long createExperienceReview(User user, Reservation reservation, CreateExpReviewDto requestDto) {
 
         Experience experience = experienceService.findById(requestDto.getExpId());
 
         //TODO: validator
 
-        return experienceReviewRepository.save(requestDto.toEntity(user, experience)).getId();
+        return experienceReviewRepository.save(requestDto.toEntity(user, reservation, experience)).getId();
     }
 
 

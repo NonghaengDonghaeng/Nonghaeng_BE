@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.reservation.entity.Reservation;
 import tour.nonghaeng.domain.review.dto.room.CreateRoomReviewDto;
 import tour.nonghaeng.domain.review.entity.Review;
 import tour.nonghaeng.domain.review.exception.ReviewException;
@@ -29,13 +30,13 @@ public class RoomReviewService {
 
 
 
-    public Long createRoomReview(User user, CreateRoomReviewDto requestDto) {
+    public Long createRoomReview(User user, Reservation reservation, CreateRoomReviewDto requestDto) {
 
         Room room = roomService.findById(requestDto.getRoomId());
 
         //TODO: validator
 
-        return roomReviewRepository.save(requestDto.toEntity(user, room)).getId();
+        return roomReviewRepository.save(requestDto.toEntity(user, reservation, room)).getId();
     }
 
 

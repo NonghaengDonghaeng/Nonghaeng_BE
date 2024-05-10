@@ -8,6 +8,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.reservation.entity.Reservation;
+import tour.nonghaeng.domain.reservation.service.ReservationService;
 import tour.nonghaeng.domain.review.dto.ReviewDetailDto;
 import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
 import tour.nonghaeng.domain.review.dto.exp.CreateExpReviewDto;
@@ -16,7 +18,7 @@ import tour.nonghaeng.domain.review.dto.specification.ReviewSpecification;
 import tour.nonghaeng.domain.review.entity.Review;
 import tour.nonghaeng.domain.review.repo.ReviewRepository;
 import tour.nonghaeng.domain.review.valid.ReviewValidator;
-import tour.nonghaeng.domain.room.service.RoomService;
+import tour.nonghaeng.domain.tour.service.TourService;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +30,8 @@ public class ReviewService {
 
     private final RoomReviewService roomReviewService;
     private final ExperienceReviewService experienceReviewService;
-    private final RoomService roomService;
+    private final ReservationService reservationService;
+    private final TourService tourService;
 
     private final ReviewValidator reviewValidator;
 
@@ -42,17 +45,20 @@ public class ReviewService {
 
 
 
-    //리뷰 생성 서비스
-    public Long createExpReview(User user, CreateExpReviewDto requestDto) {
+    //리뷰 생성 서비스( createReview 로 통합되면 통합하기)
+    public Long createExpReview(User user, Long reservationId, CreateExpReviewDto requestDto) {
 
-        return experienceReviewService.createExperienceReview(user, requestDto);
+        Reservation reservation = reservationService.findById(reservationId);
+
+        return experienceReviewService.createExperienceReview(user, reservation, requestDto);
     }
 
 
+    public Long createRoomReview(User user, Long reservationId, CreateRoomReviewDto requestDto) {
 
-    public Long createRoomReview(User user, CreateRoomReviewDto requestDto) {
+        Reservation reservation = reservationService.findById(reservationId);
 
-        return roomReviewService.createRoomReview(user, requestDto);
+        return roomReviewService.createRoomReview(user, reservation, requestDto);
     }
 
 
@@ -97,12 +103,22 @@ public class ReviewService {
             return roomReviewService.findReviewPageByRoomId(id, pageable);
 
         }
-        //type= experience
-        return experienceReviewService.findReviewPageByExpId(id, pageable);
+        else if (type.equals("experience")) {
 
-        //TODO: type = tour 일때
+            return experienceReviewService.findReviewPageByExpId(id, pageable);
+        }
+
+        return findReviewPageByTour(id, pageable);
     }
 
+    private Page<Review> findReviewPageByTour(Long id, Pageable pageable) {
+
+        Specification<Review> specification = ReviewSpecification.buildSpecification(tourService.findById(id).getName(), null);
+
+        Page<Review> reviewPage = reviewRepository.findAll(specification, pageable);
+
+        return reviewPage.map(review -> findUpCastedReviewById(review.getId()));
+    }
 
 
     public Page<? extends ReviewSummaryDto> getReviewSummaryDtoPageByUser(User user, Pageable pageable,String type) {

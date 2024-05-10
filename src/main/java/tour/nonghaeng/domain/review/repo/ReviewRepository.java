@@ -25,6 +25,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query("select r from Review r where r.user = :user")
     Page<Review> findReviewPageByUser(@Param("user") User user, Pageable pageable);
 
+    @Query("select count(r)=0 from Review r where r.reservation.id = :reservationId")
+    boolean isEmptyByReservation(@Param("reservationId") Long reservationId);
 
     Page<Review> findAll(Specification<Review> spec, Pageable pageable);
 }

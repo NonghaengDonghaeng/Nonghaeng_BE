@@ -9,6 +9,7 @@ import tour.nonghaeng.domain.experience.dto.ExpSummaryDto;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
+import tour.nonghaeng.domain.reservation.entity.Reservation;
 import tour.nonghaeng.domain.review.dto.ReviewDetailDto;
 import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
 import tour.nonghaeng.domain.review.dto.exp.ExpReviewDetailDto;
@@ -26,8 +27,8 @@ public class ExperienceReview extends Review {
     private Experience experience;
 
     @Builder
-    public ExperienceReview(User user, String title, String content, Experience experience) {
-        super(user, title, content);
+    public ExperienceReview(User user, Reservation reservation, String title, String content, Experience experience) {
+        super(user, reservation, title, content);
         this.experience = experience;
     }
 

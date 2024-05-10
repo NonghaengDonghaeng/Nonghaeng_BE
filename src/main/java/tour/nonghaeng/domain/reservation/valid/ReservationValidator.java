@@ -8,9 +8,9 @@ import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.entity.Reservation;
-import tour.nonghaeng.domain.reservation.repo.ReservationRepository;
 import tour.nonghaeng.domain.reservation.exception.ReservationException;
 import tour.nonghaeng.domain.reservation.exception.error.ReservationErrorCode;
+import tour.nonghaeng.domain.reservation.repo.ReservationRepository;
 
 @Component
 @RequiredArgsConstructor
@@ -36,6 +36,26 @@ public class ReservationValidator {
         if (!user.equals(reservationRepository.findUserById(reservationId).get())) {
             throw new ReservationException(ReservationErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
         }
+    }
+
+    public void checkCompleteState(Long reservationId) {
+
+        idValidate(reservationId);
+
+        Reservation reservation = reservationRepository.findById(reservationId).get();
+        //TODO: 리뷰되는지 테스트를 위한 주석처리
+//        if (!reservation.getStateType().equals(ReservationStateType.COMPLETE_RESERVATION)) {
+//            throw new ReservationException(ReservationErrorCode.NOT_COMPLETE_RESERVATION_STATE);
+//        }
+    }
+
+    public void checkReservationType(Long reservationId, String type) {
+        String dtype = reservationRepository.findReservationTypeById(reservationId);
+
+        if(!dtype.equals(type)) {
+            throw new ReservationException(ReservationErrorCode.NOT_MATCH_TYPE_ERROR);
+        }
+
     }
 
     public void checkWaitingState(Reservation reservation) {

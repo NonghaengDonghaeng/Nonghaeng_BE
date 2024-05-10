@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.reservation.entity.Reservation;
 import tour.nonghaeng.domain.review.entity.ExperienceReview;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
@@ -25,11 +26,15 @@ public class CreateExpReviewDto {
         this.content = content;
     }
 
-    public ExperienceReview toEntity(User user, Experience experience){
+    public ExperienceReview toEntity(User user, Reservation reservation, Experience experience){
+
+        String formatTitle = "[" + experience.getTour().getName() + "] " + this.title;
+
         return ExperienceReview.builder()
                 .user(user)
+                .reservation(reservation)
                 .experience(experience)
-                .title(this.title)
+                .title(formatTitle)
                 .content(this.content)
                 .build();
     }
