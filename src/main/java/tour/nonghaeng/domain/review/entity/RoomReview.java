@@ -41,6 +41,7 @@ public class RoomReview extends Review{
                 .author(this.getUser().getName())
                 .title(this.getTitle())
                 .type("room")
+                .likes(this.getReviewLikes().size())
                 .photoInfoDto(super.findRepresentPhoto().isPresent() ?
                         PhotoInfoDto.toDto(this.findRepresentPhoto().get()) : null)
                 .build();
@@ -55,6 +56,7 @@ public class RoomReview extends Review{
                 .author(this.getUser().getName())
                 .title(this.getTitle())
                 .content(this.getContent())
+                .likes(this.getReviewLikes().size())
                 .roomSummaryDto(RoomSummaryDto.toDto(this.room))
                 .photoInfoDtoList(this.getReviewPhotos().stream()
                         .map(PhotoInfoDto::toDto).toList())

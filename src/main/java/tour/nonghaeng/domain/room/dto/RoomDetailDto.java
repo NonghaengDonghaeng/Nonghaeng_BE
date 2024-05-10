@@ -36,10 +36,11 @@ public class RoomDetailDto {
     private String precautions;
     private Long tourId;
     private String tourName;
+    private int likes;
     private List<PhotoInfoDto> photoInfoDtoList;
 
     @Builder
-    public RoomDetailDto(String roomName, String roomTypeName, String summary, int pricePeak, int priceOffPeak, int priceHoliday, int standardCapacity, int maxCapacity, int additionalCost, LocalTime checkinTime, LocalTime checkoutTime, int currentNumOfRoom, String roomConfiguration, String inclusions, String requirement, String facilities, String usageTips, String precautions, Long tourId, String tourName, List<PhotoInfoDto> photoInfoDtoList) {
+    public RoomDetailDto(String roomName, String roomTypeName, String summary, int pricePeak, int priceOffPeak, int priceHoliday, int standardCapacity, int maxCapacity, int additionalCost, LocalTime checkinTime, LocalTime checkoutTime, int currentNumOfRoom, String roomConfiguration, String inclusions, String requirement, String facilities, String usageTips, String precautions, Long tourId, String tourName, int likes, List<PhotoInfoDto> photoInfoDtoList) {
         this.roomName = roomName;
         this.roomTypeName = roomTypeName;
         this.summary = summary;
@@ -60,6 +61,7 @@ public class RoomDetailDto {
         this.precautions = precautions;
         this.tourId = tourId;
         this.tourName = tourName;
+        this.likes = likes;
         this.photoInfoDtoList = photoInfoDtoList;
     }
 
@@ -85,6 +87,7 @@ public class RoomDetailDto {
                 .precautions(room.getPrecautions())
                 .tourId(room.getTour().getId())
                 .tourName(room.getTour().getName())
+                .likes(room.getRoomLikes().size())
                 .photoInfoDtoList(room.getRoomPhotoList().stream()
                         .map(roomPhoto -> PhotoInfoDto.toDto(roomPhoto))
                         .toList())

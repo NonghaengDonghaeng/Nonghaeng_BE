@@ -8,8 +8,9 @@ import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
 import tour.nonghaeng.domain.like.entity.ExperienceLike;
 import tour.nonghaeng.domain.like.repo.ExperienceLikeRepository;
-import tour.nonghaeng.domain.like.valid.ExperienceLikeValidator;
 import tour.nonghaeng.domain.member.entity.User;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,16 +20,29 @@ public class ExperienceLikeService {
 
     private final ExperienceLikeRepository experienceLikeRepository;
 
-    private final ExperienceLikeValidator experienceLikeValidator;
-
     private final ExperienceService experienceService;
 
-    public void createLike(User user, Long experienceId) {
+
+
+    public boolean clickLike(User user, Long experienceId) {
 
         Experience experience = experienceService.findById(experienceId);
 
-        experienceLikeValidator.createLikeValidate(user.getId(), experienceId);
+        Optional<ExperienceLike> maybeExperienceLike = experienceLikeRepository.findByUserAndExperience(user, experience);
+
+        return maybeExperienceLike.map(this::offLike).orElseGet(() -> onLike(user, experience));
+    }
+
+    private boolean onLike(User user, Experience experience) {
 
         experienceLikeRepository.save(ExperienceLike.builder().user(user).experience(experience).build());
+        return true;
     }
+
+    private boolean offLike(ExperienceLike experienceLike) {
+
+        experienceLikeRepository.delete(experienceLike);
+        return false;
+    }
+
 }

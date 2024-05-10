@@ -41,6 +41,7 @@ public class ExperienceReview extends Review {
                 .author(this.getUser().getName())
                 .title(this.getTitle())
                 .type("experience")
+                .likes(this.getReviewLikes().size())
                 .photoInfoDto(super.findRepresentPhoto().isPresent() ?
                         PhotoInfoDto.toDto(this.findRepresentPhoto().get()) : null)
                 .build();
@@ -55,6 +56,7 @@ public class ExperienceReview extends Review {
                 .author(this.getUser().getName())
                 .title(this.getTitle())
                 .content(this.getContent())
+                .likes(this.getReviewLikes().size())
                 .expSummaryDto(ExpSummaryDto.toDto(this.experience))
                 .photoInfoDtoList(this.getReviewPhotos().stream()
                         .map(PhotoInfoDto::toDto).toList())

@@ -27,11 +27,12 @@ public class RoomTourDetailDto {
     private String parking;
     private String toilet;
     private String amenities;
+    private int likes;
     private List<RoomSummaryDto> roomSummaryDtoList;
     private List<PhotoInfoDto> photoInfoDtoList;
 
     @Builder
-    public RoomTourDetailDto(String tourName, String tourOneLineIntro, String areaName, String address, String callNumber, String homepageUrl, String restaurant, String parking, String toilet, String amenities, List<RoomSummaryDto> roomSummaryDtoList, List<PhotoInfoDto> photoInfoDtoList) {
+    public RoomTourDetailDto(String tourName, String tourOneLineIntro, String areaName, String address, String callNumber, String homepageUrl, String restaurant, String parking, String toilet, String amenities,int likes, List<RoomSummaryDto> roomSummaryDtoList, List<PhotoInfoDto> photoInfoDtoList) {
         this.tourName = tourName;
         this.tourOneLineIntro = tourOneLineIntro;
         this.areaName = areaName;
@@ -42,6 +43,7 @@ public class RoomTourDetailDto {
         this.parking = parking;
         this.toilet = toilet;
         this.amenities = amenities;
+        this.likes = likes;
         this.roomSummaryDtoList = roomSummaryDtoList;
         this.photoInfoDtoList = photoInfoDtoList;
     }
@@ -58,6 +60,7 @@ public class RoomTourDetailDto {
                 .parking(tour.getParking())
                 .toilet(tour.getToilet())
                 .amenities(tour.getAmenities())
+                .likes(tour.getTourLikes().size())
                 .photoInfoDtoList(tour.getTourPhotos().stream()
                         .map(tourPhoto -> PhotoInfoDto.toDto(tourPhoto))
                         .toList())

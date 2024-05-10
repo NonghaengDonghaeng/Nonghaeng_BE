@@ -24,16 +24,18 @@ public class ExpReviewSummaryDto extends ReviewSummaryDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate createDate;
     private String type;
+    private int likes;
     private PhotoInfoDto photoInfoDto;
 
     @Builder
-    private ExpReviewSummaryDto(Long reviewId,String expName, String title, String author, LocalDate createDate,String type,PhotoInfoDto photoInfoDto) {
+    private ExpReviewSummaryDto(Long reviewId, String expName, String title, String author, LocalDate createDate, String type, int likes, PhotoInfoDto photoInfoDto) {
         this.reviewId = reviewId;
         this.expName = expName;
         this.title = title;
         this.author = author;
         this.createDate = createDate;
         this.type = type;
+        this.likes = likes;
         this.photoInfoDto = photoInfoDto;
     }
 }

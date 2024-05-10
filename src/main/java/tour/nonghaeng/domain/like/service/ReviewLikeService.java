@@ -6,10 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tour.nonghaeng.domain.like.entity.ReviewLike;
 import tour.nonghaeng.domain.like.repo.ReviewLikeRepository;
-import tour.nonghaeng.domain.like.valid.ReviewLikeValidator;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.review.entity.Review;
 import tour.nonghaeng.domain.review.service.ReviewService;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,15 +22,26 @@ public class ReviewLikeService {
 
     private final ReviewService reviewService;
 
-    private final ReviewLikeValidator reviewLikeValidator;
 
 
-    public void createLike(User user, Long reviewId) {
+    public boolean clickLike(User user, Long reviewId) {
 
         Review review = reviewService.findById(reviewId);
 
-        reviewLikeValidator.createLikeValidate(user.getId(), reviewId);
+        Optional<ReviewLike> maybeReviewLike = reviewLikeRepository.findByUserAndReview(user, review);
+
+        return maybeReviewLike.map(this::offLike).orElseGet(() -> onLike(user, review));
+    }
+
+    private boolean onLike(User user, Review review) {
 
         reviewLikeRepository.save(ReviewLike.builder().user(user).review(review).build());
+        return true;
+    }
+
+    private boolean offLike(ReviewLike reviewLike) {
+
+        reviewLikeRepository.delete(reviewLike);
+        return false;
     }
 }

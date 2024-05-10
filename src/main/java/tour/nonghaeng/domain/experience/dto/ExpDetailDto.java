@@ -11,7 +11,6 @@ import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -31,12 +30,14 @@ public class ExpDetailDto {
     private String summary;
     private String supplies;
     private String precautions;
+    private int likes;
     private TourInfo tourInfo;
     private SellerInfo sellerInfo;
     private List<PhotoInfoDto> photoInfoDtoList;
 
     @Builder
-    public ExpDetailDto(String experienceName, String experienceTypeName, LocalDate startDate, LocalDate endDate, int minParticipant, int maxParticipant, int price, int durationHours, String checkPoint, String detailIntroduction, String summary, String supplies, String precautions, TourInfo tourInfo, SellerInfo sellerInfo, List<PhotoInfoDto> photoInfoDtoList) {
+    public ExpDetailDto(String experienceName, String experienceTypeName, LocalDate startDate, LocalDate endDate, int minParticipant, int maxParticipant, int price, int durationHours, String checkPoint, String detailIntroduction, String summary, String supplies, String precautions, int likes, TourInfo tourInfo, SellerInfo sellerInfo, List<PhotoInfoDto> photoInfoDtoList) {
+
         this.experienceName = experienceName;
         this.experienceTypeName = experienceTypeName;
         this.startDate = startDate;
@@ -50,6 +51,7 @@ public class ExpDetailDto {
         this.summary = summary;
         this.supplies = supplies;
         this.precautions = precautions;
+        this.likes = likes;
         this.tourInfo = tourInfo;
         this.sellerInfo = sellerInfo;
         this.photoInfoDtoList = photoInfoDtoList;
@@ -85,6 +87,7 @@ public class ExpDetailDto {
                 .summary(experience.getSummary())
                 .supplies(experience.getSupplies())
                 .precautions(experience.getPrecautions())
+                .likes(experience.getExperienceLikes().size())
                 .tourInfo(TourInfo.builder()
                         .tourId(experience.getTour().getId())
                         .tourName(experience.getTour().getName())

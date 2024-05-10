@@ -28,10 +28,11 @@ public class TourDetailDto {
     private List<RoomSummary> roomSummaryList;
     private List<ExpSummary> expSummaryList;
     private List<PhotoInfoDto> photoInfoDtoList;
+    private int likes;
 
 
     @Builder
-    public TourDetailDto(String name, String homepageUrl, String introduction, String oneLineIntro, String summary, String restaurant, String parking, String toilet, String amenities, String areaName, List<RoomSummary> roomSummaryList, List<ExpSummary> expSummaryList, List<PhotoInfoDto> photoInfoDtoList) {
+    public TourDetailDto(String name, String homepageUrl, String introduction, String oneLineIntro, String summary, String restaurant, String parking, String toilet, String amenities, String areaName,int likes, List<RoomSummary> roomSummaryList, List<ExpSummary> expSummaryList, List<PhotoInfoDto> photoInfoDtoList) {
         this.name = name;
         this.homepageUrl = homepageUrl;
         this.introduction = introduction;
@@ -42,9 +43,11 @@ public class TourDetailDto {
         this.toilet = toilet;
         this.amenities = amenities;
         this.areaName = areaName;
+        this.likes = likes;
         this.roomSummaryList = roomSummaryList;
         this.expSummaryList = expSummaryList;
         this.photoInfoDtoList = photoInfoDtoList;
+
     }
 
     public static TourDetailDto toDto(Tour tour) {
@@ -60,6 +63,7 @@ public class TourDetailDto {
                 .toilet(tour.getToilet())
                 .amenities(tour.getAmenities())
                 .areaName(tour.getAreaCode().getAreaName())
+                .likes(tour.getTourLikes().size())
                 .build();
         tourDetailDto.addRoomSummaryList(tour);
         tourDetailDto.addExpSummaryList(tour);

@@ -27,9 +27,10 @@ public class RoomSummaryDto {
     private LocalTime checkoutTime;
     private String roomConfiguration;
     private PhotoInfoDto photoInfoDto;
+    private int likes;
 
     @Builder
-    public RoomSummaryDto(Long roomId, String roomName, int currentNumOfRoom, int price, int priceHoliday, int standardCapacity, int maxCapacity, LocalTime checkinTime, LocalTime checkoutTime, String roomConfiguration, PhotoInfoDto photoInfoDto) {
+    public RoomSummaryDto(Long roomId, String roomName, int currentNumOfRoom, int price, int priceHoliday, int standardCapacity, int maxCapacity, LocalTime checkinTime, LocalTime checkoutTime, String roomConfiguration, PhotoInfoDto photoInfoDto,int likes) {
         this.roomId = roomId;
         this.roomName = roomName;
         this.currentNumOfRoom = currentNumOfRoom;
@@ -41,6 +42,7 @@ public class RoomSummaryDto {
         this.checkoutTime = checkoutTime;
         this.roomConfiguration = roomConfiguration;
         this.photoInfoDto = photoInfoDto;
+        this.likes = likes;
     }
 
     public static RoomSummaryDto toDto(Room room) {
@@ -57,6 +59,7 @@ public class RoomSummaryDto {
                 .roomConfiguration(room.getRoomConfiguration())
                 .photoInfoDto(room.findRepresentPhoto().isPresent()?
                         PhotoInfoDto.toDto(room.findRepresentPhoto().get()):null)
+                .likes(room.getRoomLikes().size())
                 .build();
     }
 

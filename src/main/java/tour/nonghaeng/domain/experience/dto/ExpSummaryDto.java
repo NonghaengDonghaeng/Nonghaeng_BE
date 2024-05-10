@@ -23,10 +23,12 @@ public class ExpSummaryDto {
     private String areaName;
     private String tourName;
     private String summary;
+    private int likes;
     private PhotoInfoDto photoInfoDto;
 
     @Builder
-    public ExpSummaryDto(Long experienceId, String experienceName, int price, int minParticipant, int maxParticipant, String areaName, String tourName, String summary, PhotoInfoDto photoInfoDto) {
+    public ExpSummaryDto(Long experienceId, String experienceName, int price, int minParticipant, int maxParticipant, String areaName, String tourName, String summary, int likes, PhotoInfoDto photoInfoDto) {
+
         this.experienceId = experienceId;
         this.experienceName = experienceName;
         this.price = price;
@@ -35,6 +37,7 @@ public class ExpSummaryDto {
         this.areaName = areaName;
         this.tourName = tourName;
         this.summary = summary;
+        this.likes = likes;
         this.photoInfoDto = photoInfoDto;
     }
 
@@ -48,6 +51,7 @@ public class ExpSummaryDto {
                 .areaName(experience.getTour().getAreaCode().getAreaName())
                 .tourName(experience.getTour().getName())
                 .summary(experience.getSummary())
+                .likes(experience.getExperienceLikes().size())
                 .photoInfoDto(experience.findRepresentPhoto().isPresent() ?
                         PhotoInfoDto.toDto(experience.findRepresentPhoto().get()) : null)
                 .build();
@@ -63,6 +67,7 @@ public class ExpSummaryDto {
                 .areaName(exp.getTour().getAreaCode().getAreaName())
                 .tourName(exp.getTour().getName())
                 .summary(exp.getSummary())
+                .likes(exp.getExperienceLikes().size())
                 .photoInfoDto(exp.findRepresentPhoto().isPresent() ?
                         PhotoInfoDto.toDto(exp.findRepresentPhoto().get()) : null)
                 .build());

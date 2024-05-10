@@ -23,9 +23,10 @@ public class TourSummaryDto{
     private int countRoom;
     private String oneLineIntro;
     private PhotoInfoDto photoInfoDto;
+    private int likes;
 
     @Builder
-    private TourSummaryDto(Long tourId, String name, String areaName, String tourType, int countExperience, int countRoom, String oneLineIntro,PhotoInfoDto photoInfoDto) {
+    private TourSummaryDto(Long tourId, String name, String areaName, String tourType, int countExperience, int countRoom, String oneLineIntro,PhotoInfoDto photoInfoDto,int likes) {
         this.tourId = tourId;
         this.name = name;
         this.areaName = areaName;
@@ -34,6 +35,7 @@ public class TourSummaryDto{
         this.countRoom = countRoom;
         this.oneLineIntro = oneLineIntro;
         this.photoInfoDto = photoInfoDto;
+        this.likes = likes;
     }
 
 
@@ -50,6 +52,7 @@ public class TourSummaryDto{
                 .oneLineIntro(tour.getOneLineIntro())
                 .photoInfoDto(tour.findRepresentPhoto().isPresent() ?
                         PhotoInfoDto.toDto(tour.findRepresentPhoto().get()) : null)
+                .likes(tour.getTourLikes().size())
                 .build()
         );
     }

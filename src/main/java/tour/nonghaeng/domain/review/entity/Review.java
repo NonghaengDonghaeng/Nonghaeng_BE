@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.etc.BaseTimeEntity;
+import tour.nonghaeng.domain.like.entity.ReviewLike;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.photo.entity.Photo;
 import tour.nonghaeng.domain.photo.entity.ReviewPhoto;
@@ -45,6 +46,9 @@ public abstract class Review extends BaseTimeEntity {
             cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReviewPhoto> reviewPhotos = new ArrayList<>();
 
+    @OneToMany(mappedBy = "review", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReviewLike> reviewLikes = new ArrayList<>();
 
     public Review(User user, Reservation reservation, String title, String content) {
         this.user = user;

@@ -20,31 +20,23 @@ public class LikeService {
 
     private final LikeValidator likeValidator;
 
-    public void createLike(User user, Long id, String type) {
+    public boolean clickLike(User user, Long id, String type) {
 
         likeValidator.checkLikeType(type);
 
         if(type.equals("experience")) {
 
-            experienceLikeService.createLike(user, id);
-
-            return;
+            return experienceLikeService.clickLike(user, id);
         }
         else if(type.equals("room")) {
 
-            roomLikeService.createLike(user, id);
-
-            return;
+            return roomLikeService.clickLike(user, id);
         }else if(type.equals("review")) {
 
-            reviewLikeService.createLike(user, id);
-
-            return;
+            return reviewLikeService.clickLike(user, id);
         }
 
-        tourLikeService.createLike(user, id);
-
-        return;
+        return tourLikeService.clickLike(user, id);
     }
 
 

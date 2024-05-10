@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.etc.BaseTimeEntity;
 import tour.nonghaeng.domain.etc.room.RoomType;
+import tour.nonghaeng.domain.like.entity.RoomLike;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.entity.Photo;
 import tour.nonghaeng.domain.photo.entity.RoomPhoto;
@@ -43,6 +44,10 @@ public class Room extends BaseTimeEntity {
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RoomPhoto> roomPhotoList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RoomLike> roomLikes = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, name = "room_type")

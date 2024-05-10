@@ -28,9 +28,12 @@ public class LikeController {
 
         User user = authService.toUserEntity(authentication);
 
-        likeService.createLike(user, tourId, "tour");
+        if( likeService.clickLike(user, tourId, "tour")){
 
-        return new ResponseEntity<>("좋아요!", HttpStatus.CREATED);
+            return new ResponseEntity<>("좋아요!", HttpStatus.CREATED);
+        }
+
+        return new ResponseEntity<>("좋아요해제", HttpStatus.OK);
     }
 
     @GetMapping("/review/{reviewId}")
@@ -39,9 +42,12 @@ public class LikeController {
 
         User user = authService.toUserEntity(authentication);
 
-        likeService.createLike(user, reviewId, "review");
+        if(likeService.clickLike(user, reviewId, "review")){
 
-        return new ResponseEntity<>("좋아요!", HttpStatus.CREATED);
+            return new ResponseEntity<>("좋아요!", HttpStatus.CREATED);
+        }
+
+        return new ResponseEntity<>("좋아요해제", HttpStatus.OK);
     }
 
     @GetMapping("/room/{roomId}")
@@ -50,9 +56,12 @@ public class LikeController {
 
         User user = authService.toUserEntity(authentication);
 
-        likeService.createLike(user, roomId, "room");
+        if(likeService.clickLike(user, roomId, "room")){
 
-        return new ResponseEntity<>("좋아요!", HttpStatus.CREATED);
+            return new ResponseEntity<>("좋아요!", HttpStatus.CREATED);
+        }
+
+        return new ResponseEntity<>("좋아요해제", HttpStatus.OK);
     }
 
     @GetMapping("/experience/{experienceId}")
@@ -61,9 +70,12 @@ public class LikeController {
 
         User user = authService.toUserEntity(authentication);
 
-        likeService.createLike(user, experienceId, "experience");
+        if(likeService.clickLike(user, experienceId, "experience")) {
 
-        return new ResponseEntity<>("좋아요!", HttpStatus.CREATED);
+            return new ResponseEntity<>("좋아요!", HttpStatus.CREATED);
+        }
+
+        return new ResponseEntity<>("좋아요해제", HttpStatus.OK);
     }
 
 

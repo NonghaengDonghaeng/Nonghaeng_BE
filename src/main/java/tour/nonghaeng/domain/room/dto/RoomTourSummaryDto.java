@@ -22,10 +22,11 @@ public class RoomTourSummaryDto {
     private String oneLineIntro;
     private int minPrice;
     private int maxPrice;
+    private int likes;
     private PhotoInfoDto photoInfoDto;
 
     @Builder
-    public RoomTourSummaryDto(Long tourId, String tourName, String areaName, String roomTypeName, String oneLineIntro, int minPrice, int maxPrice, PhotoInfoDto photoInfoDto) {
+    public RoomTourSummaryDto(Long tourId, String tourName, String areaName, String roomTypeName, String oneLineIntro, int minPrice, int maxPrice, int likes, PhotoInfoDto photoInfoDto) {
         this.tourId = tourId;
         this.tourName = tourName;
         this.areaName = areaName;
@@ -33,6 +34,7 @@ public class RoomTourSummaryDto {
         this.oneLineIntro = oneLineIntro;
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
+        this.likes = likes;
         this.photoInfoDto = photoInfoDto;
     }
 
@@ -43,6 +45,7 @@ public class RoomTourSummaryDto {
                 .tourName(tour.getName())
                 .areaName(tour.getAreaCode().getAreaName())
                 .roomTypeName(tour.getRooms().get(0).getRoomType().getName())
+                .likes(tour.getTourLikes().size())
                 .oneLineIntro(tour.getOneLineIntro())
                 .build()
         );
@@ -58,6 +61,7 @@ public class RoomTourSummaryDto {
                 .oneLineIntro(tour.getOneLineIntro())
                 .minPrice(minPrice)
                 .maxPrice(maxPrice)
+                .likes(tour.getTourLikes().size())
                 .photoInfoDto(tour.findRepresentPhoto().isPresent() ?
                         PhotoInfoDto.toDto(tour.findRepresentPhoto().get()) : null)
                 .build();

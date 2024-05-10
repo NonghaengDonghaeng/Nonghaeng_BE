@@ -9,6 +9,7 @@ import tour.nonghaeng.domain.etc.BaseTimeEntity;
 import tour.nonghaeng.domain.etc.area.AreaCode;
 import tour.nonghaeng.domain.etc.tour.TourType;
 import tour.nonghaeng.domain.experience.entity.Experience;
+import tour.nonghaeng.domain.like.entity.TourLike;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.entity.Photo;
 import tour.nonghaeng.domain.photo.entity.TourPhoto;
@@ -44,6 +45,10 @@ public class Tour extends BaseTimeEntity {
     @OneToMany(mappedBy = "tour", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TourPhoto> tourPhotos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "tour", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TourLike> tourLikes = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private AreaCode areaCode;

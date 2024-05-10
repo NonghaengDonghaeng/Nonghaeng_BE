@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.etc.BaseTimeEntity;
 import tour.nonghaeng.domain.etc.experience.ExperienceType;
+import tour.nonghaeng.domain.like.entity.ExperienceLike;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.entity.ExperiencePhoto;
 import tour.nonghaeng.domain.photo.entity.Photo;
@@ -47,6 +48,10 @@ public class Experience extends BaseTimeEntity {
     @OneToMany(mappedBy = "experience", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ExperiencePhoto> experiencePhotoList;
+
+    @OneToMany(mappedBy = "experience", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ExperienceLike> experienceLikes = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
