@@ -54,6 +54,16 @@ public class ReservationController {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
+    @GetMapping("/reservation-person-info")
+    public ResponseEntity<ReservationPersonInfo> getReservationPersonInfo(Authentication authentication) {
+
+        User user = authService.toUserEntity(authentication);
+
+        ReservationPersonInfo responseDto = reservationService.getReservationPersonInfo(user);
+
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
     //소비자 내 체험/숙소 예약 리스트보기 만약 타입이 안오면 전체로
     //파라미터 type=room,exp
     @GetMapping("/my-reservation")

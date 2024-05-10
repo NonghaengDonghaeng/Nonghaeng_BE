@@ -174,6 +174,12 @@ public class ReservationService {
 
 
 
+    public ReservationPersonInfo getReservationPersonInfo(User user) {
+        return ReservationPersonInfo.toDto(user);
+    }
+
+
+
     //취소,승인 서비스
     public Long approveReservation(Long reservationId, boolean notApproveFlag) {
 
