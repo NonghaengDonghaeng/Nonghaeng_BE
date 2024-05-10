@@ -10,6 +10,7 @@ import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.entity.Photo;
 import tour.nonghaeng.domain.photo.entity.TourPhoto;
+import tour.nonghaeng.domain.photo.minio.MinioService;
 import tour.nonghaeng.domain.photo.repo.TourPhotoRepository;
 import tour.nonghaeng.domain.photo.s3.AmazonS3Service;
 import tour.nonghaeng.domain.tour.entity.Tour;
@@ -32,6 +33,7 @@ public class TourPhotoService {
 
     private final TourService tourService;
     private final AmazonS3Service amazonS3Service;
+    private final MinioService minioService;
 
     private final TourPhotoValidator tourPhotoValidator;
     private final PhotoValidator photoValidator;

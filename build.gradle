@@ -31,6 +31,9 @@ dependencies {
 	implementation(platform("software.amazon.awssdk:bom:2.21.1"))
 	implementation("software.amazon.awssdk:s3")
 
+	//minio
+	implementation("io.minio:minio:8.5.10")
+
 	// https://mvnrepository.com/artifact/io.awspring.cloud/spring-cloud-aws-starter
 	implementation 'io.awspring.cloud:spring-cloud-aws-starter:3.1.1'
 	//implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'

@@ -10,6 +10,7 @@ import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.entity.Photo;
 import tour.nonghaeng.domain.photo.entity.RoomPhoto;
+import tour.nonghaeng.domain.photo.minio.MinioService;
 import tour.nonghaeng.domain.photo.repo.RoomPhotoRepository;
 import tour.nonghaeng.domain.room.entity.Room;
 import tour.nonghaeng.domain.room.service.RoomService;
@@ -32,6 +33,7 @@ public class RoomPhotoService {
 
     private final RoomService roomService;
     private final AmazonS3Service amazonS3Service;
+    private final MinioService minioService;
 
     private final RoomPhotoValidator roomPhotoValidator;
     private final PhotoValidator photoValidator;

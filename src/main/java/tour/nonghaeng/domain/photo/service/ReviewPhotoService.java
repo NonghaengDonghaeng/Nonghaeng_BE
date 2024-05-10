@@ -11,6 +11,7 @@ import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.entity.Photo;
 import tour.nonghaeng.domain.photo.entity.ReviewPhoto;
 import tour.nonghaeng.domain.photo.exception.PhotoException;
+import tour.nonghaeng.domain.photo.minio.MinioService;
 import tour.nonghaeng.domain.photo.repo.ReviewPhotoRepository;
 import tour.nonghaeng.domain.photo.s3.AmazonS3Service;
 import tour.nonghaeng.domain.photo.valid.PhotoValidator;
@@ -32,6 +33,7 @@ public class ReviewPhotoService {
 
     private final ReviewService reviewService;
     private final AmazonS3Service amazonS3Service;
+    private final MinioService minioService;
 
     private final PhotoValidator photoValidator;
     private final ReviewPhotoValidator reviewPhotoValidator;
