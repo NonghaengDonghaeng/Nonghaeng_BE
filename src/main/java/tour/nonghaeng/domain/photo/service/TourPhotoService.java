@@ -10,14 +10,13 @@ import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.entity.Photo;
 import tour.nonghaeng.domain.photo.entity.TourPhoto;
-import tour.nonghaeng.domain.photo.minio.MinioService;
-import tour.nonghaeng.domain.photo.repo.TourPhotoRepository;
-import tour.nonghaeng.domain.photo.s3.AmazonS3Service;
-import tour.nonghaeng.domain.tour.entity.Tour;
-import tour.nonghaeng.domain.tour.service.TourService;
 import tour.nonghaeng.domain.photo.exception.PhotoException;
+import tour.nonghaeng.domain.photo.imageServer.service.ImageService;
+import tour.nonghaeng.domain.photo.repo.TourPhotoRepository;
 import tour.nonghaeng.domain.photo.valid.PhotoValidator;
 import tour.nonghaeng.domain.photo.valid.TourPhotoValidator;
+import tour.nonghaeng.domain.tour.entity.Tour;
+import tour.nonghaeng.domain.tour.service.TourService;
 
 import java.util.List;
 
@@ -32,8 +31,7 @@ public class TourPhotoService {
     private final TourPhotoRepository tourPhotoRepository;
 
     private final TourService tourService;
-    private final AmazonS3Service amazonS3Service;
-    private final MinioService minioService;
+    private final ImageService imageService;
 
     private final TourPhotoValidator tourPhotoValidator;
     private final PhotoValidator photoValidator;
@@ -44,7 +42,7 @@ public class TourPhotoService {
 
         Tour tour = tourService.findBySeller(seller);
 
-        String imgUrl = amazonS3Service.uploadImage(PHOTO_TYPE, imageFile);
+        String imgUrl = imageService.uploadImage(PHOTO_TYPE, imageFile);
 
         return createTourPhoto(seller, tour, imgUrl).getId();
     }

@@ -12,10 +12,9 @@ import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.entity.ExperiencePhoto;
 import tour.nonghaeng.domain.photo.entity.Photo;
-import tour.nonghaeng.domain.photo.minio.MinioService;
-import tour.nonghaeng.domain.photo.repo.ExperiencePhotoRepository;
-import tour.nonghaeng.domain.photo.s3.AmazonS3Service;
 import tour.nonghaeng.domain.photo.exception.PhotoException;
+import tour.nonghaeng.domain.photo.imageServer.service.ImageService;
+import tour.nonghaeng.domain.photo.repo.ExperiencePhotoRepository;
 import tour.nonghaeng.domain.photo.valid.ExperiencePhotoValidator;
 import tour.nonghaeng.domain.photo.valid.PhotoValidator;
 
@@ -32,8 +31,7 @@ public class ExperiencePhotoService {
     private final ExperiencePhotoRepository experiencePhotoRepository;
 
     private final ExperienceService experienceService;
-    private final AmazonS3Service amazonS3Service;
-    private final MinioService minioService;
+    private final ImageService imageService;
 
     private final ExperiencePhotoValidator experiencePhotoValidator;
     private final PhotoValidator photoValidator;
@@ -42,7 +40,7 @@ public class ExperiencePhotoService {
 
         Experience experience = experienceService.findById(experienceId);
 
-        String imgUrl = amazonS3Service.uploadImage(PHOTO_TYPE, imageFile);
+        String imgUrl = imageService.uploadImage(PHOTO_TYPE, imageFile);
 
         return createExperiencePhoto(seller, experience, imgUrl).getId();
 

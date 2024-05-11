@@ -1,21 +1,22 @@
-package tour.nonghaeng.domain.photo.minio;
+package tour.nonghaeng.domain.photo.imageServer.service;
 
 import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
+import io.minio.RemoveObjectArgs;
 import io.minio.errors.*;
 import io.minio.http.Method;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import tour.nonghaeng.domain.etc.photo.PhotoType;
-import tour.nonghaeng.domain.photo.s3.exception.S3Exception;
-import tour.nonghaeng.domain.photo.s3.exception.error.S3ErrorCode;
-import tour.nonghaeng.domain.photo.s3.valid.AmazonS3Validator;
+import tour.nonghaeng.domain.photo.imageServer.exception.ImageServerException;
+import tour.nonghaeng.domain.photo.imageServer.exception.error.ImageServerErrorCode;
+import tour.nonghaeng.domain.photo.imageServer.valid.ImageServerValidator;
 
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -29,24 +30,28 @@ import java.util.concurrent.TimeUnit;
 
 
 @Service
+@Profile("minio")
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class MinioService {
+public class MinioService implements ImageService {
 
     private final MinioClient minioClient;
 
-    private final AmazonS3Validator amazonS3Validator;
+    private final ImageServerValidator imageServerValidator;
 
     @Value("${spring.cloud.minio.s3.bucket}")
     private String bucket;
 
-    public String uploadImage(PhotoType photoType, MultipartFile image) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+    @Override
+    public String uploadImage(PhotoType photoType, MultipartFile image) {
 
         if (image.isEmpty() || Objects.isNull(image.getOriginalFilename())) {
-            throw new S3Exception(S3ErrorCode.DEFAULT_S3_ERROR);
+            throw new ImageServerException(ImageServerErrorCode.DEFAULT_S3_ERROR);
         }
+
         String key = photoType.getFolderName()+createFileName(image);
+
         try {
 
             PutObjectArgs putObArgs = PutObjectArgs.builder()
@@ -57,7 +62,6 @@ public class MinioService {
                     .build();
 
             minioClient.putObject(putObArgs);
-
 
         } catch (IOException ie) {
             log.error("파일을 읽어들이는데 에러가 발생했습니다.");
@@ -71,19 +75,28 @@ public class MinioService {
         return getUrl(bucket, key);
     }
 
-    private String getUrl(String bucket, String key) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+    private String getUrl(String bucket, String key) {
 
-        String url =
-                minioClient.getPresignedObjectUrl(
-                        GetPresignedObjectUrlArgs.builder()
-                                .method(Method.PUT)
-                                .bucket(bucket)
-                                .object(key)
-                                .expiry(1, TimeUnit.DAYS)
-                                .build());
-        return url;
+        try {
+
+            GetPresignedObjectUrlArgs args = GetPresignedObjectUrlArgs.builder()
+                    .method(Method.PUT)
+                    .bucket(bucket)
+                    .object(key)
+                    .expiry(1, TimeUnit.DAYS)
+                    .build();
+            String longUrl = minioClient.getPresignedObjectUrl(args);
+            String[] parts = longUrl.split("\\?");
+            return parts[0];
+
+        }catch (ServerException | InsufficientDataException | ErrorResponseException | IOException |
+                NoSuchAlgorithmException | InvalidKeyException | InvalidResponseException | XmlParserException |
+                InternalException e) {
+            throw new RuntimeException(e);
+        }
     }
 
+    @Override
     public void deleteImage(PhotoType photoType,String imgUrl) {
 
         //키가 존재하지 않으면 오류 발생
@@ -91,22 +104,28 @@ public class MinioService {
         String imgKey = photoType.getFolderName()+extractS3KeyFromImgUrl(imgUrl);
         log.info("imgKey : {}", imgKey);
 
+        try {
+            RemoveObjectArgs args = RemoveObjectArgs.builder()
+                    .bucket(bucket)
+                    .object(imgKey)
+                    .build();
 
-        DeleteObjectRequest request = DeleteObjectRequest.builder()
-                .key(imgKey)
-                .bucket(bucket)
-                .build();
-        log.info(request.key());
-//        s3Client.deleteObject(request);
+            minioClient.removeObject(args);
+        } catch (ServerException | InsufficientDataException | ErrorResponseException | IOException |
+                 NoSuchAlgorithmException | InvalidKeyException | InvalidResponseException | XmlParserException |
+                 InternalException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //파일 이름 중복 방지를 위한 파일이름 생성 함수
     private String createFileName(MultipartFile image) {
 
         String originalFilename = image.getOriginalFilename();
+        assert originalFilename != null;
         String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
         log.info(fileExtension);
-        amazonS3Validator.checkExtensionValidate(fileExtension);
+        imageServerValidator.checkExtensionValidate(fileExtension);
 
         return "image_" + new Date().getTime() + "_"
                 + UUID.randomUUID().toString().concat(fileExtension);
@@ -123,7 +142,7 @@ public class MinioService {
             return URLDecoder.decode(s3Key, StandardCharsets.UTF_8);
         }else{
 
-            throw new S3Exception(S3ErrorCode.NOT_VALIDATE_IMAGE_URL);
+            throw new ImageServerException(ImageServerErrorCode.NOT_VALIDATE_IMAGE_URL);
         }
     }
 }

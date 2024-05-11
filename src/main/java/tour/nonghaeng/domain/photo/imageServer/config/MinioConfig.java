@@ -1,4 +1,4 @@
-package tour.nonghaeng.domain.photo.minio;
+package tour.nonghaeng.domain.photo.imageServer.config;
 
 import io.minio.MinioClient;
 import lombok.Getter;
@@ -20,7 +20,7 @@ public class MinioConfig {
     @Value("${spring.cloud.minio.region.static}")
     private String region;
 
-    @Value("${spring.cloud.minio.url")
+    @Value("${spring.cloud.minio.url}")
     private String url;
 
 
