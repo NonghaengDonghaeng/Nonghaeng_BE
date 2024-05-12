@@ -1,4 +1,4 @@
-package tour.nonghaeng.domain.photo.service.sub;
+package tour.nonghaeng.domain.photo.service;
 
 import org.springframework.web.multipart.MultipartFile;
 import tour.nonghaeng.domain.etc.photo.PhotoType;

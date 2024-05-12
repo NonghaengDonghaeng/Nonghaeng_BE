@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tour.nonghaeng.domain.etc.like.LikeType;
 import tour.nonghaeng.domain.like.exception.LikeException;
-import tour.nonghaeng.domain.like.registry.LikeServiceRegistry;
+import tour.nonghaeng.domain.like.service.registry.LikeServiceRegistry;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.global.auth.auth.service.AuthService;
 

@@ -1,9 +1,10 @@
-package tour.nonghaeng.domain.photo.service.sub;
+package tour.nonghaeng.domain.photo.service.registry;
 
 import org.springframework.stereotype.Component;
 import tour.nonghaeng.domain.etc.photo.PhotoType;
 import tour.nonghaeng.domain.photo.exception.PhotoException;
 import tour.nonghaeng.domain.photo.repo.PhotoRepository;
+import tour.nonghaeng.domain.photo.service.PhotoService;
 
 import java.util.List;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package tour.nonghaeng.domain.like.registry;
+package tour.nonghaeng.domain.like.service.registry;
 
 import org.springframework.stereotype.Component;
 import tour.nonghaeng.domain.etc.like.LikeType;

@@ -1,4 +1,4 @@
-package tour.nonghaeng.domain.photo.service.sub;
+package tour.nonghaeng.domain.photo.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

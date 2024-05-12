@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import tour.nonghaeng.domain.etc.photo.PhotoType;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
-import tour.nonghaeng.domain.photo.service.sub.PhotoServiceRegistry;
+import tour.nonghaeng.domain.photo.service.registry.PhotoServiceRegistry;
 import tour.nonghaeng.global.auth.auth.service.AuthService;
 
 import java.util.List;
