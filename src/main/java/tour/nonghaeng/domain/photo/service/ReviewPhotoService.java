@@ -17,6 +17,7 @@ import tour.nonghaeng.domain.photo.valid.PhotoValidator;
 import tour.nonghaeng.domain.photo.valid.ReviewPhotoValidator;
 import tour.nonghaeng.domain.review.entity.Review;
 import tour.nonghaeng.domain.review.service.ReviewService;
+import tour.nonghaeng.domain.review.valid.ReviewValidator;
 
 import java.util.List;
 
@@ -35,11 +36,14 @@ public class ReviewPhotoService {
 
     private final PhotoValidator photoValidator;
     private final ReviewPhotoValidator reviewPhotoValidator;
+    private final ReviewValidator reviewValidator;
 
 
-
+    //TODO: delete api 추가하기
 
     public void uploads(User user, Long reviewId, List<MultipartFile> imageFiles) {
+
+        reviewValidator.ownerValidate(user,reviewId);
 
         Review review = reviewService.findById(reviewId);
 
@@ -51,18 +55,7 @@ public class ReviewPhotoService {
         }
     }
 
-
-
-    public Long upload(User user, Long reviewId, MultipartFile imageFile) {
-
-        Review review = reviewService.findById(reviewId);
-
-        String imgUrl = imageService.uploadImage(PHOTO_TYPE, imageFile);
-
-        return createReviewPhoto(user, review, imgUrl).getId();
-    }
-
-    private ReviewPhoto createReviewPhoto(User user, Review review, String imgUrl) {
+    private void createReviewPhoto(User user, Review review, String imgUrl) {
 
         ReviewPhoto createdReviewPhoto = ReviewPhoto.builder()
                 .review(review)
@@ -74,20 +67,18 @@ public class ReviewPhotoService {
             createdReviewPhoto.onRepresentative();
         }
 
-        return reviewPhotoRepository.save(createdReviewPhoto);
+        reviewPhotoRepository.save(createdReviewPhoto);
     }
 
 
 
-    public List<PhotoInfoDto> getReviewPhotoInfoListDto(Long reviewId) {
+    public List<PhotoInfoDto> getPhotoInfoListDto(String type, Long reviewId) {
 
         List<Photo> photoList = reviewPhotoRepository.findAllByReview(reviewService.findById(reviewId));
 
         photoValidator.emptyPhotoListValidate(photoList);
 
-        List<PhotoInfoDto> dto = PhotoInfoDto.toDtoList(photoList);
-
-        return dto;
+        return PhotoInfoDto.toDtoList(photoList);
     }
 
 
@@ -111,16 +102,26 @@ public class ReviewPhotoService {
         reviewPhotoRepository.save(reviewPhoto);
     }
 
+
+    public void delete(User user, Long photoId) {
+
+        photoValidator.deletePhotoValidate(photoId);
+        reviewPhotoValidator.ownerValidate(user,photoId);
+
+        ReviewPhoto reviewPhoto = findById(photoId);
+
+        imageService.deleteImage(PHOTO_TYPE, reviewPhoto.getImgUrl());
+
+        reviewPhotoRepository.delete(reviewPhoto);
+    }
+
     private ReviewPhoto findById(Long reviewId) {
         return reviewPhotoRepository.findById(reviewId)
                 .orElseThrow(() -> PhotoException.EXCEPTION);
     }
 
-
-    public Photo findPhotoById(Long reviewId) {
+    private Photo findPhotoById(Long reviewId) {
         return reviewPhotoRepository.findPhotoById(reviewId)
                 .orElseThrow(()-> PhotoException.EXCEPTION);
     }
-
-
 }

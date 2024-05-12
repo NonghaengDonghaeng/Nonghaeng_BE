@@ -1,4 +1,4 @@
-package tour.nonghaeng.domain.photo.service;
+package tour.nonghaeng.domain.photo.service.sub;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +17,7 @@ import tour.nonghaeng.domain.photo.valid.PhotoValidator;
 import tour.nonghaeng.domain.photo.valid.TourPhotoValidator;
 import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.domain.tour.service.TourService;
+import tour.nonghaeng.domain.tour.valid.TourValidator;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class TourPhotoService {
+public class TourPhotoService implements PhotoService {
 
     private static final PhotoType PHOTO_TYPE = PhotoType.TOUR;
 
@@ -34,12 +35,19 @@ public class TourPhotoService {
     private final ImageService imageService;
 
     private final TourPhotoValidator tourPhotoValidator;
+    private final TourValidator tourValidator;
     private final PhotoValidator photoValidator;
 
 
+    @Override
+    public PhotoType getType() {
+        return PHOTO_TYPE;
+    }
 
+    @Override
+    public void uploads(Seller seller, Long id, List<MultipartFile> imageFiles) {
 
-    public void uploads(Seller seller, List<MultipartFile> imageFiles) {
+        tourValidator.ownerValidate(seller, id);
 
         Tour tour = tourService.findBySeller(seller);
 
@@ -51,18 +59,7 @@ public class TourPhotoService {
         }
     }
 
-
-
-    public Long upload(Seller seller, MultipartFile imageFile) {
-
-        Tour tour = tourService.findBySeller(seller);
-
-        String imgUrl = imageService.uploadImage(PHOTO_TYPE, imageFile);
-
-        return createTourPhoto(seller, tour, imgUrl).getId();
-    }
-
-    private TourPhoto createTourPhoto(Seller seller, Tour tour, String imgUrl) {
+    private void createTourPhoto(Seller seller, Tour tour, String imgUrl) {
 
         TourPhoto cretedTourPhoto = TourPhoto.builder().tour(tour).seller(seller).imgUrl(imgUrl).build();
 
@@ -70,38 +67,26 @@ public class TourPhotoService {
             cretedTourPhoto.onRepresentative();
         }
 
-        return tourPhotoRepository.save(cretedTourPhoto);
+        tourPhotoRepository.save(cretedTourPhoto);
     }
 
 
-
-    public List<PhotoInfoDto> getTourPhotoInfoListDto(Long tourId) {
+    @Override
+    public List<PhotoInfoDto> getPhotoInfoListDto(Long tourId) {
 
         List<Photo> photoList = tourPhotoRepository.findAllByTour(tourService.findById(tourId));
 
         photoValidator.emptyPhotoListValidate(photoList);
 
-        List<PhotoInfoDto> dto = PhotoInfoDto.toDtoList(photoList);
-
-        return dto;
+        return PhotoInfoDto.toDtoList(photoList);
     }
 
 
 
-    public PhotoInfoDto getRepresentTourPhotoDto(Long tourId) {
+    @Override
+    public void changeRepresentativePhoto(Seller seller,Long tourPhotoId) {
 
-        Tour tour = tourService.findById(tourId);
-
-        tourPhotoValidator.numOfRepresentPhotoValidate(tour);
-
-        Long representId = tourPhotoRepository.findRepresentativePhotoId(tour).get();
-
-        return PhotoInfoDto.toDto(findById(representId));
-    }
-
-
-    //대표사진이 없으면 대표사진 설정, 대표사진이 있으면 변경
-    public void changeRepresentativePhoto(Long tourPhotoId) {
+        tourPhotoValidator.ownerValidate(seller,tourPhotoId);
 
         TourPhoto tourPhoto = findById(tourPhotoId);
         Tour tour = tourPhoto.getTour();
@@ -120,6 +105,18 @@ public class TourPhotoService {
         tourPhotoRepository.save(tourPhoto);
     }
 
+    @Override
+    public void delete(Seller seller, Long photoId) {
+
+        photoValidator.deletePhotoValidate(photoId);
+        tourPhotoValidator.ownerValidate(seller,photoId);
+
+        TourPhoto tourPhoto = findById(photoId);
+
+        imageService.deleteImage(PHOTO_TYPE, tourPhoto.getImgUrl());
+
+        tourPhotoRepository.delete(tourPhoto);
+    }
 
     private TourPhoto findById(Long tourPhotoId) {
 
@@ -127,9 +124,8 @@ public class TourPhotoService {
                 .orElseThrow(() -> PhotoException.EXCEPTION);
     }
 
-    public Photo findPhotoById(Long tourPhotoId) {
+    private Photo findPhotoById(Long tourPhotoId) {
         return tourPhotoRepository.findPhotoById(tourPhotoId)
                 .orElseThrow(() -> PhotoException.EXCEPTION);
     }
-
 }

@@ -1,4 +1,4 @@
-package tour.nonghaeng.domain.photo.service;
+package tour.nonghaeng.domain.photo.service.sub;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import tour.nonghaeng.domain.etc.photo.PhotoType;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
+import tour.nonghaeng.domain.experience.valid.ExperienceValidator;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.entity.ExperiencePhoto;
@@ -24,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class ExperiencePhotoService {
+public class ExperiencePhotoService implements PhotoService {
 
     private static final PhotoType PHOTO_TYPE = PhotoType.EXPERIENCE;
 
@@ -34,13 +35,19 @@ public class ExperiencePhotoService {
     private final ImageService imageService;
 
     private final ExperiencePhotoValidator experiencePhotoValidator;
+    private final ExperienceValidator experienceValidator;
     private final PhotoValidator photoValidator;
 
 
+    @Override
+    public PhotoType getType() {
+        return PHOTO_TYPE;
+    }
 
-
+    @Override
     public void uploads(Seller seller, Long experienceId, List<MultipartFile> imageFiles) {
 
+        experienceValidator.ownerValidate(seller,experienceId);
 
         Experience experience = experienceService.findById(experienceId);
 
@@ -50,39 +57,38 @@ public class ExperiencePhotoService {
         }
     }
 
-    public Long upload(Seller seller, Long experienceId, MultipartFile imageFile) {
+    private void createExperiencePhoto(Seller seller, Experience experience, String imgUrl) {
 
-        Experience experience = experienceService.findById(experienceId);
+        ExperiencePhoto createdExperiencePhoto = ExperiencePhoto.builder()
+                .experience(experience)
+                .seller(seller)
+                .imgUrl(imgUrl)
+                .build();
 
-        String imgUrl = imageService.uploadImage(PHOTO_TYPE, imageFile);
+        if (!experiencePhotoRepository.hasExactlyOneRepresentativePhoto(experience)) {
+            createdExperiencePhoto.onRepresentative();
+        }
 
-        return createExperiencePhoto(seller, experience, imgUrl).getId();
-
+        experiencePhotoRepository.save(createdExperiencePhoto);
     }
 
-    public List<PhotoInfoDto> getExpPhotoInfoListDto(Long experienceId) {
+
+    @Override
+    public List<PhotoInfoDto> getPhotoInfoListDto(Long experienceId) {
 
         List<Photo> photoList = experiencePhotoRepository.findAllByExperience(experienceService.findById(experienceId));
 
         photoValidator.emptyPhotoListValidate(photoList);
 
-        List<PhotoInfoDto> dto = PhotoInfoDto.toDtoList(photoList);
-
-        return dto;
+        return PhotoInfoDto.toDtoList(photoList);
     }
 
-    public PhotoInfoDto getRepresentExpPhotoDto(Long experienceId) {
 
-        Experience experience = experienceService.findById(experienceId);
+    @Override
+    public void changeRepresentativePhoto(Seller seller,Long expPhotoId) {
 
-        experiencePhotoValidator.numOfRepresentPhotoValidate(experience);
 
-        Long representId = experiencePhotoRepository.findRepresentativePhotoId(experience).get();
-
-        return PhotoInfoDto.toDto(findById(experienceId));
-    }
-
-    public void changeRepresentativePhoto(Long expPhotoId) {
+        experiencePhotoValidator.ownerValidate(seller, expPhotoId);
 
         ExperiencePhoto experiencePhoto = findById(expPhotoId);
         Experience experience = experiencePhoto.getExperience();
@@ -102,28 +108,26 @@ public class ExperiencePhotoService {
 
     }
 
-    private ExperiencePhoto createExperiencePhoto(Seller seller, Experience experience, String imgUrl) {
+    @Override
+    public void delete(Seller seller,Long photoId) {
 
-        ExperiencePhoto createdExperiencePhoto = ExperiencePhoto.builder()
-                .experience(experience)
-                .seller(seller)
-                .imgUrl(imgUrl)
-                .build();
+        photoValidator.deletePhotoValidate(photoId);
+        experiencePhotoValidator.ownerValidate(seller,photoId);
 
-        if (!experiencePhotoRepository.hasExactlyOneRepresentativePhoto(experience)) {
-            createdExperiencePhoto.onRepresentative();
-        }
+        ExperiencePhoto experiencePhoto = findById(photoId);
 
-        return experiencePhotoRepository.save(createdExperiencePhoto);
+        imageService.deleteImage(PHOTO_TYPE, experiencePhoto.getImgUrl());
+
+        experiencePhotoRepository.delete(experiencePhoto);
     }
 
-    public ExperiencePhoto findById(Long experiencePhotoId) {
+    private ExperiencePhoto findById(Long experiencePhotoId) {
 
         return experiencePhotoRepository.findById(experiencePhotoId)
                 .orElseThrow(() -> PhotoException.EXCEPTION);
     }
 
-    public Photo findPhotoById(Long experiencePhotoId) {
+    private Photo findPhotoById(Long experiencePhotoId) {
         return experiencePhotoRepository.findPhotoById(experiencePhotoId)
                 .orElseThrow(() -> PhotoException.EXCEPTION);
     }

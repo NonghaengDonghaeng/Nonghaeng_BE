@@ -1,4 +1,4 @@
-package tour.nonghaeng.domain.photo.service;
+package tour.nonghaeng.domain.photo.service.sub;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +17,7 @@ import tour.nonghaeng.domain.photo.valid.PhotoValidator;
 import tour.nonghaeng.domain.photo.valid.RoomPhotoValidator;
 import tour.nonghaeng.domain.room.entity.Room;
 import tour.nonghaeng.domain.room.service.RoomService;
+import tour.nonghaeng.domain.room.valid.RoomValidator;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class RoomPhotoService {
+public class RoomPhotoService implements PhotoService {
 
     private static final PhotoType PHOTO_TYPE = PhotoType.ROOM;
 
@@ -34,12 +35,19 @@ public class RoomPhotoService {
     private final ImageService imageService;
 
     private final RoomPhotoValidator roomPhotoValidator;
+    private final RoomValidator roomValidator;
     private final PhotoValidator photoValidator;
 
 
+    @Override
+    public PhotoType getType() {
+        return PHOTO_TYPE;
+    }
 
-
+    @Override
     public void uploads(Seller seller, Long roomId, List<MultipartFile> imageFiles) {
+
+        roomValidator.ownerValidate(seller,roomId);
 
         Room room = roomService.findById(roomId);
 
@@ -51,18 +59,7 @@ public class RoomPhotoService {
         }
     }
 
-
-
-    public Long upload(Seller seller, Long roomId, MultipartFile imageFile) {
-
-        Room room = roomService.findById(roomId);
-
-        String imgUrl = imageService.uploadImage(PHOTO_TYPE, imageFile);
-
-        return createRoomPhoto(seller, room, imgUrl).getId();
-    }
-
-    private RoomPhoto createRoomPhoto(Seller seller, Room room, String imgUrl) {
+    private void createRoomPhoto(Seller seller, Room room, String imgUrl) {
 
         RoomPhoto createdRoomPhoto = RoomPhoto.builder().room(room).seller(seller).imgUrl(imgUrl).build();
 
@@ -70,34 +67,26 @@ public class RoomPhotoService {
             createdRoomPhoto.onRepresentative();
         }
 
-        return roomPhotoRepository.save(createdRoomPhoto);
+        roomPhotoRepository.save(createdRoomPhoto);
     }
 
 
-
-    public List<PhotoInfoDto> getRoomPhotoInfoListDto(Long roomId) {
+    @Override
+    public List<PhotoInfoDto> getPhotoInfoListDto(Long roomId) {
 
         List<Photo> photoList = roomPhotoRepository.findAllByRoom(roomService.findById(roomId));
 
         photoValidator.emptyPhotoListValidate(photoList);
 
-        List<PhotoInfoDto> dto = PhotoInfoDto.toDtoList(photoList);
-
-        return dto;
+        return PhotoInfoDto.toDtoList(photoList);
     }
 
-    public PhotoInfoDto getRepresentRoomPhotoDto(Long roomId) {
 
-        Room room = roomService.findById(roomId);
+    @Override
+    public void changeRepresentativePhoto(Seller seller,Long roomPhotoId) {
 
-        roomPhotoValidator.numOfRepresentPhotoValidate(room);
 
-        Long representId = roomPhotoRepository.findRepresentativePhotoId(room).get();
-
-        return PhotoInfoDto.toDto(findById(representId));
-    }
-
-    public void changeRepresentativePhoto(Long roomPhotoId) {
+        roomPhotoValidator.ownerValidate(seller, roomPhotoId);
 
         RoomPhoto roomPhoto = findById(roomPhotoId);
         Room room = roomPhoto.getRoom();
@@ -116,14 +105,26 @@ public class RoomPhotoService {
         roomPhotoRepository.save(roomPhoto);
     }
 
+    @Override
+    public void delete(Seller seller, Long photoId) {
+
+        photoValidator.deletePhotoValidate(photoId);
+        roomPhotoValidator.ownerValidate(seller, photoId);
+
+        RoomPhoto roomPhoto = findById(photoId);
+
+        imageService.deleteImage(PHOTO_TYPE, roomPhoto.getImgUrl());
+
+        roomPhotoRepository.delete(roomPhoto);
+    }
+
     private RoomPhoto findById(Long roomPhotoId) {
         return roomPhotoRepository.findById(roomPhotoId)
                     .orElseThrow(() -> PhotoException.EXCEPTION);
     }
 
-    public Photo findPhotoById(Long roomPhotoId) {
+    private Photo findPhotoById(Long roomPhotoId) {
         return roomPhotoRepository.findPhotoById(roomPhotoId)
                 .orElseThrow(() -> PhotoException.EXCEPTION);
     }
-
 }

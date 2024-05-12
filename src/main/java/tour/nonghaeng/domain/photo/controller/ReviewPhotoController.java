@@ -10,9 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.service.ReviewPhotoService;
-import tour.nonghaeng.domain.photo.valid.PhotoValidator;
 import tour.nonghaeng.domain.photo.valid.ReviewPhotoValidator;
-import tour.nonghaeng.domain.review.valid.ReviewValidator;
 import tour.nonghaeng.global.auth.auth.service.AuthService;
 
 import java.util.List;
@@ -26,9 +24,7 @@ public class ReviewPhotoController {
     private final ReviewPhotoService reviewPhotoService;
     private final AuthService authService;
 
-    private final ReviewValidator reviewValidator;
     private final ReviewPhotoValidator reviewPhotoValidator;
-    private final PhotoValidator photoValidator;
 
 
 
@@ -40,42 +36,21 @@ public class ReviewPhotoController {
 
         User user = authService.toUserEntity(authentication);
 
-        reviewValidator.ownerValidate(user, reviewId);
-
         reviewPhotoService.uploads(user, reviewId, imageFiles);
 
         return new ResponseEntity<>("images 업로드 완료.", HttpStatus.CREATED);
     }
 
 
+    @GetMapping("/list/{id}")
+    public ResponseEntity<List<PhotoInfoDto>> showAllImageList(@PathVariable("id") Long id) {
 
-    @PostMapping("/upload/{reviewId}")
-    public ResponseEntity<String> upload(Authentication authentication,
-                                         @RequestPart("image") MultipartFile imageFile,
-                                         @PathVariable("reviewId") Long reviewId) {
+        List<PhotoInfoDto> dtoList = reviewPhotoService.getPhotoInfoListDto(null, id);
 
-        User user = authService.toUserEntity(authentication);
-
-        reviewValidator.ownerValidate(user, reviewId);
-
-        Long uploadId = reviewPhotoService.upload(user, reviewId, imageFile);
-
-        return new ResponseEntity<>("업로드 완료. id:" + String.valueOf(uploadId), HttpStatus.CREATED);
+        return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
 
-
-
-    @GetMapping("/list/{reviewId}")
-    public ResponseEntity<List<PhotoInfoDto>> showAllImageList(@PathVariable("reviewId") Long reviewId) {
-
-        List<PhotoInfoDto> roomPhotoInfoListDto = reviewPhotoService.getReviewPhotoInfoListDto(reviewId);
-
-        return new ResponseEntity<>(roomPhotoInfoListDto, HttpStatus.OK);
-    }
-
-
-
-    @GetMapping("/seller/representative/{reviewPhotoId}")
+    @GetMapping("/representative/{reviewPhotoId}")
     public ResponseEntity<String> changeRepresentativePhoto(Authentication authentication,
                                                             @PathVariable("reviewPhotoId") Long reviewPhotoId) {
 
@@ -84,5 +59,16 @@ public class ReviewPhotoController {
         reviewPhotoService.changeRepresentativePhoto(reviewPhotoId);
 
         return new ResponseEntity<>("대표사진 설정 완료", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{photoId}")
+    public ResponseEntity<String> delete(Authentication authentication,
+                                         @PathVariable("photoId") Long photoId) {
+
+        User user = authService.toUserEntity(authentication);
+
+        reviewPhotoService.delete(user,photoId);
+
+        return new ResponseEntity<>("삭제완료", HttpStatus.OK);
     }
 }

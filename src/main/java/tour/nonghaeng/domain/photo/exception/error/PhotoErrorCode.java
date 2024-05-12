@@ -13,6 +13,8 @@ public enum PhotoErrorCode implements BaseErrorCode {
 
     NO_OWNER_AUTHORIZATION_ERROR(HttpStatus.BAD_GATEWAY, "img_000_2", "해당 사진에 대한 소유자가 아닙니다."),
 
+    WRONG_PHOTO_TYPE_ERROR(HttpStatus.BAD_GATEWAY, "img_000_2", "사진 타입이 잘못 되었습니다."),
+
     //tour_photo
     NO_EXIST_TOUR_PHOTO_BY_ID_ERROR(HttpStatus.BAD_GATEWAY, "img_000_1", "tourPhotoId에 해당하는 체험이 없습니다."),
 
