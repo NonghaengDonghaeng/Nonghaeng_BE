@@ -18,6 +18,7 @@ public class PhotoServiceRegistry {
     private final Map<PhotoType, PhotoService> photoServiceMap;
 
     //TODO: 여기서 repository 사용하는게 맞는지 고민해보기
+    //TODO: getService를 Optional 로 사용할지 말지 고민중
     private final PhotoRepository photoRepository;
 
 
