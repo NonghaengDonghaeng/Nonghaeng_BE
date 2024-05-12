@@ -36,6 +36,20 @@ public class ExperiencePhotoService {
     private final ExperiencePhotoValidator experiencePhotoValidator;
     private final PhotoValidator photoValidator;
 
+
+
+
+    public void uploads(Seller seller, Long experienceId, List<MultipartFile> imageFiles) {
+
+
+        Experience experience = experienceService.findById(experienceId);
+
+        for(MultipartFile imageFile : imageFiles) {
+            String imgUrl = imageService.uploadImage(PHOTO_TYPE, imageFile);
+            createExperiencePhoto(seller, experience, imgUrl);
+        }
+    }
+
     public Long upload(Seller seller, Long experienceId, MultipartFile imageFile) {
 
         Experience experience = experienceService.findById(experienceId);

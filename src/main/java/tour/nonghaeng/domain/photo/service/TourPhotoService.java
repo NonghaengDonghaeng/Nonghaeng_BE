@@ -38,6 +38,21 @@ public class TourPhotoService {
 
 
 
+
+    public void uploads(Seller seller, List<MultipartFile> imageFiles) {
+
+        Tour tour = tourService.findBySeller(seller);
+
+        for(MultipartFile imageFile : imageFiles) {
+
+            String imgUrl = imageService.uploadImage(PHOTO_TYPE, imageFile);
+
+            createTourPhoto(seller, tour, imgUrl);
+        }
+    }
+
+
+
     public Long upload(Seller seller, MultipartFile imageFile) {
 
         Tour tour = tourService.findBySeller(seller);

@@ -39,6 +39,20 @@ public class RoomPhotoService {
 
 
 
+    public void uploads(Seller seller, Long roomId, List<MultipartFile> imageFiles) {
+
+        Room room = roomService.findById(roomId);
+
+        for (MultipartFile imageFile : imageFiles) {
+
+            String imgUrl = imageService.uploadImage(PHOTO_TYPE, imageFile);
+
+            createRoomPhoto(seller, room, imgUrl);
+        }
+    }
+
+
+
     public Long upload(Seller seller, Long roomId, MultipartFile imageFile) {
 
         Room room = roomService.findById(roomId);

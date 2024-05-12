@@ -28,7 +28,22 @@ public class TourPhotoController {
     private final TourPhotoValidator tourPhotoValidator;
     private final PhotoValidator photoValidator;
 
-    //관광 사진 등록
+
+
+
+    @PostMapping("/seller/uploads")
+    public ResponseEntity<String> uploads(Authentication authentication,
+                                         @RequestPart("images") List<MultipartFile> imageFiles) {
+
+        Seller seller = authService.toSellerEntity(authentication);
+
+        tourPhotoService.uploads(seller, imageFiles);
+
+        return new ResponseEntity<>("images 업로드 완료.", HttpStatus.CREATED);
+    }
+
+
+
     @PostMapping("/seller/upload")
     public ResponseEntity<String> upload(Authentication authentication,
                                          @RequestPart("image") MultipartFile image) {
@@ -40,7 +55,8 @@ public class TourPhotoController {
         return new ResponseEntity<>("업로드 완료. id:" + String.valueOf(uploadId), HttpStatus.CREATED);
     }
 
-    //관광사진 목록 조회
+
+
     @GetMapping("/list/{tourId}")
     public ResponseEntity<List<PhotoInfoDto>> showAllImageList(@PathVariable("tourId") Long tourId) {
 
@@ -49,7 +65,8 @@ public class TourPhotoController {
         return new ResponseEntity<>(tourPhotoInfoListDto, HttpStatus.OK);
     }
 
-    //대표사진 설정
+
+
     @GetMapping("/seller/representative/{tourPhotoId}")
     public ResponseEntity<String> changeRepresentativePhoto(Authentication authentication,
                                                             @PathVariable("tourPhotoId") Long tourPhotoId) {

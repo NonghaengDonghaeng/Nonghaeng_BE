@@ -30,6 +30,25 @@ public class ReviewPhotoController {
     private final ReviewPhotoValidator reviewPhotoValidator;
     private final PhotoValidator photoValidator;
 
+
+
+
+    @PostMapping("/uploads/{reviewId}")
+    public ResponseEntity<String> uploads(Authentication authentication,
+                                         @RequestPart("images") List<MultipartFile> imageFiles,
+                                         @PathVariable("reviewId") Long reviewId) {
+
+        User user = authService.toUserEntity(authentication);
+
+        reviewValidator.ownerValidate(user, reviewId);
+
+        reviewPhotoService.uploads(user, reviewId, imageFiles);
+
+        return new ResponseEntity<>("images 업로드 완료.", HttpStatus.CREATED);
+    }
+
+
+
     @PostMapping("/upload/{reviewId}")
     public ResponseEntity<String> upload(Authentication authentication,
                                          @RequestPart("image") MultipartFile imageFile,
@@ -44,6 +63,8 @@ public class ReviewPhotoController {
         return new ResponseEntity<>("업로드 완료. id:" + String.valueOf(uploadId), HttpStatus.CREATED);
     }
 
+
+
     @GetMapping("/list/{reviewId}")
     public ResponseEntity<List<PhotoInfoDto>> showAllImageList(@PathVariable("reviewId") Long reviewId) {
 
@@ -51,6 +72,8 @@ public class ReviewPhotoController {
 
         return new ResponseEntity<>(roomPhotoInfoListDto, HttpStatus.OK);
     }
+
+
 
     @GetMapping("/seller/representative/{reviewPhotoId}")
     public ResponseEntity<String> changeRepresentativePhoto(Authentication authentication,

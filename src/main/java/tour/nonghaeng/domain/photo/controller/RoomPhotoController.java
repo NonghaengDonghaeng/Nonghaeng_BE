@@ -30,6 +30,25 @@ public class RoomPhotoController {
     private final RoomPhotoValidator roomPhotoValidator;
     private final PhotoValidator photoValidator;
 
+
+
+
+    @PostMapping("/seller/uploads/{roomId}")
+    public ResponseEntity<String> uploads(Authentication authentication,
+                                         @RequestPart("images") List<MultipartFile> imageFiles,
+                                         @PathVariable("roomId") Long roomId) {
+
+        Seller seller = authService.toSellerEntity(authentication);
+
+        roomValidator.ownerValidate(seller,roomId);
+
+        roomPhotoService.uploads(seller, roomId, imageFiles);
+
+        return new ResponseEntity<>("images 업로드 완료.", HttpStatus.CREATED);
+    }
+
+
+
     @PostMapping("/seller/upload/{roomId}")
     public ResponseEntity<String> upload(Authentication authentication,
                                          @RequestPart("image") MultipartFile imageFile,
@@ -44,6 +63,8 @@ public class RoomPhotoController {
         return new ResponseEntity<>("업로드 완료. id:" + String.valueOf(uploadId), HttpStatus.CREATED);
     }
 
+
+
     @GetMapping("/list/{roomId}")
     public ResponseEntity<List<PhotoInfoDto>> showAllImageList(@PathVariable("roomId") Long roomId) {
 
@@ -51,6 +72,8 @@ public class RoomPhotoController {
 
         return new ResponseEntity<>(roomPhotoInfoListDto, HttpStatus.OK);
     }
+
+
 
     @GetMapping("/seller/representative/{roomPhotoId}")
     public ResponseEntity<String> changeRepresentativePhoto(Authentication authentication,

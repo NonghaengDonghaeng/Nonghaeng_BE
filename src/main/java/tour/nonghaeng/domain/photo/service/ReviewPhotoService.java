@@ -39,6 +39,20 @@ public class ReviewPhotoService {
 
 
 
+    public void uploads(User user, Long reviewId, List<MultipartFile> imageFiles) {
+
+        Review review = reviewService.findById(reviewId);
+
+        for(MultipartFile imageFile : imageFiles) {
+
+            String imgUrl = imageService.uploadImage(PHOTO_TYPE, imageFile);
+
+            createReviewPhoto(user, review, imgUrl);
+        }
+    }
+
+
+
     public Long upload(User user, Long reviewId, MultipartFile imageFile) {
 
         Review review = reviewService.findById(reviewId);

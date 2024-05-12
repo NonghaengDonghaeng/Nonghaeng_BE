@@ -30,6 +30,25 @@ public class ExperiencePhotoController {
     private final ExperiencePhotoValidator experiencePhotoValidator;
     private final ExperienceValidator experienceValidator;
 
+
+
+
+    @PostMapping("/seller/uploads/{experienceId}")
+    public ResponseEntity<String> uploads(Authentication authentication,
+                                          @RequestPart("images") List<MultipartFile> imageFiles,
+                                          @PathVariable("experienceId") Long experienceId) {
+
+        Seller seller = authService.toSellerEntity(authentication);
+
+        experienceValidator.ownerValidate(seller, experienceId);
+
+        experiencePhotoService.uploads(seller,experienceId, imageFiles);
+
+        return new ResponseEntity<>("images 업로드 완료.", HttpStatus.CREATED);
+    }
+
+
+
     @PostMapping("/seller/upload/{experienceId}")
     public ResponseEntity<String> upload(Authentication authentication,
                                          @RequestPart("image") MultipartFile imageFile,
@@ -44,6 +63,8 @@ public class ExperiencePhotoController {
         return new ResponseEntity<>("업로드 완료. id:" + String.valueOf(uploadId), HttpStatus.CREATED);
     }
 
+
+
     @GetMapping("/list/{experienceId}")
     public ResponseEntity<List<PhotoInfoDto>> showAllImageList(@PathVariable("experienceId") Long experienceId) {
 
@@ -51,6 +72,8 @@ public class ExperiencePhotoController {
 
         return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
+
+
 
     @GetMapping("/seller/representative/{expPhotoId}")
     public ResponseEntity<String> changeRepresentativePhoto(Authentication authentication,

@@ -43,6 +43,8 @@ public class MinioService implements ImageService {
     @Value("${spring.cloud.minio.s3.bucket}")
     private String bucket;
 
+
+
     @Override
     public String uploadImage(PhotoType photoType, MultipartFile image) {
 
@@ -75,6 +77,18 @@ public class MinioService implements ImageService {
         return getUrl(bucket, key);
     }
 
+    private String createFileName(MultipartFile image) {
+
+        String originalFilename = image.getOriginalFilename();
+        assert originalFilename != null;
+        String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
+        log.info(fileExtension);
+        imageServerValidator.checkExtensionValidate(fileExtension);
+
+        return "image_" + new Date().getTime() + "_"
+                + UUID.randomUUID().toString().concat(fileExtension);
+    }
+
     private String getUrl(String bucket, String key) {
 
         try {
@@ -85,9 +99,10 @@ public class MinioService implements ImageService {
                     .object(key)
                     .expiry(1, TimeUnit.DAYS)
                     .build();
+
             String longUrl = minioClient.getPresignedObjectUrl(args);
-            String[] parts = longUrl.split("\\?");
-            return parts[0];
+
+            return longUrl.split("\\?")[0];
 
         }catch (ServerException | InsufficientDataException | ErrorResponseException | IOException |
                 NoSuchAlgorithmException | InvalidKeyException | InvalidResponseException | XmlParserException |
@@ -101,7 +116,7 @@ public class MinioService implements ImageService {
 
         //키가 존재하지 않으면 오류 발생
 
-        String imgKey = photoType.getFolderName()+extractS3KeyFromImgUrl(imgUrl);
+        String imgKey = photoType.getFolderName()+extractKeyFromImgUrl(imgUrl);
         log.info("imgKey : {}", imgKey);
 
         try {
@@ -118,21 +133,7 @@ public class MinioService implements ImageService {
         }
     }
 
-    //파일 이름 중복 방지를 위한 파일이름 생성 함수
-    private String createFileName(MultipartFile image) {
-
-        String originalFilename = image.getOriginalFilename();
-        assert originalFilename != null;
-        String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
-        log.info(fileExtension);
-        imageServerValidator.checkExtensionValidate(fileExtension);
-
-        return "image_" + new Date().getTime() + "_"
-                + UUID.randomUUID().toString().concat(fileExtension);
-    }
-
-    //url 에서 키 추출 함수
-    private String extractS3KeyFromImgUrl(String imgUrl) {
+    private String extractKeyFromImgUrl(String imgUrl) {
 
         int lastSlashIndex = imgUrl.lastIndexOf("/");
 

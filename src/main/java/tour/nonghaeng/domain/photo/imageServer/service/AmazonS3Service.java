@@ -38,19 +38,23 @@ public class AmazonS3Service implements ImageService {
     @Value("${spring.cloud.aws.s3.bucket}")
     private String bucket;
 
+
+
+
     @Override
     public String uploadImage(PhotoType photoType, MultipartFile image) {
 
         if (image.isEmpty() || Objects.isNull(image.getOriginalFilename())) {
             throw new ImageServerException(ImageServerErrorCode.DEFAULT_S3_ERROR);
         }
+
         String key = photoType.getFolderName()+createFileName(image);
+
         try {
 
             PutObjectRequest putOb = PutObjectRequest.builder()
                     .bucket(bucket)
                     .key(key)
-//                    .acl(ObjectCannedACL.BUCKET_OWNER_FULL_CONTROL)
                     .contentType(image.getContentType())
                     .contentLength(image.getSize())
                     .build();
@@ -70,34 +74,6 @@ public class AmazonS3Service implements ImageService {
         return getUrl(bucket, key);
     }
 
-    private String getUrl(String bucket, String key) {
-
-        GetUrlRequest request = GetUrlRequest.builder()
-                .bucket(bucket)
-                .key(key)
-                .build();
-
-        return s3Client.utilities().getUrl(request).toString();
-    }
-
-    @Override
-    public void deleteImage(PhotoType photoType,String imgUrl) {
-
-        //키가 존재하지 않으면 오류 발생
-
-        String imgKey = photoType.getFolderName()+extractS3KeyFromImgUrl(imgUrl);
-        log.info("imgKey : {}", imgKey);
-
-
-        DeleteObjectRequest request = DeleteObjectRequest.builder()
-                .key(imgKey)
-                .bucket(bucket)
-                .build();
-        log.info(request.key());
-        s3Client.deleteObject(request);
-    }
-
-    //파일 이름 중복 방지를 위한 파일이름 생성 함수
     private String createFileName(MultipartFile image) {
 
         String originalFilename = image.getOriginalFilename();
@@ -109,7 +85,33 @@ public class AmazonS3Service implements ImageService {
                 + UUID.randomUUID().toString().concat(fileExtension);
     }
 
-    //url 에서 키 추출 함수
+    private String getUrl(String bucket, String key) {
+
+        GetUrlRequest request = GetUrlRequest.builder()
+                .bucket(bucket)
+                .key(key)
+                .build();
+
+        return s3Client.utilities().getUrl(request).toString();
+    }
+
+
+
+    @Override
+    public void deleteImage(PhotoType photoType,String imgUrl) {
+
+        //키가 존재하지 않으면 오류 발생
+
+        String imgKey = photoType.getFolderName()+extractS3KeyFromImgUrl(imgUrl);
+
+        DeleteObjectRequest request = DeleteObjectRequest.builder()
+                .key(imgKey)
+                .bucket(bucket)
+                .build();
+
+        s3Client.deleteObject(request);
+    }
+
     private String extractS3KeyFromImgUrl(String imgUrl) {
 
         int lastSlashIndex = imgUrl.lastIndexOf("/");
