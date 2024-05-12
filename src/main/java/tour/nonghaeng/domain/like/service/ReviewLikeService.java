@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import tour.nonghaeng.domain.etc.like.LikeType;
 import tour.nonghaeng.domain.like.entity.ReviewLike;
 import tour.nonghaeng.domain.like.repo.ReviewLikeRepository;
 import tour.nonghaeng.domain.member.entity.User;
@@ -16,14 +17,21 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class ReviewLikeService {
+public class ReviewLikeService implements LikeService {
+
+    private static final LikeType LIKE_TYPE = LikeType.REVIEW;
 
     private final ReviewLikeRepository reviewLikeRepository;
 
     private final ReviewService reviewService;
 
 
+    @Override
+    public LikeType getType() {
+        return LIKE_TYPE;
+    }
 
+    @Override
     public boolean clickLike(User user, Long reviewId) {
 
         Review review = reviewService.findById(reviewId);

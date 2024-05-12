@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tour.nonghaeng.domain.like.service.LikeService;
+import tour.nonghaeng.domain.etc.like.LikeType;
+import tour.nonghaeng.domain.like.exception.LikeException;
+import tour.nonghaeng.domain.like.registry.LikeServiceRegistry;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.global.auth.auth.service.AuthService;
 
@@ -20,7 +22,10 @@ import tour.nonghaeng.global.auth.auth.service.AuthService;
 public class LikeController {
 
     private final AuthService authService;
-    private final LikeService likeService;
+
+    private final LikeServiceRegistry likeServiceRegistry;
+
+
 
     @GetMapping("/{type}/{id}")
     public ResponseEntity<String> clickLikes(Authentication authentication,
@@ -28,7 +33,11 @@ public class LikeController {
                                              @PathVariable("id")Long id) {
         User user = authService.toUserEntity(authentication);
 
-        if (likeService.clickLike(user, id, type)) {
+        boolean onLike = likeServiceRegistry.getService(LikeType.ofDtype(type))
+                .map(service -> service.clickLike(user, id)).
+                orElseThrow(LikeException::new);
+
+        if (onLike) {
             return new ResponseEntity<>(type+" 좋아요!", HttpStatus.CREATED);
         }
         return new ResponseEntity<>(type+" 좋아요 해제!", HttpStatus.OK);
