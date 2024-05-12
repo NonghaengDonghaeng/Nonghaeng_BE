@@ -22,61 +22,16 @@ public class LikeController {
     private final AuthService authService;
     private final LikeService likeService;
 
-    @GetMapping("/tour/{tourId}")
-    public ResponseEntity<String> createLikeTour(Authentication authentication,
-                                           @PathVariable("tourId") Long tourId) {
-
+    @GetMapping("/{type}/{id}")
+    public ResponseEntity<String> clickLikes(Authentication authentication,
+                                             @PathVariable("type")String type,
+                                             @PathVariable("id")Long id) {
         User user = authService.toUserEntity(authentication);
 
-        if( likeService.clickLike(user, tourId, "tour")){
-
-            return new ResponseEntity<>("좋아요!", HttpStatus.CREATED);
+        if (likeService.clickLike(user, id, type)) {
+            return new ResponseEntity<>(type+" 좋아요!", HttpStatus.CREATED);
         }
-
-        return new ResponseEntity<>("좋아요해제", HttpStatus.OK);
+        return new ResponseEntity<>(type+" 좋아요 해제!", HttpStatus.OK);
     }
-
-    @GetMapping("/review/{reviewId}")
-    public ResponseEntity<String> createLikeReview(Authentication authentication,
-                                                 @PathVariable("reviewId") Long reviewId) {
-
-        User user = authService.toUserEntity(authentication);
-
-        if(likeService.clickLike(user, reviewId, "review")){
-
-            return new ResponseEntity<>("좋아요!", HttpStatus.CREATED);
-        }
-
-        return new ResponseEntity<>("좋아요해제", HttpStatus.OK);
-    }
-
-    @GetMapping("/room/{roomId}")
-    public ResponseEntity<String> createLikeRoom(Authentication authentication,
-                                                 @PathVariable("roomId") Long roomId) {
-
-        User user = authService.toUserEntity(authentication);
-
-        if(likeService.clickLike(user, roomId, "room")){
-
-            return new ResponseEntity<>("좋아요!", HttpStatus.CREATED);
-        }
-
-        return new ResponseEntity<>("좋아요해제", HttpStatus.OK);
-    }
-
-    @GetMapping("/experience/{experienceId}")
-    public ResponseEntity<String> createLikeExperience(Authentication authentication,
-                                                 @PathVariable("experienceId") Long experienceId) {
-
-        User user = authService.toUserEntity(authentication);
-
-        if(likeService.clickLike(user, experienceId, "experience")) {
-
-            return new ResponseEntity<>("좋아요!", HttpStatus.CREATED);
-        }
-
-        return new ResponseEntity<>("좋아요해제", HttpStatus.OK);
-    }
-
 
 }
