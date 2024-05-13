@@ -125,7 +125,9 @@ public class ReviewService {
 
         Page<Review> reviewPage = findReviewPageByUser(user, pageable,type);
 
-        reviewValidator.pageValidate(reviewPage);
+        if(!reviewPage.hasContent()) {
+            return Page.empty();
+        }
 
         return reviewPage.map(Review::toReviewSummaryDto);
     }

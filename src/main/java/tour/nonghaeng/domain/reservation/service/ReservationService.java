@@ -107,9 +107,9 @@ public class ReservationService {
 
         Page<Reservation> reservationPage = getReservationPageByUserAndType(user, pageable, type);
 
-        reservationValidator.pageValidate(reservationPage);
-
-        //여기서 toDto 는 오버라이딩된 toDto 함수 사용됨
+        if(!reservationPage.hasContent()) {
+            return Page.empty();
+        }
 
         return reservationPage.map(Reservation::toUserSummaryDto);
     }
