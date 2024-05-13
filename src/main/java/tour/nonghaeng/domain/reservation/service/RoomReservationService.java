@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.member.service.UserService;
@@ -38,13 +39,13 @@ public class RoomReservationService {
     private final ReservationValidator reservationValidator;
 
 
-    public RoomReservationResponseDto createRoomReservation(User user, CreateRoomReservationDto requestDto) {
+    public RoomReservationResponseDto createRoomReservation(Member user, CreateRoomReservationDto requestDto) {
 
         Room room = roomService.findById(requestDto.getRoomId());
 
         roomReservationValidator.roomReservationValidate(room, user, requestDto);
 
-        userService.payPoint(user, requestDto.getFinalPrice());
+        userService.payPoint((User) user, requestDto.getFinalPrice());
 
         RoomReservation roomReservation = roomReservationRepository.save(requestDto.toEntity(user, room));
 
@@ -71,14 +72,14 @@ public class RoomReservationService {
                 .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_EXIST_ROOM_RESERVATION_BY_ID));
     }
 
-    public Page<Reservation> findReservationPageByUser(User user, Pageable pageable) {
-        return roomReservationRepository.findReservationPageByUser(user, pageable);
+    public Page<Reservation> findReservationPageByUser(Member user, Pageable pageable) {
+        return roomReservationRepository.findReservationPageByUser((User) user, pageable);
     }
 
 
 
-    public Page<Reservation> findReservationPageBySeller(Seller seller, Pageable pageable) {
-        return roomReservationRepository.findReservationPageBySeller(seller, pageable);
+    public Page<Reservation> findReservationPageBySeller(Member seller, Pageable pageable) {
+        return roomReservationRepository.findReservationPageBySeller((Seller) seller, pageable);
     }
 
     public LocalDate findStartDateById(Long roomReservationId) {

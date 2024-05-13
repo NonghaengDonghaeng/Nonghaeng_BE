@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.entity.Reservation;
 import tour.nonghaeng.domain.reservation.service.ReservationService;
@@ -46,7 +47,7 @@ public class ReviewService {
 
 
     //리뷰 생성 서비스( createReview 로 통합되면 통합하기)
-    public Long createExpReview(User user, Long reservationId, CreateExpReviewDto requestDto) {
+    public Long createExpReview(Member user, Long reservationId, CreateExpReviewDto requestDto) {
 
         Reservation reservation = reservationService.findById(reservationId);
 
@@ -54,7 +55,7 @@ public class ReviewService {
     }
 
 
-    public Long createRoomReview(User user, Long reservationId, CreateRoomReviewDto requestDto) {
+    public Long createRoomReview(Member user, Long reservationId, CreateRoomReviewDto requestDto) {
 
         Reservation reservation = reservationService.findById(reservationId);
 
@@ -121,7 +122,7 @@ public class ReviewService {
     }
 
 
-    public Page<? extends ReviewSummaryDto> getReviewSummaryDtoPageByUser(User user, Pageable pageable,String type) {
+    public Page<? extends ReviewSummaryDto> getReviewSummaryDtoPageByUser(Member user, Pageable pageable,String type) {
 
         Page<Review> reviewPage = findReviewPageByUser(user, pageable,type);
 
@@ -132,7 +133,7 @@ public class ReviewService {
         return reviewPage.map(Review::toReviewSummaryDto);
     }
 
-    private Page<Review> findReviewPageByUser(User user, Pageable pageable,String type) {
+    private Page<Review> findReviewPageByUser(Member user, Pageable pageable,String type) {
 
         if(type.equals("room")) {
             return roomReviewService.findReviewPageByUser(user, pageable);
@@ -140,7 +141,7 @@ public class ReviewService {
         if(type.equals("experience")) {
             return experienceReviewService.findReviewPageByUser(user, pageable);
         }
-        return reviewRepository.findReviewPageByUser(user, pageable)
+        return reviewRepository.findReviewPageByUser((User) user, pageable)
                 .map(review -> findUpCastedReviewById(review.getId()));
     }
 

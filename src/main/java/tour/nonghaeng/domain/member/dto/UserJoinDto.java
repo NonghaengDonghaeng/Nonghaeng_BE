@@ -12,9 +12,10 @@ import tour.nonghaeng.domain.member.entity.User;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record UserJoinDto(
         AreaCode areaCode,
-        String number,
+        String phoneNumber,
         String name,
         String email,
+        String username,
         String password,
         String checkPassword
 ) {
@@ -23,9 +24,10 @@ public record UserJoinDto(
                         .role(Role.USER)
                         .areaCode(this.areaCode)
                         .socialType(SocialType.ORIGIN)
-                        .number(this.number)
+                        .phoneNumber(this.phoneNumber)
                         .name(this.name)
                         .email(this.email)
+                        .username(this.username)
                         .password(this.password)
                         .build();
         }

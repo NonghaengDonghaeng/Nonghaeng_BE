@@ -3,12 +3,12 @@ package tour.nonghaeng.domain.reservation.valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.reservation.dto.room.CreateRoomReservationDto;
-import tour.nonghaeng.domain.reservation.repo.RoomReservationRepository;
-import tour.nonghaeng.domain.room.entity.Room;
 import tour.nonghaeng.domain.reservation.exception.ReservationException;
 import tour.nonghaeng.domain.reservation.exception.error.ReservationErrorCode;
+import tour.nonghaeng.domain.reservation.repo.RoomReservationRepository;
+import tour.nonghaeng.domain.room.entity.Room;
 import tour.nonghaeng.domain.room.valid.RoomCloseDateValidator;
 
 import java.time.LocalDate;
@@ -24,7 +24,7 @@ public class RoomReservationValidator {
     private final ReservationValidator reservationValidator;
 
 
-    public void roomReservationValidate(Room room, User user, CreateRoomReservationDto dto) {
+    public void roomReservationValidate(Room room, Member user, CreateRoomReservationDto dto) {
 
         createRoomReservationDtoValidate(room,dto);
 

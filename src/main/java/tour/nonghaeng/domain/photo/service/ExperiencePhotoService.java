@@ -9,6 +9,7 @@ import tour.nonghaeng.domain.etc.photo.PhotoType;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
 import tour.nonghaeng.domain.experience.valid.ExperienceValidator;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.entity.ExperiencePhoto;
@@ -45,7 +46,7 @@ public class ExperiencePhotoService implements PhotoService {
     }
 
     @Override
-    public void uploads(Seller seller, Long experienceId, List<MultipartFile> imageFiles) {
+    public void uploads(Member seller, Long experienceId, List<MultipartFile> imageFiles) {
 
         experienceValidator.ownerValidate(seller,experienceId);
 
@@ -57,11 +58,11 @@ public class ExperiencePhotoService implements PhotoService {
         }
     }
 
-    private void createExperiencePhoto(Seller seller, Experience experience, String imgUrl) {
+    private void createExperiencePhoto(Member seller, Experience experience, String imgUrl) {
 
         ExperiencePhoto createdExperiencePhoto = ExperiencePhoto.builder()
                 .experience(experience)
-                .seller(seller)
+                .seller((Seller) seller)
                 .imgUrl(imgUrl)
                 .build();
 
@@ -85,7 +86,7 @@ public class ExperiencePhotoService implements PhotoService {
 
 
     @Override
-    public void changeRepresentativePhoto(Seller seller,Long expPhotoId) {
+    public void changeRepresentativePhoto(Member seller,Long expPhotoId) {
 
 
         experiencePhotoValidator.ownerValidate(seller, expPhotoId);
@@ -109,7 +110,7 @@ public class ExperiencePhotoService implements PhotoService {
     }
 
     @Override
-    public void delete(Seller seller,Long photoId) {
+    public void delete(Member seller,Long photoId) {
 
         photoValidator.deletePhotoValidate(photoId);
         experiencePhotoValidator.ownerValidate(seller,photoId);

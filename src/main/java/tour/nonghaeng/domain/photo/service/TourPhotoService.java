@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import tour.nonghaeng.domain.etc.photo.PhotoType;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.entity.Photo;
@@ -45,7 +46,7 @@ public class TourPhotoService implements PhotoService {
     }
 
     @Override
-    public void uploads(Seller seller, Long id, List<MultipartFile> imageFiles) {
+    public void uploads(Member seller, Long id, List<MultipartFile> imageFiles) {
 
         tourValidator.ownerValidate(seller, id);
 
@@ -59,9 +60,9 @@ public class TourPhotoService implements PhotoService {
         }
     }
 
-    private void createTourPhoto(Seller seller, Tour tour, String imgUrl) {
+    private void createTourPhoto(Member seller, Tour tour, String imgUrl) {
 
-        TourPhoto cretedTourPhoto = TourPhoto.builder().tour(tour).seller(seller).imgUrl(imgUrl).build();
+        TourPhoto cretedTourPhoto = TourPhoto.builder().tour(tour).seller((Seller) seller).imgUrl(imgUrl).build();
 
         if (!tourPhotoRepository.hasExactlyOneRepresentativePhoto(tour)) {
             cretedTourPhoto.onRepresentative();
@@ -84,7 +85,7 @@ public class TourPhotoService implements PhotoService {
 
 
     @Override
-    public void changeRepresentativePhoto(Seller seller,Long tourPhotoId) {
+    public void changeRepresentativePhoto(Member seller,Long tourPhotoId) {
 
         tourPhotoValidator.ownerValidate(seller,tourPhotoId);
 
@@ -106,7 +107,7 @@ public class TourPhotoService implements PhotoService {
     }
 
     @Override
-    public void delete(Seller seller, Long photoId) {
+    public void delete(Member seller, Long photoId) {
 
         photoValidator.deletePhotoValidate(photoId);
         tourPhotoValidator.ownerValidate(seller,photoId);

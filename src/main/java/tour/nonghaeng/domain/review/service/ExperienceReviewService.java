@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
 import tour.nonghaeng.domain.experience.valid.ExperienceValidator;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.entity.Reservation;
 import tour.nonghaeng.domain.review.dto.exp.CreateExpReviewDto;
@@ -30,7 +31,7 @@ public class ExperienceReviewService {
 
 
 
-    public Long createExperienceReview(User user, Reservation reservation, CreateExpReviewDto requestDto) {
+    public Long createExperienceReview(Member user, Reservation reservation, CreateExpReviewDto requestDto) {
 
         Experience experience = experienceService.findById(requestDto.getExpId());
 
@@ -40,9 +41,9 @@ public class ExperienceReviewService {
     }
 
 
-    public Page<Review> findReviewPageByUser(User user, Pageable pageable) {
+    public Page<Review> findReviewPageByUser(Member user, Pageable pageable) {
 
-        return experienceReviewRepository.findReviewPageByUser(user, pageable);
+        return experienceReviewRepository.findReviewPageByUser((User) user, pageable);
     }
 
 

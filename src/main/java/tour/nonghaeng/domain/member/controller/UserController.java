@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tour.nonghaeng.domain.member.dto.UserJoinDto;
 import tour.nonghaeng.domain.member.dto.mypage.MyPageUserDto;
-import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.member.service.MyPageService;
 import tour.nonghaeng.domain.member.service.UserService;
 import tour.nonghaeng.global.auth.auth.service.AuthService;
@@ -39,7 +39,7 @@ public class UserController {
     @GetMapping("/my-page")
     public ResponseEntity<MyPageUserDto> getMyPage(Authentication authentication){
 
-        User user = authService.toUserEntity(authentication);
+        Member user = authService.toMemberEntity(authentication);
 
         MyPageUserDto userMyPage = myPageService.getUserMyPage(user);
 

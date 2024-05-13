@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.dto.mypage.MyPageUserDto;
-import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.reservation.service.ReservationService;
 import tour.nonghaeng.domain.review.service.ReviewService;
 
@@ -24,12 +24,12 @@ public class MyPageService {
 
 
 
-    public MyPageUserDto getUserMyPage(User user) {
+    public MyPageUserDto getUserMyPage(Member user) {
 
         MyPageUserDto dto = MyPageUserDto.builder()
                 .name(user.getName())
                 .email(user.getEmail())
-                .number(user.getNumber())
+                .number(user.getPhoneNumber())
                 .point(user.getPoint())
                 .reservationPage(reservationService.getReservationUserSummaryDtoPage(user, defaultPageRequest,"all"))
                 .reviewPage(reviewService.getReviewSummaryDtoPageByUser(user,defaultPageRequest,"all"))

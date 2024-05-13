@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
 import tour.nonghaeng.domain.experience.service.ExperienceRoundService;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.member.service.UserService;
@@ -37,7 +38,7 @@ public class ExperienceReservationService {
     private final ExperienceReservationValidator experienceReservationValidator;
 
 
-    public ExpReservationResponseDto createExpReservation(User user, CreateExpReservationDto requestDto) {
+    public ExpReservationResponseDto createExpReservation(Member user, CreateExpReservationDto requestDto) {
 
         ExperienceRound experienceRound = experienceRoundService.findById(requestDto.getRoundId());
 
@@ -47,7 +48,7 @@ public class ExperienceReservationService {
                         countRemainOfParticipant(experienceRound, requestDto.getReservationDate()),
                         requestDto);
 
-        userService.payPoint(user, requestDto.getFinalPrice());
+        userService.payPoint((User) user, requestDto.getFinalPrice());
 
         ExperienceReservation experienceReservation = experienceReservationRepository.save(requestDto.toEntity(user, experienceRound));
 
@@ -69,15 +70,15 @@ public class ExperienceReservationService {
         return experienceRound.getMaxParticipant() - currentReservationParticipant;
     }
 
-    public Page<Reservation> findReservationPageByUser(User user, Pageable pageable) {
+    public Page<Reservation> findReservationPageByUser(Member user, Pageable pageable) {
 
-        return experienceReservationRepository.findReservationPageByUser(user, pageable);
+        return experienceReservationRepository.findReservationPageByUser((User) user, pageable);
     }
 
 
-    public Page<Reservation> findReservationPageBySeller(Seller seller, Pageable pageable) {
+    public Page<Reservation> findReservationPageBySeller(Member seller, Pageable pageable) {
 
-        return experienceReservationRepository.findReservationPageBySeller(seller, pageable);
+        return experienceReservationRepository.findReservationPageBySeller((Seller) seller, pageable);
     }
 
     public Reservation findReservationById(Long reservationId) {

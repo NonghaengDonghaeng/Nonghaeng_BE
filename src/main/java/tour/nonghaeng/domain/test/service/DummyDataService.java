@@ -68,9 +68,9 @@ public class DummyDataService {
         Seller seller10 = sellerService.join(sellerJoinDto10);
 
         //user 등록
-        UserJoinDto userJoinDto1 = new UserJoinDto(AreaCode.DAEJEON, "user1", "user1", "user1@email.com", "user1", "user1");
-        UserJoinDto userJoinDto2 = new UserJoinDto(AreaCode.DAEJEON, "user2", "user2", "user2@email.com", "user2", "user2");
-        UserJoinDto userJoinDto3 = new UserJoinDto(AreaCode.DAEJEON, "user3", "user3", "user3@email.com", "user3", "user3");
+        UserJoinDto userJoinDto1 = new UserJoinDto(AreaCode.DAEJEON, "user1", "user1", "user1@email.com", "user1", "user1", "user1");
+        UserJoinDto userJoinDto2 = new UserJoinDto(AreaCode.DAEJEON, "user2", "user2", "user2@email.com", "user2", "user2", "user2");
+        UserJoinDto userJoinDto3 = new UserJoinDto(AreaCode.DAEJEON, "user3", "user3", "user3@email.com", "user3", "user3", "user3");
 
         User user1 = userService.join(userJoinDto1);
         User user2 = userService.join(userJoinDto2);

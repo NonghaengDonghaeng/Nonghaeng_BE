@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.entity.Reservation;
@@ -20,20 +21,20 @@ public class ReservationValidator {
     private final ReservationRepository reservationRepository;
 
 
-    public void ownerSellerValidate(Seller seller, Long reservationId) {
+    public void ownerSellerValidate(Member seller, Long reservationId) {
 
         idValidate(reservationId);
 
-        if (!seller.equals(reservationRepository.findSellerById(reservationId).get())) {
+        if (!((Seller) seller).equals(reservationRepository.findSellerById(reservationId).get())) {
             throw new ReservationException(ReservationErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
         }
     }
 
-    public void ownerUserValidate(User user, Long reservationId) {
+    public void ownerUserValidate(Member user, Long reservationId) {
 
         idValidate(reservationId);
 
-        if (!user.equals(reservationRepository.findUserById(reservationId).get())) {
+        if (!((User) user).equals(reservationRepository.findUserById(reservationId).get())) {
             throw new ReservationException(ReservationErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
         }
     }
@@ -83,7 +84,7 @@ public class ReservationValidator {
         }
     }
 
-    public void checkPointValidate(User user, int price) {
+    public void checkPointValidate(Member user, int price) {
 
         if (user.getPoint() < price) {
             throw new ReservationException(ReservationErrorCode.NOT_ENOUGH_POINT_ERROR);

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import tour.nonghaeng.domain.etc.like.LikeType;
 import tour.nonghaeng.domain.like.entity.RoomLike;
 import tour.nonghaeng.domain.like.repo.RoomLikeRepository;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.room.entity.Room;
 import tour.nonghaeng.domain.room.service.RoomService;
@@ -32,18 +33,18 @@ public class RoomLikeService implements LikeService {
     }
 
     @Override
-    public boolean clickLike(User user, Long roomId) {
+    public boolean clickLike(Member user, Long roomId) {
 
         Room room = roomService.findById(roomId);
 
-        Optional<RoomLike> maybeRoomLike = roomLikeRepository.findByUserAndRoom(user, room);
+        Optional<RoomLike> maybeRoomLike = roomLikeRepository.findByUserAndRoom((User) user, room);
 
         return maybeRoomLike.map(this::offLike).orElseGet(() -> onLike(user, room));
     }
 
-    private boolean onLike(User user, Room room) {
+    private boolean onLike(Member user, Room room) {
 
-        roomLikeRepository.save(RoomLike.builder().user(user).room(room).build());
+        roomLikeRepository.save(RoomLike.builder().user((User) user).room(room).build());
         return true;
     }
 

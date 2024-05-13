@@ -9,9 +9,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import tour.nonghaeng.domain.etc.role.Role;
+import tour.nonghaeng.domain.member.repo.MemberRepository;
 import tour.nonghaeng.domain.member.repo.UserRepository;
 
-import javax.swing.text.html.Option;
 import java.util.Date;
 import java.util.Optional;
 
@@ -39,20 +40,21 @@ public class JwtService {
     private static final String ACCESS_TOKEN_SUBJECT = "AccessToken";
     private static final String REFRESH_TOKEN_SUBJECT = "RefreshToken";
     private static final String ROLE_TYPE_CLAIM = "type";
-    private static final String NUMBER_CLAIM = "number";
+    private static final String USERNAME_CLAIM = "username";
     private static final String BEARER = "Bearer ";
 
     private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
 
     //AccessToken 생성 메소드
-    public String createAccessToken(String number,String type){
+    public String createAccessToken(String username, Role role){
 
         Date now = new Date();
         return JWT.create()
                 .withSubject(ACCESS_TOKEN_SUBJECT)
                 .withExpiresAt(new Date(now.getTime() + accessTokenExpirationPeriod))
-                .withClaim(ROLE_TYPE_CLAIM, type)
-                .withClaim(NUMBER_CLAIM, number)
+                .withClaim(ROLE_TYPE_CLAIM, role.getKey())
+                .withClaim(USERNAME_CLAIM, username)
                 .sign(Algorithm.HMAC512(secretKey));
 
     }
@@ -107,14 +109,14 @@ public class JwtService {
 
     }
 
-    //AccessToken 에서 number 추출
-    public Optional<String> extractNumber(String accessToken) {
+
+    public Optional<String> extractUsername(String accessToken) {
 
         try{
             return Optional.ofNullable(JWT.require(Algorithm.HMAC512(secretKey))
                     .build()
                     .verify(accessToken)
-                    .getClaim(NUMBER_CLAIM)
+                    .getClaim(USERNAME_CLAIM)
                     .asString());
         }catch (Exception e){
             log.error("엑세스 토큰이 유효하지 않습니다.");
@@ -123,23 +125,9 @@ public class JwtService {
 
     }
 
-    //AccessToken 에서 role 추출
-    public Optional<String> extractType(String accessToken) {
-        try {
-            return Optional.ofNullable(JWT.require(Algorithm.HMAC512(secretKey))
-                    .build()
-                    .verify(accessToken)
-                    .getClaim(ROLE_TYPE_CLAIM)
-                    .asString());
-        } catch (Exception e) {
-            log.error("엑세스 토큰이 유효하지 않습니다.");
-            return Optional.empty();
-        }
-    }
-
     //RefreshToken DB에 저장(업데이트)
-    public void updateRefreshToken(String number,String refreshToken){
-        userRepository.findByNumber(number)
+    public void updateRefreshToken(String username,String refreshToken){
+        userRepository.findByUsername(username)
                 .ifPresentOrElse(
                         user -> user.updateRefreshToken(refreshToken),
                         () -> new Exception("일치하는 회원이 없습니다.")

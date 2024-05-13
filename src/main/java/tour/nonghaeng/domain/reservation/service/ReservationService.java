@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.etc.cancel.CancelPolicy;
 import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.member.service.SellerService;
@@ -56,14 +57,14 @@ public class ReservationService {
 
 
     //예약 생성 서비스
-    public RoomReservationResponseDto createRoomReservation(User user, CreateRoomReservationDto reservationDto) {
+    public RoomReservationResponseDto createRoomReservation(Member user, CreateRoomReservationDto reservationDto) {
 
         return roomReservationService.createRoomReservation(user, reservationDto);
     }
 
 
 
-    public ExpReservationResponseDto createExpReservation(User user, CreateExpReservationDto requestDto) {
+    public ExpReservationResponseDto createExpReservation(Member user, CreateExpReservationDto requestDto) {
 
         return experienceReservationService.createExpReservation(user, requestDto);
     }
@@ -103,7 +104,7 @@ public class ReservationService {
 
 
 
-    public Page<? extends ReservationUserSummaryDto> getReservationUserSummaryDtoPage(User user, Pageable pageable,String type) {
+    public Page<? extends ReservationUserSummaryDto> getReservationUserSummaryDtoPage(Member user, Pageable pageable,String type) {
 
         Page<Reservation> reservationPage = getReservationPageByUserAndType(user, pageable, type);
 
@@ -114,7 +115,7 @@ public class ReservationService {
         return reservationPage.map(Reservation::toUserSummaryDto);
     }
 
-    private Page<Reservation> getReservationPageByUserAndType(User user, Pageable pageable, String type) {
+    private Page<Reservation> getReservationPageByUserAndType(Member user, Pageable pageable, String type) {
 
         if (type.equals("room")) {
 
@@ -124,12 +125,12 @@ public class ReservationService {
             return experienceReservationService.findReservationPageByUser(user, pageable);
         }
         // type: all 일때
-        return reservationRepository.findReservationPageByUser(user, pageable)
+        return reservationRepository.findReservationPageByUser((User) user, pageable)
                 .map(reservation -> findUpCastedReservationById(reservation.getId()));
     }
 
 
-    public Page<? extends ReservationSellerSummaryDto> getReservationSellerSummaryDtoPage(Seller seller, Pageable pageable,String type) {
+    public Page<? extends ReservationSellerSummaryDto> getReservationSellerSummaryDtoPage(Member seller, Pageable pageable,String type) {
 
         Page<Reservation> reservationPage = findReservationPageBySeller(seller, pageable, type);
 
@@ -138,7 +139,7 @@ public class ReservationService {
         return reservationPage.map(Reservation::toSellerSummaryDto);
     }
 
-    private Page<Reservation> findReservationPageBySeller(Seller seller, Pageable pageable, String type) {
+    private Page<Reservation> findReservationPageBySeller(Member seller, Pageable pageable, String type) {
 
         if (type.equals("room")) {
 
@@ -151,9 +152,9 @@ public class ReservationService {
         return findReservationPageBySeller(seller, pageable);
     }
 
-    private Page<Reservation> findReservationPageBySeller(Seller seller, Pageable pageable) {
+    private Page<Reservation> findReservationPageBySeller(Member seller, Pageable pageable) {
 
-        return reservationRepository.findReservationPageBySeller(seller, pageable)
+        return reservationRepository.findReservationPageBySeller((Seller) seller, pageable)
                 .map(reservation -> findUpCastedReservationById(reservation.getId()));
     }
 
@@ -174,7 +175,7 @@ public class ReservationService {
 
 
 
-    public ReservationPersonInfo getReservationPersonInfo(User user) {
+    public ReservationPersonInfo getReservationPersonInfo(Member user) {
         return ReservationPersonInfo.toDto(user);
     }
 
@@ -206,7 +207,7 @@ public class ReservationService {
 
 
 
-    public ReservationCancelResponseDto cancelReservation(User user, Long reservationId) {
+    public ReservationCancelResponseDto cancelReservation(Member user, Long reservationId) {
 
         Reservation reservation = findUpCastedReservationById(reservationId);
 
@@ -214,7 +215,7 @@ public class ReservationService {
 
         CancelPolicy cancelPolicy = decideCancelPolicy(reservation);
 
-        userService.payBackPoint(user, reservation.getPrice(), cancelPolicy);
+        userService.payBackPoint((User) user, reservation.getPrice(), cancelPolicy);
 
         reservation.cancelReservation();
 

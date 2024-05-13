@@ -5,7 +5,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -21,20 +20,15 @@ import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import tour.nonghaeng.domain.etc.role.Role;
-import tour.nonghaeng.domain.member.repo.SellerRepository;
-import tour.nonghaeng.domain.member.repo.UserRepository;
+import tour.nonghaeng.domain.member.repo.MemberRepository;
 import tour.nonghaeng.global.auth.auth.handler.MyAccessDeniedHandler;
 import tour.nonghaeng.global.auth.auth.handler.MyAuthenticationEntryPoint;
 import tour.nonghaeng.global.auth.jwt.filter.JwtAuthenticationFilter;
 import tour.nonghaeng.global.auth.jwt.service.JwtService;
-import tour.nonghaeng.global.auth.login.filter.CustomJsonSellerAuthenticationFilter;
-import tour.nonghaeng.global.auth.login.filter.CustomJsonUserAuthenticationFilter;
-import tour.nonghaeng.global.auth.login.handler.SellerLoginFailureHandler;
-import tour.nonghaeng.global.auth.login.handler.SellerLoginSuccessHandler;
-import tour.nonghaeng.global.auth.login.handler.UserLoginFailureHandler;
-import tour.nonghaeng.global.auth.login.handler.UserLoginSuccessHandler;
-import tour.nonghaeng.global.auth.login.service.SellerLoginService;
-import tour.nonghaeng.global.auth.login.service.UserLoginService;
+import tour.nonghaeng.global.auth.login.filter.CustomJsonAuthenticationFilter;
+import tour.nonghaeng.global.auth.login.handler.CustomLoginFailureHandler;
+import tour.nonghaeng.global.auth.login.handler.CustomLoginSuccessHandler;
+import tour.nonghaeng.global.auth.login.service.LoginService;
 import tour.nonghaeng.global.auth.oauth.handler.OAuth2LoginFailureHandler;
 import tour.nonghaeng.global.auth.oauth.handler.OAuth2LoginSuccessHandler;
 import tour.nonghaeng.global.auth.oauth.service.CustomOAuth2UserService;
@@ -47,12 +41,11 @@ import java.util.Collections;
 public class SecurityConfig {
 
     private final JwtService jwtService;
-    private final UserLoginService userLoginService;
-    private final SellerLoginService sellerLoginService;
-    private final CustomOAuth2UserService customOAuth2UserService;
 
-    private final UserRepository userRepository;
-    private final SellerRepository sellerRepository;
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final LoginService loginService;
+
+    private final MemberRepository memberRepository;
 
     private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
@@ -104,9 +97,9 @@ public class SecurityConfig {
         });
 
         //logout 필터 -> jwt 필터 -> customUserLogin 필터 -> customSellerLogin 필터
-        http.addFilterAfter(jwtAuthenticationFilter(), LogoutFilter.class);
-        http.addFilterAfter(customJsonUserAuthenticationFilter(), JwtAuthenticationFilter.class);
-        http.addFilterAfter(customJsonSellerAuthenticationFilter(), CustomJsonUserAuthenticationFilter.class);
+        http.addFilterAfter(customJsonAuthenticationFilter(), LogoutFilter.class);
+        http.addFilterBefore(jwtAuthenticationFilter(), CustomJsonAuthenticationFilter.class);
+//        http.addFilterAfter(customJsonAuthenticationFilter(), JwtAuthenticationFilter.class);
 
         return http.build();
     }
@@ -128,77 +121,40 @@ public class SecurityConfig {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-    @Bean(name="userAuthenticationManager")
-    @Primary
-    public AuthenticationManager userAuthenticationManager() {
 
-        DaoAuthenticationProvider userProvider = new DaoAuthenticationProvider();
-        userProvider.setPasswordEncoder(passwordEncoder());
-        userProvider.setUserDetailsService(userLoginService);
+    @Bean
+    public AuthenticationManager authenticationManager() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setPasswordEncoder(passwordEncoder());
+        authProvider.setUserDetailsService(loginService);
 
-        return new ProviderManager(userProvider);
+        return new ProviderManager(authProvider);
     }
 
     @Bean
-    public UserLoginSuccessHandler userLoginSuccessHandler() {
-        return new UserLoginSuccessHandler(jwtService, userRepository);
+    public CustomLoginSuccessHandler customLoginSuccessHandler() {
+        return new CustomLoginSuccessHandler(jwtService, memberRepository);
     }
 
     @Bean
-    public UserLoginFailureHandler userLoginFailureHandler() {
-        return new UserLoginFailureHandler();
+    public CustomLoginFailureHandler customLoginFailureHandler() {
+        return new CustomLoginFailureHandler();
     }
 
     @Bean
-    public CustomJsonUserAuthenticationFilter customJsonUserAuthenticationFilter() {
+    public CustomJsonAuthenticationFilter customJsonAuthenticationFilter() {
+        CustomJsonAuthenticationFilter customJsonAuthenticationFilter = new CustomJsonAuthenticationFilter(objectMapper);
 
-        CustomJsonUserAuthenticationFilter customJsonUserAuthenticationFilter
-                = new CustomJsonUserAuthenticationFilter(objectMapper);
+        customJsonAuthenticationFilter.setAuthenticationManager(authenticationManager());
+        customJsonAuthenticationFilter.setAuthenticationSuccessHandler(customLoginSuccessHandler());
+        customJsonAuthenticationFilter.setAuthenticationFailureHandler(customLoginFailureHandler());
 
-        customJsonUserAuthenticationFilter.setAuthenticationManager(userAuthenticationManager());
-        customJsonUserAuthenticationFilter.setAuthenticationSuccessHandler(userLoginSuccessHandler());
-        customJsonUserAuthenticationFilter.setAuthenticationFailureHandler(userLoginFailureHandler());
-
-        return customJsonUserAuthenticationFilter;
-    }
-
-    @Bean(name="sellerAuthenticationManger")
-    public AuthenticationManager sellerAuthenticationManger() {
-
-        DaoAuthenticationProvider sellerProvider = new DaoAuthenticationProvider();
-        sellerProvider.setPasswordEncoder(passwordEncoder());
-        sellerProvider.setUserDetailsService(sellerLoginService);
-
-        return new ProviderManager(sellerProvider);
-    }
-
-    @Bean
-    public SellerLoginSuccessHandler sellerLoginSuccessHandler() {
-        return new SellerLoginSuccessHandler(jwtService, sellerRepository);
-    }
-
-    @Bean
-    public SellerLoginFailureHandler sellerLoginFailureHandler() {
-        return new SellerLoginFailureHandler();
-    }
-
-    @Bean
-    public CustomJsonSellerAuthenticationFilter customJsonSellerAuthenticationFilter() {
-        CustomJsonSellerAuthenticationFilter customJsonSellerAuthenticationFilter
-                = new CustomJsonSellerAuthenticationFilter(objectMapper);
-
-        customJsonSellerAuthenticationFilter.setAuthenticationManager(sellerAuthenticationManger());
-        customJsonSellerAuthenticationFilter.setAuthenticationSuccessHandler(sellerLoginSuccessHandler());
-        customJsonSellerAuthenticationFilter.setAuthenticationFailureHandler(sellerLoginFailureHandler());
-
-        return customJsonSellerAuthenticationFilter;
+        return customJsonAuthenticationFilter;
     }
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
 
-        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtService, userRepository,sellerRepository);
-
-        return jwtAuthenticationFilter;
+        return new JwtAuthenticationFilter(jwtService, memberRepository);
     }
 }

@@ -5,8 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tour.nonghaeng.domain.etc.role.Role;
 import tour.nonghaeng.domain.member.dto.SellerJoinDto;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.member.entity.Seller;
+import tour.nonghaeng.domain.member.exception.UserException;
+import tour.nonghaeng.domain.member.exception.error.UserErrorCode;
 import tour.nonghaeng.domain.member.repo.SellerRepository;
 import tour.nonghaeng.domain.member.valid.SellerValidator;
 
@@ -14,7 +18,7 @@ import tour.nonghaeng.domain.member.valid.SellerValidator;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class SellerService {
+public class SellerService implements MemberService{
 
     private final SellerRepository sellerRepository;
     private final SellerValidator sellerValidator;
@@ -44,5 +48,18 @@ public class SellerService {
         sellerRepository.save(seller);
 
         return seller.getPoint();
+    }
+
+    @Override
+    public Role getRole() {
+        return Role.SELLER;
+    }
+
+    @Override
+    public Member findMemberByUsername(String username) {
+        return sellerRepository.findMemberByUsername(username)
+                .orElseThrow(() ->
+                        new UserException(UserErrorCode.NO_EXIST_USER_BY_NUMBER_ERROR));
+
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import tour.nonghaeng.domain.etc.photo.PhotoType;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.entity.Photo;
@@ -25,7 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class ReviewPhotoService {
+public class ReviewPhotoService implements PhotoService {
 
     private static final PhotoType PHOTO_TYPE = PhotoType.REVIEW;
 
@@ -41,7 +42,13 @@ public class ReviewPhotoService {
 
     //TODO: delete api 추가하기
 
-    public void uploads(User user, Long reviewId, List<MultipartFile> imageFiles) {
+    @Override
+    public PhotoType getType() {
+        return PHOTO_TYPE;
+    }
+
+    @Override
+    public void uploads(Member user, Long reviewId, List<MultipartFile> imageFiles) {
 
         reviewValidator.ownerValidate(user,reviewId);
 
@@ -55,11 +62,11 @@ public class ReviewPhotoService {
         }
     }
 
-    private void createReviewPhoto(User user, Review review, String imgUrl) {
+    private void createReviewPhoto(Member user, Review review, String imgUrl) {
 
         ReviewPhoto createdReviewPhoto = ReviewPhoto.builder()
                 .review(review)
-                .user(user)
+                .user((User) user)
                 .imgUrl(imgUrl)
                 .build();
 
@@ -71,8 +78,8 @@ public class ReviewPhotoService {
     }
 
 
-
-    public List<PhotoInfoDto> getPhotoInfoListDto(String type, Long reviewId) {
+    @Override
+    public List<PhotoInfoDto> getPhotoInfoListDto(Long reviewId) {
 
         List<Photo> photoList = reviewPhotoRepository.findAllByReview(reviewService.findById(reviewId));
 
@@ -82,11 +89,14 @@ public class ReviewPhotoService {
     }
 
 
+    @Override
+    public void changeRepresentativePhoto(Member user, Long reviewPhotoId) {
 
-    public void changeRepresentativePhoto(Long reviewId) {
+        reviewPhotoValidator.ownerValidate(user, reviewPhotoId);
 
-        ReviewPhoto reviewPhoto = findById(reviewId);
+        ReviewPhoto reviewPhoto = findById(reviewPhotoId);
         Review review = reviewPhoto.getReview();
+
 
         reviewPhotoValidator.numOfRepresentPhotoValidate(review);
 
@@ -102,8 +112,8 @@ public class ReviewPhotoService {
         reviewPhotoRepository.save(reviewPhoto);
     }
 
-
-    public void delete(User user, Long photoId) {
+    @Override
+    public void delete(Member user, Long photoId) {
 
         photoValidator.deletePhotoValidate(photoId);
         reviewPhotoValidator.ownerValidate(user,photoId);

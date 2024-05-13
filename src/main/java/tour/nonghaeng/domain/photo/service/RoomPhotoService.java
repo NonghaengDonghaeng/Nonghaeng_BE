@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import tour.nonghaeng.domain.etc.photo.PhotoType;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.entity.Photo;
@@ -45,7 +46,7 @@ public class RoomPhotoService implements PhotoService {
     }
 
     @Override
-    public void uploads(Seller seller, Long roomId, List<MultipartFile> imageFiles) {
+    public void uploads(Member seller, Long roomId, List<MultipartFile> imageFiles) {
 
         roomValidator.ownerValidate(seller,roomId);
 
@@ -59,9 +60,9 @@ public class RoomPhotoService implements PhotoService {
         }
     }
 
-    private void createRoomPhoto(Seller seller, Room room, String imgUrl) {
+    private void createRoomPhoto(Member seller, Room room, String imgUrl) {
 
-        RoomPhoto createdRoomPhoto = RoomPhoto.builder().room(room).seller(seller).imgUrl(imgUrl).build();
+        RoomPhoto createdRoomPhoto = RoomPhoto.builder().room(room).seller((Seller) seller).imgUrl(imgUrl).build();
 
         if (!roomPhotoRepository.hasExactlyOneRepresentativePhoto(room)) {
             createdRoomPhoto.onRepresentative();
@@ -83,7 +84,7 @@ public class RoomPhotoService implements PhotoService {
 
 
     @Override
-    public void changeRepresentativePhoto(Seller seller,Long roomPhotoId) {
+    public void changeRepresentativePhoto(Member seller,Long roomPhotoId) {
 
 
         roomPhotoValidator.ownerValidate(seller, roomPhotoId);
@@ -106,7 +107,7 @@ public class RoomPhotoService implements PhotoService {
     }
 
     @Override
-    public void delete(Seller seller, Long photoId) {
+    public void delete(Member seller, Long photoId) {
 
         photoValidator.deletePhotoValidate(photoId);
         roomPhotoValidator.ownerValidate(seller, photoId);

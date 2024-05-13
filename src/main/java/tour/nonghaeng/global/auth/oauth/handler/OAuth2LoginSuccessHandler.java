@@ -7,15 +7,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import tour.nonghaeng.domain.etc.role.Role;
 import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.member.repo.MemberRepository;
 import tour.nonghaeng.domain.member.repo.UserRepository;
-import tour.nonghaeng.global.auth.oauth.CustomOAuth2User;
 import tour.nonghaeng.global.auth.jwt.service.JwtService;
+import tour.nonghaeng.global.auth.oauth.CustomOAuth2User;
 
 import java.io.IOException;
 
@@ -27,6 +27,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
     private final JwtService jwtService;
     private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -36,13 +37,13 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
             CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
 
             if (oAuth2User.getRole() == Role.GUEST_USER) {
-                String accessToken = jwtService.createAccessToken(oAuth2User.getNumber(), "user");
+                String accessToken = jwtService.createAccessToken(oAuth2User.getUsername(), Role.USER);
                 response.addHeader(jwtService.getAccessHeader(), "Bearer " + accessToken);
 //                response.sendRedirect("oauth2/sign-up");    //프론트의 회원가입 추가 정보 입력 폼으로 리다이렉트
 
                 jwtService.sendAccessAndRefreshToken(response, accessToken, null);
 
-                User findUser = userRepository.findByNumber(oAuth2User.getNumber())
+                User findUser = userRepository.findByUsername(oAuth2User.getUsername())
                         .orElseThrow(() -> new IllegalArgumentException("전화번호에 해당하는 유저가 없습니다."));
                 findUser.authorizeUser();
             } else {
@@ -55,14 +56,14 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
     //TODO: 소셜 로그인 시에도 JWT인증 필터처럼 RefreshToken 유/무에 따라 다르게 처리하는거 추가하기
     private void loginSuccess(HttpServletResponse response, CustomOAuth2User oAuth2User) throws IOException {
-        String accessToken = jwtService.createAccessToken(oAuth2User.getNumber(),"user");
+        String accessToken = jwtService.createAccessToken(oAuth2User.getUsername(),Role.USER);
         String refreshToken = jwtService.createRefreshToken();
 
         response.addHeader(jwtService.getAccessHeader(), "Bearer " + accessToken);
         response.addHeader(jwtService.getRefreshHeader(), "Bearer " + refreshToken);
 
         jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
-        jwtService.updateRefreshToken(oAuth2User.getNumber(), refreshToken);
+        jwtService.updateRefreshToken(oAuth2User.getUsername(), refreshToken);
 
 
         String redirectUrl = "https://nonghaeng.site/acount/login?accessToken="+accessToken;
@@ -71,17 +72,6 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         response.addCookie(createCookie("Authorization",accessToken));
         response.sendRedirect(redirectUrl);
 
-    }
-
-    private ResponseCookie createAuthCookie(String key, String value) {
-        ResponseCookie cookie = ResponseCookie.from(key,value)
-                .maxAge(60 * 60 * 60)
-                .sameSite("None")
-                .httpOnly(true)
-                .secure(true)
-                .path("/")
-                .build();
-        return cookie;
     }
 
     private Cookie createCookie(String key, String value) {
