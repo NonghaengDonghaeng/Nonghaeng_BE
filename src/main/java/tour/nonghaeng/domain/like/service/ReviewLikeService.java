@@ -9,7 +9,7 @@ import tour.nonghaeng.domain.like.entity.ReviewLike;
 import tour.nonghaeng.domain.like.repo.ReviewLikeRepository;
 import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.review.entity.Review;
-import tour.nonghaeng.domain.review.service.ReviewService;
+import tour.nonghaeng.domain.review.service.ReviewServiceImpl;
 import tour.nonghaeng.global.auth.valid.AuthValidator;
 
 import java.util.Optional;
@@ -24,7 +24,7 @@ public class ReviewLikeService implements LikeService {
 
     private final ReviewLikeRepository reviewLikeRepository;
 
-    private final ReviewService reviewService;
+    private final ReviewServiceImpl reviewServiceImpl;
 
     private final AuthValidator authValidator;
 
@@ -37,7 +37,7 @@ public class ReviewLikeService implements LikeService {
     @Override
     public boolean clickLike(Member user, Long reviewId) {
 
-        Review review = reviewService.findById(reviewId);
+        Review review = reviewServiceImpl.findById(reviewId);
 
         Optional<ReviewLike> maybeReviewLike = reviewLikeRepository.findByUserAndReview(authValidator.userValidate(user), review);
 

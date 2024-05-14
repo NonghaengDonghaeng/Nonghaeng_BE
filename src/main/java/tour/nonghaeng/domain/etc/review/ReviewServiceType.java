@@ -2,23 +2,23 @@ package tour.nonghaeng.domain.etc.review;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import tour.nonghaeng.domain.etc.photo.PhotoType;
 
 @AllArgsConstructor
 @Getter
-public enum ReviewType {
+public enum ReviewServiceType {
 
     EXPERIENCE("experience"),
     ROOM("room"),
+    TOUR_AND_ALL("etc"),
     ;
 
     private final String dtype;
 
-    public static ReviewType ofDtype(String dtype) {
+    public static ReviewServiceType ofDtype(String dtype) {
         if (dtype == null) {
             throw new IllegalArgumentException();
         }
-        for (ReviewType rt : ReviewType.values()) {
+        for (ReviewServiceType rt : ReviewServiceType.values()) {
             if (rt.getDtype().equals(dtype)) {
                 return rt;
             }

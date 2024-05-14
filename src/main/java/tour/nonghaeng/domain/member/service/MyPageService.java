@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.dto.mypage.MyPageUserDto;
 import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.reservation.service.ReservationService;
-import tour.nonghaeng.domain.review.service.ReviewService;
+import tour.nonghaeng.domain.review.service.ReviewServiceImpl;
 
 @Service
 @RequiredArgsConstructor
@@ -17,7 +17,8 @@ import tour.nonghaeng.domain.review.service.ReviewService;
 public class MyPageService {
 
     private final ReservationService reservationService;
-    private final ReviewService reviewService;
+    //네이밍 바꿔야할듯
+    private final ReviewServiceImpl reviewServiceImpl;
 
     private final PageRequest defaultPageRequest = PageRequest.of(0, 4);
 
@@ -32,7 +33,7 @@ public class MyPageService {
                 .number(user.getPhoneNumber())
                 .point(user.getPoint())
                 .reservationPage(reservationService.getReservationUserSummaryDtoPage(user, defaultPageRequest,"all"))
-                .reviewPage(reviewService.getReviewSummaryDtoPageByUser(user,defaultPageRequest,"all"))
+                .reviewPage(reviewServiceImpl.getReviewSummaryDtoPageByUser(user,defaultPageRequest))
                 .build();
 
         return dto;
