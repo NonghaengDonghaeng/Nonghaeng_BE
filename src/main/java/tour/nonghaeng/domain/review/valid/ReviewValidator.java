@@ -36,6 +36,8 @@ public class ReviewValidator {
     //예약당 한개의 리뷰인지 확인하는 검증 추가하기
     public void createReviewValidate(Member user, Long reservationId, String type) {
 
+        typeValid(type);
+
         reservationValidator.ownerUserValidate(user,reservationId);
 
         reservationValidator.checkReservationType(reservationId,type);
@@ -48,8 +50,8 @@ public class ReviewValidator {
         }
     }
 
-    public void dtypeValid(String dtype){
-        if (!(dtype.equals("room") || dtype.equals("experience"))) {
+    public void typeValid(String type){
+        if (!(type.equals("room") || type.equals("experience"))) {
 
             throw new ReviewException(ReviewErrorCode.WRONG_DTYPE_ERROR);
         }

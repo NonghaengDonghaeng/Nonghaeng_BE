@@ -16,7 +16,7 @@ import tour.nonghaeng.domain.photo.repo.ReviewPhotoRepository;
 import tour.nonghaeng.domain.photo.valid.PhotoValidator;
 import tour.nonghaeng.domain.photo.valid.ReviewPhotoValidator;
 import tour.nonghaeng.domain.review.entity.Review;
-import tour.nonghaeng.domain.review.service.ReviewService;
+import tour.nonghaeng.domain.review.service.ReviewServiceImpl;
 import tour.nonghaeng.domain.review.valid.ReviewValidator;
 import tour.nonghaeng.global.auth.valid.AuthValidator;
 
@@ -32,7 +32,7 @@ public class ReviewPhotoService implements PhotoService {
 
     private final ReviewPhotoRepository reviewPhotoRepository;
 
-    private final ReviewService reviewService;
+    private final ReviewServiceImpl reviewServiceImpl;
     private final ImageService imageService;
 
     private final PhotoValidator photoValidator;
@@ -53,7 +53,7 @@ public class ReviewPhotoService implements PhotoService {
 
         reviewValidator.ownerValidate(user,reviewId);
 
-        Review review = reviewService.findById(reviewId);
+        Review review = reviewServiceImpl.findById(reviewId);
 
         for(MultipartFile imageFile : imageFiles) {
 
@@ -82,7 +82,7 @@ public class ReviewPhotoService implements PhotoService {
     @Override
     public List<PhotoInfoDto> getPhotoInfoListDto(Long reviewId) {
 
-        List<Photo> photoList = reviewPhotoRepository.findAllByReview(reviewService.findById(reviewId));
+        List<Photo> photoList = reviewPhotoRepository.findAllByReview(reviewServiceImpl.findById(reviewId));
 
         photoValidator.emptyPhotoListValidate(photoList);
 

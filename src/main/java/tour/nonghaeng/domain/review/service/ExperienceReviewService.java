@@ -6,12 +6,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tour.nonghaeng.domain.etc.review.ReviewServiceType;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
 import tour.nonghaeng.domain.experience.valid.ExperienceValidator;
 import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.reservation.entity.Reservation;
-import tour.nonghaeng.domain.review.dto.exp.CreateExpReviewDto;
+import tour.nonghaeng.domain.reservation.service.ReservationService;
+import tour.nonghaeng.domain.review.dto.CreateReviewDto;
+import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
+import tour.nonghaeng.domain.review.entity.ExperienceReview;
 import tour.nonghaeng.domain.review.entity.Review;
 import tour.nonghaeng.domain.review.exception.ReviewException;
 import tour.nonghaeng.domain.review.repo.ExperienceReviewRepository;
@@ -21,44 +25,73 @@ import tour.nonghaeng.global.auth.valid.AuthValidator;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class ExperienceReviewService {
+public class ExperienceReviewService implements ReviewService {
 
     private final ExperienceReviewRepository experienceReviewRepository;
 
     private final ExperienceService experienceService;
+    private final ReservationService reservationService;
 
     private final ExperienceValidator experienceValidator;
     private final AuthValidator authValidator;
 
 
 
-    public Long createExperienceReview(Member user, Reservation reservation, CreateExpReviewDto requestDto) {
 
-        Experience experience = experienceService.findById(requestDto.getExpId());
+    @Override
+    public ReviewServiceType getType() {
+        return ReviewServiceType.EXPERIENCE;
+    }
+
+    @Override
+    public Long createReview(Member user,Long reservationId, CreateReviewDto requestDto) {
+
+        Reservation reservation = reservationService.findById(reservationId);
+        Experience experience = experienceService.findById(requestDto.getId());
 
         //TODO: validator
 
-        return experienceReviewRepository.save(requestDto.toEntity(authValidator.userValidate(user), reservation, experience)).getId();
+        String formatTitle = "[" + experience.getTour().getName() + "] " + requestDto.getTitle();
+
+        ExperienceReview experienceReview = ExperienceReview.builder()
+                .user(authValidator.userValidate(user))
+                .reservation(reservation)
+                .experience(experience)
+                .title(formatTitle)
+                .content(requestDto.getContent())
+                .build();
+
+        return experienceReviewRepository.save(experienceReview).getId();
+    }
+
+    @Override
+    public Page<? extends ReviewSummaryDto> getReviewSummaryDtoPageById(Long id, Pageable pageable) {
+
+        experienceValidator.expIdValidate(id);
+
+        Page<Review> reviewPage = experienceReviewRepository.findReviewPageByExpId(id, pageable);
+
+        return reviewPage.map(Review::toReviewSummaryDto);
+    }
+
+    @Override
+    public Page<? extends ReviewSummaryDto> getReviewSummaryDtoPageByUser(Member user, Pageable pageable) {
+
+        Page<Review> reviewPage = experienceReviewRepository.findReviewPageByUser(authValidator.userValidate(user), pageable);
+
+        if(!reviewPage.hasContent()) {
+            return Page.empty();
+        }
+
+        return reviewPage.map(Review::toReviewSummaryDto);
     }
 
 
-    public Page<Review> findReviewPageByUser(Member user, Pageable pageable) {
-
-        return experienceReviewRepository.findReviewPageByUser(authValidator.userValidate(user), pageable);
-    }
-
-
-    public Page<Review> findReviewPageByExpId(Long experienceId, Pageable pageable) {
-
-        experienceValidator.expIdValidate(experienceId);
-
-        return experienceReviewRepository.findReviewPageByExpId(experienceId,pageable);
-    }
-
-
-
+    @Override
     public Review findReviewById(Long reviewId) {
         return experienceReviewRepository.findReviewById(reviewId)
                 .orElseThrow(() -> ReviewException.EXCEPTION);
     }
+
+
 }

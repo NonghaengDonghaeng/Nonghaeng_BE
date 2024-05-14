@@ -332,4 +332,9 @@ public class ReservationService {
         return false;
     }
 
+
+    public String findTypeById(Long reservationId) {
+        return reservationRepository.findReservationTypeById(reservationId);
+    }
+
 }
