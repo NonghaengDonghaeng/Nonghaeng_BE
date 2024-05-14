@@ -11,11 +11,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import tour.nonghaeng.domain.etc.area.AreaCode;
 import tour.nonghaeng.domain.etc.room.RoomType;
-import tour.nonghaeng.domain.member.entity.Seller;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.room.dto.*;
 import tour.nonghaeng.domain.room.service.RoomService;
-import tour.nonghaeng.global.auth.auth.service.AuthService;
 import tour.nonghaeng.domain.room.valid.RoomValidator;
+import tour.nonghaeng.global.auth.auth.service.AuthService;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -38,7 +38,8 @@ public class RoomController {
     public ResponseEntity<String> create(Authentication authentication,
                                           @RequestBody CreateRoomDto createRoomDto) {
 
-        Seller seller = authService.toSellerEntity(authentication);
+
+        Member seller = authService.toMemberEntity(authentication);
 
         Long roomId = roomService.createAndAddRoom(seller, createRoomDto);
 

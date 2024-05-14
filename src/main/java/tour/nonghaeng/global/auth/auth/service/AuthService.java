@@ -8,16 +8,20 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.etc.role.Role;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
-import tour.nonghaeng.domain.member.repo.SellerRepository;
-import tour.nonghaeng.domain.member.repo.UserRepository;
 import tour.nonghaeng.domain.member.exception.SellerException;
 import tour.nonghaeng.domain.member.exception.UserException;
 import tour.nonghaeng.domain.member.exception.error.SellerErrorCode;
 import tour.nonghaeng.domain.member.exception.error.UserErrorCode;
+import tour.nonghaeng.domain.member.repo.SellerRepository;
+import tour.nonghaeng.domain.member.repo.UserRepository;
+import tour.nonghaeng.domain.member.service.MemberService;
+import tour.nonghaeng.domain.member.service.registry.MemberServiceRegistry;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,11 +32,36 @@ public class AuthService {
     private final UserRepository userRepository;
     private final SellerRepository sellerRepository;
 
+    private final MemberServiceRegistry memberServiceRegistry;
+
+
+
+    public Optional<? extends Member> toEntity(Authentication authentication) {
+
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        Role role = findRole(authentication);
+        if (role.equals(Role.USER)) {
+            return userRepository.findByUsername(userDetails.getUsername());
+        }
+        return sellerRepository.findByUsername(userDetails.getUsername());
+
+    }
+
+    public Member toMemberEntity(Authentication authentication) {
+
+        MemberService memberService = memberServiceRegistry.getService(findRole(authentication));
+
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        return memberService.findMemberByUsername(userDetails.getUsername());
+    }
+
     public User toUserEntity(Authentication authentication) {
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-        return userRepository.findByNumber(userDetails.getUsername())
+        return userRepository.findByUsername(userDetails.getUsername())
                 .orElseThrow(() ->
                         new UserException(UserErrorCode.NO_EXIST_USER_BY_NUMBER_ERROR));
     }
@@ -51,8 +80,6 @@ public class AuthService {
 
         String memberRole = authorities.isEmpty() ? null : authorities.iterator().next().getAuthority();
 
-        Role role = Role.findByKey(memberRole);
-
-        return role;
+        return Role.findByKey(memberRole);
     }
 }

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.valid.ReservationValidator;
 import tour.nonghaeng.domain.review.entity.Review;
@@ -19,11 +20,11 @@ public class ReviewValidator {
     private final ReviewRepository reviewRepository;
     private final ReservationValidator reservationValidator;
 
-    public void ownerValidate(User user, Long reviewId) {
+    public void ownerValidate(Member user, Long reviewId) {
 
         idValidate(reviewId);
 
-        if(!user.equals(reviewRepository.findUserById(reviewId).get())){
+        if(!((User) user).equals(reviewRepository.findUserById(reviewId).get())){
 
             throw new ReviewException(ReviewErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
         }
@@ -31,7 +32,7 @@ public class ReviewValidator {
     }
 
     //예약당 한개의 리뷰인지 확인하는 검증 추가하기
-    public void createReviewValidate(User user, Long reservationId,String type) {
+    public void createReviewValidate(Member user, Long reservationId, String type) {
 
         reservationValidator.ownerUserValidate(user,reservationId);
 

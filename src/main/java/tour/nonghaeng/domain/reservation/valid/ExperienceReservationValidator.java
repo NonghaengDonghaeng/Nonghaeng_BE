@@ -4,12 +4,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
-import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.experience.valid.ExperienceCloseDateValidator;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.reservation.dto.exp.CreateExpReservationDto;
-import tour.nonghaeng.domain.reservation.repo.ExperienceReservationRepository;
 import tour.nonghaeng.domain.reservation.exception.ReservationException;
 import tour.nonghaeng.domain.reservation.exception.error.ReservationErrorCode;
-import tour.nonghaeng.domain.experience.valid.ExperienceCloseDateValidator;
+import tour.nonghaeng.domain.reservation.repo.ExperienceReservationRepository;
 
 @Component
 @RequiredArgsConstructor
@@ -21,7 +21,7 @@ public class ExperienceReservationValidator {
     private final ExperienceCloseDateValidator experienceCloseDateValidator;
     private final ReservationValidator reservationValidator;
 
-    public void experienceReservationValidate(ExperienceRound experienceRound, User user, int currentRemainParticipant, CreateExpReservationDto dto) {
+    public void experienceReservationValidate(ExperienceRound experienceRound, Member user, int currentRemainParticipant, CreateExpReservationDto dto) {
 
         createExpReservationDtoValidate(experienceRound,currentRemainParticipant,dto);
 

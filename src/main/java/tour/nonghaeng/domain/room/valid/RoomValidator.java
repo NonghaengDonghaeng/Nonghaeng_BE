@@ -3,12 +3,13 @@ package tour.nonghaeng.domain.room.valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.room.dto.RoomSummaryDto;
 import tour.nonghaeng.domain.room.entity.Room;
-import tour.nonghaeng.domain.room.repo.RoomRepository;
 import tour.nonghaeng.domain.room.exception.RoomException;
 import tour.nonghaeng.domain.room.exception.error.RoomErrorCode;
+import tour.nonghaeng.domain.room.repo.RoomRepository;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,11 +21,11 @@ public class RoomValidator {
     private final RoomRepository roomRepository;
 
 
-    public void ownerValidate(Seller seller, Long roomId) {
+    public void ownerValidate(Member seller, Long roomId) {
 
         roomIdValidate(roomId);
 
-        if (!seller.equals(roomRepository.findSellerByRoomId(roomId).get())) {
+        if (!((Seller) seller).equals(roomRepository.findSellerByRoomId(roomId).get())) {
             throw new RoomException(RoomErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
         }
     }

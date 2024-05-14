@@ -6,7 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.member.entity.Member;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,10 +26,10 @@ public class ReservationPersonInfo {
         this.point = point;
     }
 
-    public static ReservationPersonInfo toDto(User user) {
+    public static ReservationPersonInfo toDto(Member user) {
         return ReservationPersonInfo.builder()
                 .reservationPersonName(user.getName())
-                .phoneNumber(user.getNumber())
+                .phoneNumber(user.getPhoneNumber())
                 .email(user.getEmail())
                 .point(user.getPoint())
                 .build();

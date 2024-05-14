@@ -9,16 +9,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import tour.nonghaeng.domain.member.entity.Seller;
-import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.reservation.dto.*;
 import tour.nonghaeng.domain.reservation.dto.exp.CreateExpReservationDto;
 import tour.nonghaeng.domain.reservation.dto.exp.ExpReservationResponseDto;
 import tour.nonghaeng.domain.reservation.dto.room.CreateRoomReservationDto;
 import tour.nonghaeng.domain.reservation.dto.room.RoomReservationResponseDto;
 import tour.nonghaeng.domain.reservation.service.ReservationService;
-import tour.nonghaeng.global.auth.auth.service.AuthService;
 import tour.nonghaeng.domain.reservation.valid.ReservationValidator;
+import tour.nonghaeng.global.auth.auth.service.AuthService;
 
 @RestController
 @RequestMapping("/reservations")
@@ -36,7 +35,7 @@ public class ReservationController {
     public ResponseEntity<ExpReservationResponseDto> createExpReservation(Authentication authentication,
                                                                           @RequestBody CreateExpReservationDto requestDto) {
 
-        User user = authService.toUserEntity(authentication);
+        Member user = authService.toMemberEntity(authentication);
 
         ExpReservationResponseDto responseDto = reservationService.createExpReservation(user, requestDto);
 
@@ -47,7 +46,7 @@ public class ReservationController {
     public ResponseEntity<RoomReservationResponseDto> createRoomReservation(Authentication authentication,
                                                                             @RequestBody CreateRoomReservationDto requestDto) {
 
-        User user = authService.toUserEntity(authentication);
+        Member user = authService.toMemberEntity(authentication);
 
         RoomReservationResponseDto responseDto = reservationService.createRoomReservation(user, requestDto);
 
@@ -57,7 +56,7 @@ public class ReservationController {
     @GetMapping("/reservation-person-info")
     public ResponseEntity<ReservationPersonInfo> getReservationPersonInfo(Authentication authentication) {
 
-        User user = authService.toUserEntity(authentication);
+        Member user = authService.toMemberEntity(authentication);
 
         ReservationPersonInfo responseDto = reservationService.getReservationPersonInfo(user);
 
@@ -71,7 +70,7 @@ public class ReservationController {
                                                                                            @PageableDefault(size = 20) Pageable pageable,
                                                                                            @RequestParam(value = "type", defaultValue = "all", required = false) String type) {
 
-        User user = authService.toUserEntity(authentication);
+        Member user = authService.toMemberEntity(authentication);
 
         Page<? extends ReservationUserSummaryDto> dtoPage =
                 reservationService.getReservationUserSummaryDtoPage(user, pageable, type);
@@ -81,10 +80,10 @@ public class ReservationController {
 
     //소비자 내 체험/숙소 예약 상세보기
     @GetMapping("/{reservationId}")
-    public ResponseEntity<? extends ReservationUserDetailDto> showReservationUserDatailDto(Authentication authentication,
+    public ResponseEntity<? extends ReservationUserDetailDto> showReservationUserDetailDto(Authentication authentication,
                                                                                            @PathVariable("reservationId") Long reservationId) {
 
-        User user = authService.toUserEntity(authentication);
+        Member user = authService.toMemberEntity(authentication);
 
         reservationValidator.ownerUserValidate(user, reservationId);
 
@@ -97,7 +96,7 @@ public class ReservationController {
                                                                                                @PageableDefault(size = 20) Pageable pageable,
                                                                                                @RequestParam(value = "type", defaultValue = "room") String type) {
 
-        Seller seller = authService.toSellerEntity(authentication);
+        Member seller = authService.toMemberEntity(authentication);
 
         Page<? extends ReservationSellerSummaryDto> dtoPage =
                 reservationService.getReservationSellerSummaryDtoPage(seller, pageable, type);
@@ -110,7 +109,7 @@ public class ReservationController {
     public ResponseEntity<? extends ReservationSellerDetailDto> showReservationSellerDetailDto(Authentication authentication,
                                                                                                @PathVariable("reservationId") Long reservationId) {
 
-        Seller seller = authService.toSellerEntity(authentication);
+        Member seller = authService.toMemberEntity(authentication);
 
         reservationValidator.ownerSellerValidate(seller, reservationId);
 
@@ -121,7 +120,8 @@ public class ReservationController {
     public ResponseEntity<String> approveReservation(Authentication authentication,
                                                      @PathVariable("reservationId") Long reservationId,
                                                      @RequestParam(name = "not", defaultValue = "false") boolean notApproveFlag) {
-        Seller seller = authService.toSellerEntity(authentication);
+
+        Member seller = authService.toMemberEntity(authentication);
 
         reservationValidator.ownerSellerValidate(seller, reservationId);
 
@@ -138,7 +138,7 @@ public class ReservationController {
     public ResponseEntity<? extends ReservationCancelResponseDto> cancelReservation(Authentication authentication,
                                                                                     @PathVariable("reservationId") Long reservationId) {
 
-        User user = authService.toUserEntity(authentication);
+        Member user = authService.toMemberEntity(authentication);
 
         reservationValidator.ownerUserValidate(user, reservationId);
 

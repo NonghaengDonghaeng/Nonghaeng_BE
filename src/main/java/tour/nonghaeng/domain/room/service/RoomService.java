@@ -10,16 +10,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.etc.area.AreaCode;
 import tour.nonghaeng.domain.etc.room.RoomType;
-import tour.nonghaeng.domain.member.entity.Seller;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.room.dto.*;
 import tour.nonghaeng.domain.room.dto.specification.RoomSpecification;
 import tour.nonghaeng.domain.room.entity.Room;
-import tour.nonghaeng.domain.room.repo.RoomRepository;
-import tour.nonghaeng.domain.tour.entity.Tour;
-import tour.nonghaeng.domain.tour.service.TourService;
 import tour.nonghaeng.domain.room.exception.RoomException;
 import tour.nonghaeng.domain.room.exception.error.RoomErrorCode;
+import tour.nonghaeng.domain.room.repo.RoomRepository;
 import tour.nonghaeng.domain.room.valid.RoomValidator;
+import tour.nonghaeng.domain.tour.entity.Tour;
+import tour.nonghaeng.domain.tour.service.TourService;
 import tour.nonghaeng.domain.tour.valid.TourValidator;
 
 import java.time.LocalDate;
@@ -42,7 +42,7 @@ public class RoomService {
 
 
 
-    public Long createAndAddRoom(Seller seller, CreateRoomDto dto) {
+    public Long createAndAddRoom(Member seller, CreateRoomDto dto) {
 
         //TODO: dto 검증
 

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import tour.nonghaeng.domain.etc.like.LikeType;
 import tour.nonghaeng.domain.like.entity.TourLike;
 import tour.nonghaeng.domain.like.repo.TourLikeRepository;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.domain.tour.service.TourService;
@@ -32,18 +33,18 @@ public class TourLikeService implements LikeService {
     }
 
     @Override
-    public boolean clickLike(User user, Long tourId) {
+    public boolean clickLike(Member user, Long tourId) {
 
         Tour tour = tourService.findById(tourId);
 
-        Optional<TourLike> maybeTourLike = tourLikeRepository.findByUserAndTour(user, tour);
+        Optional<TourLike> maybeTourLike = tourLikeRepository.findByUserAndTour((User) user, tour);
 
         return maybeTourLike.map(this::offLike).orElseGet(() -> onLike(user, tour));
     }
 
-    private boolean onLike(User user, Tour tour) {
+    private boolean onLike(Member user, Tour tour) {
 
-        tourLikeRepository.save(TourLike.builder().user(user).tour(tour).build());
+        tourLikeRepository.save(TourLike.builder().user((User) user).tour(tour).build());
         return true;
     }
 

@@ -9,16 +9,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.etc.area.AreaCode;
 import tour.nonghaeng.domain.etc.tour.TourType;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.member.entity.Seller;
+import tour.nonghaeng.domain.member.exception.SellerException;
 import tour.nonghaeng.domain.tour.dto.CreateTourDto;
 import tour.nonghaeng.domain.tour.dto.TourDetailDto;
-import tour.nonghaeng.domain.tour.dto.speciification.TourSpecification;
 import tour.nonghaeng.domain.tour.dto.TourSummaryDto;
+import tour.nonghaeng.domain.tour.dto.speciification.TourSpecification;
 import tour.nonghaeng.domain.tour.entity.Tour;
-import tour.nonghaeng.domain.tour.repo.TourRepository;
-import tour.nonghaeng.domain.member.exception.SellerException;
 import tour.nonghaeng.domain.tour.exception.TourException;
 import tour.nonghaeng.domain.tour.exception.error.TourErrorCode;
+import tour.nonghaeng.domain.tour.repo.TourRepository;
 import tour.nonghaeng.domain.tour.valid.TourValidator;
 
 @Service
@@ -34,7 +35,8 @@ public class TourService {
 
 
 
-    public Long createTour(Seller seller, CreateTourDto dto) {
+    public Long createTour(Member seller, CreateTourDto dto) {
+
 
         tourValidator.createValidate(seller,dto);
 
@@ -91,9 +93,9 @@ public class TourService {
 
 
 
-    public Tour findBySeller(Seller seller) {
+    public Tour findBySeller(Member seller) {
 
-        return tourRepository.findBySeller(seller)
+        return tourRepository.findBySeller((Seller) seller)
                 .orElseThrow(() -> SellerException.EXCEPTION);
     }
 }

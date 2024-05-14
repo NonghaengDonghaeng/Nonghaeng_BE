@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.entity.Reservation;
 import tour.nonghaeng.domain.review.dto.room.CreateRoomReviewDto;
@@ -30,7 +31,7 @@ public class RoomReviewService {
 
 
 
-    public Long createRoomReview(User user, Reservation reservation, CreateRoomReviewDto requestDto) {
+    public Long createRoomReview(Member user, Reservation reservation, CreateRoomReviewDto requestDto) {
 
         Room room = roomService.findById(requestDto.getRoomId());
 
@@ -40,9 +41,9 @@ public class RoomReviewService {
     }
 
 
-    public Page<Review> findReviewPageByUser(User user, Pageable pageable) {
+    public Page<Review> findReviewPageByUser(Member user, Pageable pageable) {
 
-        return roomReviewRepository.findReviewPageByUser(user, pageable);
+        return roomReviewRepository.findReviewPageByUser((User) user, pageable);
     }
 
 

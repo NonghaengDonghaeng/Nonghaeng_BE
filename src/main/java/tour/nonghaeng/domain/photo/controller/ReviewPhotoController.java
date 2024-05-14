@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.service.ReviewPhotoService;
 import tour.nonghaeng.domain.photo.valid.ReviewPhotoValidator;
@@ -34,7 +34,7 @@ public class ReviewPhotoController {
                                          @RequestPart("images") List<MultipartFile> imageFiles,
                                          @PathVariable("reviewId") Long reviewId) {
 
-        User user = authService.toUserEntity(authentication);
+        Member user = authService.toMemberEntity(authentication);
 
         reviewPhotoService.uploads(user, reviewId, imageFiles);
 
@@ -45,7 +45,7 @@ public class ReviewPhotoController {
     @GetMapping("/list/{id}")
     public ResponseEntity<List<PhotoInfoDto>> showAllImageList(@PathVariable("id") Long id) {
 
-        List<PhotoInfoDto> dtoList = reviewPhotoService.getPhotoInfoListDto(null, id);
+        List<PhotoInfoDto> dtoList = reviewPhotoService.getPhotoInfoListDto( id);
 
         return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
@@ -54,9 +54,11 @@ public class ReviewPhotoController {
     public ResponseEntity<String> changeRepresentativePhoto(Authentication authentication,
                                                             @PathVariable("reviewPhotoId") Long reviewPhotoId) {
 
-        reviewPhotoValidator.ownerValidate(authService.toUserEntity(authentication), reviewPhotoId);
+        Member user = authService.toMemberEntity(authentication);
 
-        reviewPhotoService.changeRepresentativePhoto(reviewPhotoId);
+        reviewPhotoValidator.ownerValidate(user, reviewPhotoId);
+
+        reviewPhotoService.changeRepresentativePhoto(user,reviewPhotoId);
 
         return new ResponseEntity<>("대표사진 설정 완료", HttpStatus.OK);
     }
@@ -65,7 +67,7 @@ public class ReviewPhotoController {
     public ResponseEntity<String> delete(Authentication authentication,
                                          @PathVariable("photoId") Long photoId) {
 
-        User user = authService.toUserEntity(authentication);
+        Member user = authService.toMemberEntity(authentication);
 
         reviewPhotoService.delete(user,photoId);
 

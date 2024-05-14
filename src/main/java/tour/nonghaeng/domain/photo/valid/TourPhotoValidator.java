@@ -2,12 +2,13 @@ package tour.nonghaeng.domain.photo.valid;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.entity.Photo;
-import tour.nonghaeng.domain.photo.repo.TourPhotoRepository;
-import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.domain.photo.exception.PhotoException;
 import tour.nonghaeng.domain.photo.exception.error.PhotoErrorCode;
+import tour.nonghaeng.domain.photo.repo.TourPhotoRepository;
+import tour.nonghaeng.domain.tour.entity.Tour;
 
 @Component
 @RequiredArgsConstructor
@@ -16,13 +17,13 @@ public class TourPhotoValidator {
     private final TourPhotoRepository tourPhotoRepository;
 
 
-    public void ownerValidate(Seller seller, Long photoId) {
+    public void ownerValidate(Member seller, Long photoId) {
 
         tourPhotoIdValidate(photoId);
 
         Photo photo = tourPhotoRepository.findPhotoById(photoId).get();
 
-        if (!seller.equals(photo.getSeller())) {
+        if (!((Seller) seller).equals(photo.getSeller())) {
             throw new PhotoException(PhotoErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
         }
     }

@@ -14,13 +14,13 @@ import tour.nonghaeng.domain.experience.dto.specification.ExperienceSpecificatio
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.entity.ExperienceCloseDate;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
-import tour.nonghaeng.domain.experience.repo.ExperienceRepository;
-import tour.nonghaeng.domain.member.entity.Seller;
-import tour.nonghaeng.domain.reservation.service.ExperienceReservationService;
-import tour.nonghaeng.domain.tour.service.TourService;
 import tour.nonghaeng.domain.experience.exception.ExperienceException;
+import tour.nonghaeng.domain.experience.repo.ExperienceRepository;
 import tour.nonghaeng.domain.experience.valid.ExperienceCloseDateValidator;
 import tour.nonghaeng.domain.experience.valid.ExperienceValidator;
+import tour.nonghaeng.domain.member.entity.Member;
+import tour.nonghaeng.domain.reservation.service.ExperienceReservationService;
+import tour.nonghaeng.domain.tour.service.TourService;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -45,7 +45,7 @@ public class ExperienceService {
 
 
 
-    public Long createExperience(Seller seller, CreateExpDto dto) {
+    public Long createExperience(Member seller, CreateExpDto dto) {
 
         //TODO: dto 검증
 

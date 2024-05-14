@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import tour.nonghaeng.domain.etc.like.LikeType;
 import tour.nonghaeng.domain.like.exception.LikeException;
 import tour.nonghaeng.domain.like.service.registry.LikeServiceRegistry;
-import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.global.auth.auth.service.AuthService;
 
 @RestController
@@ -31,7 +31,7 @@ public class LikeController {
     public ResponseEntity<String> clickLikes(Authentication authentication,
                                              @PathVariable("type")String type,
                                              @PathVariable("id")Long id) {
-        User user = authService.toUserEntity(authentication);
+        Member user = authService.toMemberEntity(authentication);
 
         boolean onLike = likeServiceRegistry.getService(LikeType.ofDtype(type))
                 .map(service -> service.clickLike(user, id)).

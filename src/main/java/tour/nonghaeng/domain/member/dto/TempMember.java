@@ -1,4 +1,4 @@
-package tour.nonghaeng.global.auth.login.dto;
+package tour.nonghaeng.domain.member.dto;
 
 import lombok.AccessLevel;
 import lombok.Builder;

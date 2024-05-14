@@ -3,6 +3,7 @@ package tour.nonghaeng.domain.tour.valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.room.exception.RoomException;
 import tour.nonghaeng.domain.room.exception.error.RoomErrorCode;
@@ -19,18 +20,18 @@ public class TourValidator {
     private final TourRepository tourRepository;
 
 
-    public void ownerValidate(Seller seller, Long tourId) {
+    public void ownerValidate(Member seller, Long tourId) {
 
         tourIdValidate(tourId);
 
-        if (!seller.equals(tourRepository.findSellerByTourId(tourId).get())) {
+        if (!((Seller) seller).equals(tourRepository.findSellerByTourId(tourId).get())) {
             throw new RoomException(RoomErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
         }
     }
 
-    public void createValidate(Seller seller, CreateTourDto createTourDto) {
+    public void createValidate(Member seller, CreateTourDto createTourDto) {
 
-        if (tourRepository.existsBySeller(seller)) {
+        if (tourRepository.existsBySeller((Seller) seller)) {
             throw new TourException(TourErrorCode.DUPLICATE_CREATE_TOUR_ERROR);
         }
         //dto 검사

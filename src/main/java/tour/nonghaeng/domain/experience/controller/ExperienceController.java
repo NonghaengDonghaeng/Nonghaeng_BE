@@ -15,7 +15,7 @@ import tour.nonghaeng.domain.etc.experience.ExperienceType;
 import tour.nonghaeng.domain.experience.dto.*;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
 import tour.nonghaeng.domain.experience.valid.ExperienceValidator;
-import tour.nonghaeng.domain.member.entity.Seller;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.global.auth.auth.service.AuthService;
 
 import java.time.LocalDate;
@@ -60,7 +60,7 @@ public class ExperienceController {
     @PostMapping("/seller/add")
     public ResponseEntity<String> create(Authentication authentication, @RequestBody CreateExpDto createExpDto) {
 
-        Seller seller = authService.toSellerEntity(authentication);
+        Member seller = authService.toMemberEntity(authentication);
 
         Long expId = experienceService.createExperience(seller, createExpDto);
 
@@ -73,7 +73,7 @@ public class ExperienceController {
     public ResponseEntity<String> addRounds(Authentication authentication, @PathVariable Long experienceId,
                                             @RequestBody List<AddExpRoundDto> addExpRoundDtoList) {
 
-        experienceValidator.ownerValidate(authService.toSellerEntity(authentication), experienceId);
+        experienceValidator.ownerValidate(authService.toMemberEntity(authentication), experienceId);
 
         Long expId = experienceService.addOnlyRounds(experienceId, addExpRoundDtoList);
 
@@ -87,7 +87,7 @@ public class ExperienceController {
     public ResponseEntity<String> addCloseDates(Authentication authentication, @PathVariable Long experienceId,
                                                @RequestBody List<AddExpCloseDateDto> addExpCloseDateDtos) {
 
-        experienceValidator.ownerValidate(authService.toSellerEntity(authentication), experienceId);
+        experienceValidator.ownerValidate(authService.toMemberEntity(authentication), experienceId);
 
         Long expId = experienceService.addOnlyCloseDates(experienceId, addExpCloseDateDtos);
 
@@ -102,7 +102,7 @@ public class ExperienceController {
     public ResponseEntity<String> removeCloseDates(Authentication authentication, @PathVariable Long experienceId,
                                                  @RequestBody List<AddExpCloseDateDto> addExpCloseDateDtos) {
 
-        experienceValidator.ownerValidate(authService.toSellerEntity(authentication), experienceId);
+        experienceValidator.ownerValidate(authService.toMemberEntity(authentication), experienceId);
 
         experienceService.removeOnlyCloseDates(experienceId, addExpCloseDateDtos);
 

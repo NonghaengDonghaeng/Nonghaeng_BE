@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;
 
@@ -39,9 +40,9 @@ public class CreateExpReservationDto {
     }
 
 
-    public ExperienceReservation toEntity(User user, ExperienceRound experienceRound) {
+    public ExperienceReservation toEntity(Member user, ExperienceRound experienceRound) {
         return ExperienceReservation.builder()
-                .user(user)
+                .user((User) user)
                 .experienceRound(experienceRound)
                 .stateType(ReservationStateType.WAITING_RESERVATION)
                 .price(this.getFinalPrice())

@@ -5,10 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import tour.nonghaeng.domain.etc.role.Role;
-import tour.nonghaeng.domain.member.entity.Seller;
-import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.test.dto.JwtValidDto;
 import tour.nonghaeng.domain.test.service.DummyDataService;
 import tour.nonghaeng.global.auth.auth.service.AuthService;
@@ -55,16 +57,18 @@ public class TestController {
     @GetMapping("/test/user-role")
     public ResponseEntity<String> userRoleTest(Authentication authentication) {
 
-        User user = authService.toUserEntity(authentication);
-        String name = user.getName();
+        Member member = authService.toMemberEntity(authentication);
+        String name = member.getName();
 
         return new ResponseEntity<>("user authorization test 성공, user 이름: " + name, HttpStatus.OK);
     }
 
     @GetMapping("/test/seller-role")
     public ResponseEntity<String> sellerRoleTest(Authentication authentication) {
-        Seller seller = authService.toSellerEntity(authentication);
-        String name = seller.getName();
+
+        Member member = authService.toMemberEntity(authentication);
+
+        String name = member.getName();
 
         return new ResponseEntity<>("seller authorization test 성공, seller 이름: " + name, HttpStatus.OK);
 
@@ -72,7 +76,7 @@ public class TestController {
 
 
     @GetMapping("/test/set-data")
-    public ResponseEntity<String> setDataTest(Authentication authentication) {
+    public ResponseEntity<String> setDataTest() {
         dummyDataService.setDummyData();
         return new ResponseEntity<>("set dummy data", HttpStatus.OK);
     }

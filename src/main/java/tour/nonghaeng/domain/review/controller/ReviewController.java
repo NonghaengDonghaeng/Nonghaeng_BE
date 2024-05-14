@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.review.dto.ReviewDetailDto;
 import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
 import tour.nonghaeng.domain.review.dto.exp.CreateExpReviewDto;
@@ -47,7 +47,8 @@ public class ReviewController {
                                                          @PathVariable("reservationId") Long reservationId,
                                                          @RequestBody CreateExpReviewDto requestDto) {
 
-        User user = authService.toUserEntity(authentication);
+
+        Member user = authService.toMemberEntity(authentication);
 
         reviewValidator.createReviewValidate(user,reservationId,"experience");
 
@@ -62,7 +63,7 @@ public class ReviewController {
                                                    @PathVariable("reservationId") Long reservationId,
                                                    @RequestBody CreateRoomReviewDto requestDto) {
 
-        User user = authService.toUserEntity(authentication);
+        Member user = authService.toMemberEntity(authentication);
 
         reviewValidator.createReviewValidate(user,reservationId,"room");
 
@@ -117,7 +118,8 @@ public class ReviewController {
                                                                                       Pageable pageable,
                                                                                       @RequestParam(value = "type", defaultValue = "all", required = false) String type) {
 
-        User user = authService.toUserEntity(authentication);
+
+        Member user = authService.toMemberEntity(authentication);
 
         Page<? extends ReviewSummaryDto> summaryDtoPage =
                 reviewService.getReviewSummaryDtoPageByUser(user, pageable, type);

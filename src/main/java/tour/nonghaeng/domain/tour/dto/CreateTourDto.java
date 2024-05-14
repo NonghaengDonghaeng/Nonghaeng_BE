@@ -3,6 +3,7 @@ package tour.nonghaeng.domain.tour.dto;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import tour.nonghaeng.domain.etc.tour.TourType;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.tour.entity.Tour;
 
@@ -19,9 +20,9 @@ public record CreateTourDto(
         String toilet,
         String amenities
 ) {
-    public Tour toEntity(Seller seller) {
+    public Tour toEntity(Member seller) {
         return Tour.builder()
-                .seller(seller)
+                .seller((Seller) seller)
                 .tourType(this.tourType)
                 .name(this.tourName)
                 .homepageUrl(this.homepageUrl)

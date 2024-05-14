@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import tour.nonghaeng.domain.etc.like.LikeType;
 import tour.nonghaeng.domain.like.entity.ReviewLike;
 import tour.nonghaeng.domain.like.repo.ReviewLikeRepository;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.review.entity.Review;
 import tour.nonghaeng.domain.review.service.ReviewService;
@@ -32,18 +33,18 @@ public class ReviewLikeService implements LikeService {
     }
 
     @Override
-    public boolean clickLike(User user, Long reviewId) {
+    public boolean clickLike(Member user, Long reviewId) {
 
         Review review = reviewService.findById(reviewId);
 
-        Optional<ReviewLike> maybeReviewLike = reviewLikeRepository.findByUserAndReview(user, review);
+        Optional<ReviewLike> maybeReviewLike = reviewLikeRepository.findByUserAndReview((User) user, review);
 
         return maybeReviewLike.map(this::offLike).orElseGet(() -> onLike(user, review));
     }
 
-    private boolean onLike(User user, Review review) {
+    private boolean onLike(Member user, Review review) {
 
-        reviewLikeRepository.save(ReviewLike.builder().user(user).review(review).build());
+        reviewLikeRepository.save(ReviewLike.builder().user((User) user).review(review).build());
         return true;
     }
 

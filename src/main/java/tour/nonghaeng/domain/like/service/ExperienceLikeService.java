@@ -9,6 +9,7 @@ import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
 import tour.nonghaeng.domain.like.entity.ExperienceLike;
 import tour.nonghaeng.domain.like.repo.ExperienceLikeRepository;
+import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.member.entity.User;
 
 import java.util.Optional;
@@ -32,18 +33,18 @@ public class ExperienceLikeService implements LikeService {
     }
 
     @Override
-    public boolean clickLike(User user, Long experienceId) {
+    public boolean clickLike(Member user, Long experienceId) {
 
         Experience experience = experienceService.findById(experienceId);
 
-        Optional<ExperienceLike> maybeExperienceLike = experienceLikeRepository.findByUserAndExperience(user, experience);
+        Optional<ExperienceLike> maybeExperienceLike = experienceLikeRepository.findByUserAndExperience((User) user, experience);
 
         return maybeExperienceLike.map(this::offLike).orElseGet(() -> onLike(user, experience));
     }
 
-    private boolean onLike(User user, Experience experience) {
+    private boolean onLike(Member user, Experience experience) {
 
-        experienceLikeRepository.save(ExperienceLike.builder().user(user).experience(experience).build());
+        experienceLikeRepository.save(ExperienceLike.builder().user((User) user).experience(experience).build());
         return true;
     }
 
