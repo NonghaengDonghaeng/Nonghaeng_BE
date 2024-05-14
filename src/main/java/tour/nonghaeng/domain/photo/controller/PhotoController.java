@@ -26,32 +26,31 @@ public class PhotoController {
     private final PhotoServiceRegistry photoServiceRegistry;
 
 
-    //TODO: 문제 발생 여기서 ReviewPhotoController를 통합시킬 순 있지만 url 에서 seller에 걸려서 일반사용자가 접근안된다.
 
-    @PostMapping("/seller/uploads/{type}/{id}")
+    @PostMapping("/uploads/{type}/{id}")
     public ResponseEntity<String> uploads(Authentication authentication,
                                           @RequestPart("images") List<MultipartFile> imageFiles,
                                           @PathVariable("type") String type,
                                           @PathVariable("id") Long id) {
 
-        Member seller = authService.toMemberEntity(authentication);
+        Member member = authService.toMemberEntity(authentication);
 
         photoServiceRegistry.getService(PhotoType.ofDtype(type)).
-                ifPresent(photoService -> photoService.uploads(seller, id, imageFiles));
+                ifPresent(photoService -> photoService.uploads(member, id, imageFiles));
 
         return new ResponseEntity<>("images 업로드 완료.", HttpStatus.CREATED);
     }
 
 
 
-    @DeleteMapping("/seller/{photoId}")
+    @DeleteMapping("/{photoId}")
     public ResponseEntity<String> delete(Authentication authentication,
                                          @PathVariable("photoId") Long photoId) {
 
-        Member seller = authService.toMemberEntity(authentication);
+        Member member = authService.toMemberEntity(authentication);
 
         photoServiceRegistry.getServiceByPhotoId(photoId)
-                .ifPresent(photoService -> photoService.delete(seller,photoId));
+                .ifPresent(photoService -> photoService.delete(member,photoId));
 
         return new ResponseEntity<>("삭제완료", HttpStatus.OK);
     }
@@ -70,15 +69,15 @@ public class PhotoController {
     }
 
 
-    @GetMapping("/seller/representative/{type}/{id}")
+    @GetMapping("/representative/{type}/{id}")
     public ResponseEntity<String> changeRepresentativePhoto(Authentication authentication,
                                                             @PathVariable("type") String type,
                                                             @PathVariable("id") Long id) {
 
-        Member seller = authService.toMemberEntity(authentication);
+        Member member = authService.toMemberEntity(authentication);
 
         photoServiceRegistry.getService(PhotoType.ofDtype(type))
-                .ifPresent(photoService -> photoService.changeRepresentativePhoto(seller, id));
+                .ifPresent(photoService -> photoService.changeRepresentativePhoto(member, id));
 
         return new ResponseEntity<>("대표사진 설정 완료", HttpStatus.OK);
     }

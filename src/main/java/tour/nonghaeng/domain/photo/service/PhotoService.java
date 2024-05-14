@@ -11,11 +11,11 @@ public interface PhotoService {
 
     PhotoType getType();
 
-    void uploads(Member seller, Long entityId, List<MultipartFile> imageFiles);
+    void uploads(Member member, Long entityId, List<MultipartFile> imageFiles);
 
     List<PhotoInfoDto> getPhotoInfoListDto(Long entityId);
 
-    void changeRepresentativePhoto(Member seller, Long entityId);
+    void changeRepresentativePhoto(Member member, Long entityId);
 
-    void delete(Member seller,Long photoId);
+    void delete(Member member,Long photoId);
 }
