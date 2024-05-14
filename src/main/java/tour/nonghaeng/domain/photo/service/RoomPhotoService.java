@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import tour.nonghaeng.domain.etc.photo.PhotoType;
 import tour.nonghaeng.domain.member.entity.Member;
-import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.entity.Photo;
 import tour.nonghaeng.domain.photo.entity.RoomPhoto;
@@ -19,6 +18,7 @@ import tour.nonghaeng.domain.photo.valid.RoomPhotoValidator;
 import tour.nonghaeng.domain.room.entity.Room;
 import tour.nonghaeng.domain.room.service.RoomService;
 import tour.nonghaeng.domain.room.valid.RoomValidator;
+import tour.nonghaeng.global.auth.valid.AuthValidator;
 
 import java.util.List;
 
@@ -38,6 +38,7 @@ public class RoomPhotoService implements PhotoService {
     private final RoomPhotoValidator roomPhotoValidator;
     private final RoomValidator roomValidator;
     private final PhotoValidator photoValidator;
+    private final AuthValidator authValidator;
 
 
     @Override
@@ -62,7 +63,11 @@ public class RoomPhotoService implements PhotoService {
 
     private void createRoomPhoto(Member seller, Room room, String imgUrl) {
 
-        RoomPhoto createdRoomPhoto = RoomPhoto.builder().room(room).seller((Seller) seller).imgUrl(imgUrl).build();
+        RoomPhoto createdRoomPhoto = RoomPhoto.builder()
+                .room(room)
+                .seller(authValidator.sellerValidate(seller))
+                .imgUrl(imgUrl)
+                .build();
 
         if (!roomPhotoRepository.hasExactlyOneRepresentativePhoto(room)) {
             createdRoomPhoto.onRepresentative();

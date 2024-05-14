@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import tour.nonghaeng.domain.etc.photo.PhotoType;
 import tour.nonghaeng.domain.member.entity.Member;
-import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.entity.Photo;
 import tour.nonghaeng.domain.photo.entity.TourPhoto;
@@ -19,6 +18,7 @@ import tour.nonghaeng.domain.photo.valid.TourPhotoValidator;
 import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.domain.tour.service.TourService;
 import tour.nonghaeng.domain.tour.valid.TourValidator;
+import tour.nonghaeng.global.auth.valid.AuthValidator;
 
 import java.util.List;
 
@@ -38,6 +38,7 @@ public class TourPhotoService implements PhotoService {
     private final TourPhotoValidator tourPhotoValidator;
     private final TourValidator tourValidator;
     private final PhotoValidator photoValidator;
+    private final AuthValidator authValidator;
 
 
     @Override
@@ -62,7 +63,11 @@ public class TourPhotoService implements PhotoService {
 
     private void createTourPhoto(Member seller, Tour tour, String imgUrl) {
 
-        TourPhoto cretedTourPhoto = TourPhoto.builder().tour(tour).seller((Seller) seller).imgUrl(imgUrl).build();
+        TourPhoto cretedTourPhoto = TourPhoto.builder()
+                .tour(tour)
+                .seller(authValidator.sellerValidate(seller))
+                .imgUrl(imgUrl)
+                .build();
 
         if (!tourPhotoRepository.hasExactlyOneRepresentativePhoto(tour)) {
             cretedTourPhoto.onRepresentative();

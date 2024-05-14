@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
 import tour.nonghaeng.domain.experience.service.ExperienceRoundService;
 import tour.nonghaeng.domain.member.entity.Member;
-import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.member.service.UserService;
 import tour.nonghaeng.domain.reservation.dto.exp.CreateExpReservationDto;
@@ -20,6 +19,7 @@ import tour.nonghaeng.domain.reservation.exception.ReservationException;
 import tour.nonghaeng.domain.reservation.exception.error.ReservationErrorCode;
 import tour.nonghaeng.domain.reservation.repo.ExperienceReservationRepository;
 import tour.nonghaeng.domain.reservation.valid.ExperienceReservationValidator;
+import tour.nonghaeng.global.auth.valid.AuthValidator;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -36,9 +36,12 @@ public class ExperienceReservationService {
     private final UserService userService;
 
     private final ExperienceReservationValidator experienceReservationValidator;
+    private final AuthValidator authValidator;
 
 
-    public ExpReservationResponseDto createExpReservation(Member user, CreateExpReservationDto requestDto) {
+    public ExpReservationResponseDto createExpReservation(Member member, CreateExpReservationDto requestDto) {
+
+        User user = authValidator.userValidate(member);
 
         ExperienceRound experienceRound = experienceRoundService.findById(requestDto.getRoundId());
 
@@ -48,7 +51,7 @@ public class ExperienceReservationService {
                         countRemainOfParticipant(experienceRound, requestDto.getReservationDate()),
                         requestDto);
 
-        userService.payPoint((User) user, requestDto.getFinalPrice());
+        userService.payPoint(user, requestDto.getFinalPrice());
 
         ExperienceReservation experienceReservation = experienceReservationRepository.save(requestDto.toEntity(user, experienceRound));
 
@@ -72,13 +75,13 @@ public class ExperienceReservationService {
 
     public Page<Reservation> findReservationPageByUser(Member user, Pageable pageable) {
 
-        return experienceReservationRepository.findReservationPageByUser((User) user, pageable);
+        return experienceReservationRepository.findReservationPageByUser(authValidator.userValidate(user), pageable);
     }
 
 
     public Page<Reservation> findReservationPageBySeller(Member seller, Pageable pageable) {
 
-        return experienceReservationRepository.findReservationPageBySeller((Seller) seller, pageable);
+        return experienceReservationRepository.findReservationPageBySeller(authValidator.sellerValidate(seller), pageable);
     }
 
     public Reservation findReservationById(Long reservationId) {

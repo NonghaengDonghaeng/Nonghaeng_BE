@@ -5,12 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import tour.nonghaeng.domain.member.entity.Member;
-import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.valid.ReservationValidator;
 import tour.nonghaeng.domain.review.entity.Review;
 import tour.nonghaeng.domain.review.exception.ReviewException;
 import tour.nonghaeng.domain.review.exception.error.ReviewErrorCode;
 import tour.nonghaeng.domain.review.repo.ReviewRepository;
+import tour.nonghaeng.global.auth.valid.AuthValidator;
 
 @Component
 @RequiredArgsConstructor
@@ -18,13 +18,15 @@ import tour.nonghaeng.domain.review.repo.ReviewRepository;
 public class ReviewValidator {
 
     private final ReviewRepository reviewRepository;
+
     private final ReservationValidator reservationValidator;
+    private final AuthValidator authValidator;
 
     public void ownerValidate(Member user, Long reviewId) {
 
         idValidate(reviewId);
 
-        if(!((User) user).equals(reviewRepository.findUserById(reviewId).get())){
+        if(!(authValidator.userValidate(user)).equals(reviewRepository.findUserById(reviewId).get())){
 
             throw new ReviewException(ReviewErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
         }

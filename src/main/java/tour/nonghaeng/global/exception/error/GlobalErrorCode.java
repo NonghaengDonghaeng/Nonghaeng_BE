@@ -8,7 +8,10 @@ import tour.nonghaeng.global.exception.dto.ErrorReason;
 @AllArgsConstructor
 @Getter
 public enum GlobalErrorCode implements BaseErrorCode{
-    ALL_NOT_FOUND(HttpStatus.NOT_FOUND,"GLOBAL_404_1","전체 오류")
+
+    ALL_NOT_FOUND(HttpStatus.NOT_FOUND,"GLOBAL_404_1","전체 오류"),
+
+    MEMBER_DOWN_CASTING_ERROR(HttpStatus.BAD_GATEWAY,"GLOBAL_400_1","멤버 다운캐스팅 오류"),
 
     ;
 

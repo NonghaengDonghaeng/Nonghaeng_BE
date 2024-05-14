@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import tour.nonghaeng.domain.etc.photo.PhotoType;
 import tour.nonghaeng.domain.member.entity.Member;
-import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.entity.Photo;
 import tour.nonghaeng.domain.photo.entity.ReviewPhoto;
@@ -19,6 +18,7 @@ import tour.nonghaeng.domain.photo.valid.ReviewPhotoValidator;
 import tour.nonghaeng.domain.review.entity.Review;
 import tour.nonghaeng.domain.review.service.ReviewService;
 import tour.nonghaeng.domain.review.valid.ReviewValidator;
+import tour.nonghaeng.global.auth.valid.AuthValidator;
 
 import java.util.List;
 
@@ -38,6 +38,7 @@ public class ReviewPhotoService implements PhotoService {
     private final PhotoValidator photoValidator;
     private final ReviewPhotoValidator reviewPhotoValidator;
     private final ReviewValidator reviewValidator;
+    private final AuthValidator authValidator;
 
 
     //TODO: delete api 추가하기
@@ -66,7 +67,7 @@ public class ReviewPhotoService implements PhotoService {
 
         ReviewPhoto createdReviewPhoto = ReviewPhoto.builder()
                 .review(review)
-                .user((User) user)
+                .user(authValidator.userValidate(user))
                 .imgUrl(imgUrl)
                 .build();
 

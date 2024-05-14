@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.entity.Member;
-import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.entity.Reservation;
 import tour.nonghaeng.domain.review.dto.room.CreateRoomReviewDto;
 import tour.nonghaeng.domain.review.entity.Review;
@@ -16,6 +15,7 @@ import tour.nonghaeng.domain.review.repo.RoomReviewRepository;
 import tour.nonghaeng.domain.room.entity.Room;
 import tour.nonghaeng.domain.room.service.RoomService;
 import tour.nonghaeng.domain.room.valid.RoomValidator;
+import tour.nonghaeng.global.auth.valid.AuthValidator;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +28,7 @@ public class RoomReviewService {
     private final RoomService roomService;
 
     private final RoomValidator roomValidator;
+    private final AuthValidator authValidator;
 
 
 
@@ -37,13 +38,14 @@ public class RoomReviewService {
 
         //TODO: validator
 
-        return roomReviewRepository.save(requestDto.toEntity(user, reservation, room)).getId();
+
+        return roomReviewRepository.save(requestDto.toEntity(authValidator.userValidate(user), reservation, room)).getId();
     }
 
 
     public Page<Review> findReviewPageByUser(Member user, Pageable pageable) {
 
-        return roomReviewRepository.findReviewPageByUser((User) user, pageable);
+        return roomReviewRepository.findReviewPageByUser(authValidator.userValidate(user), pageable);
     }
 
 

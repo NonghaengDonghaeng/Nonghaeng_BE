@@ -98,7 +98,7 @@ public class RoomController {
                                                @PathVariable Long roomId,
                                                @RequestBody List<AddRoomCloseDateDto> addRoomCloseDateDtos) {
 
-        roomValidator.ownerValidate(authService.toSellerEntity(authentication),roomId);
+        roomValidator.ownerValidate(authService.toMemberEntity(authentication),roomId);
 
         roomService.addOnlyCloseDates(roomId, addRoomCloseDateDtos);
 

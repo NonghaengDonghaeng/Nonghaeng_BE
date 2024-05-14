@@ -6,7 +6,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.entity.Reservation;
 import tour.nonghaeng.domain.review.entity.RoomReview;
@@ -28,11 +27,11 @@ public class CreateRoomReviewDto {
         this.content = content;
     }
 
-    public RoomReview toEntity(Member user, Reservation reservation, Room room) {
+    public RoomReview toEntity(User user, Reservation reservation, Room room) {
 
         String formatTitle = "[" + room.getTour().getName() + "] " + this.title;
         return RoomReview.builder()
-                .user((User) user)
+                .user(user)
                 .reservation(reservation)
                 .room(room)
                 .title(formatTitle)

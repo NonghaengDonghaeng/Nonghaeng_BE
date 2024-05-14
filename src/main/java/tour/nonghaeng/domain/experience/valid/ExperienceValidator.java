@@ -9,7 +9,7 @@ import tour.nonghaeng.domain.experience.exception.ExperienceException;
 import tour.nonghaeng.domain.experience.exception.error.ExperienceErrorCode;
 import tour.nonghaeng.domain.experience.repo.ExperienceRepository;
 import tour.nonghaeng.domain.member.entity.Member;
-import tour.nonghaeng.domain.member.entity.Seller;
+import tour.nonghaeng.global.auth.valid.AuthValidator;
 
 @Component
 @RequiredArgsConstructor
@@ -18,6 +18,8 @@ public class ExperienceValidator {
 
     private final ExperienceRepository experienceRepository;
 
+    private final AuthValidator authValidator;
+
 
     //TODO: 이 부분은 로직에 대한 혹은 DTO 에 대한 검증이 아닌 인가에 대한 검증이니까 따로 빼서 관리할지 고민중
     //TODO: 이 부분은 컨트롤러에서 서비스로 넘어가기전에 인가를 먼저 체크하기 때문에 이 부분만 controller 에서 사용됨.
@@ -25,7 +27,7 @@ public class ExperienceValidator {
 
         expIdValidate(experienceId);
 
-        if (!((Seller) seller).equals(experienceRepository.findSellerByExperienceId(experienceId).get())) {
+        if (!(authValidator.sellerValidate(seller)).equals(experienceRepository.findSellerByExperienceId(experienceId).get())) {
             throw new ExperienceException(ExperienceErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
         }
     }

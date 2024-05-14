@@ -8,9 +8,9 @@ import tour.nonghaeng.domain.etc.like.LikeType;
 import tour.nonghaeng.domain.like.entity.ReviewLike;
 import tour.nonghaeng.domain.like.repo.ReviewLikeRepository;
 import tour.nonghaeng.domain.member.entity.Member;
-import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.review.entity.Review;
 import tour.nonghaeng.domain.review.service.ReviewService;
+import tour.nonghaeng.global.auth.valid.AuthValidator;
 
 import java.util.Optional;
 
@@ -26,6 +26,8 @@ public class ReviewLikeService implements LikeService {
 
     private final ReviewService reviewService;
 
+    private final AuthValidator authValidator;
+
 
     @Override
     public LikeType getType() {
@@ -37,14 +39,18 @@ public class ReviewLikeService implements LikeService {
 
         Review review = reviewService.findById(reviewId);
 
-        Optional<ReviewLike> maybeReviewLike = reviewLikeRepository.findByUserAndReview((User) user, review);
+        Optional<ReviewLike> maybeReviewLike = reviewLikeRepository.findByUserAndReview(authValidator.userValidate(user), review);
 
         return maybeReviewLike.map(this::offLike).orElseGet(() -> onLike(user, review));
     }
 
     private boolean onLike(Member user, Review review) {
 
-        reviewLikeRepository.save(ReviewLike.builder().user((User) user).review(review).build());
+        reviewLikeRepository.save(ReviewLike.builder()
+                .user(authValidator.userValidate(user))
+                .review(review)
+                .build()
+        );
         return true;
     }
 

@@ -45,7 +45,7 @@ public class TourController {
     @PostMapping("/seller/add")
     public ResponseEntity<String> createTour(Authentication authentication, @RequestBody CreateTourDto createTourDto) {
 
-        Long tourId = tourService.createTour(authService.toSellerEntity(authentication), createTourDto);
+        Long tourId = tourService.createTour(authService.toMemberEntity(authentication), createTourDto);
 
         return new ResponseEntity<>("여행지 등록 성공, 여행지 id: "+tourId, HttpStatus.CREATED);
     }

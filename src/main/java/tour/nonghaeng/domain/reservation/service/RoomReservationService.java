@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.entity.Member;
-import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.member.service.UserService;
 import tour.nonghaeng.domain.reservation.dto.room.CreateRoomReservationDto;
@@ -21,6 +20,7 @@ import tour.nonghaeng.domain.reservation.valid.ReservationValidator;
 import tour.nonghaeng.domain.reservation.valid.RoomReservationValidator;
 import tour.nonghaeng.domain.room.entity.Room;
 import tour.nonghaeng.domain.room.service.RoomService;
+import tour.nonghaeng.global.auth.valid.AuthValidator;
 
 import java.time.LocalDate;
 
@@ -37,15 +37,18 @@ public class RoomReservationService {
 
     private final RoomReservationValidator roomReservationValidator;
     private final ReservationValidator reservationValidator;
+    private final AuthValidator authValidator;
 
 
-    public RoomReservationResponseDto createRoomReservation(Member user, CreateRoomReservationDto requestDto) {
+    public RoomReservationResponseDto createRoomReservation(Member member, CreateRoomReservationDto requestDto) {
+
+        User user = authValidator.userValidate(member);
 
         Room room = roomService.findById(requestDto.getRoomId());
 
-        roomReservationValidator.roomReservationValidate(room, user, requestDto);
+        roomReservationValidator.roomReservationValidate(room, member, requestDto);
 
-        userService.payPoint((User) user, requestDto.getFinalPrice());
+        userService.payPoint(user, requestDto.getFinalPrice());
 
         RoomReservation roomReservation = roomReservationRepository.save(requestDto.toEntity(user, room));
 
@@ -73,13 +76,13 @@ public class RoomReservationService {
     }
 
     public Page<Reservation> findReservationPageByUser(Member user, Pageable pageable) {
-        return roomReservationRepository.findReservationPageByUser((User) user, pageable);
+        return roomReservationRepository.findReservationPageByUser(authValidator.userValidate(user), pageable);
     }
 
 
 
     public Page<Reservation> findReservationPageBySeller(Member seller, Pageable pageable) {
-        return roomReservationRepository.findReservationPageBySeller((Seller) seller, pageable);
+        return roomReservationRepository.findReservationPageBySeller(authValidator.sellerValidate(seller), pageable);
     }
 
     public LocalDate findStartDateById(Long roomReservationId) {

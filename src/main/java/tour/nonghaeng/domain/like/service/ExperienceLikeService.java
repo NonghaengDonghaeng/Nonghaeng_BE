@@ -10,7 +10,7 @@ import tour.nonghaeng.domain.experience.service.ExperienceService;
 import tour.nonghaeng.domain.like.entity.ExperienceLike;
 import tour.nonghaeng.domain.like.repo.ExperienceLikeRepository;
 import tour.nonghaeng.domain.member.entity.Member;
-import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.global.auth.valid.AuthValidator;
 
 import java.util.Optional;
 
@@ -26,6 +26,8 @@ public class ExperienceLikeService implements LikeService {
 
     private final ExperienceService experienceService;
 
+    private final AuthValidator authValidator;
+
 
     @Override
     public LikeType getType() {
@@ -37,14 +39,18 @@ public class ExperienceLikeService implements LikeService {
 
         Experience experience = experienceService.findById(experienceId);
 
-        Optional<ExperienceLike> maybeExperienceLike = experienceLikeRepository.findByUserAndExperience((User) user, experience);
+        Optional<ExperienceLike> maybeExperienceLike = experienceLikeRepository.findByUserAndExperience(authValidator.userValidate(user), experience);
 
         return maybeExperienceLike.map(this::offLike).orElseGet(() -> onLike(user, experience));
     }
 
     private boolean onLike(Member user, Experience experience) {
 
-        experienceLikeRepository.save(ExperienceLike.builder().user((User) user).experience(experience).build());
+        experienceLikeRepository.save(ExperienceLike.builder()
+                .user(authValidator.userValidate(user))
+                .experience(experience)
+                .build()
+        );
         return true;
     }
 

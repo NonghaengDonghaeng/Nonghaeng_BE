@@ -10,12 +10,12 @@ import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
 import tour.nonghaeng.domain.experience.valid.ExperienceValidator;
 import tour.nonghaeng.domain.member.entity.Member;
-import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.entity.Reservation;
 import tour.nonghaeng.domain.review.dto.exp.CreateExpReviewDto;
 import tour.nonghaeng.domain.review.entity.Review;
 import tour.nonghaeng.domain.review.exception.ReviewException;
 import tour.nonghaeng.domain.review.repo.ExperienceReviewRepository;
+import tour.nonghaeng.global.auth.valid.AuthValidator;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +28,7 @@ public class ExperienceReviewService {
     private final ExperienceService experienceService;
 
     private final ExperienceValidator experienceValidator;
+    private final AuthValidator authValidator;
 
 
 
@@ -37,13 +38,13 @@ public class ExperienceReviewService {
 
         //TODO: validator
 
-        return experienceReviewRepository.save(requestDto.toEntity(user, reservation, experience)).getId();
+        return experienceReviewRepository.save(requestDto.toEntity(authValidator.userValidate(user), reservation, experience)).getId();
     }
 
 
     public Page<Review> findReviewPageByUser(Member user, Pageable pageable) {
 
-        return experienceReviewRepository.findReviewPageByUser((User) user, pageable);
+        return experienceReviewRepository.findReviewPageByUser(authValidator.userValidate(user), pageable);
     }
 
 

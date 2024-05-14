@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
-import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.entity.RoomReservation;
 import tour.nonghaeng.domain.reservation.entity.RoomReservationDate;
@@ -43,10 +42,10 @@ public class CreateRoomReservationDto {
         this.finalPrice = finalPrice;
     }
 
-    public RoomReservation toEntity(Member user, Room room) {
+    public RoomReservation toEntity(User user, Room room) {
 
         RoomReservation roomReservation = RoomReservation.builder()
-                .user((User) user)
+                .user(user)
                 .room(room)
                 .stateType(ReservationStateType.WAITING_RESERVATION)
                 .price(this.getFinalPrice())

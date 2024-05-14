@@ -8,7 +8,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.entity.Member;
-import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.entity.Reservation;
 import tour.nonghaeng.domain.reservation.service.ReservationService;
 import tour.nonghaeng.domain.review.dto.ReviewDetailDto;
@@ -20,6 +19,7 @@ import tour.nonghaeng.domain.review.entity.Review;
 import tour.nonghaeng.domain.review.repo.ReviewRepository;
 import tour.nonghaeng.domain.review.valid.ReviewValidator;
 import tour.nonghaeng.domain.tour.service.TourService;
+import tour.nonghaeng.global.auth.valid.AuthValidator;
 
 @Service
 @RequiredArgsConstructor
@@ -35,8 +35,7 @@ public class ReviewService {
     private final TourService tourService;
 
     private final ReviewValidator reviewValidator;
-
-
+    private final AuthValidator authValidator;
 
 
     public Review findById(Long reviewId) {
@@ -141,7 +140,7 @@ public class ReviewService {
         if(type.equals("experience")) {
             return experienceReviewService.findReviewPageByUser(user, pageable);
         }
-        return reviewRepository.findReviewPageByUser((User) user, pageable)
+        return reviewRepository.findReviewPageByUser(authValidator.userValidate(user), pageable)
                 .map(review -> findUpCastedReviewById(review.getId()));
     }
 

@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.etc.area.AreaCode;
 import tour.nonghaeng.domain.etc.tour.TourType;
 import tour.nonghaeng.domain.member.entity.Member;
-import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.member.exception.SellerException;
 import tour.nonghaeng.domain.tour.dto.CreateTourDto;
 import tour.nonghaeng.domain.tour.dto.TourDetailDto;
@@ -21,6 +20,7 @@ import tour.nonghaeng.domain.tour.exception.TourException;
 import tour.nonghaeng.domain.tour.exception.error.TourErrorCode;
 import tour.nonghaeng.domain.tour.repo.TourRepository;
 import tour.nonghaeng.domain.tour.valid.TourValidator;
+import tour.nonghaeng.global.auth.valid.AuthValidator;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +31,7 @@ public class TourService {
     private final TourRepository tourRepository;
 
     private final TourValidator tourValidator;
+    private final AuthValidator authValidator;
 
 
 
@@ -40,7 +41,7 @@ public class TourService {
 
         tourValidator.createValidate(seller,dto);
 
-        Tour createdTour = dto.toEntity(seller);
+        Tour createdTour = dto.toEntity(authValidator.sellerValidate(seller));
 
         return tourRepository.save(createdTour).getId();
     }
@@ -51,9 +52,7 @@ public class TourService {
 
         Specification<Tour> spec = TourSpecification.buildSpecification(keyword, areaCode, tourType);
 
-        Page<Tour> tourPage = tourRepository.findAll(spec, pageable);
-
-        return tourPage;
+        return tourRepository.findAll(spec, pageable);
     }
 
 
@@ -64,9 +63,7 @@ public class TourService {
 
         tourValidator.pageValidate(tourPage);
 
-        Page<TourSummaryDto> summaryDtoPage = TourSummaryDto.toPageDto(tourPage);
-
-        return summaryDtoPage;
+        return TourSummaryDto.toPageDto(tourPage);
     }
 
 
@@ -95,7 +92,7 @@ public class TourService {
 
     public Tour findBySeller(Member seller) {
 
-        return tourRepository.findBySeller((Seller) seller)
+        return tourRepository.findBySeller(authValidator.sellerValidate(seller))
                 .orElseThrow(() -> SellerException.EXCEPTION);
     }
 }

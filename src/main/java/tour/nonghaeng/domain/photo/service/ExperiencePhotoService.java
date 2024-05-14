@@ -10,7 +10,6 @@ import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
 import tour.nonghaeng.domain.experience.valid.ExperienceValidator;
 import tour.nonghaeng.domain.member.entity.Member;
-import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.entity.ExperiencePhoto;
 import tour.nonghaeng.domain.photo.entity.Photo;
@@ -19,6 +18,7 @@ import tour.nonghaeng.domain.photo.imageServer.service.ImageService;
 import tour.nonghaeng.domain.photo.repo.ExperiencePhotoRepository;
 import tour.nonghaeng.domain.photo.valid.ExperiencePhotoValidator;
 import tour.nonghaeng.domain.photo.valid.PhotoValidator;
+import tour.nonghaeng.global.auth.valid.AuthValidator;
 
 import java.util.List;
 
@@ -38,6 +38,7 @@ public class ExperiencePhotoService implements PhotoService {
     private final ExperiencePhotoValidator experiencePhotoValidator;
     private final ExperienceValidator experienceValidator;
     private final PhotoValidator photoValidator;
+    private final AuthValidator authValidator;
 
 
     @Override
@@ -62,7 +63,7 @@ public class ExperiencePhotoService implements PhotoService {
 
         ExperiencePhoto createdExperiencePhoto = ExperiencePhoto.builder()
                 .experience(experience)
-                .seller((Seller) seller)
+                .seller(authValidator.sellerValidate(seller))
                 .imgUrl(imgUrl)
                 .build();
 

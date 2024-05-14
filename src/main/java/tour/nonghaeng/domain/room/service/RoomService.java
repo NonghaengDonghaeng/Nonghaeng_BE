@@ -59,10 +59,8 @@ public class RoomService {
 
         tourValidator.pageValidate(tourPage);
 
-        Page<RoomTourSummaryDto> dto = tourPage.map(tour ->
+        return tourPage.map(tour ->
                 RoomTourSummaryDto.toDto(tour, findMinPriceByTour(tour), findMaxPriceByTour(tour)));
-
-        return dto;
     }
 
     private Page<Tour> getTourPageWithRoomSpec(Pageable pageable, String keyword, AreaCode areaCode, RoomType roomType) {

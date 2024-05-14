@@ -8,9 +8,9 @@ import tour.nonghaeng.domain.etc.like.LikeType;
 import tour.nonghaeng.domain.like.entity.TourLike;
 import tour.nonghaeng.domain.like.repo.TourLikeRepository;
 import tour.nonghaeng.domain.member.entity.Member;
-import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.tour.entity.Tour;
 import tour.nonghaeng.domain.tour.service.TourService;
+import tour.nonghaeng.global.auth.valid.AuthValidator;
 
 import java.util.Optional;
 
@@ -26,6 +26,8 @@ public class TourLikeService implements LikeService {
 
     private final TourService tourService;
 
+    private final AuthValidator authValidator;
+
 
     @Override
     public LikeType getType() {
@@ -37,14 +39,18 @@ public class TourLikeService implements LikeService {
 
         Tour tour = tourService.findById(tourId);
 
-        Optional<TourLike> maybeTourLike = tourLikeRepository.findByUserAndTour((User) user, tour);
+        Optional<TourLike> maybeTourLike = tourLikeRepository.findByUserAndTour(authValidator.userValidate(user), tour);
 
         return maybeTourLike.map(this::offLike).orElseGet(() -> onLike(user, tour));
     }
 
     private boolean onLike(Member user, Tour tour) {
 
-        tourLikeRepository.save(TourLike.builder().user((User) user).tour(tour).build());
+        tourLikeRepository.save(TourLike.builder()
+                .user(authValidator.userValidate(user))
+                .tour(tour)
+                .build()
+        );
         return true;
     }
 

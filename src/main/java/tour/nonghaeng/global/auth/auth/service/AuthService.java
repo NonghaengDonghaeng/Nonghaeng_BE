@@ -43,10 +43,13 @@ public class AuthService {
         Role role = findRole(authentication);
         if (role.equals(Role.USER)) {
             return userRepository.findByUsername(userDetails.getUsername());
+
         }
         return sellerRepository.findByUsername(userDetails.getUsername());
-
     }
+
+
+
 
     public Member toMemberEntity(Authentication authentication) {
 

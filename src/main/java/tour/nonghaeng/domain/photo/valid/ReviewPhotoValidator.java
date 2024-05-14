@@ -3,12 +3,12 @@ package tour.nonghaeng.domain.photo.valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import tour.nonghaeng.domain.member.entity.Member;
-import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.photo.entity.ReviewPhoto;
 import tour.nonghaeng.domain.photo.exception.PhotoException;
 import tour.nonghaeng.domain.photo.exception.error.PhotoErrorCode;
 import tour.nonghaeng.domain.photo.repo.ReviewPhotoRepository;
 import tour.nonghaeng.domain.review.entity.Review;
+import tour.nonghaeng.global.auth.valid.AuthValidator;
 
 @Component
 @RequiredArgsConstructor
@@ -16,13 +16,15 @@ public class ReviewPhotoValidator {
 
     private final ReviewPhotoRepository reviewPhotoRepository;
 
+    private final AuthValidator authValidator;
+
     public void ownerValidate(Member user, Long reviewPhotoId) {
 
         reviewPhotoIdValidate(reviewPhotoId);
 
         ReviewPhoto reviewPhoto = reviewPhotoRepository.findById(reviewPhotoId).get();
 
-        if(!((User)user).equals(reviewPhoto.getUser())) {
+        if(!(authValidator.userValidate(user)).equals(reviewPhoto.getUser())) {
             throw new PhotoException(PhotoErrorCode.NO_OWNER_AUTHORIZATION_ERROR);
         }
     }
