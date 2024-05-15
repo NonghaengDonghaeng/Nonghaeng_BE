@@ -13,10 +13,9 @@ import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.review.dto.CreateReviewDto;
 import tour.nonghaeng.domain.review.dto.ReviewDetailDto;
 import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
-import tour.nonghaeng.domain.review.service.ReviewService;
+import tour.nonghaeng.domain.review.service.interfac.ReviewService;
 import tour.nonghaeng.domain.review.service.ReviewServiceImpl;
 import tour.nonghaeng.domain.review.service.registry.ReviewServiceRegistry;
-import tour.nonghaeng.domain.review.valid.ReviewValidator;
 import tour.nonghaeng.global.auth.auth.service.AuthService;
 
 @RestController
@@ -27,8 +26,6 @@ public class ReviewController {
 
     private final ReviewServiceImpl reviewServiceImpl;
     private final AuthService authService;
-
-    private final ReviewValidator reviewValidator;
 
     private final ReviewServiceRegistry reviewServiceRegistry;
 

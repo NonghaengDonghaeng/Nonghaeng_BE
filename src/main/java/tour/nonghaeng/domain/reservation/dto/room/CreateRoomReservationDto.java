@@ -13,6 +13,7 @@ import tour.nonghaeng.domain.reservation.entity.RoomReservationDate;
 import tour.nonghaeng.domain.room.entity.Room;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
@@ -24,6 +25,10 @@ public class CreateRoomReservationDto {
     private int numOfRoom;
     private int numOfParticipant;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate startDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate endDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private List<LocalDate> reservationDates;
     private String reservationName;         //예약자명
     private String number;                  //연락처
@@ -31,10 +36,12 @@ public class CreateRoomReservationDto {
     private int finalPrice;
 
     @Builder
-    public CreateRoomReservationDto(Long roomId, int numOfRoom, int numOfParticipant, List<LocalDate> reservationDates, String reservationName, String number, String email, int finalPrice) {
+    private CreateRoomReservationDto(Long roomId, int numOfRoom, int numOfParticipant, LocalDate startDate, LocalDate endDate, List<LocalDate> reservationDates, String reservationName, String number, String email, int finalPrice) {
         this.roomId = roomId;
         this.numOfRoom = numOfRoom;
         this.numOfParticipant = numOfParticipant;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.reservationDates = reservationDates;
         this.reservationName = reservationName;
         this.number = number;
@@ -64,5 +71,32 @@ public class CreateRoomReservationDto {
                                 .build()
                 ));
         return roomReservation;
+    }
+
+    public void toSetLocalDateList() {
+        // startDate와 endDate 사이의 날짜 리스트 생성
+        List<LocalDate> dates = new ArrayList<>();
+        LocalDate currentDate = this.startDate;
+        while (!currentDate.isAfter(this.endDate.minusDays(1))) {
+            dates.add(currentDate);
+            currentDate = currentDate.plusDays(1);
+        }
+        this.reservationDates = dates;
+    }
+
+    @Override
+    public String toString() {
+        return "CreateRoomReservationDto{" +
+                "roomId=" + roomId +
+                ", numOfRoom=" + numOfRoom +
+                ", numOfParticipant=" + numOfParticipant +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", reservationDates=" + reservationDates +
+                ", reservationName='" + reservationName + '\'' +
+                ", number='" + number + '\'' +
+                ", email='" + email + '\'' +
+                ", finalPrice=" + finalPrice +
+                '}';
     }
 }

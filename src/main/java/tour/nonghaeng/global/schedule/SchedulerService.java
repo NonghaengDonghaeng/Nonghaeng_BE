@@ -35,7 +35,7 @@ public class SchedulerService {
         log.info("Scheduler 실행: autoExpCloseDatesDeleted");
 
         experienceService.findAllIds()
-                .forEach(experienceId -> experienceService.checkOldestCloseDatePastOrNot(experienceId));
+                .forEach(experienceService::checkOldestCloseDatePastOrNot);
     }
 
     @Async
@@ -45,7 +45,7 @@ public class SchedulerService {
         log.info("Scheduler 실행: autoRoomCloseDatesDeleted");
 
         roomService.findAllIds()
-                .forEach(roomId -> roomService.checkOldestCloseDatePastOrNot(roomId));
+                .forEach(roomService::checkOldestCloseDatePastOrNot);
     }
 
     @Async

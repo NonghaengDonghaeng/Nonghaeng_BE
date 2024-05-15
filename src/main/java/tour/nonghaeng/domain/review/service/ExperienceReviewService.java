@@ -19,13 +19,16 @@ import tour.nonghaeng.domain.review.entity.ExperienceReview;
 import tour.nonghaeng.domain.review.entity.Review;
 import tour.nonghaeng.domain.review.exception.ReviewException;
 import tour.nonghaeng.domain.review.repo.ExperienceReviewRepository;
+import tour.nonghaeng.domain.review.service.interfac.CreateReviewService;
+import tour.nonghaeng.domain.review.service.interfac.FindUpCastedReviewService;
+import tour.nonghaeng.domain.review.service.interfac.ReviewService;
 import tour.nonghaeng.global.auth.valid.AuthValidator;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class ExperienceReviewService implements ReviewService {
+public class ExperienceReviewService implements ReviewService, CreateReviewService, FindUpCastedReviewService {
 
     private final ExperienceReviewRepository experienceReviewRepository;
 
@@ -87,7 +90,7 @@ public class ExperienceReviewService implements ReviewService {
     }
 
 
-    @Override
+
     public Review findReviewById(Long reviewId) {
         return experienceReviewRepository.findReviewById(reviewId)
                 .orElseThrow(() -> ReviewException.EXCEPTION);

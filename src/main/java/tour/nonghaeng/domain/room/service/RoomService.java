@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.etc.area.AreaCode;
 import tour.nonghaeng.domain.etc.room.RoomType;
 import tour.nonghaeng.domain.member.entity.Member;
+import tour.nonghaeng.domain.reservation.repo.RoomReservationRepository;
 import tour.nonghaeng.domain.room.dto.*;
 import tour.nonghaeng.domain.room.dto.specification.RoomSpecification;
 import tour.nonghaeng.domain.room.entity.Room;
@@ -32,6 +33,7 @@ import java.util.*;
 public class RoomService {
 
     private final RoomRepository roomRepository;
+    private final RoomReservationRepository roomReservationRepository;
 
     private final RoomCloseDateService roomCloseDateService;
     private final TourService tourService;
@@ -88,9 +90,12 @@ public class RoomService {
         roomValidator.showRoomSummaryRequestParamValidate(tour.getRooms(),date);
 
         List<RoomSummaryDto> dtoList = tour.getRooms().stream()
-                .map(room -> RoomSummaryDto.toDto(room)).toList();
-
-        //TODO: 예약에서 날짜와 roomId를 통해 잔여 객실수를 기존 객실수에서 빼기
+                .map(room -> RoomSummaryDto
+                        .toDto(room, roomReservationRepository.countByRoomAndReservationDate(room, date)
+                                .orElse(0))
+                )
+                .toList();
+        ;
 
         List<RoomSummaryDto> filterList = dtoList.stream().filter(roomSummaryDto -> roomSummaryDto.getCurrentNumOfRoom() >= numOfRoom)
                 .toList();

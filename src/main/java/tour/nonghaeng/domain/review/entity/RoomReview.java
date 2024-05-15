@@ -57,7 +57,7 @@ public class RoomReview extends Review{
                 .title(this.getTitle())
                 .content(this.getContent())
                 .likes(this.getReviewLikes().size())
-                .roomSummaryDto(RoomSummaryDto.toDto(this.room))
+                .roomSummaryDto(RoomSummaryDto.toDto(this.room,0))
                 .photoInfoDtoList(this.getReviewPhotos().stream()
                         .map(PhotoInfoDto::toDto).toList())
                 .build();

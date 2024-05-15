@@ -44,21 +44,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         //AccessToken 만료되어 refresh 요청한 경우 제외하고 모두 null
-
-        log.info("//AccessToken 만료되어 refresh 요청한 경우 제외하고 모두 null");
         String refreshToken = jwtService.extractRefreshToken(request)
                 .filter(jwtService::isTokenValid)
                 .orElse(null);
 
         //RefreshToken 존재시 RefreshToken 검증 후 AccessToken 재발급
         if (refreshToken != null) {
-            log.info("//RefreshToken 존재시 RefreshToken 검증 후 AccessToken 재발급");
             checkRefreshTokenAndReIssueAccessToken(response,refreshToken);
             return;
         }
 
         // AccessToken 검증 후 인증처리
-        log.info("// AccessToken 검증 후 인증처리");
         checkAccessTokenAndAuthentication(request, response, filterChain);
     }
 

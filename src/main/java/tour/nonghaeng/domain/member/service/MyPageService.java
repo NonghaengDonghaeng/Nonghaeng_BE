@@ -18,7 +18,7 @@ public class MyPageService {
 
     private final ReservationService reservationService;
     //네이밍 바꿔야할듯
-    private final ReviewServiceImpl reviewServiceImpl;
+    private final ReviewServiceImpl reviewService;
 
     private final PageRequest defaultPageRequest = PageRequest.of(0, 4);
 
@@ -33,7 +33,7 @@ public class MyPageService {
                 .number(user.getPhoneNumber())
                 .point(user.getPoint())
                 .reservationPage(reservationService.getReservationUserSummaryDtoPage(user, defaultPageRequest,"all"))
-                .reviewPage(reviewServiceImpl.getReviewSummaryDtoPageByUser(user,defaultPageRequest))
+                .reviewPage(reviewService.getReviewSummaryDtoPageByUser(user,defaultPageRequest))
                 .build();
 
         return dto;

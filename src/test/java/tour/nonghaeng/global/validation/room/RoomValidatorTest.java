@@ -120,8 +120,8 @@ class RoomValidatorTest {
         void roomConditionValidate2() {
             //given
             Room room2 = makeTestRoom(tour);
-            RoomSummaryDto dto1 = RoomSummaryDto.toDto(room);
-            RoomSummaryDto dto2 = RoomSummaryDto.toDto(room2);
+            RoomSummaryDto dto1 = RoomSummaryDto.toDto(room,0);
+            RoomSummaryDto dto2 = RoomSummaryDto.toDto(room2,0);
             List<RoomSummaryDto> dtoList = List.of(dto1, dto2);
             //when & then
             assertDoesNotThrow(() -> roomValidator.roomConditionValidate(dtoList));

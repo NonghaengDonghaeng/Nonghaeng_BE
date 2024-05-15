@@ -2,7 +2,7 @@ package tour.nonghaeng.domain.review.service.registry;
 
 import org.springframework.stereotype.Component;
 import tour.nonghaeng.domain.etc.review.ReviewServiceType;
-import tour.nonghaeng.domain.review.service.ReviewService;
+import tour.nonghaeng.domain.review.service.interfac.ReviewService;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +21,7 @@ public class ReviewServiceRegistry {
 
     public ReviewService getService(String type) {
         if(type.equals("room")||type.equals("experience")){
-            return reviewServiceMap.get(ReviewServiceType.valueOf(type));
+            return reviewServiceMap.get(ReviewServiceType.ofDtype(type));
         }
         return reviewServiceMap.get(ReviewServiceType.TOUR_AND_ALL);
     }

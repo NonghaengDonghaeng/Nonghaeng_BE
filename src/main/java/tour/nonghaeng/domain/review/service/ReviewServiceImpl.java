@@ -16,7 +16,11 @@ import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
 import tour.nonghaeng.domain.review.dto.specification.ReviewSpecification;
 import tour.nonghaeng.domain.review.entity.Review;
 import tour.nonghaeng.domain.review.repo.ReviewRepository;
-import tour.nonghaeng.domain.review.service.registry.ReviewServiceRegistry;
+import tour.nonghaeng.domain.review.service.interfac.CreateReviewService;
+import tour.nonghaeng.domain.review.service.interfac.FindUpCastedReviewService;
+import tour.nonghaeng.domain.review.service.interfac.ReviewService;
+import tour.nonghaeng.domain.review.service.registry.CreateReviewServiceRegistry;
+import tour.nonghaeng.domain.review.service.registry.FindUpCastedReviewServiceRegistry;
 import tour.nonghaeng.domain.review.valid.ReviewValidator;
 import tour.nonghaeng.domain.tour.service.TourService;
 import tour.nonghaeng.global.auth.valid.AuthValidator;
@@ -35,7 +39,10 @@ public class ReviewServiceImpl implements ReviewService {
     private final AuthValidator authValidator;
     private final ReservationService reservationService;
 
-    private final ReviewServiceRegistry reviewServiceRegistry;
+
+    private final CreateReviewServiceRegistry createReviewServiceRegistry;
+    private final FindUpCastedReviewServiceRegistry findUpCastedReviewServiceRegistry;
+
 
 
     @Override
@@ -43,13 +50,12 @@ public class ReviewServiceImpl implements ReviewService {
         return ReviewServiceType.TOUR_AND_ALL;
     }
 
-    @Override
-    public Review findReviewById(Long reviewId) {
+
+    private Review findReviewById(Long reviewId) {
 
         String type = reviewRepository.findReviewTypeById(reviewId);
 
-        ReviewService service =
-                reviewServiceRegistry.getService(type);
+        FindUpCastedReviewService service = findUpCastedReviewServiceRegistry.getService(type);
 
         return service.findReviewById(reviewId);
     }
@@ -85,16 +91,11 @@ public class ReviewServiceImpl implements ReviewService {
 
         reviewValidator.createReviewValidate(user,reservationId,type);
 
-        ReviewService service = reviewServiceRegistry.getService(type);
+        CreateReviewService service = createReviewServiceRegistry.getService(type);
 
         return service.createReview(user, reservationId, requestDto);
     }
 
-    @Override
-    public Long createReview(Member user, Long reservationId, CreateReviewDto requestDto) {
-
-        return 0L;
-    }
 
     public Review findById(Long reviewId) {
         return reviewRepository.findById(reviewId)

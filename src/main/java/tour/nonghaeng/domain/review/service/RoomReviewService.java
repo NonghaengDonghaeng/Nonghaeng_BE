@@ -16,6 +16,9 @@ import tour.nonghaeng.domain.review.entity.Review;
 import tour.nonghaeng.domain.review.entity.RoomReview;
 import tour.nonghaeng.domain.review.exception.ReviewException;
 import tour.nonghaeng.domain.review.repo.RoomReviewRepository;
+import tour.nonghaeng.domain.review.service.interfac.CreateReviewService;
+import tour.nonghaeng.domain.review.service.interfac.FindUpCastedReviewService;
+import tour.nonghaeng.domain.review.service.interfac.ReviewService;
 import tour.nonghaeng.domain.room.entity.Room;
 import tour.nonghaeng.domain.room.service.RoomService;
 import tour.nonghaeng.domain.room.valid.RoomValidator;
@@ -25,7 +28,7 @@ import tour.nonghaeng.global.auth.valid.AuthValidator;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class RoomReviewService implements ReviewService {
+public class RoomReviewService implements ReviewService, CreateReviewService, FindUpCastedReviewService {
 
     private final RoomReviewRepository roomReviewRepository;
 

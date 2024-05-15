@@ -46,6 +46,8 @@ public class ReservationController {
     public ResponseEntity<RoomReservationResponseDto> createRoomReservation(Authentication authentication,
                                                                             @RequestBody CreateRoomReservationDto requestDto) {
 
+
+        log.info(requestDto.toString());
         Member user = authService.toMemberEntity(authentication);
 
         RoomReservationResponseDto responseDto = reservationService.createRoomReservation(user, requestDto);

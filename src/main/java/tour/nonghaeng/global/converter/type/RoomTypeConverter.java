@@ -1,4 +1,4 @@
-package tour.nonghaeng.global.converter;
+package tour.nonghaeng.global.converter.type;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
