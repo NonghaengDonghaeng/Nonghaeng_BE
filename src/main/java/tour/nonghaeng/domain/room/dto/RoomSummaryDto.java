@@ -43,11 +43,11 @@ public class RoomSummaryDto {
         this.likes = likes;
     }
 
-    public static RoomSummaryDto toDto(Room room,int reservationOfRoom) {
+    public static RoomSummaryDto toDto(Room room,int remainOfNum) {
         return RoomSummaryDto.builder()
                 .roomId(room.getId())
                 .roomName(room.getRoomName())
-                .currentNumOfRoom(room.getNumOfRoom()-reservationOfRoom)
+                .currentNumOfRoom(remainOfNum)
                 .price(room.getPriceOffPeak())  //TODO: 성수기,비성수기에 따라 자동으로 그 값이 나오도록
                 .priceHoliday(room.getPriceHoliday())
                 .standardCapacity(room.getStandardCapacity())
