@@ -47,6 +47,7 @@ public class RoomReview extends Review{
                 .build();
     }
 
+    //TODO: 추후에 RoomSummaryDto에 잔여객실수를 현재날짜로 구해서 보내주도록하기, 현재는 그냥 총객실수를 보내줌
     @Override
     public ReviewDetailDto toReviewDetailDto() {
         return RoomReviewDetailDto.builder()

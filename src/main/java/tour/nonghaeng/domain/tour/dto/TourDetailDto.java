@@ -17,6 +17,7 @@ import java.util.List;
 public class TourDetailDto {
     private String name;
     private String homepageUrl;
+    private String address;
     private String introduction;
     private String oneLineIntro;
     private String summary;
@@ -32,9 +33,10 @@ public class TourDetailDto {
 
 
     @Builder
-    public TourDetailDto(String name, String homepageUrl, String introduction, String oneLineIntro, String summary, String restaurant, String parking, String toilet, String amenities, String areaName,int likes, List<RoomSummary> roomSummaryList, List<ExpSummary> expSummaryList, List<PhotoInfoDto> photoInfoDtoList) {
+    public TourDetailDto(String name, String homepageUrl, String address,String introduction, String oneLineIntro, String summary, String restaurant, String parking, String toilet, String amenities, String areaName,int likes, List<RoomSummary> roomSummaryList, List<ExpSummary> expSummaryList, List<PhotoInfoDto> photoInfoDtoList) {
         this.name = name;
         this.homepageUrl = homepageUrl;
+        this.address = address;
         this.introduction = introduction;
         this.oneLineIntro = oneLineIntro;
         this.summary = summary;
@@ -55,6 +57,7 @@ public class TourDetailDto {
         TourDetailDto tourDetailDto = TourDetailDto.builder()
                 .name(tour.getName())
                 .homepageUrl(tour.getHomepageUrl())
+                .address(tour.getSeller().getAddress())
                 .introduction(tour.getIntroduction())
                 .oneLineIntro(tour.getOneLineIntro())
                 .summary(tour.getSummary())

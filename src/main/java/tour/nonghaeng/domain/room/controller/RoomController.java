@@ -63,8 +63,8 @@ public class RoomController {
     //숙소 중간페이지 중 방요약만 조회, 파라미터로 날짜와 객실수 받기
     @GetMapping("/list/{tourId}")
     public ResponseEntity<List<RoomSummaryDto>> showRoomSummaryList(@PathVariable Long tourId,
-                                                                    @RequestParam(value = "date", defaultValue = "#{T(java.time.LocalDate).now()}") LocalDate startDate,
-                                                                    @RequestParam(value = "date", defaultValue = "#{T(java.time.LocalDate).now().plusDays(1)}") LocalDate endDate,
+                                                                    @RequestParam(value = "start_date", defaultValue = "#{T(java.time.LocalDate).now()}") LocalDate startDate,
+                                                                    @RequestParam(value = "end_date", defaultValue = "#{T(java.time.LocalDate).now().plusDays(1)}") LocalDate endDate,
                                                                     @RequestParam(value = "num", defaultValue = "1") int num) {
 
         List<RoomSummaryDto> dtoList = roomService.getRoomSummaryDtoList(tourId, startDate, endDate, num);
