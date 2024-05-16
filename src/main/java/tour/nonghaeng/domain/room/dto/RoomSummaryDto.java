@@ -2,10 +2,7 @@ package tour.nonghaeng.domain.room.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.room.entity.Room;
 
@@ -18,6 +15,7 @@ public class RoomSummaryDto {
 
     private Long roomId;
     private String roomName;
+    @Setter
     private int currentNumOfRoom;
     private int price;
     private int priceHoliday;
@@ -64,8 +62,4 @@ public class RoomSummaryDto {
     }
 
 
-
-    public void setCurrentNumOfRoom(int reservedNumOfRoom) {
-        this.currentNumOfRoom -= reservedNumOfRoom;
-    }
 }

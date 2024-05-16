@@ -83,34 +83,73 @@ public class RoomService {
 
 
 
-    public List<RoomSummaryDto> getRoomSummaryDtoList(Long tourId, LocalDate date, int numOfRoom) {
+
+    public List<RoomSummaryDto> getRoomSummaryDtoList(Long tourId, LocalDate startDate, LocalDate endDate, int numOfRoom) {
 
         Tour tour = tourService.findById(tourId);
 
-        roomValidator.showRoomSummaryRequestParamValidate(tour.getRooms(),date);
+        List<LocalDate> dates = toLocalDateList(startDate, endDate);
 
-        List<RoomSummaryDto> dtoList = tour.getRooms().stream()
-                .map(room -> RoomSummaryDto
-                        .toDto(room, roomReservationRepository.countByRoomAndReservationDate(room, date)
-                                .orElse(0))
-                )
-                .toList();
-        ;
+        List<Room> rooms = tour.getRooms();
 
-        List<RoomSummaryDto> filterList = dtoList.stream().filter(roomSummaryDto -> roomSummaryDto.getCurrentNumOfRoom() >= numOfRoom)
+        Map<Long, Integer> remainOfNumMap = getRemainOfNumMap(rooms, dates);
+
+        List<RoomSummaryDto> filterRoomList = rooms.stream()
+                .filter(room -> remainOfNumMap.get(room.getId()) >= numOfRoom)
+                .map(room -> RoomSummaryDto.toDto(room, remainOfNumMap.get(room.getId())))
                 .toList();
 
-        roomValidator.roomConditionValidate(filterList);
+        roomValidator.roomConditionValidate(filterRoomList);
 
-        return filterList;
+        return filterRoomList;
     }
 
+    private List<LocalDate> toLocalDateList(LocalDate startDate, LocalDate endDate) {
+
+        List<LocalDate> dates = new ArrayList<>();
+
+        LocalDate currentDate = startDate;
+
+        while (!currentDate.isAfter(endDate.minusDays(1))) {
+            dates.add(currentDate);
+            currentDate = currentDate.plusDays(1);
+        }
+        return dates;
+    }
+
+    private Map<Long, Integer> getRemainOfNumMap(List<Room> rooms, List<LocalDate> dates) {
+
+        Map<Long,Integer> totalOfNumMap = new HashMap<>();
+        Map<Long,Integer> remainOfNumMap = new HashMap<>();
+
+        rooms.forEach(room -> totalOfNumMap.put(room.getId(), room.getNumOfRoom()));
+        rooms.forEach(room -> remainOfNumMap.put(room.getId(), room.getNumOfRoom()));
+
+
+        for(LocalDate date : dates) {
+
+            roomValidator.showRoomSummaryRequestParamValidate(rooms,date);
+
+            rooms.forEach(room->{
+                Integer newRemainNum = totalOfNumMap.get(room.getId())
+                        - roomReservationRepository.countByRoomAndReservationDate(room, date).orElse(0);
+
+                if (newRemainNum < remainOfNumMap.get(room.getId())) {
+                    remainOfNumMap.replace(room.getId(), newRemainNum);
+                }
+            });
+        }
+        return remainOfNumMap;
+    }
+
+
+
     private int findMinPriceByTour(Tour tour) {
-        return roomRepository.findMinPriceByTour(tour).intValue();
+        return roomRepository.findMinPriceByTour(tour);
     }
 
     private int findMaxPriceByTour(Tour tour) {
-        return roomRepository.findMaxPriceByTour(tour).intValue();
+        return roomRepository.findMaxPriceByTour(tour);
     }
 
 
@@ -119,7 +158,7 @@ public class RoomService {
 
         RoomTourDetailDto dto = RoomTourDetailDto.toDto(tourService.findById(tourId));
 
-        dto.addRoomSummaryDtoList(getRoomSummaryDtoList(tourId, LocalDate.now(), 1));
+        dto.addRoomSummaryDtoList(getRoomSummaryDtoList(tourId, LocalDate.now(),LocalDate.now().plusDays(1), 1));
 
         return dto;
     }
@@ -135,7 +174,8 @@ public class RoomService {
         RoomDetailDto dto = RoomDetailDto.toDto(room);
 
         //날짜를 인자로 예약을 통해 현재 잔여 객실 수 설정하기
-        int reservedNumOfRoom = 1;
+
+        int reservedNumOfRoom = roomReservationRepository.countByRoomAndReservationDate(room, requestDate).orElse(0);
         dto.setCurrentNumOfRoom(reservedNumOfRoom);
 
         return dto;
