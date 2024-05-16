@@ -55,6 +55,7 @@ public class Room extends BaseTimeEntity {
 
     private String roomName;            //숙소이름
 
+    @Column(columnDefinition = "TEXT")
     private String summary;             //객실 간단소개
 
     private int pricePeak;              //성수기가격
@@ -75,16 +76,22 @@ public class Room extends BaseTimeEntity {
 
     private int numOfRoom;              //객실 수
 
+    @Column(columnDefinition = "TEXT")
     private String roomConfiguration;   //방 구성(화장실 1개, 거실1개, 방2개)
 
+    @Column(columnDefinition = "TEXT")
     private String inclusions;          //포함사항(객실 내 화장실, 무료 WIFI)
 
+    @Column(columnDefinition = "TEXT")
     private String requirement;         //구비사항(조리도구, 인덕션, 냉장고, 각종그릇, 에어컨, TV, 커피포트, 샴푸, 린스, 바디워시, 치약, 인터넷과 와이파이 가능)
 
+    @Column(columnDefinition = "TEXT")
     private String facilities;          //부대시설(식당)  이거 관광에도 있으니까 거기서 받아올지 고민
 
+    @Column(columnDefinition = "TEXT")
     private String usageTips;           //이용팁(시원하게 흐르는 요천강변이 가까워 산책을 즐기기 좋고 여름에 물놀이 하기 좋습니다.)
 
+    @Column(columnDefinition = "TEXT")
     private String precautions;         //유의사항(전 객실 금연입니다.)
 
     @Builder

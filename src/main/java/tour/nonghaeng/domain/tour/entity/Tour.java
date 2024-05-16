@@ -61,10 +61,13 @@ public class Tour extends BaseTimeEntity {
 
     private String homepageUrl;
 
+    @Column(columnDefinition = "TEXT")
     private String introduction;
 
+    @Column(columnDefinition = "TEXT")
     private String oneLineIntro;
 
+    @Column(columnDefinition = "TEXT")
     private String summary;
 
     private String restaurant;

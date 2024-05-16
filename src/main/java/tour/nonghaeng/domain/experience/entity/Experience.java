@@ -72,14 +72,19 @@ public class Experience extends BaseTimeEntity {
 
     private int durationHours;              //소요시간
 
+    @Column(columnDefinition = "TEXT")
     private String checkPoint;              //체크포인트
 
+    @Column(columnDefinition = "TEXT")
     private String detailIntroduction;      //상세소개
 
+    @Column(columnDefinition = "TEXT")
     private String summary;
 
+    @Column(columnDefinition = "TEXT")
     private String supplies;                //준비물
 
+    @Column(columnDefinition = "TEXT")
     private String precautions;             //유의사항
 
     @Builder

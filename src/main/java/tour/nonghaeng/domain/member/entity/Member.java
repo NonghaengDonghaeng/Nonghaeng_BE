@@ -24,13 +24,13 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     protected Role role;
 
-    @Column(unique = true, length = 15)
+    @Column(unique = true)
     protected String phoneNumber;
 
     @Column(nullable = false)
     protected String name;
 
-    @Column(nullable = false)
+    @Column
     protected String email;
 
     @Column(unique = true)
