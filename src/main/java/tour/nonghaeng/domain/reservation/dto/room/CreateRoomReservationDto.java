@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.entity.User;
@@ -19,6 +20,7 @@ import java.util.List;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor
 @Getter
+@Slf4j
 public class CreateRoomReservationDto {
 
     private Long roomId;
@@ -99,4 +101,5 @@ public class CreateRoomReservationDto {
                 ", finalPrice=" + finalPrice +
                 '}';
     }
+
 }

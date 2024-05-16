@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 
 
 @Service
-@Profile("minio")
+@Profile("oracle-minio")
 @RequiredArgsConstructor
 @Transactional
 @Slf4j

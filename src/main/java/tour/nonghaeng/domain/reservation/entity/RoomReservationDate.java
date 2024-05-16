@@ -22,6 +22,7 @@ public class RoomReservationDate {
     @JoinColumn(name = "room_reservation_id")
     private RoomReservation roomReservation;
 
+
     private LocalDate reservationDate;
 
     @Builder

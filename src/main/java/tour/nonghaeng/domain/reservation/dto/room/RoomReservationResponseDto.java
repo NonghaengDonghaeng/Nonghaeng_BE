@@ -6,7 +6,9 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import tour.nonghaeng.domain.reservation.entity.RoomReservation;
+import tour.nonghaeng.domain.reservation.entity.RoomReservationDate;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,7 +20,10 @@ public class RoomReservationResponseDto {
 
     private Long roomReservationId;
     private String roomName;
-    private List<LocalDate> reservationDates;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate startDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate endDate;
     private String reservationName;
     private String number;
     private String email;
@@ -27,10 +32,11 @@ public class RoomReservationResponseDto {
     private int finalPrice;
 
     @Builder
-    private RoomReservationResponseDto(Long roomReservationId, String roomName, List<LocalDate> reservationDates, String reservationName, String number, String email, int numOfRoom, int numOfParticipant, int finalPrice) {
+    private RoomReservationResponseDto(Long roomReservationId, String roomName,LocalDate startDate,LocalDate endDate, String reservationName, String number, String email, int numOfRoom, int numOfParticipant, int finalPrice) {
         this.roomReservationId = roomReservationId;
         this.roomName = roomName;
-        this.reservationDates = reservationDates;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.reservationName = reservationName;
         this.number = number;
         this.email = email;
@@ -40,12 +46,9 @@ public class RoomReservationResponseDto {
     }
 
     public static RoomReservationResponseDto toDto(RoomReservation roomReservation) {
-        return RoomReservationResponseDto.builder()
+        RoomReservationResponseDto responseDto = RoomReservationResponseDto.builder()
                 .roomReservationId(roomReservation.getId())
                 .roomName(roomReservation.getRoom().getRoomName())
-                .reservationDates(roomReservation.getReservationDates().stream().map(roomReservationDate ->
-                   roomReservationDate.getReservationDate()
-                ).toList())
                 .reservationName(roomReservation.getReservationName())
                 .number(roomReservation.getNumber())
                 .email(roomReservation.getEmail())
@@ -53,5 +56,20 @@ public class RoomReservationResponseDto {
                 .numOfParticipant(roomReservation.getNumOfParticipant())
                 .finalPrice(roomReservation.getPrice())
                 .build();
+
+        responseDto.setStartDateAndEndDate(roomReservation);
+
+        return responseDto;
+    }
+
+
+    private void setStartDateAndEndDate (RoomReservation roomReservation) {
+
+        List<LocalDate> reservationDates = roomReservation.getReservationDates()
+                .stream().map(RoomReservationDate::getReservationDate).toList();
+        this.startDate = reservationDates.stream().min(LocalDate::compareTo).orElse(null);
+        LocalDate endDate = reservationDates.stream().max(LocalDate::compareTo).orElse(null);
+        assert endDate != null;
+        this.endDate = endDate.plusDays(1);
     }
 }

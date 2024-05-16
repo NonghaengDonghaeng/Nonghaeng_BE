@@ -25,6 +25,7 @@ import tour.nonghaeng.domain.reservation.exception.ReservationException;
 import tour.nonghaeng.domain.reservation.exception.error.ReservationErrorCode;
 import tour.nonghaeng.domain.reservation.repo.ReservationRepository;
 import tour.nonghaeng.domain.reservation.valid.ReservationValidator;
+import tour.nonghaeng.global.auth.valid.AuthValidator;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -44,6 +45,7 @@ public class ReservationService {
     private final SellerService sellerService;
 
     private final ReservationValidator reservationValidator;
+    private final AuthValidator authValidator;
 
 
 
@@ -125,7 +127,7 @@ public class ReservationService {
             return experienceReservationService.findReservationPageByUser(user, pageable);
         }
         // type: all 일때
-        return reservationRepository.findReservationPageByUser((User) user, pageable)
+        return reservationRepository.findReservationPageByUser(authValidator.userValidate(user), pageable)
                 .map(reservation -> findUpCastedReservationById(reservation.getId()));
     }
 

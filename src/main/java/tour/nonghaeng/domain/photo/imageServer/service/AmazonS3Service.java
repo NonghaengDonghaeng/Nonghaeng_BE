@@ -25,7 +25,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Service
-@Profile("!minio")
+@Profile("!oracle-minio")
 @RequiredArgsConstructor
 @Transactional
 @Slf4j

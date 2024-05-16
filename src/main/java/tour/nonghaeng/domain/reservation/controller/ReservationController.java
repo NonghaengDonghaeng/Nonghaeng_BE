@@ -46,8 +46,6 @@ public class ReservationController {
     public ResponseEntity<RoomReservationResponseDto> createRoomReservation(Authentication authentication,
                                                                             @RequestBody CreateRoomReservationDto requestDto) {
 
-
-        log.info(requestDto.toString());
         Member user = authService.toMemberEntity(authentication);
 
         RoomReservationResponseDto responseDto = reservationService.createRoomReservation(user, requestDto);
@@ -69,7 +67,7 @@ public class ReservationController {
     //파라미터 type=room,exp
     @GetMapping("/my-reservation")
     public ResponseEntity<Page<? extends ReservationUserSummaryDto>> showMyReservationUser(Authentication authentication,
-                                                                                           @PageableDefault(size = 20) Pageable pageable,
+                                                                                           @PageableDefault(size = 10) Pageable pageable,
                                                                                            @RequestParam(value = "type", defaultValue = "all", required = false) String type) {
 
         Member user = authService.toMemberEntity(authentication);
