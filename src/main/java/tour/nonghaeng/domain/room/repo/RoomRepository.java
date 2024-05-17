@@ -1,7 +1,5 @@
 package tour.nonghaeng.domain.room.repo;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -36,6 +34,6 @@ public interface RoomRepository extends JpaRepository<Room,Long>, JpaSpecificati
 
     boolean existsById(Long roomId);
 
-    Page<Room> findAll(Specification<Room> spec, Pageable pageable);
+    List<Room> findAll(Specification<Room> spec);
 
 }

@@ -69,11 +69,11 @@ public class RoomService {
 
         Specification<Room> roomSpec = RoomSpecification.buildRoomSpecification(keyword, areaCode, roomType);
 
-        List<Room> rooms = roomRepository.findAll(roomSpec, pageable).getContent();
+        List<Room> rooms = roomRepository.findAll(roomSpec);
 
         Set<Tour> uniqueTours = new HashSet<>();
 
-        for(Room room : rooms) {
+        for (Room room : rooms) {
             Tour tour = room.getTour();
             uniqueTours.add(tour);
         }

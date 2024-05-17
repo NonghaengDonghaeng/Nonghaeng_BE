@@ -15,9 +15,9 @@ public class RoomSpecification {
         return (root, query, criteriaBuilder) -> {
             Predicate predicate = criteriaBuilder.conjunction();
 
-            if(keyword != null & !keyword.isEmpty()) {
+            if(keyword != null && !keyword.isEmpty()) {
                 Join<Room, Tour> tourJoin = root.join("tour");
-                predicate = criteriaBuilder.and(predicate,criteriaBuilder.like(criteriaBuilder.lower(root.get("name")),"%"+keyword.toLowerCase()+"%"));
+                predicate = criteriaBuilder.and(predicate,criteriaBuilder.like(criteriaBuilder.lower(tourJoin.get("name")),"%"+keyword.toLowerCase()+"%"));
             }
 
             if(areaCode != null) {
