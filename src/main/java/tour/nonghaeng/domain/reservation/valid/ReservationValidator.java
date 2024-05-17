@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
+import tour.nonghaeng.domain.etc.enums.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.reservation.entity.Reservation;
 import tour.nonghaeng.domain.reservation.exception.ReservationException;

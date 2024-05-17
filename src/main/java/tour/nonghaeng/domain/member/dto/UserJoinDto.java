@@ -3,9 +3,9 @@ package tour.nonghaeng.domain.member.dto;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Builder;
-import tour.nonghaeng.domain.etc.area.AreaCode;
-import tour.nonghaeng.domain.etc.role.Role;
-import tour.nonghaeng.domain.etc.social.SocialType;
+import tour.nonghaeng.domain.etc.enums.area.AreaCode;
+import tour.nonghaeng.domain.etc.enums.role.Role;
+import tour.nonghaeng.domain.etc.enums.social.SocialType;
 import tour.nonghaeng.domain.member.entity.User;
 
 @Builder

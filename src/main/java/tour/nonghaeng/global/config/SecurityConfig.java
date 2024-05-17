@@ -19,7 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-import tour.nonghaeng.domain.etc.role.Role;
+import tour.nonghaeng.domain.etc.enums.role.Role;
 import tour.nonghaeng.domain.member.repo.MemberRepository;
 import tour.nonghaeng.global.auth.auth.handler.MyAccessDeniedHandler;
 import tour.nonghaeng.global.auth.auth.handler.MyAuthenticationEntryPoint;

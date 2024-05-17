@@ -2,8 +2,8 @@ package tour.nonghaeng.domain.tour.dto.speciification;
 
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
-import tour.nonghaeng.domain.etc.area.AreaCode;
-import tour.nonghaeng.domain.etc.tour.TourType;
+import tour.nonghaeng.domain.etc.enums.area.AreaCode;
+import tour.nonghaeng.domain.etc.enums.tour.TourType;
 import tour.nonghaeng.domain.tour.entity.Tour;
 
 public class TourSpecification {

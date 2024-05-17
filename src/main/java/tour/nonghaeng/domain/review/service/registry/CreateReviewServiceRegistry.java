@@ -1,7 +1,7 @@
 package tour.nonghaeng.domain.review.service.registry;
 
 import org.springframework.stereotype.Component;
-import tour.nonghaeng.domain.etc.review.ReviewServiceType;
+import tour.nonghaeng.domain.etc.enums.review.ReviewServiceType;
 import tour.nonghaeng.domain.review.service.interfac.CreateReviewService;
 
 import java.util.List;

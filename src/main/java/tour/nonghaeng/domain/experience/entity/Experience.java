@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.etc.BaseTimeEntity;
-import tour.nonghaeng.domain.etc.experience.ExperienceType;
+import tour.nonghaeng.domain.etc.enums.experience.ExperienceType;
 import tour.nonghaeng.domain.like.entity.ExperienceLike;
 import tour.nonghaeng.domain.member.entity.Seller;
 import tour.nonghaeng.domain.photo.entity.ExperiencePhoto;

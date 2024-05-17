@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
-import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
+import tour.nonghaeng.domain.etc.enums.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.entity.RoomReservation;
 import tour.nonghaeng.domain.reservation.entity.RoomReservationDate;

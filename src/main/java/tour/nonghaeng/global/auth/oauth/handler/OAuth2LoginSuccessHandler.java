@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import tour.nonghaeng.domain.etc.role.Role;
+import tour.nonghaeng.domain.etc.enums.role.Role;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.member.repo.MemberRepository;
 import tour.nonghaeng.domain.member.repo.UserRepository;

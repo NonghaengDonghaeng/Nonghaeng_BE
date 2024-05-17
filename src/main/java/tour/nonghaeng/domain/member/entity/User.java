@@ -5,10 +5,10 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import tour.nonghaeng.domain.etc.area.AreaCode;
-import tour.nonghaeng.domain.etc.cancel.CancelPolicy;
-import tour.nonghaeng.domain.etc.role.Role;
-import tour.nonghaeng.domain.etc.social.SocialType;
+import tour.nonghaeng.domain.etc.enums.area.AreaCode;
+import tour.nonghaeng.domain.etc.enums.cancel.CancelPolicy;
+import tour.nonghaeng.domain.etc.enums.role.Role;
+import tour.nonghaeng.domain.etc.enums.social.SocialType;
 
 @Entity
 @Table(name = "USERS")

@@ -1,4 +1,4 @@
-package tour.nonghaeng.domain.etc.cancel;
+package tour.nonghaeng.domain.etc.enums.cancel;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

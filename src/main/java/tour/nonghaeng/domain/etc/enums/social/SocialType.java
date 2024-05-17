@@ -1,4 +1,4 @@
-package tour.nonghaeng.domain.etc.social;
+package tour.nonghaeng.domain.etc.enums.social;
 
 public enum SocialType {
     ORIGIN,

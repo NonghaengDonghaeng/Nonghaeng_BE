@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import tour.nonghaeng.domain.etc.role.Role;
+import tour.nonghaeng.domain.etc.enums.role.Role;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter

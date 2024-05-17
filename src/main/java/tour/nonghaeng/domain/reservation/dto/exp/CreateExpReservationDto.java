@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
+import tour.nonghaeng.domain.etc.enums.reservation.ReservationStateType;
 import tour.nonghaeng.domain.experience.entity.ExperienceRound;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;

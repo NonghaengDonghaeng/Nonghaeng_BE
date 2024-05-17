@@ -2,7 +2,7 @@ package tour.nonghaeng.domain.experience.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import tour.nonghaeng.domain.etc.experience.ExperienceType;
+import tour.nonghaeng.domain.etc.enums.experience.ExperienceType;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.tour.entity.Tour;
 

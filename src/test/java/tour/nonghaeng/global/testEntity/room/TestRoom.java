@@ -1,6 +1,6 @@
 package tour.nonghaeng.global.testEntity.room;
 
-import tour.nonghaeng.domain.etc.room.RoomType;
+import tour.nonghaeng.domain.etc.enums.room.RoomType;
 import tour.nonghaeng.domain.room.entity.Room;
 import tour.nonghaeng.domain.tour.entity.Tour;
 

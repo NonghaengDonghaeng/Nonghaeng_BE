@@ -4,8 +4,8 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
-import tour.nonghaeng.domain.etc.area.AreaCode;
-import tour.nonghaeng.domain.etc.experience.ExperienceType;
+import tour.nonghaeng.domain.etc.enums.area.AreaCode;
+import tour.nonghaeng.domain.etc.enums.experience.ExperienceType;
 import tour.nonghaeng.domain.experience.entity.Experience;
 import tour.nonghaeng.domain.tour.entity.Tour;
 

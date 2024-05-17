@@ -1,8 +1,8 @@
 package tour.nonghaeng.global.testEntity.seller;
 
-import tour.nonghaeng.domain.etc.area.AreaCode;
-import tour.nonghaeng.domain.etc.bank.BankCode;
-import tour.nonghaeng.domain.etc.role.Role;
+import tour.nonghaeng.domain.etc.enums.area.AreaCode;
+import tour.nonghaeng.domain.etc.enums.bank.BankCode;
+import tour.nonghaeng.domain.etc.enums.role.Role;
 import tour.nonghaeng.domain.member.entity.Seller;
 
 public class TestSeller {

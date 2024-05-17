@@ -3,7 +3,7 @@ package tour.nonghaeng.global.auth.oauth;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
-import tour.nonghaeng.domain.etc.role.Role;
+import tour.nonghaeng.domain.etc.enums.role.Role;
 
 import java.util.Collection;
 import java.util.Map;

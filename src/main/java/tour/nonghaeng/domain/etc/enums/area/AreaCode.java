@@ -1,4 +1,4 @@
-package tour.nonghaeng.domain.etc.area;
+package tour.nonghaeng.domain.etc.enums.area;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;

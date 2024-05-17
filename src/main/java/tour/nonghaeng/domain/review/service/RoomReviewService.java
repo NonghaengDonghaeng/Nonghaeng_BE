@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tour.nonghaeng.domain.etc.review.ReviewServiceType;
+import tour.nonghaeng.domain.etc.enums.review.ReviewServiceType;
 import tour.nonghaeng.domain.member.entity.Member;
 import tour.nonghaeng.domain.reservation.entity.Reservation;
 import tour.nonghaeng.domain.reservation.service.ReservationService;

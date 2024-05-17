@@ -1,7 +1,7 @@
 package tour.nonghaeng.domain.like.service.registry;
 
 import org.springframework.stereotype.Component;
-import tour.nonghaeng.domain.etc.like.LikeType;
+import tour.nonghaeng.domain.etc.enums.like.LikeType;
 import tour.nonghaeng.domain.like.service.LikeService;
 
 import java.util.List;

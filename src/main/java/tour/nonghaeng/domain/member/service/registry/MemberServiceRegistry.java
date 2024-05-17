@@ -1,7 +1,7 @@
 package tour.nonghaeng.domain.member.service.registry;
 
 import org.springframework.stereotype.Component;
-import tour.nonghaeng.domain.etc.role.Role;
+import tour.nonghaeng.domain.etc.enums.role.Role;
 import tour.nonghaeng.domain.member.repo.MemberRepository;
 import tour.nonghaeng.domain.member.service.MemberService;
 

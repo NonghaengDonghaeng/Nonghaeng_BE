@@ -1,7 +1,7 @@
 package tour.nonghaeng.global.testEntity.user;
 
-import tour.nonghaeng.domain.etc.area.AreaCode;
-import tour.nonghaeng.domain.etc.role.Role;
+import tour.nonghaeng.domain.etc.enums.area.AreaCode;
+import tour.nonghaeng.domain.etc.enums.role.Role;
 import tour.nonghaeng.domain.member.entity.User;
 
 public class TestUser {

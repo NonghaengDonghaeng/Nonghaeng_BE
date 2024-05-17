@@ -6,7 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import tour.nonghaeng.domain.etc.cancel.CancelPolicy;
+import tour.nonghaeng.domain.etc.enums.cancel.CancelPolicy;
 import tour.nonghaeng.domain.reservation.dto.ReservationCancelResponseDto;
 import tour.nonghaeng.domain.reservation.entity.RoomReservation;
 

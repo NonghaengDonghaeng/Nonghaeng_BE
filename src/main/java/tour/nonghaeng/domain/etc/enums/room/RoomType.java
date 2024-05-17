@@ -1,4 +1,4 @@
-package tour.nonghaeng.domain.etc.room;
+package tour.nonghaeng.domain.etc.enums.room;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;

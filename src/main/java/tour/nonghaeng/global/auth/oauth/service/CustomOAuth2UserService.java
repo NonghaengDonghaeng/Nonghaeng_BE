@@ -9,7 +9,7 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-import tour.nonghaeng.domain.etc.social.SocialType;
+import tour.nonghaeng.domain.etc.enums.social.SocialType;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.member.repo.UserRepository;
 import tour.nonghaeng.global.auth.oauth.CustomOAuth2User;

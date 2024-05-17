@@ -1,4 +1,4 @@
-package tour.nonghaeng.domain.etc.photo;
+package tour.nonghaeng.domain.etc.enums.photo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

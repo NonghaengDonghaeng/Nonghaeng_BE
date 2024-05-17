@@ -1,6 +1,6 @@
 package tour.nonghaeng.global.testEntity.reservation;
 
-import tour.nonghaeng.domain.etc.reservation.ReservationStateType;
+import tour.nonghaeng.domain.etc.enums.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.entity.User;
 import tour.nonghaeng.domain.reservation.entity.RoomReservation;
 import tour.nonghaeng.domain.reservation.entity.RoomReservationDate;

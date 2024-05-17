@@ -1,26 +1,27 @@
-package tour.nonghaeng.domain.etc.review;
+package tour.nonghaeng.domain.etc.enums.like;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum ReviewServiceType {
+public enum LikeType {
 
+    TOUR("tour"),
     EXPERIENCE("experience"),
     ROOM("room"),
-    TOUR_AND_ALL("etc"),
+    REVIEW("review"),
     ;
 
     private final String dtype;
 
-    public static ReviewServiceType ofDtype(String dtype) {
+    public static LikeType ofDtype(String dtype) {
         if (dtype == null) {
             throw new IllegalArgumentException();
         }
-        for (ReviewServiceType rt : ReviewServiceType.values()) {
-            if (rt.getDtype().equals(dtype)) {
-                return rt;
+        for (LikeType lt : LikeType.values()) {
+            if (lt.getDtype().equals(dtype)) {
+                return lt;
             }
         }
         throw new IllegalArgumentException("일치하는 사진타입이 없습니다.");

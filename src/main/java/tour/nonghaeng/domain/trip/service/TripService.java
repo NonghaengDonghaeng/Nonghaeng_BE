@@ -4,6 +4,7 @@ package tour.nonghaeng.domain.trip.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.experience.dto.ExpSummaryDto;
@@ -12,6 +13,7 @@ import tour.nonghaeng.domain.room.dto.RoomTourSummaryDto;
 import tour.nonghaeng.domain.room.service.RoomService;
 import tour.nonghaeng.domain.tour.dto.TourSummaryDto;
 import tour.nonghaeng.domain.tour.service.TourService;
+import tour.nonghaeng.domain.trip.dto.MainResponseDto;
 import tour.nonghaeng.domain.trip.dto.TripResponseDto;
 
 import java.util.List;
@@ -37,6 +39,21 @@ public class TripService {
 
         return TripResponseDto.builder()
                 .tourSummaryDtoList(tourSummaryDtoList)
+                .roomTourSummaryDtoList(roomTourSummaryDtoList)
+                .expSummaryDtoList(expSummaryDtoList)
+                .build();
+    }
+
+    //좋아요순으로
+    public MainResponseDto getTripBestResponseDto() {
+
+        PageRequest pageRequest = PageRequest.of(0, 4, Sort.by("likes").descending());
+
+        List<ExpSummaryDto> expSummaryDtoList = experienceService.getExpSummaryDtoPage(pageRequest, null, null, null).getContent();
+        List<RoomTourSummaryDto> roomTourSummaryDtoList = roomService.getRoomTourSummaryDtoPage(pageRequest, null, null, null).getContent();
+
+
+        return MainResponseDto.builder()
                 .roomTourSummaryDtoList(roomTourSummaryDtoList)
                 .expSummaryDtoList(expSummaryDtoList)
                 .build();
