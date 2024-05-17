@@ -71,14 +71,17 @@ public class RoomService {
 
         List<Room> rooms = roomRepository.findAll(roomSpec);
 
-        Set<Tour> uniqueTours = new HashSet<>();
+        Set<Tour> uniqueTourSet = new HashSet<>();
 
         for (Room room : rooms) {
             Tour tour = room.getTour();
-            uniqueTours.add(tour);
+            uniqueTourSet.add(tour);
         }
 
-        return new PageImpl<>(new ArrayList<>(uniqueTours), pageable, uniqueTours.size());
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), uniqueTourSet.size());
+
+        return new PageImpl<>( new ArrayList<>(uniqueTourSet).subList(start,end), pageable, uniqueTourSet.size());
     }
 
 
