@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import tour.nonghaeng.domain.etc.enums.reservation.ReservationStateType;
-import tour.nonghaeng.domain.member.entity.User;
-import tour.nonghaeng.domain.reservation.entity.RoomReservation;
-import tour.nonghaeng.domain.reservation.entity.RoomReservationDate;
-import tour.nonghaeng.domain.room.entity.Room;
+import tour.nonghaeng.domain.member.data.User;
+import tour.nonghaeng.domain.reservation.data.RoomReservation;
+import tour.nonghaeng.domain.reservation.data.RoomReservationDate;
+import tour.nonghaeng.domain.room.data.Room;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

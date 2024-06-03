@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
-import tour.nonghaeng.domain.tour.entity.Tour;
+import tour.nonghaeng.domain.tour.data.Tour;
 
 import java.util.List;
 

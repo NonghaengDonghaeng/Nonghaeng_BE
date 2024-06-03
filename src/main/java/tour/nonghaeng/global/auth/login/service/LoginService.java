@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import tour.nonghaeng.domain.member.dto.TempMember;
-import tour.nonghaeng.domain.member.repo.MemberRepository;
+import tour.nonghaeng.domain.member.data.repo.MemberRepository;
 
 @Service
 @RequiredArgsConstructor

@@ -10,7 +10,8 @@ import org.springframework.test.context.TestPropertySource;
 import tour.nonghaeng.domain.etc.enums.area.AreaCode;
 import tour.nonghaeng.domain.etc.enums.bank.BankCode;
 import tour.nonghaeng.domain.etc.enums.role.Role;
-import tour.nonghaeng.domain.member.entity.Seller;
+import tour.nonghaeng.domain.member.data.Seller;
+import tour.nonghaeng.domain.member.data.repo.SellerRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static tour.nonghaeng.global.testEntity.seller.TestSeller.makeTestSeller;

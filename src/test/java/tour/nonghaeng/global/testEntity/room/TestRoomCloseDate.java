@@ -1,7 +1,7 @@
 package tour.nonghaeng.global.testEntity.room;
 
-import tour.nonghaeng.domain.room.entity.Room;
-import tour.nonghaeng.domain.room.entity.RoomCloseDate;
+import tour.nonghaeng.domain.room.data.Room;
+import tour.nonghaeng.domain.room.data.RoomCloseDate;
 
 import java.time.LocalDate;
 

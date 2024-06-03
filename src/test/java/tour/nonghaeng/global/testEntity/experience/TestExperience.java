@@ -1,8 +1,8 @@
 package tour.nonghaeng.global.testEntity.experience;
 
 import tour.nonghaeng.domain.etc.enums.experience.ExperienceType;
-import tour.nonghaeng.domain.experience.entity.Experience;
-import tour.nonghaeng.domain.tour.entity.Tour;
+import tour.nonghaeng.domain.experience.data.Experience;
+import tour.nonghaeng.domain.tour.data.Tour;
 
 import java.time.LocalDate;
 

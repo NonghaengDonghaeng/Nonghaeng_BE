@@ -5,10 +5,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tour.nonghaeng.domain.etc.enums.like.LikeType;
-import tour.nonghaeng.domain.like.entity.TourLike;
-import tour.nonghaeng.domain.like.repo.TourLikeRepository;
-import tour.nonghaeng.domain.member.entity.Member;
-import tour.nonghaeng.domain.tour.entity.Tour;
+import tour.nonghaeng.domain.like.data.TourLike;
+import tour.nonghaeng.domain.like.data.repo.TourLikeRepository;
+import tour.nonghaeng.domain.member.data.Member;
+import tour.nonghaeng.domain.tour.data.Tour;
 import tour.nonghaeng.domain.tour.service.TourService;
 import tour.nonghaeng.global.auth.valid.AuthValidator;
 

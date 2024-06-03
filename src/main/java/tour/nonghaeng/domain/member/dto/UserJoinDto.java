@@ -6,7 +6,7 @@ import lombok.Builder;
 import tour.nonghaeng.domain.etc.enums.area.AreaCode;
 import tour.nonghaeng.domain.etc.enums.role.Role;
 import tour.nonghaeng.domain.etc.enums.social.SocialType;
-import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.member.data.User;
 
 @Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)

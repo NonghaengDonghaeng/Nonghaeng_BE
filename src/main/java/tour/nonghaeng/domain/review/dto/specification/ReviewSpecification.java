@@ -2,7 +2,7 @@ package tour.nonghaeng.domain.review.dto.specification;
 
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
-import tour.nonghaeng.domain.review.entity.Review;
+import tour.nonghaeng.domain.review.data.Review;
 
 public class ReviewSpecification {
 

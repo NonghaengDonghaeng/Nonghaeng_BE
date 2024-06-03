@@ -11,7 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import tour.nonghaeng.domain.etc.enums.role.Role;
-import tour.nonghaeng.domain.member.repo.MemberRepository;
+import tour.nonghaeng.domain.member.data.repo.MemberRepository;
 import tour.nonghaeng.global.auth.jwt.service.JwtService;
 
 import java.io.IOException;

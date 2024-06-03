@@ -1,7 +1,7 @@
 package tour.nonghaeng.global.testEntity.photo;
 
-import tour.nonghaeng.domain.photo.entity.TourPhoto;
-import tour.nonghaeng.domain.tour.entity.Tour;
+import tour.nonghaeng.domain.photo.data.TourPhoto;
+import tour.nonghaeng.domain.tour.data.Tour;
 
 public class TestTourPhoto {
 

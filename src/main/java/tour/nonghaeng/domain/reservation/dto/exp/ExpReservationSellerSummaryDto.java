@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import tour.nonghaeng.domain.reservation.dto.ReservationSellerSummaryDto;
-import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;
+import tour.nonghaeng.domain.reservation.data.ExperienceReservation;
 
 import java.time.LocalDate;
 

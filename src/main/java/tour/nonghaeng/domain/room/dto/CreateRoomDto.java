@@ -3,8 +3,8 @@ package tour.nonghaeng.domain.room.dto;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import tour.nonghaeng.domain.etc.enums.room.RoomType;
-import tour.nonghaeng.domain.room.entity.Room;
-import tour.nonghaeng.domain.tour.entity.Tour;
+import tour.nonghaeng.domain.room.data.Room;
+import tour.nonghaeng.domain.tour.data.Tour;
 
 import java.time.LocalTime;
 

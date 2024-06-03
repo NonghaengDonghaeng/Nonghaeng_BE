@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import tour.nonghaeng.domain.etc.enums.photo.PhotoType;
 import tour.nonghaeng.domain.photo.imageServer.exception.ImageServerException;
 import tour.nonghaeng.domain.photo.imageServer.exception.error.ImageServerErrorCode;
-import tour.nonghaeng.domain.photo.imageServer.valid.ImageServerValidator;
+import tour.nonghaeng.domain.photo.imageServer.service.valid.ImageServerValidator;
 
 import java.io.IOException;
 import java.net.URLDecoder;

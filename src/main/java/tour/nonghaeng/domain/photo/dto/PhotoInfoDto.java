@@ -6,7 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import tour.nonghaeng.domain.photo.entity.Photo;
+import tour.nonghaeng.domain.photo.data.Photo;
 
 import java.util.List;
 import java.util.Optional;

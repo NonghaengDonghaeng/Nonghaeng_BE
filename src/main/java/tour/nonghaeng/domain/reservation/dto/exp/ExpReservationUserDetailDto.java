@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import tour.nonghaeng.domain.reservation.dto.ReservationUserDetailDto;
-import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;
+import tour.nonghaeng.domain.reservation.data.ExperienceReservation;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

@@ -3,8 +3,8 @@ package tour.nonghaeng.domain.experience.dto;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import org.springframework.format.annotation.DateTimeFormat;
-import tour.nonghaeng.domain.experience.entity.Experience;
-import tour.nonghaeng.domain.experience.entity.ExperienceRound;
+import tour.nonghaeng.domain.experience.data.Experience;
+import tour.nonghaeng.domain.experience.data.ExperienceRound;
 
 import java.time.LocalTime;
 

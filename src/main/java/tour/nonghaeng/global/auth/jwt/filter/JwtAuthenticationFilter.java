@@ -13,8 +13,8 @@ import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
-import tour.nonghaeng.domain.member.entity.Member;
-import tour.nonghaeng.domain.member.repo.MemberRepository;
+import tour.nonghaeng.domain.member.data.Member;
+import tour.nonghaeng.domain.member.data.repo.MemberRepository;
 import tour.nonghaeng.global.auth.jwt.service.JwtService;
 import tour.nonghaeng.global.auth.jwt.util.PasswordUtil;
 

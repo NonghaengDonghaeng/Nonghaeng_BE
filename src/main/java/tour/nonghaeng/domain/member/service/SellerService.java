@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.etc.enums.role.Role;
 import tour.nonghaeng.domain.member.dto.SellerJoinDto;
-import tour.nonghaeng.domain.member.entity.Member;
-import tour.nonghaeng.domain.member.entity.Seller;
-import tour.nonghaeng.domain.member.exception.UserException;
-import tour.nonghaeng.domain.member.exception.error.UserErrorCode;
-import tour.nonghaeng.domain.member.repo.SellerRepository;
-import tour.nonghaeng.domain.member.valid.SellerValidator;
+import tour.nonghaeng.domain.member.data.Member;
+import tour.nonghaeng.domain.member.data.Seller;
+import tour.nonghaeng.domain.member.presentation.exception.UserException;
+import tour.nonghaeng.domain.member.presentation.exception.error.UserErrorCode;
+import tour.nonghaeng.domain.member.data.repo.SellerRepository;
+import tour.nonghaeng.domain.member.service.valid.SellerValidator;
 
 @Service
 @RequiredArgsConstructor

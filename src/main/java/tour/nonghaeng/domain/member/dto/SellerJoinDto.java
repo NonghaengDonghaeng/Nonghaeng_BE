@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import tour.nonghaeng.domain.etc.enums.area.AreaCode;
 import tour.nonghaeng.domain.etc.enums.bank.BankCode;
-import tour.nonghaeng.domain.member.entity.Seller;
+import tour.nonghaeng.domain.member.data.Seller;
 import tour.nonghaeng.domain.etc.enums.role.Role;
 
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)   //변수마다 @JsonProperty 사용 필요없이 모두 변환

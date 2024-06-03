@@ -2,7 +2,7 @@ package tour.nonghaeng.domain.review.service.registry;
 
 import org.springframework.stereotype.Component;
 import tour.nonghaeng.domain.etc.enums.review.ReviewServiceType;
-import tour.nonghaeng.domain.review.service.interfac.FindUpCastedReviewService;
+import tour.nonghaeng.domain.review.service.FindUpCastedReviewService;
 
 import java.util.List;
 import java.util.Map;

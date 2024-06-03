@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import tour.nonghaeng.domain.experience.entity.ExperienceRound;
+import tour.nonghaeng.domain.experience.data.ExperienceRound;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

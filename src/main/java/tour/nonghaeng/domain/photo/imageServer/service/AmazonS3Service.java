@@ -15,7 +15,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import tour.nonghaeng.domain.etc.enums.photo.PhotoType;
 import tour.nonghaeng.domain.photo.imageServer.exception.error.ImageServerErrorCode;
 import tour.nonghaeng.domain.photo.imageServer.exception.ImageServerException;
-import tour.nonghaeng.domain.photo.imageServer.valid.ImageServerValidator;
+import tour.nonghaeng.domain.photo.imageServer.service.valid.ImageServerValidator;
 
 import java.io.IOException;
 import java.net.URLDecoder;

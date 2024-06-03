@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.reservation.dto.ReservationSellerDetailDto;
-import tour.nonghaeng.domain.reservation.entity.RoomReservation;
+import tour.nonghaeng.domain.reservation.data.RoomReservation;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

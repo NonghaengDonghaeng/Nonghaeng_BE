@@ -11,13 +11,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import tour.nonghaeng.domain.etc.enums.tour.TourType;
-import tour.nonghaeng.domain.member.entity.Seller;
+import tour.nonghaeng.domain.member.data.Seller;
 import tour.nonghaeng.domain.tour.dto.CreateTourDto;
-import tour.nonghaeng.domain.tour.entity.Tour;
-import tour.nonghaeng.domain.tour.repo.TourRepository;
-import tour.nonghaeng.domain.tour.valid.TourValidator;
-import tour.nonghaeng.domain.tour.exception.TourException;
-import tour.nonghaeng.domain.tour.exception.error.TourErrorCode;
+import tour.nonghaeng.domain.tour.data.Tour;
+import tour.nonghaeng.domain.tour.data.repo.TourRepository;
+import tour.nonghaeng.domain.tour.service.valid.TourValidator;
+import tour.nonghaeng.domain.tour.presentation.exception.TourException;
+import tour.nonghaeng.domain.tour.presentation.exception.error.TourErrorCode;
 
 import java.util.ArrayList;
 

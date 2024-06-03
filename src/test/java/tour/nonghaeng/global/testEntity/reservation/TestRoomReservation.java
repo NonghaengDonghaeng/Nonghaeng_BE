@@ -1,10 +1,10 @@
 package tour.nonghaeng.global.testEntity.reservation;
 
 import tour.nonghaeng.domain.etc.enums.reservation.ReservationStateType;
-import tour.nonghaeng.domain.member.entity.User;
-import tour.nonghaeng.domain.reservation.entity.RoomReservation;
-import tour.nonghaeng.domain.reservation.entity.RoomReservationDate;
-import tour.nonghaeng.domain.room.entity.Room;
+import tour.nonghaeng.domain.member.data.User;
+import tour.nonghaeng.domain.reservation.data.RoomReservation;
+import tour.nonghaeng.domain.reservation.data.RoomReservationDate;
+import tour.nonghaeng.domain.room.data.Room;
 
 import java.time.LocalDate;
 import java.util.List;

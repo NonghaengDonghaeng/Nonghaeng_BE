@@ -5,7 +5,7 @@ import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 import tour.nonghaeng.domain.etc.enums.area.AreaCode;
 import tour.nonghaeng.domain.etc.enums.tour.TourType;
-import tour.nonghaeng.domain.tour.entity.Tour;
+import tour.nonghaeng.domain.tour.data.Tour;
 
 import java.util.List;
 

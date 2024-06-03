@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
-import tour.nonghaeng.domain.room.entity.Room;
+import tour.nonghaeng.domain.room.data.Room;
 
 import java.time.LocalTime;
 import java.util.List;

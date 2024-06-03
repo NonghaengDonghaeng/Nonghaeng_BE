@@ -5,12 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.experience.dto.AddExpCloseDateDto;
-import tour.nonghaeng.domain.experience.entity.Experience;
-import tour.nonghaeng.domain.experience.entity.ExperienceCloseDate;
-import tour.nonghaeng.domain.experience.repo.ExperienceCloseDateRepository;
-import tour.nonghaeng.domain.experience.exception.ExperienceException;
-import tour.nonghaeng.domain.experience.exception.error.ExperienceErrorCode;
-import tour.nonghaeng.domain.experience.valid.ExperienceCloseDateValidator;
+import tour.nonghaeng.domain.experience.data.Experience;
+import tour.nonghaeng.domain.experience.data.ExperienceCloseDate;
+import tour.nonghaeng.domain.experience.data.repo.ExperienceCloseDateRepository;
+import tour.nonghaeng.domain.experience.presentation.exception.ExperienceException;
+import tour.nonghaeng.domain.experience.presentation.exception.error.ExperienceErrorCode;
+import tour.nonghaeng.domain.experience.service.valid.ExperienceCloseDateValidator;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
-import tour.nonghaeng.domain.tour.entity.Tour;
+import tour.nonghaeng.domain.tour.data.Tour;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

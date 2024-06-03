@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.etc.enums.cancel.CancelPolicy;
 import tour.nonghaeng.domain.reservation.dto.ReservationCancelResponseDto;
-import tour.nonghaeng.domain.reservation.entity.ExperienceReservation;
+import tour.nonghaeng.domain.reservation.data.ExperienceReservation;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

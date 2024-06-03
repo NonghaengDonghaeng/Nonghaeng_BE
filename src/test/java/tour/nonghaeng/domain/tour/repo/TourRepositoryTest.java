@@ -9,9 +9,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.TestPropertySource;
-import tour.nonghaeng.domain.member.entity.Seller;
-import tour.nonghaeng.domain.member.repo.SellerRepository;
-import tour.nonghaeng.domain.tour.entity.Tour;
+import tour.nonghaeng.domain.member.data.Seller;
+import tour.nonghaeng.domain.member.data.repo.SellerRepository;
+import tour.nonghaeng.domain.tour.data.Tour;
+import tour.nonghaeng.domain.tour.data.repo.TourRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static tour.nonghaeng.global.testEntity.seller.TestSeller.*;

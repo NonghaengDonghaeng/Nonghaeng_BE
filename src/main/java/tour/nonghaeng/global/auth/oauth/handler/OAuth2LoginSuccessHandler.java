@@ -11,9 +11,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import tour.nonghaeng.domain.etc.enums.role.Role;
-import tour.nonghaeng.domain.member.entity.User;
-import tour.nonghaeng.domain.member.repo.MemberRepository;
-import tour.nonghaeng.domain.member.repo.UserRepository;
+import tour.nonghaeng.domain.member.data.User;
+import tour.nonghaeng.domain.member.data.repo.MemberRepository;
+import tour.nonghaeng.domain.member.data.repo.UserRepository;
 import tour.nonghaeng.global.auth.jwt.service.JwtService;
 import tour.nonghaeng.global.auth.oauth.CustomOAuth2User;
 

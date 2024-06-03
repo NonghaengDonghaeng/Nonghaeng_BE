@@ -8,12 +8,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tour.nonghaeng.domain.member.dto.UserJoinDto;
-import tour.nonghaeng.domain.member.entity.User;
-import tour.nonghaeng.domain.member.repo.UserRepository;
-import tour.nonghaeng.domain.member.valid.UserValidator;
-import tour.nonghaeng.domain.member.exception.UserException;
+import tour.nonghaeng.domain.member.data.User;
+import tour.nonghaeng.domain.member.data.repo.UserRepository;
+import tour.nonghaeng.domain.member.service.valid.UserValidator;
+import tour.nonghaeng.domain.member.presentation.exception.UserException;
 import tour.nonghaeng.global.exception.error.BaseErrorCode;
-import tour.nonghaeng.domain.member.exception.error.UserErrorCode;
+import tour.nonghaeng.domain.member.presentation.exception.error.UserErrorCode;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;

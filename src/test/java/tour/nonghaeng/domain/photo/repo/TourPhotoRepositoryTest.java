@@ -8,11 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.TestPropertySource;
-import tour.nonghaeng.domain.member.entity.Seller;
-import tour.nonghaeng.domain.member.repo.SellerRepository;
-import tour.nonghaeng.domain.photo.entity.TourPhoto;
-import tour.nonghaeng.domain.tour.entity.Tour;
-import tour.nonghaeng.domain.tour.repo.TourRepository;
+import tour.nonghaeng.domain.member.data.Seller;
+import tour.nonghaeng.domain.member.data.repo.SellerRepository;
+import tour.nonghaeng.domain.photo.data.TourPhoto;
+import tour.nonghaeng.domain.photo.data.repo.TourPhotoRepository;
+import tour.nonghaeng.domain.tour.data.Tour;
+import tour.nonghaeng.domain.tour.data.repo.TourRepository;
 
 import java.util.Optional;
 

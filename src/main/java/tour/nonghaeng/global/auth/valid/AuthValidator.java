@@ -2,9 +2,9 @@ package tour.nonghaeng.global.auth.valid;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import tour.nonghaeng.domain.member.entity.Member;
-import tour.nonghaeng.domain.member.entity.Seller;
-import tour.nonghaeng.domain.member.entity.User;
+import tour.nonghaeng.domain.member.data.Member;
+import tour.nonghaeng.domain.member.data.Seller;
+import tour.nonghaeng.domain.member.data.User;
 import tour.nonghaeng.global.exception.GlobalException;
 import tour.nonghaeng.global.exception.error.GlobalErrorCode;
 

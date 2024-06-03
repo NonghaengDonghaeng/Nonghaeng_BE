@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.dto.mypage.MyPageUserDto;
-import tour.nonghaeng.domain.member.entity.Member;
+import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.reservation.service.ReservationService;
 import tour.nonghaeng.domain.review.service.ReviewServiceImpl;
 

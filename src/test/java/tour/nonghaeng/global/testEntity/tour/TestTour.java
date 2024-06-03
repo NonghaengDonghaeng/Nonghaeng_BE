@@ -1,8 +1,8 @@
 package tour.nonghaeng.global.testEntity.tour;
 
 import tour.nonghaeng.domain.etc.enums.tour.TourType;
-import tour.nonghaeng.domain.member.entity.Seller;
-import tour.nonghaeng.domain.tour.entity.Tour;
+import tour.nonghaeng.domain.member.data.Seller;
+import tour.nonghaeng.domain.tour.data.Tour;
 
 public class TestTour {
 

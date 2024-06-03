@@ -6,7 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import tour.nonghaeng.domain.member.entity.Member;
+import tour.nonghaeng.domain.member.data.Member;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

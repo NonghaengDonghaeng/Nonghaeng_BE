@@ -7,8 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import tour.nonghaeng.domain.room.entity.Room;
-import tour.nonghaeng.domain.room.entity.RoomCloseDate;
+import tour.nonghaeng.domain.room.data.Room;
+import tour.nonghaeng.domain.room.data.RoomCloseDate;
 
 import java.time.LocalDate;
 import java.util.Objects;

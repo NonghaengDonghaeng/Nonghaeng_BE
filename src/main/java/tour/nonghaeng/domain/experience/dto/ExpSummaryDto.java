@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
-import tour.nonghaeng.domain.experience.entity.Experience;
+import tour.nonghaeng.domain.experience.data.Experience;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)

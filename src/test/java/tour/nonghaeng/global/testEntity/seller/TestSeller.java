@@ -3,7 +3,7 @@ package tour.nonghaeng.global.testEntity.seller;
 import tour.nonghaeng.domain.etc.enums.area.AreaCode;
 import tour.nonghaeng.domain.etc.enums.bank.BankCode;
 import tour.nonghaeng.domain.etc.enums.role.Role;
-import tour.nonghaeng.domain.member.entity.Seller;
+import tour.nonghaeng.domain.member.data.Seller;
 
 public class TestSeller {
 

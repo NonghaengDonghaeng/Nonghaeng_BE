@@ -5,12 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.experience.dto.AddExpRoundDto;
-import tour.nonghaeng.domain.experience.entity.Experience;
-import tour.nonghaeng.domain.experience.entity.ExperienceRound;
-import tour.nonghaeng.domain.experience.repo.ExperienceRoundRepository;
-import tour.nonghaeng.domain.experience.exception.ExperienceException;
-import tour.nonghaeng.domain.experience.exception.error.ExperienceErrorCode;
-import tour.nonghaeng.domain.experience.valid.ExperienceRoundValidator;
+import tour.nonghaeng.domain.experience.data.Experience;
+import tour.nonghaeng.domain.experience.data.ExperienceRound;
+import tour.nonghaeng.domain.experience.data.repo.ExperienceRoundRepository;
+import tour.nonghaeng.domain.experience.presentation.exception.ExperienceException;
+import tour.nonghaeng.domain.experience.presentation.exception.error.ExperienceErrorCode;
+import tour.nonghaeng.domain.experience.service.valid.ExperienceRoundValidator;
 
 import java.util.List;
 

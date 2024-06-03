@@ -4,12 +4,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tour.nonghaeng.domain.room.dto.AddRoomCloseDateDto;
-import tour.nonghaeng.domain.room.entity.Room;
-import tour.nonghaeng.domain.room.entity.RoomCloseDate;
-import tour.nonghaeng.domain.room.repo.RoomCloseDateRepository;
-import tour.nonghaeng.domain.room.exception.RoomException;
-import tour.nonghaeng.domain.room.exception.error.RoomErrorCode;
-import tour.nonghaeng.domain.room.valid.RoomCloseDateValidator;
+import tour.nonghaeng.domain.room.data.Room;
+import tour.nonghaeng.domain.room.data.RoomCloseDate;
+import tour.nonghaeng.domain.room.data.repo.RoomCloseDateRepository;
+import tour.nonghaeng.domain.room.presentation.exception.RoomException;
+import tour.nonghaeng.domain.room.presentation.exception.error.RoomErrorCode;
+import tour.nonghaeng.domain.room.service.valid.RoomCloseDateValidator;
 
 import java.time.LocalDate;
 import java.util.List;

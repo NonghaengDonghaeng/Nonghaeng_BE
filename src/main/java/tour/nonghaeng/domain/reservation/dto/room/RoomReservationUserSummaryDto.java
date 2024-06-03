@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import tour.nonghaeng.domain.reservation.dto.ReservationUserSummaryDto;
-import tour.nonghaeng.domain.reservation.entity.RoomReservation;
+import tour.nonghaeng.domain.reservation.data.RoomReservation;
 
 import java.time.LocalDate;
 import java.util.List;
