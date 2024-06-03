@@ -55,9 +55,9 @@ public class RoomService {
 
 
 
-    public Page<RoomTourSummaryDto> getRoomTourSummaryDtoPage(Pageable pageable, String keyword, AreaCode areaCode, RoomType roomType) {
+    public Page<RoomTourSummaryDto> getRoomTourSummaryDtoPage(Pageable pageable, String keyword, List<AreaCode> areaCodes, RoomType roomType) {
 
-        Page<Tour> tourPage = getTourPageWithRoomSpec(pageable, keyword, areaCode, roomType);
+        Page<Tour> tourPage = getTourPageWithRoomSpec(pageable, keyword, areaCodes, roomType);
 
         tourValidator.pageValidate(tourPage);
 
@@ -65,9 +65,9 @@ public class RoomService {
                 RoomTourSummaryDto.toDto(tour, findMinPriceByTour(tour), findMaxPriceByTour(tour)));
     }
 
-    private Page<Tour> getTourPageWithRoomSpec(Pageable pageable, String keyword, AreaCode areaCode, RoomType roomType) {
+    private Page<Tour> getTourPageWithRoomSpec(Pageable pageable, String keyword, List<AreaCode> areaCodes, RoomType roomType) {
 
-        Specification<Room> roomSpec = RoomSpecification.buildRoomSpecification(keyword, areaCode, roomType);
+        Specification<Room> roomSpec = RoomSpecification.buildRoomSpecification(keyword, areaCodes, roomType);
 
         List<Room> rooms = roomRepository.findAll(roomSpec);
 

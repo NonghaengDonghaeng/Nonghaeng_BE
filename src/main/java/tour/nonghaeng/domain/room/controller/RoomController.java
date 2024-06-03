@@ -51,10 +51,10 @@ public class RoomController {
     @GetMapping
     public ResponseEntity<Page<RoomTourSummaryDto>> showRoomTourSummaryPage(@PageableDefault(size = 10) Pageable pageable,
                                                                             @RequestParam(name = "keyword",required = false)String keyword,
-                                                                            @RequestParam(name = "area",required = false) AreaCode areaCode,
+                                                                            @RequestParam(name = "area",required = false) List<AreaCode> areaCodes,
                                                                             @RequestParam(name = "type",required = false) RoomType roomType) {
 
-        Page<RoomTourSummaryDto> dto = roomService.getRoomTourSummaryDtoPage(pageable,keyword,areaCode,roomType);
+        Page<RoomTourSummaryDto> dto = roomService.getRoomTourSummaryDtoPage(pageable,keyword,areaCodes,roomType);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }

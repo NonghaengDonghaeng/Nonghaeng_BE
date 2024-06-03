@@ -38,10 +38,10 @@ public class ExperienceController {
     @GetMapping
     public ResponseEntity<Page<ExpSummaryDto>> showExperienceSummaryPage(@PageableDefault(size = 10) Pageable pageable,
                                                                          @RequestParam(name = "keyword",required = false)String keyword,
-                                                                         @RequestParam(name = "area",required = false) AreaCode areaCode,
+                                                                         @RequestParam(name = "area",required = false) List<AreaCode> areaCodes,
                                                                          @RequestParam(name = "type",required = false) ExperienceType experienceType) {
 
-        Page<ExpSummaryDto> pageDto = experienceService.getExpSummaryDtoPage(pageable,keyword,areaCode,experienceType);
+        Page<ExpSummaryDto> pageDto = experienceService.getExpSummaryDtoPage(pageable,keyword,areaCodes,experienceType);
 
         return new ResponseEntity<>(pageDto, HttpStatus.OK);
     }

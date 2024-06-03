@@ -60,9 +60,9 @@ public class ExperienceService {
 
 
 
-    public Page<ExpSummaryDto> getExpSummaryDtoPage(Pageable pageable, String keyword, AreaCode areaCode, ExperienceType experienceType) {
+    public Page<ExpSummaryDto> getExpSummaryDtoPage(Pageable pageable, String keyword, List<AreaCode> areaCodes, ExperienceType experienceType) {
 
-        Specification<Experience> specification = ExperienceSpecification.buildSpecification(keyword, areaCode, experienceType);
+        Specification<Experience> specification = ExperienceSpecification.buildSpecification(keyword, areaCodes, experienceType);
 
         Page<Experience> expPage = experienceRepository.findAll(specification, pageable);
 

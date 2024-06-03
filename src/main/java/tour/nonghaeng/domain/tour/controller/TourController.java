@@ -17,6 +17,8 @@ import tour.nonghaeng.domain.tour.dto.TourSummaryDto;
 import tour.nonghaeng.domain.tour.service.TourService;
 import tour.nonghaeng.global.auth.auth.service.AuthService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/tours")
 @RequiredArgsConstructor
@@ -32,10 +34,10 @@ public class TourController {
     @GetMapping
     public ResponseEntity<Page<TourSummaryDto>> showTourSummaryPage(@PageableDefault(size=10) Pageable pageable,
                                                                     @RequestParam(name = "keyword",required = false)String keyword,
-                                                                    @RequestParam(name = "area",required = false) AreaCode areaCode,
+                                                                    @RequestParam(name = "area",required = false) List<AreaCode> areaCodes,
                                                                     @RequestParam(name = "type",required = false) TourType tourType) {
         
-        Page<TourSummaryDto> tourSummaryDtoPage = tourService.getTourSummaryDtoPage(pageable, keyword, areaCode, tourType);
+        Page<TourSummaryDto> tourSummaryDtoPage = tourService.getTourSummaryDtoPage(pageable, keyword, areaCodes, tourType);
 
         return new ResponseEntity<>(tourSummaryDtoPage, HttpStatus.OK);
     }

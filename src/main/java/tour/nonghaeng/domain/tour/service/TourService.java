@@ -22,6 +22,8 @@ import tour.nonghaeng.domain.tour.repo.TourRepository;
 import tour.nonghaeng.domain.tour.valid.TourValidator;
 import tour.nonghaeng.global.auth.valid.AuthValidator;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -48,18 +50,18 @@ public class TourService {
 
 
 
-    public Page<Tour> getTourPage(Pageable pageable,String keyword,AreaCode areaCode,TourType tourType) {
+    public Page<Tour> getTourPage(Pageable pageable,String keyword,List<AreaCode> areaCodes,TourType tourType) {
 
-        Specification<Tour> spec = TourSpecification.buildSpecification(keyword, areaCode, tourType);
+        Specification<Tour> spec = TourSpecification.buildSpecification(keyword, areaCodes, tourType);
 
         return tourRepository.findAll(spec, pageable);
     }
 
 
 
-    public Page<TourSummaryDto> getTourSummaryDtoPage(Pageable pageable, String keyword, AreaCode areaCode, TourType tourType) {
+    public Page<TourSummaryDto> getTourSummaryDtoPage(Pageable pageable, String keyword, List<AreaCode> areaCodes, TourType tourType) {
 
-        Page<Tour> tourPage = getTourPage(pageable,keyword,areaCode,tourType);
+        Page<Tour> tourPage = getTourPage(pageable,keyword,areaCodes,tourType);
 
         tourValidator.pageValidate(tourPage);
 
