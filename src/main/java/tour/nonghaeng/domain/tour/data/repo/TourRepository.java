@@ -21,8 +21,6 @@ public interface TourRepository extends JpaRepository<Tour,Long>, JpaSpecificati
 
     boolean existsById(Long tourId);
 
-//    Page<Tour> findAll(Pageable pageable);
-
     Page<Tour> findAllByRoomsIsNotEmpty(Pageable pageable);
 
     Page<Tour> findAll(Specification<Tour> spec, Pageable pageable);

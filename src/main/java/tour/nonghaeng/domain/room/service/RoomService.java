@@ -22,6 +22,7 @@ import tour.nonghaeng.domain.room.service.valid.RoomValidator;
 import tour.nonghaeng.domain.tour.data.Tour;
 import tour.nonghaeng.domain.tour.service.TourService;
 import tour.nonghaeng.domain.tour.service.valid.TourValidator;
+import tour.nonghaeng.global.infra.service.DefaultManagerService;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -30,7 +31,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class RoomService {
+public class RoomService implements DefaultManagerService<Room,RoomTourDetailDto> {
 
     private final RoomRepository roomRepository;
     private final RoomReservationRepository roomReservationRepository;
@@ -232,6 +233,21 @@ public class RoomService {
                 roomRepository.save(room);
             }
         });
+    }
+
+    @Override
+    public RoomTourDetailDto getDetailDtoById(Long tourId) {
+        RoomTourDetailDto dto = RoomTourDetailDto.toDto(tourService.findById(tourId));
+
+        dto.addRoomSummaryDtoList(getRoomSummaryDtoList(tourId, LocalDate.now(),LocalDate.now().plusDays(1), 1));
+
+        return dto;
+    }
+
+    @Override
+    public Room getEntityById(Long roomId) {
+        return roomRepository.findById(roomId)
+                .orElseThrow(() -> new RoomException(RoomErrorCode.NO_EXIST_ROOM_BY_ROOM_ID_ERROR));
     }
 }
 

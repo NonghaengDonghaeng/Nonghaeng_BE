@@ -11,16 +11,17 @@ import tour.nonghaeng.domain.etc.enums.area.AreaCode;
 import tour.nonghaeng.domain.etc.enums.tour.TourType;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.member.presentation.exception.SellerException;
+import tour.nonghaeng.domain.tour.data.Tour;
+import tour.nonghaeng.domain.tour.data.repo.TourRepository;
 import tour.nonghaeng.domain.tour.dto.CreateTourDto;
 import tour.nonghaeng.domain.tour.dto.TourDetailDto;
 import tour.nonghaeng.domain.tour.dto.TourSummaryDto;
 import tour.nonghaeng.domain.tour.dto.speciification.TourSpecification;
-import tour.nonghaeng.domain.tour.data.Tour;
 import tour.nonghaeng.domain.tour.presentation.exception.TourException;
 import tour.nonghaeng.domain.tour.presentation.exception.error.TourErrorCode;
-import tour.nonghaeng.domain.tour.data.repo.TourRepository;
 import tour.nonghaeng.domain.tour.service.valid.TourValidator;
 import tour.nonghaeng.global.auth.AuthValidator;
+import tour.nonghaeng.global.infra.service.DefaultManagerService;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class TourService {
+public class TourService implements DefaultManagerService<Tour,TourDetailDto> {
 
     private final TourRepository tourRepository;
 
@@ -96,5 +97,16 @@ public class TourService {
 
         return tourRepository.findBySeller(authValidator.sellerValidate(seller))
                 .orElseThrow(() -> SellerException.EXCEPTION);
+    }
+
+    @Override
+    public TourDetailDto getDetailDtoById(Long tourId) {
+        return TourDetailDto.toDto(findById(tourId));
+    }
+
+    @Override
+    public Tour getEntityById(Long tourId) {
+        return tourRepository.findById(tourId)
+                .orElseThrow(() -> new TourException(TourErrorCode.WRONG_TOUR_ID_ERROR));
     }
 }

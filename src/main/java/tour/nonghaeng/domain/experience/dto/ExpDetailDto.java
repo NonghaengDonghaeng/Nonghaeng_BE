@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.experience.data.Experience;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
+import tour.nonghaeng.global.infra.dto.DetailDto;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class ExpDetailDto {
+public class ExpDetailDto extends DetailDto {
 
     private String experienceName;
     private String experienceTypeName;

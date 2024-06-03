@@ -21,6 +21,7 @@ import tour.nonghaeng.domain.experience.service.valid.ExperienceValidator;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.reservation.service.ExperienceReservationService;
 import tour.nonghaeng.domain.tour.service.TourService;
+import tour.nonghaeng.global.infra.service.DefaultManagerService;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -30,7 +31,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class ExperienceService {
+public class ExperienceService implements DefaultManagerService<Experience,ExpDetailDto> {
 
     private final ExperienceRepository experienceRepository;
 
@@ -176,4 +177,14 @@ public class ExperienceService {
     }
 
 
+    @Override
+    public ExpDetailDto getDetailDtoById(Long experienceId) {
+        return ExpDetailDto.toDto(findById(experienceId));
+    }
+
+    @Override
+    public Experience getEntityById(Long experienceId) {
+        return experienceRepository.findById(experienceId)
+                .orElseThrow(() -> ExperienceException.EXCEPTION);
+    }
 }

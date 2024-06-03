@@ -59,6 +59,7 @@ public class TourController {
 
         TourDetailDto dto = tourService.getTourDetailDto(tourId);
 
+
         return new ResponseEntity<>(dto,HttpStatus.OK);
     }
 

@@ -21,20 +21,21 @@ import tour.nonghaeng.domain.review.service.registry.FindUpCastedReviewServiceRe
 import tour.nonghaeng.domain.review.service.valid.ReviewValidator;
 import tour.nonghaeng.domain.tour.service.TourService;
 import tour.nonghaeng.global.auth.AuthValidator;
+import tour.nonghaeng.global.infra.service.DefaultManagerService;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class ReviewServiceImpl implements ReviewService {
+public class ReviewServiceImpl implements ReviewService, DefaultManagerService<Review,ReviewDetailDto> {
 
     private final ReviewRepository reviewRepository;
 
     private final TourService tourService;
+    private final ReservationService reservationService;
 
     private final ReviewValidator reviewValidator;
     private final AuthValidator authValidator;
-    private final ReservationService reservationService;
 
 
     private final CreateReviewServiceRegistry createReviewServiceRegistry;
@@ -119,5 +120,20 @@ public class ReviewServiceImpl implements ReviewService {
         Review review = findReviewById(reviewId);
 
         return review.toReviewDetailDto();
+    }
+
+    @Override
+    public ReviewDetailDto getDetailDtoById(Long reviewId) {
+        reviewValidator.idValidate(reviewId);
+
+        Review review = findReviewById(reviewId);
+
+        return review.toReviewDetailDto();
+    }
+
+    @Override
+    public Review getEntityById(Long reviewId) {
+        return reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 아이디"));
     }
 }

@@ -13,7 +13,7 @@ import tour.nonghaeng.domain.tour.data.Tour;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class TourSummaryDto{
+public class TourSummaryDto {
 
     private Long tourId;
     private String name;

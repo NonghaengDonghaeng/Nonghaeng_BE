@@ -8,13 +8,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.tour.data.Tour;
+import tour.nonghaeng.global.infra.dto.DetailDto;
 
 import java.util.List;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class RoomTourDetailDto {
+public class RoomTourDetailDto extends DetailDto {
 
     private String tourName;
     private String tourOneLineIntro;
