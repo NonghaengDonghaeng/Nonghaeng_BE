@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import tour.nonghaeng.domain.etc.enums.photo.PhotoType;
 import tour.nonghaeng.domain.photo.imageServer.exception.ImageServerException;
-import tour.nonghaeng.domain.photo.imageServer.exception.error.ImageServerErrorCode;
+import tour.nonghaeng.domain.photo.imageServer.exception.ImageServerErrorCode;
 import tour.nonghaeng.domain.photo.imageServer.service.valid.ImageServerValidator;
 
 import java.io.IOException;

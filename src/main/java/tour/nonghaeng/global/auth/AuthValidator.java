@@ -1,4 +1,4 @@
-package tour.nonghaeng.global.auth.valid;
+package tour.nonghaeng.global.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

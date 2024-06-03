@@ -1,4 +1,4 @@
-package tour.nonghaeng.domain.photo.imageServer.config;
+package tour.nonghaeng.domain.photo.imageServer;
 
 import io.minio.MinioClient;
 import lombok.Getter;

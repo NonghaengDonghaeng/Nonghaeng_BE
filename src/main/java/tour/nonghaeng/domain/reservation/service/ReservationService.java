@@ -25,7 +25,7 @@ import tour.nonghaeng.domain.reservation.presentation.exception.ReservationExcep
 import tour.nonghaeng.domain.reservation.presentation.exception.error.ReservationErrorCode;
 import tour.nonghaeng.domain.reservation.data.repo.ReservationRepository;
 import tour.nonghaeng.domain.reservation.service.valid.ReservationValidator;
-import tour.nonghaeng.global.auth.valid.AuthValidator;
+import tour.nonghaeng.global.auth.AuthValidator;
 
 import java.time.Duration;
 import java.time.LocalDate;

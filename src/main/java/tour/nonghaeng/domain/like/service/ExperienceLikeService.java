@@ -10,7 +10,7 @@ import tour.nonghaeng.domain.experience.service.ExperienceService;
 import tour.nonghaeng.domain.like.data.ExperienceLike;
 import tour.nonghaeng.domain.like.data.repo.ExperienceLikeRepository;
 import tour.nonghaeng.domain.member.data.Member;
-import tour.nonghaeng.global.auth.valid.AuthValidator;
+import tour.nonghaeng.global.auth.AuthValidator;
 
 import java.util.Optional;
 

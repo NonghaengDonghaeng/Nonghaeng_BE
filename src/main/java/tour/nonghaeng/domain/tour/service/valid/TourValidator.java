@@ -11,7 +11,7 @@ import tour.nonghaeng.domain.tour.data.Tour;
 import tour.nonghaeng.domain.tour.presentation.exception.TourException;
 import tour.nonghaeng.domain.tour.presentation.exception.error.TourErrorCode;
 import tour.nonghaeng.domain.tour.data.repo.TourRepository;
-import tour.nonghaeng.global.auth.valid.AuthValidator;
+import tour.nonghaeng.global.auth.AuthValidator;
 
 @Component
 @RequiredArgsConstructor

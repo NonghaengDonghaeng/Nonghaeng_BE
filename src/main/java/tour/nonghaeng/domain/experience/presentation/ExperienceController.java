@@ -16,7 +16,7 @@ import tour.nonghaeng.domain.experience.dto.*;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
 import tour.nonghaeng.domain.experience.service.valid.ExperienceValidator;
 import tour.nonghaeng.domain.member.data.Member;
-import tour.nonghaeng.global.auth.auth.service.AuthService;
+import tour.nonghaeng.global.auth.AuthService;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -1,4 +1,4 @@
-package tour.nonghaeng.domain.photo.imageServer.exception.error;
+package tour.nonghaeng.domain.photo.imageServer.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

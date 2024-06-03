@@ -1,4 +1,4 @@
-package tour.nonghaeng.domain.photo.imageServer.config;
+package tour.nonghaeng.domain.photo.imageServer;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

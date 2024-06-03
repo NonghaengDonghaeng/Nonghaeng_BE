@@ -20,7 +20,7 @@ import tour.nonghaeng.domain.reservation.service.valid.ReservationValidator;
 import tour.nonghaeng.domain.reservation.service.valid.RoomReservationValidator;
 import tour.nonghaeng.domain.room.data.Room;
 import tour.nonghaeng.domain.room.service.RoomService;
-import tour.nonghaeng.global.auth.valid.AuthValidator;
+import tour.nonghaeng.global.auth.AuthValidator;
 
 import java.time.LocalDate;
 

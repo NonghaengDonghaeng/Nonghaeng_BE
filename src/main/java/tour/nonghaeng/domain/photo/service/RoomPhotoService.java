@@ -18,7 +18,7 @@ import tour.nonghaeng.domain.photo.service.valid.RoomPhotoValidator;
 import tour.nonghaeng.domain.room.data.Room;
 import tour.nonghaeng.domain.room.service.RoomService;
 import tour.nonghaeng.domain.room.service.valid.RoomValidator;
-import tour.nonghaeng.global.auth.valid.AuthValidator;
+import tour.nonghaeng.global.auth.AuthValidator;
 
 import java.util.List;
 

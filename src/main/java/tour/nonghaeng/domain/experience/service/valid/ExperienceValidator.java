@@ -9,7 +9,7 @@ import tour.nonghaeng.domain.experience.presentation.exception.ExperienceExcepti
 import tour.nonghaeng.domain.experience.presentation.exception.error.ExperienceErrorCode;
 import tour.nonghaeng.domain.experience.data.repo.ExperienceRepository;
 import tour.nonghaeng.domain.member.data.Member;
-import tour.nonghaeng.global.auth.valid.AuthValidator;
+import tour.nonghaeng.global.auth.AuthValidator;
 
 @Component
 @RequiredArgsConstructor

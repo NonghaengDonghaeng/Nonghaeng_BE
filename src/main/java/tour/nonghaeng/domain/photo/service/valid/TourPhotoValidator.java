@@ -8,7 +8,7 @@ import tour.nonghaeng.domain.photo.presentation.exception.PhotoException;
 import tour.nonghaeng.domain.photo.presentation.exception.error.PhotoErrorCode;
 import tour.nonghaeng.domain.photo.data.repo.TourPhotoRepository;
 import tour.nonghaeng.domain.tour.data.Tour;
-import tour.nonghaeng.global.auth.valid.AuthValidator;
+import tour.nonghaeng.global.auth.AuthValidator;
 
 @Component
 @RequiredArgsConstructor

@@ -20,7 +20,7 @@ import tour.nonghaeng.domain.review.service.registry.CreateReviewServiceRegistry
 import tour.nonghaeng.domain.review.service.registry.FindUpCastedReviewServiceRegistry;
 import tour.nonghaeng.domain.review.service.valid.ReviewValidator;
 import tour.nonghaeng.domain.tour.service.TourService;
-import tour.nonghaeng.global.auth.valid.AuthValidator;
+import tour.nonghaeng.global.auth.AuthValidator;
 
 @Service
 @RequiredArgsConstructor

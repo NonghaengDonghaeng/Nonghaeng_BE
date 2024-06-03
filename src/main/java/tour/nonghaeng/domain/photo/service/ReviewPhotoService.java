@@ -18,7 +18,7 @@ import tour.nonghaeng.domain.photo.service.valid.ReviewPhotoValidator;
 import tour.nonghaeng.domain.review.data.Review;
 import tour.nonghaeng.domain.review.service.ReviewServiceImpl;
 import tour.nonghaeng.domain.review.service.valid.ReviewValidator;
-import tour.nonghaeng.global.auth.valid.AuthValidator;
+import tour.nonghaeng.global.auth.AuthValidator;
 
 import java.util.List;
 

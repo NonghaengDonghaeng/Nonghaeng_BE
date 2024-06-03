@@ -11,7 +11,7 @@ import tour.nonghaeng.domain.etc.enums.photo.PhotoType;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.service.registry.PhotoServiceRegistry;
-import tour.nonghaeng.global.auth.auth.service.AuthService;
+import tour.nonghaeng.global.auth.AuthService;
 
 import java.util.List;
 

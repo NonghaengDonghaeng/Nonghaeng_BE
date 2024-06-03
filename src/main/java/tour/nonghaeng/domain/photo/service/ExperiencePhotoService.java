@@ -18,7 +18,7 @@ import tour.nonghaeng.domain.photo.imageServer.service.ImageService;
 import tour.nonghaeng.domain.photo.data.repo.ExperiencePhotoRepository;
 import tour.nonghaeng.domain.photo.service.valid.ExperiencePhotoValidator;
 import tour.nonghaeng.domain.photo.service.valid.PhotoValidator;
-import tour.nonghaeng.global.auth.valid.AuthValidator;
+import tour.nonghaeng.global.auth.AuthValidator;
 
 import java.util.List;
 

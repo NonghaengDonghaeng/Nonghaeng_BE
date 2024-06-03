@@ -13,7 +13,7 @@ import tour.nonghaeng.domain.etc.enums.like.LikeType;
 import tour.nonghaeng.domain.like.presentation.exception.LikeException;
 import tour.nonghaeng.domain.like.service.registry.LikeServiceRegistry;
 import tour.nonghaeng.domain.member.data.Member;
-import tour.nonghaeng.global.auth.auth.service.AuthService;
+import tour.nonghaeng.global.auth.AuthService;
 
 @RestController
 @RequestMapping("/likes")

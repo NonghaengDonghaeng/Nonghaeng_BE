@@ -2,7 +2,7 @@ package tour.nonghaeng.domain.photo.imageServer.service.valid;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import tour.nonghaeng.domain.photo.imageServer.exception.error.ImageServerErrorCode;
+import tour.nonghaeng.domain.photo.imageServer.exception.ImageServerErrorCode;
 import tour.nonghaeng.domain.photo.imageServer.exception.ImageServerException;
 
 @Component

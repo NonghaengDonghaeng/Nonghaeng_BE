@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import tour.nonghaeng.domain.trip.dto.MainResponseDto;
 import tour.nonghaeng.domain.trip.dto.TripResponseDto;
 import tour.nonghaeng.domain.trip.service.TripService;
-import tour.nonghaeng.global.auth.auth.service.AuthService;
+import tour.nonghaeng.global.auth.AuthService;
 
 @RestController
 @RequestMapping("/trips")

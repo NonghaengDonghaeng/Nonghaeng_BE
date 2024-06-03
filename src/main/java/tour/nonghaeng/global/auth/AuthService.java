@@ -1,4 +1,4 @@
-package tour.nonghaeng.global.auth.auth.service;
+package tour.nonghaeng.global.auth;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

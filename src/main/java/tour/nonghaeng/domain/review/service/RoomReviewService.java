@@ -19,7 +19,7 @@ import tour.nonghaeng.domain.review.data.repo.RoomReviewRepository;
 import tour.nonghaeng.domain.room.data.Room;
 import tour.nonghaeng.domain.room.service.RoomService;
 import tour.nonghaeng.domain.room.service.valid.RoomValidator;
-import tour.nonghaeng.global.auth.valid.AuthValidator;
+import tour.nonghaeng.global.auth.AuthValidator;
 
 @Service
 @RequiredArgsConstructor

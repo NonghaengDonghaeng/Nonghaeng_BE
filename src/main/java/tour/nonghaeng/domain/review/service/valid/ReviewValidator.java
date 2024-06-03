@@ -10,7 +10,7 @@ import tour.nonghaeng.domain.review.data.Review;
 import tour.nonghaeng.domain.review.presentation.exception.ReviewException;
 import tour.nonghaeng.domain.review.presentation.exception.error.ReviewErrorCode;
 import tour.nonghaeng.domain.review.data.repo.ReviewRepository;
-import tour.nonghaeng.global.auth.valid.AuthValidator;
+import tour.nonghaeng.global.auth.AuthValidator;
 
 @Component
 @RequiredArgsConstructor

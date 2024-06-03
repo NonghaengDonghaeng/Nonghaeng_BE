@@ -10,7 +10,7 @@ import tour.nonghaeng.domain.like.data.repo.ReviewLikeRepository;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.review.data.Review;
 import tour.nonghaeng.domain.review.service.ReviewServiceImpl;
-import tour.nonghaeng.global.auth.valid.AuthValidator;
+import tour.nonghaeng.global.auth.AuthValidator;
 
 import java.util.Optional;
 

@@ -16,7 +16,7 @@ import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
 import tour.nonghaeng.domain.review.service.ReviewService;
 import tour.nonghaeng.domain.review.service.ReviewServiceImpl;
 import tour.nonghaeng.domain.review.service.registry.ReviewServiceRegistry;
-import tour.nonghaeng.global.auth.auth.service.AuthService;
+import tour.nonghaeng.global.auth.AuthService;
 
 @RestController
 @RequestMapping("/reviews")

@@ -19,7 +19,7 @@ import tour.nonghaeng.domain.review.data.ExperienceReview;
 import tour.nonghaeng.domain.review.data.Review;
 import tour.nonghaeng.domain.review.presentation.exception.ReviewException;
 import tour.nonghaeng.domain.review.data.repo.ExperienceReviewRepository;
-import tour.nonghaeng.global.auth.valid.AuthValidator;
+import tour.nonghaeng.global.auth.AuthValidator;
 
 @Service
 @RequiredArgsConstructor

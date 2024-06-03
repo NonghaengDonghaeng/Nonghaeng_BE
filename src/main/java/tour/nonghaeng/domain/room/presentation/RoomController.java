@@ -15,7 +15,7 @@ import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.room.dto.*;
 import tour.nonghaeng.domain.room.service.RoomService;
 import tour.nonghaeng.domain.room.service.valid.RoomValidator;
-import tour.nonghaeng.global.auth.auth.service.AuthService;
+import tour.nonghaeng.global.auth.AuthService;
 
 import java.time.LocalDate;
 import java.util.List;
