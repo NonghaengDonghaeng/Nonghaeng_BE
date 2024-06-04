@@ -5,10 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tour.nonghaeng.domain.member.dto.mypage.MyPageUserDto;
 import tour.nonghaeng.domain.member.data.Member;
+import tour.nonghaeng.domain.member.dto.mypage.MyPageUserDto;
 import tour.nonghaeng.domain.reservation.service.ReservationService;
-import tour.nonghaeng.domain.review.service.ReviewServiceImpl;
+import tour.nonghaeng.domain.review.service.ReviewService;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +18,7 @@ public class MyPageService {
 
     private final ReservationService reservationService;
     //네이밍 바꿔야할듯
-    private final ReviewServiceImpl reviewService;
+    private final ReviewService reviewService;
 
     private final PageRequest defaultPageRequest = PageRequest.of(0, 4);
 

@@ -11,5 +11,4 @@ import tour.nonghaeng.global.infra.service.ViewService;
 public interface ReviewService extends CrudService<Review, CreateReviewDto>, ViewService<ReviewSummaryDto, ReviewDetailDto, ReviewSpecDto>, ViewForEachEntityService {
 
 
-
 }

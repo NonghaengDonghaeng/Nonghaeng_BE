@@ -59,6 +59,8 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
 
+    //TODO : 사실 이건 이 함수에서만 구현하고 type에 따라 필터링해서 보여주면 되기때문에 ViewForEachEntityServie에서 빼도 된다.
+    //TODO : MyPageService에서 한쪽으로 맞추기, reservation처럼 할건지 여기처럼할건지
     @Override
     public Page<? extends ReviewSummaryDto> getReviewSummaryDtoPageByUser(Member user, Pageable pageable) {
 
