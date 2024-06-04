@@ -25,7 +25,7 @@ import tour.nonghaeng.global.auth.AuthValidator;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class ExperienceReviewService implements ReviewService, CreateReviewService, FindUpCastedReviewService {
+public class ExperienceReviewService implements ViewForEachEntityService, CrudReviewService {
 
     private final ExperienceReviewRepository experienceReviewRepository;
 
@@ -37,32 +37,12 @@ public class ExperienceReviewService implements ReviewService, CreateReviewServi
 
 
 
-
+    //ViewForEachEntityService
     @Override
     public ReviewServiceType getType() {
         return ReviewServiceType.EXPERIENCE;
     }
 
-    @Override
-    public Long createReview(Member user,Long reservationId, CreateReviewDto requestDto) {
-
-        Reservation reservation = reservationService.findById(reservationId);
-        Experience experience = experienceService.findById(requestDto.getId());
-
-        //TODO: validator
-
-        String formatTitle = "[" + experience.getTour().getName() + "] " + requestDto.getTitle();
-
-        ExperienceReview experienceReview = ExperienceReview.builder()
-                .user(authValidator.userValidate(user))
-                .reservation(reservation)
-                .experience(experience)
-                .title(formatTitle)
-                .content(requestDto.getContent())
-                .build();
-
-        return experienceReviewRepository.save(experienceReview).getId();
-    }
 
     @Override
     public Page<? extends ReviewSummaryDto> getReviewSummaryDtoPageById(Long id, Pageable pageable) {
@@ -73,6 +53,7 @@ public class ExperienceReviewService implements ReviewService, CreateReviewServi
 
         return reviewPage.map(Review::toReviewSummaryDto);
     }
+
 
     @Override
     public Page<? extends ReviewSummaryDto> getReviewSummaryDtoPageByUser(Member user, Pageable pageable) {
@@ -88,10 +69,31 @@ public class ExperienceReviewService implements ReviewService, CreateReviewServi
 
 
 
-    public Review findReviewById(Long reviewId) {
+    //CrudReviewService
+    @Override
+    public Review findById(Long reviewId) {
         return experienceReviewRepository.findReviewById(reviewId)
                 .orElseThrow(() -> ReviewException.EXCEPTION);
     }
 
 
+    @Override
+    public Long create(Member user, CreateReviewDto createDto) {
+        Reservation reservation = reservationService.findById(createDto.getReservationId());
+        Experience experience = experienceService.findById(createDto.getId());
+
+        //TODO: validator
+
+        String formatTitle = "[" + experience.getTour().getName() + "] " + createDto.getTitle();
+
+        ExperienceReview experienceReview = ExperienceReview.builder()
+                .user(authValidator.userValidate(user))
+                .reservation(reservation)
+                .experience(experience)
+                .title(formatTitle)
+                .content(createDto.getContent())
+                .build();
+
+        return experienceReviewRepository.save(experienceReview).getId();
+    }
 }
