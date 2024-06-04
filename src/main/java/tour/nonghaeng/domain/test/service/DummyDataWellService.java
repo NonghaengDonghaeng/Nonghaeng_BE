@@ -12,10 +12,10 @@ import tour.nonghaeng.domain.etc.enums.tour.TourType;
 import tour.nonghaeng.domain.experience.dto.AddExpRoundDto;
 import tour.nonghaeng.domain.experience.dto.CreateExpDto;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
-import tour.nonghaeng.domain.member.dto.SellerJoinDto;
-import tour.nonghaeng.domain.member.dto.UserJoinDto;
 import tour.nonghaeng.domain.member.data.Seller;
 import tour.nonghaeng.domain.member.data.User;
+import tour.nonghaeng.domain.member.dto.SellerJoinDto;
+import tour.nonghaeng.domain.member.dto.UserJoinDto;
 import tour.nonghaeng.domain.member.service.SellerService;
 import tour.nonghaeng.domain.member.service.UserService;
 import tour.nonghaeng.domain.reservation.service.ReservationService;
@@ -78,7 +78,7 @@ public class DummyDataWellService implements DummyDataService{
         Seller seller1 = sellerService.join(sellerJoinDto1);
 
         CreateTourDto createTourDto1 = new CreateTourDto(TourType.VILLAGE, "산들강웅포마을", "http://www.ungpo.kr", "산들강웅포마을은 이름 그대로 산과 들, 강이 어우러진 아름다운 마을입니다. 마을 앞으로 금강이 흐르고, 뒤로는 함라산이 자리한 이곳은 서쪽으로는 옥구평야, 남쪽으로는 만경강을 경계로 김제평야와 인접해 있습니다. 아름다운 자연경관만으로도 농촌여행지로 손색이 없는, 전북특별자치도에서 으뜸촌으로 선정된 마을입니다. 농어촌관광사업 등급결정제도에서 교육, 체험, 숙박, 음식에 대한 등급평가가 모두 1등급이어야 으뜸촌으로 선정되는데 산들강웅포마을은 그야말로 등급으로 인증된 농촌체험여행지라고 할 수 있습니다.", "산과 들 강이 어우러진 마을", "마을 앞으로 금강이 흐르며, 일몰이 장관인 산들강웅포마을은 7대 낙조 명소 중 하나로 꼽히는 곳입니다. 환경과 생태계 보호를 위해 힘쓰고 있으며, 깔끔한 숙박, 맛있는 음식, 다양한 체험 프로그램을 경험할 수 있습니다.", "메뉴정보: 산들강시골밥상 기타사항: 뷔페식", "80대", "남녀 화장실", "바베큐장, 공용주방, 다목적구장(족구, 농구장)");
-        tourService.createTour(seller1, createTourDto1);
+        tourService.create(seller1, createTourDto1);
 
         CreateExpDto createExpDto1_1 = new CreateExpDto(ExperienceType.RURAL, "감자수확 체험", startDate, endDate, 10, 60, 10000, 2, "1.마을 주민분들이 정성껏 카꾼 밭에 직접 가서 수확하기\n2.친환경 감자", "감자를 따는 수확체험입니다.", "감자수확", "없음", "--", expRoundDtoList);
         CreateExpDto createExpDto1_2 = new CreateExpDto(ExperienceType.CRAFTING, "반려식물심기", startDate, endDate, 2, 40, 17000, 2, "1.어디에 배치해도 멋있는 인테리어 소품~\n2.관리하기 쉬운 반려식물 3.나만의 친환경 공기청정기~",
@@ -111,7 +111,7 @@ public class DummyDataWellService implements DummyDataService{
         Seller seller2 = sellerService.join(sellerJoinDto2);
 
         CreateTourDto createTourDto2 = new CreateTourDto(TourType.VILLAGE, "동편제마을", "http://dongpyeonje.co.kr/","남원은 판소리 다섯 마당 중 춘향가와 흥부가의 배경지가 될 만큼 예로부터 국악의 산실이었습니다. 그리고 동편제마을은 오늘날 동편제 판소리를 정형화한 가왕 송흥록과 박초월 명창이 태어난 유서 깊은 곳이기도 합니다. 지리산 자락의 풍경과 판소리 명인들의 고향이자 동편제의 태동지라 불리며 매년 국악축제가 열리는 판소리의 고장으로 자연과 전통이 함께하는 곳입니다. 소나무 숲길에서 힐링하며 한옥을 모던하게 재해석한 숙소로 전통의 미를 살리고 다양한 체험을 경험할 수 있습니다.", "동편제의 역사와 전통을 잇다", "지리산 둘레길 2코스가 지나는 동편제마을은 판소리 동편제의 태동지로, 매년 ‘동편제마을 국악 거리축제’가 열리는 소리와 예술이 살아있는 마을입니다. 한옥을 재해석한 ㄷ자 형의 게스트하우스 ‘휴(休)’는 공간이 주는 독특한 재미를 맛볼 수 있으며, 모던한 한옥 인테리어와 호텔식 침구, 정성이 느껴지는 어메니티로 잊을 수 없는 하룻밤을 만들어 줍니다.", "메뉴정보: 지리산 흑돈 바베큐, 동편제밥상, 흑돈 돈까스", "30대", "남녀 화장실", "족구장, 바비큐장, 카페, 야외잔디밭, 야외음향시설, 소나무숲, 숲야간조명, 숲쉼터 등");
-        tourService.createTour(seller2, createTourDto2);
+        tourService.create(seller2, createTourDto2);
 
         CreateExpDto createExpDto2_1 = new CreateExpDto(ExperienceType.CRAFTING, "고소한 들깨초콜릿만들기", startDate, endDate, 2, 30, 14000, 2, "1.우리 농산물을 이용해 만드는 초콜렛\n2.우리 아이들에게 내가 만든 초콜렛이라는 자부심을 넣어주세요",
                 "들깨초콜릿 체험은 잘 볶은 고소한 들깨의 향과 달콤하게 펴져가는 진한 카카오(초콜릿)의 향기가 어루러져 갈때쯤 따뜻한 물에 녹인 초콜릿 안에 들깨를 넣어 조물조물 잘 섞어 원하는 몰드안에 넘치지 않게 살짝 짜서 채워주고 15분간 잘 굳혀주면 바삭바삭한 크런치 식감에 고소하면서 달콤한 초콜릿이 만들어집니다. \n" +

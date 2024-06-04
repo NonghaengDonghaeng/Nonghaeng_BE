@@ -31,7 +31,7 @@ public class TripService {
 
         PageRequest pageRequest = PageRequest.of(0, 4);
 
-        List<TourSummaryDto> tourSummaryDtoList = tourService.getTourSummaryDtoPage(pageRequest, null, null, null).getContent();
+        List<TourSummaryDto> tourSummaryDtoList = tourService.getSummaryDtoPage(pageRequest, null).getContent();
         List<ExpSummaryDto> expSummaryDtoList = experienceService.getExpSummaryDtoPage(pageRequest, null, null, null).getContent();
         List<RoomTourSummaryDto> roomTourSummaryDtoList = roomService.getRoomTourSummaryDtoPage(pageRequest, null, null, null).getContent();
 
