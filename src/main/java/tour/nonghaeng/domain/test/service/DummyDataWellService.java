@@ -87,10 +87,10 @@ public class DummyDataWellService implements DummyDataService{
         CreateExpDto createExpDto1_4 = new CreateExpDto(ExperienceType.CRAFTING, "블루베리호떡만들기 체험 ", startDate, endDate, 4, 40, 10000, 1, "1.지역에서 수확한 신선한 재료 체험\n2.달달함 더하기 달달함은 맛있다~\n3.간단한 요리체험으로 자신감 업!",
                 "따뜻한 겨울간식 호떡을 먹고싶을땐? 직접 반죽하고 구워서 따끈따끈 할때 먹으면 맛있는 호떡,가족, 연인, 친구 누구나 방문해도 만족할 수 있는 산들강웅포마을에 어서오세요~", "달달한 호떡과 새콤달콤한 블루베리가 만났다~", "친구, 연인, 가족과 함께 하기 위한 배려하는 마음, 원할한 체험 진행을 위한 집중!", "뜨거운 조리도구를 사용하기 때문에 화상 주의", expRoundDtoList);
 
-        experienceService.createExperience(seller1, createExpDto1_1);
-        experienceService.createExperience(seller1, createExpDto1_2);
-        experienceService.createExperience(seller1, createExpDto1_3);
-        experienceService.createExperience(seller1, createExpDto1_4);
+        experienceService.create(seller1, createExpDto1_1);
+        experienceService.create(seller1, createExpDto1_2);
+        experienceService.create(seller1, createExpDto1_3);
+        experienceService.create(seller1, createExpDto1_4);
 
         CreateRoomDto createRoomDto1_1 = new CreateRoomDto(RoomType.VILLAGE, "3인실(별관)", "자연이 주는 평화로움", 40000, 40000, 40000, 3, 3, 10000, checkinTime, checkoutTime, 1, "온돌", "에어컨, TV, 옷장, 냉장고, 샴푸, 린스, 비누", "미성년자는 보호자 동반없이 이용하실 수 없습니다.", "-호젓한 농촌경치를 보며 즐길 수 있는 야외 바비큐장이 준비되어 있습니다.\n-객실 내부는 편백나무로 마감되어 음식 조리를 금하고 있습니다. 공용주방을 이용해 주세요.", "1.서해안 7대 낙조 중 하나인 금강낙조를 감상해 보세요\n2.통창을 통한 논뷰(view)도 놓치지 마세요.", "반려동물 동반입실이 불가합니다.");
         CreateRoomDto createRoomDto1_2 = new CreateRoomDto(RoomType.VILLAGE, "5인실(별관)", "자연과 가족과 함께", 80000, 80000, 80000, 5, 5, 10000, checkinTime, checkoutTime, 2, "온돌,화장실 2개", "에어컨, TV, 옷장, 냉장고, 샴푸, 린스, 비누", "미성년자는 보호자 동반없이 이용하실 수 없습니다.", "-호젓한 농촌경치를 보며 즐길 수 있는 야외 바비큐장이 준비되어 있습니다.\n-객실 내부는 편백나무로 마감되어 음식 조리를 금하고 있습니다. 공용주방을 이용해 주세요.", "1.서해안 7대 낙조 중 하나인 금강낙조를 감상해 보세요\n2.마을에서 자전거를 빌려 곰개나루 자전거길을 달려보세요. 정말 예뻐요. 석양질 때 추천!", "전 객실 금연입니다.");
@@ -119,8 +119,8 @@ public class DummyDataWellService implements DummyDataService{
         CreateExpDto createExpDto2_2 = new CreateExpDto(ExperienceType.CULTURE, "산양교감체험 + 쿠킹교실", startDate, endDate, 5, 30, 18000, 2, "1.산양의 따뜻한 눈빛과 체온을 나누며 자연과 동물을 소중하게 여기는 아이로 자랄 수 있습니다.\n2.아담하고 예쁜 농장에서 귀여운 산양과 함께 사진을 찍을 수 있습니다.\n3.마음의 휴식 뿐만 아니라 직접 맛있는 피자를 만들고 먹을 수 있어서 몸과 마음이 모두 힐링됩니다.", "산양체험은 직접 먹이를 주면서 동물과 친해지는 방법을 알고 천천히 동물에게 다가가는 방법을 배워인내심을 기를 수 있는 시간이 되며 동물의 소중함을 알게하고 생명의 존중을 교육시켜줄 수 있는 체험입니다. 동물과 친해지는 방법을 배우면 사회에 나가서 친구를 사귀는 방법도 알 수 있고 친구에게 다가가는 방법도 배워 배려하는 마음가짐도 배울 수 있는 교육적이며 활동적인 체험입니다.",
                 "푸른 풀밭의 산양을 보며 자연을 느끼고, 친구들과 함께 팜피자를 만든다.", "야외활동으로 편안한 신발과 옷", "쾌적한 체험활동을 위해 대형주차장 ( 남원시 운봉읍 가산화수길 71 ) 을 이용해주세요. 안내간판을 따라 100m 걸어오시면 됩니다.", expRoundDtoList);
 
-        experienceService.createExperience(seller2, createExpDto2_1);
-        experienceService.createExperience(seller2, createExpDto2_2);
+        experienceService.create(seller2, createExpDto2_1);
+        experienceService.create(seller2, createExpDto2_2);
 
 
         CreateRoomDto createRoomDto2_1 = new CreateRoomDto(RoomType.VILLAGE, "2인실(침대실)", "한옥을 재해석하여 모던함을 더한 한옥 숙소", 180000, 180000, 180000, 2, 5, 10000, checkinTime, checkoutTime, 2, "온돌(거실1+방1+화장실1+테라스)", "옷장, 화장대, 냉장고, 에어컨, 와인잔, 사각접시, 물잔, 전기 주전자, 헤어드라이어, 수건, 비누, 샴푸, 컨디셔너, 바디워시", "-침구 추가 : 인원 추가 비용에 포함입니다.\n-미성년자는 보호자 동반없이 이용하실 수 없습니다.", "-객실 내에서 음식 조리가 불가합니다. 공용주방이 마련되어 있으니 먹을 것만 챙겨주세요.\n-공용주방 비품 : 전자렌지, 인덕션, 냉장고, 집기류, 그릇, 밥솥",

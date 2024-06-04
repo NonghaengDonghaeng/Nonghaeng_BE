@@ -1,20 +1,40 @@
-package tour.nonghaeng.domain.experience.dto.specification;
+package tour.nonghaeng.domain.experience.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import tour.nonghaeng.domain.etc.enums.area.AreaCode;
 import tour.nonghaeng.domain.etc.enums.experience.ExperienceType;
 import tour.nonghaeng.domain.experience.data.Experience;
 import tour.nonghaeng.domain.tour.data.Tour;
+import tour.nonghaeng.global.infra.dto.SpecDto;
 
 import java.util.List;
 
-public class ExperienceSpecification {
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+@NoArgsConstructor
+@Getter
+public class ExpSpecDto extends SpecDto<Experience> {
 
-    public static Specification<Experience> buildSpecification(String keyword, List<AreaCode> areaCodes, ExperienceType experienceType) {
+    private String keyword;
+    @JsonProperty("area")
+    private List<AreaCode> areaCodes;
+    @JsonProperty("type")
+    private ExperienceType experienceType;
+
+    @Override
+    public Specification<Experience> buildSpecification() {
+
+        String keyword = this.getKeyword();
+        List<AreaCode> areaCodes = this.getAreaCodes();
+        ExperienceType experienceType = this.getExperienceType();
 
         return (root, query, criteriaBuilder) -> {
             Predicate predicate = criteriaBuilder.conjunction();
@@ -39,4 +59,5 @@ public class ExperienceSpecification {
             return predicate;
         };
     }
+
 }

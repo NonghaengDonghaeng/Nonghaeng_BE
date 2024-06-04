@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import tour.nonghaeng.domain.room.data.Room;
 import tour.nonghaeng.domain.room.data.RoomCloseDate;
+import tour.nonghaeng.global.infra.dto.AddCloseDateDto;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -16,7 +17,7 @@ import java.util.Objects;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class AddRoomCloseDateDto {
+public class AddRoomCloseDateDto extends AddCloseDateDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate closeDate;
 

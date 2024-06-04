@@ -118,65 +118,65 @@ public class DummyDataManyService implements DummyDataService {
         CreateExpDto createExpDto5 = new CreateExpDto(ExperienceType.LEISURE_SPORTS, "둘레길 걷기", startDate, endDate, minParticipant, maxParticipant, 1000, 2, "둘레길 걸어요", "가족과 함께 둘렛길 걸어봐요", "둘레길", "운동화", "물집패", expRoundDtoList);
 
 
-        experienceService.createExperience(seller1, createExpDto1);
-        experienceService.createExperience(seller1, createExpDto2);
-        experienceService.createExperience(seller1, createExpDto3);
-        experienceService.createExperience(seller1, createExpDto4);
-        experienceService.createExperience(seller1, createExpDto5);
+        experienceService.create(seller1, createExpDto1);
+        experienceService.create(seller1, createExpDto2);
+        experienceService.create(seller1, createExpDto3);
+        experienceService.create(seller1, createExpDto4);
+        experienceService.create(seller1, createExpDto5);
 
-        experienceService.createExperience(seller2, createExpDto1);
-        experienceService.createExperience(seller2, createExpDto2);
-        experienceService.createExperience(seller2, createExpDto3);
-        experienceService.createExperience(seller2, createExpDto4);
-        experienceService.createExperience(seller2, createExpDto5);
+        experienceService.create(seller2, createExpDto1);
+        experienceService.create(seller2, createExpDto2);
+        experienceService.create(seller2, createExpDto3);
+        experienceService.create(seller2, createExpDto4);
+        experienceService.create(seller2, createExpDto5);
 
-        experienceService.createExperience(seller3, createExpDto1);
-        experienceService.createExperience(seller3, createExpDto2);
-        experienceService.createExperience(seller3, createExpDto3);
-        experienceService.createExperience(seller3, createExpDto4);
-        experienceService.createExperience(seller3, createExpDto5);
+        experienceService.create(seller3, createExpDto1);
+        experienceService.create(seller3, createExpDto2);
+        experienceService.create(seller3, createExpDto3);
+        experienceService.create(seller3, createExpDto4);
+        experienceService.create(seller3, createExpDto5);
 
-        experienceService.createExperience(seller4, createExpDto1);
-        experienceService.createExperience(seller4, createExpDto2);
-        experienceService.createExperience(seller4, createExpDto3);
-        experienceService.createExperience(seller4, createExpDto4);
-        experienceService.createExperience(seller4, createExpDto5);
+        experienceService.create(seller4, createExpDto1);
+        experienceService.create(seller4, createExpDto2);
+        experienceService.create(seller4, createExpDto3);
+        experienceService.create(seller4, createExpDto4);
+        experienceService.create(seller4, createExpDto5);
 
-        experienceService.createExperience(seller5, createExpDto1);
-        experienceService.createExperience(seller5, createExpDto2);
-        experienceService.createExperience(seller5, createExpDto3);
-        experienceService.createExperience(seller5, createExpDto4);
-        experienceService.createExperience(seller5, createExpDto5);
+        experienceService.create(seller5, createExpDto1);
+        experienceService.create(seller5, createExpDto2);
+        experienceService.create(seller5, createExpDto3);
+        experienceService.create(seller5, createExpDto4);
+        experienceService.create(seller5, createExpDto5);
 
-        experienceService.createExperience(seller6, createExpDto1);
-        experienceService.createExperience(seller6, createExpDto2);
-        experienceService.createExperience(seller6, createExpDto3);
-        experienceService.createExperience(seller6, createExpDto4);
-        experienceService.createExperience(seller6, createExpDto5);
+        experienceService.create(seller6, createExpDto1);
+        experienceService.create(seller6, createExpDto2);
+        experienceService.create(seller6, createExpDto3);
+        experienceService.create(seller6, createExpDto4);
+        experienceService.create(seller6, createExpDto5);
 
-        experienceService.createExperience(seller7, createExpDto1);
-        experienceService.createExperience(seller7, createExpDto2);
-        experienceService.createExperience(seller7, createExpDto3);
-        experienceService.createExperience(seller7, createExpDto4);
-        experienceService.createExperience(seller7, createExpDto5);
+        experienceService.create(seller7, createExpDto1);
+        experienceService.create(seller7, createExpDto2);
+        experienceService.create(seller7, createExpDto3);
+        experienceService.create(seller7, createExpDto4);
+        experienceService.create(seller7, createExpDto5);
 
-        experienceService.createExperience(seller8, createExpDto1);
-        experienceService.createExperience(seller8, createExpDto2);
-        experienceService.createExperience(seller8, createExpDto3);
-        experienceService.createExperience(seller8, createExpDto4);
-        experienceService.createExperience(seller8, createExpDto5);
+        experienceService.create(seller8, createExpDto1);
+        experienceService.create(seller8, createExpDto2);
+        experienceService.create(seller8, createExpDto3);
+        experienceService.create(seller8, createExpDto4);
+        experienceService.create(seller8, createExpDto5);
 
-        experienceService.createExperience(seller9, createExpDto1);
-        experienceService.createExperience(seller9, createExpDto2);
-        experienceService.createExperience(seller9, createExpDto3);
-        experienceService.createExperience(seller9, createExpDto4);
-        experienceService.createExperience(seller9, createExpDto5);
+        experienceService.create(seller9, createExpDto1);
+        experienceService.create(seller9, createExpDto2);
+        experienceService.create(seller9, createExpDto3);
+        experienceService.create(seller9, createExpDto4);
+        experienceService.create(seller9, createExpDto5);
 
-        experienceService.createExperience(seller10, createExpDto1);
-        experienceService.createExperience(seller10, createExpDto2);
-        experienceService.createExperience(seller10, createExpDto3);
-        experienceService.createExperience(seller10, createExpDto4);
-        experienceService.createExperience(seller10, createExpDto5);
+        experienceService.create(seller10, createExpDto1);
+        experienceService.create(seller10, createExpDto2);
+        experienceService.create(seller10, createExpDto3);
+        experienceService.create(seller10, createExpDto4);
+        experienceService.create(seller10, createExpDto5);
 
         //숙소 생성
         LocalTime checkinTime = LocalTime.of(15, 0);

@@ -189,15 +189,19 @@ public class RoomServiceImpl implements RoomService {
 
 
     @Override
-    public Long addOnlyCloseDates(Long roomId, List<AddRoomCloseDateDto> dtoList) {
+    public void addOnlyCloseDates(Long roomId, List<AddRoomCloseDateDto> dtoList) {
 
         Room room = findById(roomId);
 
         roomCloseDateService.addCloseDates(room, dtoList);
 
-        return roomRepository.save(room).getId();
+        roomRepository.save(room);
     }
 
+    @Override
+    public void removeOnlyCloseDates(Long id, List<AddRoomCloseDateDto> dtoList) {
+
+    }
 
 
 //    public List<Room> findAll() {
