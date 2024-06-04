@@ -28,11 +28,12 @@ public class TourSpecDto extends SpecDto<Tour> {
 
     @Override
     public Specification<Tour> buildSpecification() {
-        return (root, query, criteriaBuilder) -> {
 
-            String keyword = this.getKeyword();
-            List<AreaCode> areaCodes = this.getAreaCodes();
-            TourType tourType = this.getTourType();
+        String keyword = this.getKeyword();
+        List<AreaCode> areaCodes = this.getAreaCodes();
+        TourType tourType = this.getTourType();
+
+        return (root, query, criteriaBuilder) -> {
 
             Predicate predicate = criteriaBuilder.conjunction(); // Initialize predicate as conjunction (AND)
 

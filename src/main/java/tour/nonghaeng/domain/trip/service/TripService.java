@@ -33,7 +33,7 @@ public class TripService {
 
         List<TourSummaryDto> tourSummaryDtoList = tourService.getSummaryDtoPage(pageRequest, null).getContent();
         List<ExpSummaryDto> expSummaryDtoList = experienceService.getExpSummaryDtoPage(pageRequest, null, null, null).getContent();
-        List<RoomTourSummaryDto> roomTourSummaryDtoList = roomService.getRoomTourSummaryDtoPage(pageRequest, null, null, null).getContent();
+        List<RoomTourSummaryDto> roomTourSummaryDtoList = roomService.getSummaryDtoPage(pageRequest, null).getContent();
 
 
         return TripResponseDto.builder()
@@ -51,7 +51,7 @@ public class TripService {
         PageRequest pageRequest = PageRequest.of(0, 4);
 
         List<ExpSummaryDto> expSummaryDtoList = experienceService.getExpSummaryDtoPage(pageRequest, null, null, null).getContent();
-        List<RoomTourSummaryDto> roomTourSummaryDtoList = roomService.getRoomTourSummaryDtoPage(pageRequest, null, null, null).getContent();
+        List<RoomTourSummaryDto> roomTourSummaryDtoList = roomService.getSummaryDtoPage(pageRequest, null).getContent();
 
 
         return MainResponseDto.builder()

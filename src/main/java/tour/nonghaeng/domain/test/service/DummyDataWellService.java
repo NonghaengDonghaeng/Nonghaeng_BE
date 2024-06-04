@@ -98,11 +98,11 @@ public class DummyDataWellService implements DummyDataService{
         CreateRoomDto createRoomDto1_4 = new CreateRoomDto(RoomType.VILLAGE, "4인실(침대방)", "자연경치를 침대에서", 120000, 120000, 120000, 4, 4, 10000, checkinTime, checkoutTime, 4, "거실,온돌,화장실 2개", "에어컨, TV, 옷장, 냉장고, 식탁, 샴푸, 린스, 비누, 이불, 화장지", "미성년자는 보호자 동반없이 이용하실 수 없습니다.", "-호젓한 농촌경치를 보며 즐길 수 있는 야외 바비큐장이 준비되어 있습니다.\n-객실 내부는 편백나무로 마감되어 음식 조리를 금하고 있습니다. 공용주방을 이용해 주세요.\n-농구장과 족구장이 있습니다. 사용 시 마을에 문의해주세요.", "1.마을에서 자전거를 빌려 곰개나루 자전거길을 달려보세요. 정말 예뻐요. 석양질 때 추천!\n2.통창을 통한 논뷰(view)도 놓치지 마세요.", "반려동물 동반입실이 불가합니다.");
         CreateRoomDto createRoomDto1_5 = new CreateRoomDto(RoomType.VILLAGE, "별관(다목적실)", "자연이 주는 평화로움", 200000, 200000, 200000, 10, 15, 10000, checkinTime, checkoutTime, 1, "별관, 화장실 2개", "에어컨, TV, 옷장, 냉장고, 식탁, 샴푸, 린스, 비누, 이불, 화장지", "미성년자는 보호자 동반없이 이용하실 수 없습니다.", "-호젓한 농촌경치를 보며 즐길 수 있는 야외 바비큐장이 준비되어 있습니다.\n-객실 내부는 편백나무로 마감되어 음식 조리를 금하고 있습니다. 공용주방을 이용해 주세요.\n-농구장과 족구장이 있습니다. 사용 시 마을에 문의해주세요.", "1.마을에서 자전거를 빌려 곰개나루 자전거길을 달려보세요. 정말 예뻐요. 석양질 때 추천!\n2.통창을 통한 논뷰(view)도 놓치지 마세요.", "반려동물 동반입실이 불가합니다.");
 
-        roomService.createAndAddRoom(seller1,createRoomDto1_1);
-        roomService.createAndAddRoom(seller1,createRoomDto1_2);
-        roomService.createAndAddRoom(seller1,createRoomDto1_3);
-        roomService.createAndAddRoom(seller1,createRoomDto1_4);
-        roomService.createAndAddRoom(seller1,createRoomDto1_5);
+        roomService.create(seller1,createRoomDto1_1);
+        roomService.create(seller1,createRoomDto1_2);
+        roomService.create(seller1,createRoomDto1_3);
+        roomService.create(seller1,createRoomDto1_4);
+        roomService.create(seller1,createRoomDto1_5);
 
 
 
@@ -128,8 +128,8 @@ public class DummyDataWellService implements DummyDataService{
         CreateRoomDto createRoomDto2_2 = new CreateRoomDto(RoomType.VILLAGE, "4인실", "한옥에서의 여유로운 하루", 180000, 180000, 200000, 4, 6, 10000, checkinTime, checkoutTime, 2, "온돌(방1+방1+화장실1+테라스)", "옷장, 화장대, 냉장고, 에어컨, 와인잔, 사각접시, 물잔, 전기 주전자, 헤어드라이어, 수건, 비누, 샴푸, 컨디셔너, 바디워시", "-침구 추가 : 인원 추가 비용에 포함입니다.\n-미성년자는 보호자 동반없이 이용하실 수 없습니다.", "-객실 내에서 음식 조리가 불가합니다. 공용주방이 마련되어 있으니 먹을 것만 챙겨주세요.\n-공용주방 비품 : 전자렌지, 인덕션, 냉장고, 집기류, 그릇, 밥솥",
                 "-숙소 주변에는 아름다운 산책길이 있습니다. 자전거를 빌려드리니 상쾌한 아침 산책을 추천드립니다.\n-고품질 지리산 흑돈 버크셔K를 만나볼 수 있는 곳입니다. 하몽, 생햄, 흑돈샤브샤브로 다양하게 맛보세요.", "-여가시간에는 함께 오시는 분들과 충분히 대화를 나누는 시간을 드리고자 TV가 설치되어 있지 않습니다.\n반려동물 동반 입실이 불가합니다.\n오후 10시이후에는 외부와 실내 공용공간이 소등되니 과도한 음주와 소음 유발은 주의해주세요.");
 
-        roomService.createAndAddRoom(seller2,createRoomDto2_1);
-        roomService.createAndAddRoom(seller2,createRoomDto2_2);
+        roomService.create(seller2,createRoomDto2_1);
+        roomService.create(seller2,createRoomDto2_2);
 
     }
 }

@@ -9,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import tour.nonghaeng.domain.etc.enums.area.AreaCode;
-import tour.nonghaeng.domain.etc.enums.room.RoomType;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.room.dto.*;
 import tour.nonghaeng.domain.room.service.RoomService;
@@ -41,7 +39,7 @@ public class RoomController {
 
         Member seller = authService.toMemberEntity(authentication);
 
-        Long roomId = roomService.createAndAddRoom(seller, createRoomDto);
+        Long roomId = roomService.create(seller, createRoomDto);
 
         return new ResponseEntity<>("숙소 등록완료, 숙소Id:" + roomId.toString(), HttpStatus.OK);
     }
@@ -50,11 +48,9 @@ public class RoomController {
     //숙소정보 리스트 보기
     @GetMapping
     public ResponseEntity<Page<RoomTourSummaryDto>> showRoomTourSummaryPage(@PageableDefault(size = 10) Pageable pageable,
-                                                                            @RequestParam(name = "keyword",required = false)String keyword,
-                                                                            @RequestParam(name = "area",required = false) List<AreaCode> areaCodes,
-                                                                            @RequestParam(name = "type",required = false) RoomType roomType) {
+                                                                            @ModelAttribute RoomSpecDto specDto) {
 
-        Page<RoomTourSummaryDto> dto = roomService.getRoomTourSummaryDtoPage(pageable,keyword,areaCodes,roomType);
+        Page<RoomTourSummaryDto> dto = roomService.getSummaryDtoPage(pageable,specDto);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
@@ -77,7 +73,7 @@ public class RoomController {
     @GetMapping("/middle-page/{tourId}")
     public ResponseEntity<RoomTourDetailDto> showMiddleRoomTourDetail(@PathVariable Long tourId) {
 
-        RoomTourDetailDto roomTourDetailDto = roomService.getRoomTourDetailDto(tourId);
+        RoomTourDetailDto roomTourDetailDto = roomService.getDetailDto(tourId);
 
         return new ResponseEntity<>(roomTourDetailDto, HttpStatus.OK);
     }

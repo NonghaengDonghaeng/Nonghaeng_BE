@@ -188,75 +188,75 @@ public class DummyDataManyService implements DummyDataService {
         CreateRoomDto createRoomDto5 = new CreateRoomDto(RoomType.CAMPING, "논캠핑장", "논산 군인뷰", 20000, 10000, 15000, 2, 4, 1000, checkinTime, checkoutTime, 5, "카라반,화장실1", "취사도구,전자레인지,침구류,모니터", "X", "편의점,식당", "팁이 없어", "불놀이 금지");
         CreateRoomDto createRoomDto6 = new CreateRoomDto(RoomType.ETC, "노숙", "노숙 경험을 해볼수 있지만 노숙은 아님", 20000, 10000, 15000, 2, 4, 1000, checkinTime, checkoutTime, 5, "거실,천막", "취사도구,전자레인지,침구류", "X", "편의점,식당,공용화장실", "팁이 없어", "자다 입돌아가요");
 
-        roomService.createAndAddRoom(seller1,createRoomDto1);
-        roomService.createAndAddRoom(seller1,createRoomDto2);
-        roomService.createAndAddRoom(seller1,createRoomDto3);
-        roomService.createAndAddRoom(seller1,createRoomDto4);
-        roomService.createAndAddRoom(seller1,createRoomDto5);
-        roomService.createAndAddRoom(seller1,createRoomDto6);
+        roomService.create(seller1,createRoomDto1);
+        roomService.create(seller1,createRoomDto2);
+        roomService.create(seller1,createRoomDto3);
+        roomService.create(seller1,createRoomDto4);
+        roomService.create(seller1,createRoomDto5);
+        roomService.create(seller1,createRoomDto6);
 
-        roomService.createAndAddRoom(seller2,createRoomDto1);
-        roomService.createAndAddRoom(seller2,createRoomDto2);
-        roomService.createAndAddRoom(seller2,createRoomDto3);
-        roomService.createAndAddRoom(seller2,createRoomDto4);
-        roomService.createAndAddRoom(seller2,createRoomDto5);
-        roomService.createAndAddRoom(seller2,createRoomDto6);
+        roomService.create(seller2,createRoomDto1);
+        roomService.create(seller2,createRoomDto2);
+        roomService.create(seller2,createRoomDto3);
+        roomService.create(seller2,createRoomDto4);
+        roomService.create(seller2,createRoomDto5);
+        roomService.create(seller2,createRoomDto6);
 
-        roomService.createAndAddRoom(seller3,createRoomDto1);
-        roomService.createAndAddRoom(seller3,createRoomDto2);
-        roomService.createAndAddRoom(seller3,createRoomDto3);
-        roomService.createAndAddRoom(seller3,createRoomDto4);
-        roomService.createAndAddRoom(seller3,createRoomDto5);
-        roomService.createAndAddRoom(seller3,createRoomDto6);
+        roomService.create(seller3,createRoomDto1);
+        roomService.create(seller3,createRoomDto2);
+        roomService.create(seller3,createRoomDto3);
+        roomService.create(seller3,createRoomDto4);
+        roomService.create(seller3,createRoomDto5);
+        roomService.create(seller3,createRoomDto6);
 
-        roomService.createAndAddRoom(seller4,createRoomDto1);
-        roomService.createAndAddRoom(seller4,createRoomDto2);
-        roomService.createAndAddRoom(seller4,createRoomDto3);
-        roomService.createAndAddRoom(seller4,createRoomDto4);
-        roomService.createAndAddRoom(seller4,createRoomDto5);
-        roomService.createAndAddRoom(seller4,createRoomDto6);
+        roomService.create(seller4,createRoomDto1);
+        roomService.create(seller4,createRoomDto2);
+        roomService.create(seller4,createRoomDto3);
+        roomService.create(seller4,createRoomDto4);
+        roomService.create(seller4,createRoomDto5);
+        roomService.create(seller4,createRoomDto6);
 
-        roomService.createAndAddRoom(seller5,createRoomDto1);
-        roomService.createAndAddRoom(seller5,createRoomDto2);
-        roomService.createAndAddRoom(seller5,createRoomDto3);
-        roomService.createAndAddRoom(seller5,createRoomDto4);
-        roomService.createAndAddRoom(seller5,createRoomDto5);
-        roomService.createAndAddRoom(seller5,createRoomDto6);
+        roomService.create(seller5,createRoomDto1);
+        roomService.create(seller5,createRoomDto2);
+        roomService.create(seller5,createRoomDto3);
+        roomService.create(seller5,createRoomDto4);
+        roomService.create(seller5,createRoomDto5);
+        roomService.create(seller5,createRoomDto6);
 
-        roomService.createAndAddRoom(seller6,createRoomDto1);
-        roomService.createAndAddRoom(seller6,createRoomDto2);
-        roomService.createAndAddRoom(seller6,createRoomDto3);
-        roomService.createAndAddRoom(seller6,createRoomDto4);
-        roomService.createAndAddRoom(seller6,createRoomDto5);
-        roomService.createAndAddRoom(seller6,createRoomDto6);
+        roomService.create(seller6,createRoomDto1);
+        roomService.create(seller6,createRoomDto2);
+        roomService.create(seller6,createRoomDto3);
+        roomService.create(seller6,createRoomDto4);
+        roomService.create(seller6,createRoomDto5);
+        roomService.create(seller6,createRoomDto6);
 
-        roomService.createAndAddRoom(seller7,createRoomDto1);
-        roomService.createAndAddRoom(seller7,createRoomDto2);
-        roomService.createAndAddRoom(seller7,createRoomDto3);
-        roomService.createAndAddRoom(seller7,createRoomDto4);
-        roomService.createAndAddRoom(seller7,createRoomDto5);
-        roomService.createAndAddRoom(seller7,createRoomDto6);
+        roomService.create(seller7,createRoomDto1);
+        roomService.create(seller7,createRoomDto2);
+        roomService.create(seller7,createRoomDto3);
+        roomService.create(seller7,createRoomDto4);
+        roomService.create(seller7,createRoomDto5);
+        roomService.create(seller7,createRoomDto6);
 
-        roomService.createAndAddRoom(seller8,createRoomDto1);
-        roomService.createAndAddRoom(seller8,createRoomDto2);
-        roomService.createAndAddRoom(seller8,createRoomDto3);
-        roomService.createAndAddRoom(seller8,createRoomDto4);
-        roomService.createAndAddRoom(seller8,createRoomDto5);
-        roomService.createAndAddRoom(seller8,createRoomDto6);
+        roomService.create(seller8,createRoomDto1);
+        roomService.create(seller8,createRoomDto2);
+        roomService.create(seller8,createRoomDto3);
+        roomService.create(seller8,createRoomDto4);
+        roomService.create(seller8,createRoomDto5);
+        roomService.create(seller8,createRoomDto6);
 
-        roomService.createAndAddRoom(seller9,createRoomDto1);
-        roomService.createAndAddRoom(seller9,createRoomDto2);
-        roomService.createAndAddRoom(seller9,createRoomDto3);
-        roomService.createAndAddRoom(seller9,createRoomDto4);
-        roomService.createAndAddRoom(seller9,createRoomDto5);
-        roomService.createAndAddRoom(seller9,createRoomDto6);
+        roomService.create(seller9,createRoomDto1);
+        roomService.create(seller9,createRoomDto2);
+        roomService.create(seller9,createRoomDto3);
+        roomService.create(seller9,createRoomDto4);
+        roomService.create(seller9,createRoomDto5);
+        roomService.create(seller9,createRoomDto6);
 
-        roomService.createAndAddRoom(seller10,createRoomDto1);
-        roomService.createAndAddRoom(seller10,createRoomDto2);
-        roomService.createAndAddRoom(seller10,createRoomDto3);
-        roomService.createAndAddRoom(seller10,createRoomDto4);
-        roomService.createAndAddRoom(seller10,createRoomDto5);
-        roomService.createAndAddRoom(seller10,createRoomDto6);
+        roomService.create(seller10,createRoomDto1);
+        roomService.create(seller10,createRoomDto2);
+        roomService.create(seller10,createRoomDto3);
+        roomService.create(seller10,createRoomDto4);
+        roomService.create(seller10,createRoomDto5);
+        roomService.create(seller10,createRoomDto6);
 
     }
 
