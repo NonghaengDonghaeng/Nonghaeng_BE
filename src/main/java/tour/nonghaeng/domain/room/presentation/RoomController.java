@@ -39,7 +39,7 @@ public class RoomController {
 
         Member seller = authService.toMemberEntity(authentication);
 
-        Long roomId = roomService.create(seller, createRoomDto);
+        Long roomId = roomService.create(seller, createRoomDto).getId();
 
         return new ResponseEntity<>("숙소 등록완료, 숙소Id:" + roomId.toString(), HttpStatus.OK);
     }

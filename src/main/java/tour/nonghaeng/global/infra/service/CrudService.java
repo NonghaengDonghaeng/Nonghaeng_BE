@@ -9,5 +9,5 @@ public interface CrudService<Entity,CreateDtoType extends CreateDto> {
     Entity findById(Long id);
 
     //생성
-    Long create(Member member, CreateDtoType createDto);
+    Entity create(Member member, CreateDtoType createDto);
 }

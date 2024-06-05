@@ -48,7 +48,7 @@ public class ReviewController {
 
         Member user = authService.toMemberEntity(authentication);
 
-        Long reviewId = reviewService.create(user, requestDto);
+        Long reviewId = reviewService.create(user, requestDto).getId();
 
         return new ResponseEntity<>(reviewId + "리뷰 생성완료", HttpStatus.OK);
     }

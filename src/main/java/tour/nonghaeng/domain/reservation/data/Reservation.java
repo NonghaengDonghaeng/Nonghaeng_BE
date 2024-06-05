@@ -102,4 +102,6 @@ public abstract class Reservation extends BaseTimeEntity {
 
     public abstract ReservationCancelResponseDto toCancelResponseDto(CancelPolicy cancelPolicy);
 
+    public abstract ReservationResponseDto toReservationResponseDto();
+
 }

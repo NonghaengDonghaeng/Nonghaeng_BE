@@ -119,4 +119,23 @@ public class RoomReservation extends Reservation {
                 .build();
     }
 
+    @Override
+    public ReservationResponseDto toReservationResponseDto() {
+        RoomReservationResponseDto responseDto = RoomReservationResponseDto.builder()
+                .roomReservationId(this.getId())
+                .roomName(this.getRoom().getRoomName())
+                .reservationName(this.getReservationName())
+                .number(this.getNumber())
+                .email(this.getEmail())
+                .numOfRoom(this.getNumOfRoom())
+                .numOfParticipant(this.getNumOfParticipant())
+                .finalPrice(this.getPrice())
+                .build();
+
+        responseDto.setStartDateAndEndDate(this);
+
+        return responseDto;
+    }
+
+
 }

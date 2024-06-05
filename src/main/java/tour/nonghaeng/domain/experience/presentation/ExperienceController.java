@@ -57,7 +57,7 @@ public class ExperienceController {
 
         Member seller = authService.toMemberEntity(authentication);
 
-        Long expId = experienceService.create(seller, createExpDto);
+        Long expId = experienceService.create(seller, createExpDto).getId();
 
         return new ResponseEntity<>("체험등록 성공, 체험 id : " + expId, HttpStatus.OK);
     }

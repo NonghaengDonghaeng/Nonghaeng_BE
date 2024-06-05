@@ -41,13 +41,13 @@ public class RoomServiceImpl implements RoomService {
 
 
     @Override
-    public Long create(Member seller, CreateRoomDto dto) {
+    public Room create(Member seller, CreateRoomDto dto) {
 
         //TODO: dto 검증
 
         Room room = dto.toEntity(tourService.findBySeller(seller));
 
-        return roomRepository.save(room).getId();
+        return roomRepository.save(room);
     }
 
 

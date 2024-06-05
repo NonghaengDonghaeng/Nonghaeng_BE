@@ -1,5 +1,6 @@
 package tour.nonghaeng.domain.reservation.dto.exp;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AccessLevel;
@@ -11,13 +12,15 @@ import tour.nonghaeng.domain.etc.enums.reservation.ReservationStateType;
 import tour.nonghaeng.domain.experience.data.ExperienceRound;
 import tour.nonghaeng.domain.member.data.User;
 import tour.nonghaeng.domain.reservation.data.ExperienceReservation;
+import tour.nonghaeng.domain.reservation.dto.CreateReservationDto;
 
 import java.time.LocalDate;
 
+@JsonTypeName("experience")
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class CreateExpReservationDto {
+public class CreateExpReservationDto extends CreateReservationDto {
     private Long roundId;                   //예약 회차
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate reservationDate;      //예약 날짜

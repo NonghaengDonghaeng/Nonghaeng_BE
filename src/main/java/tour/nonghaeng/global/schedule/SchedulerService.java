@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
-import tour.nonghaeng.domain.reservation.service.ReservationService;
+import tour.nonghaeng.domain.reservation.service.ReservationServiceImpl;
 import tour.nonghaeng.domain.room.service.RoomService;
 
 @Service
@@ -24,7 +24,7 @@ public class SchedulerService {
 
     private final ExperienceService experienceService;
     private final RoomService roomService;
-    private final ReservationService reservationService;
+    private final ReservationServiceImpl reservationServiceImpl;
 
 
     //TODO: 스케줄 매일마다 가장 오래된 날짜 오늘과 확인후 삭제작업, 시간대 및 성능적 코드개선 필요
@@ -54,7 +54,7 @@ public class SchedulerService {
 
         log.info("Scheduler 실행: autoCompleteReservation");
 
-        reservationService.autoChangeCompleteReservation();
+        reservationServiceImpl.autoChangeCompleteReservation();
     }
 
     @Async
@@ -63,7 +63,7 @@ public class SchedulerService {
 
         log.info("Scheduler 실행: autoCancelReservation");
 
-        reservationService.autoChangeCancelReservation();
+        reservationServiceImpl.autoChangeCancelReservation();
     }
 
 }

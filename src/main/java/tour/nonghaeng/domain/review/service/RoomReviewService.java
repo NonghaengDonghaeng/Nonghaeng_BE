@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.etc.enums.review.ReviewServiceType;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.reservation.data.Reservation;
-import tour.nonghaeng.domain.reservation.service.ReservationService;
+import tour.nonghaeng.domain.reservation.service.ReservationServiceImpl;
 import tour.nonghaeng.domain.review.data.Review;
 import tour.nonghaeng.domain.review.data.RoomReview;
 import tour.nonghaeng.domain.review.data.repo.RoomReviewRepository;
@@ -30,7 +30,7 @@ public class RoomReviewService implements ViewForEachEntityService, CrudReviewSe
     private final RoomReviewRepository roomReviewRepository;
 
     private final RoomService roomService;
-    private final ReservationService reservationService;
+    private final ReservationServiceImpl reservationServiceImpl;
 
     private final RoomValidator roomValidator;
     private final AuthValidator authValidator;
@@ -74,8 +74,8 @@ public class RoomReviewService implements ViewForEachEntityService, CrudReviewSe
     }
 
     @Override
-    public Long create(Member user, CreateReviewDto createDto) {
-        Reservation reservation = reservationService.findById(createDto.getReservationId());
+    public Review create(Member user, CreateReviewDto createDto) {
+        Reservation reservation = reservationServiceImpl.findById(createDto.getReservationId());
         Room room = roomService.findById(createDto.getId());
 
         //TODO: validator
@@ -90,6 +90,6 @@ public class RoomReviewService implements ViewForEachEntityService, CrudReviewSe
                 .build();
 
 
-        return roomReviewRepository.save(roomReview).getId();
+        return roomReviewRepository.save(roomReview);
     }
 }

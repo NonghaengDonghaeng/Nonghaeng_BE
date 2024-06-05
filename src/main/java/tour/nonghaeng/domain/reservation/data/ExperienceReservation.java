@@ -113,4 +113,21 @@ public class ExperienceReservation extends Reservation {
                 .build();
     }
 
+    @Override
+    public ReservationResponseDto toReservationResponseDto() {
+        return ExpReservationResponseDto.builder()
+                .experienceReservationId(this.getId())
+                .experienceName(this.getExperience().getExperienceName())
+                .reservationName(this.getReservationName())
+                .reservationDate(this.getReservationDate())
+                .startTime(this.getExperienceRound().getStartTime())
+                .endTime(this.getExperienceRound().getEndTime())
+                .number(this.getNumber())
+                .email(this.getEmail())
+                .numOfParticipant(this.getNumOfParticipant())
+                .finalPrice(this.getPrice())
+                .build();
+    }
+
+
 }

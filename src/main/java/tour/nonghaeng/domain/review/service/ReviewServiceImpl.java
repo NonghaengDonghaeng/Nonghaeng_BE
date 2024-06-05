@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.etc.enums.review.ReviewServiceType;
 import tour.nonghaeng.domain.member.data.Member;
-import tour.nonghaeng.domain.reservation.service.ReservationService;
+import tour.nonghaeng.domain.reservation.service.ReservationServiceImpl;
 import tour.nonghaeng.domain.review.data.Review;
 import tour.nonghaeng.domain.review.data.repo.ReviewRepository;
 import tour.nonghaeng.domain.review.dto.CreateReviewDto;
@@ -29,7 +29,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
 
     private final TourService tourService;
-    private final ReservationService reservationService;
+    private final ReservationServiceImpl reservationServiceImpl;
 
     private final ReviewValidator reviewValidator;
     private final AuthValidator authValidator;
@@ -77,11 +77,11 @@ public class ReviewServiceImpl implements ReviewService {
 
     //CrudService
     @Override
-    public Long create(Member user, CreateReviewDto requestDto) {
+    public Review create(Member user, CreateReviewDto requestDto) {
 
         Long reservationId = requestDto.getReservationId();
 
-        String type = reservationService.findTypeById(reservationId);
+        String type = reservationServiceImpl.findTypeById(reservationId);
 
         reviewValidator.createReviewValidate(user,reservationId,type);
 

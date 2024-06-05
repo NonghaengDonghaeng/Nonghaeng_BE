@@ -35,7 +35,8 @@ public class CreateRoomDto extends CreateDto {
     private String precautions;
 
 
-    public CreateRoomDto(RoomType roomType, String roomName, String summary, int pricePeak, int priceOffPeak, int standardCapacity, int priceHoliday, int maxCapacity, int additionalCost, LocalTime checkinTime, LocalTime checkoutTime,  int numOfRoom,String roomConfiguration, String requirement, String inclusions, String facilities, String usageTips, String precautions) {
+    public CreateRoomDto(RoomType roomType, String roomName, String summary, int pricePeak, int priceOffPeak, int priceHoliday, int standardCapacity, int maxCapacity, int additionalCost, LocalTime checkinTime, LocalTime checkoutTime, int numOfRoom, String roomConfiguration, String requirement, String inclusions, String facilities, String usageTips, String precautions) {
+
         this.roomType = roomType;
         this.roomName = roomName;
         this.summary = summary;

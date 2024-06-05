@@ -42,14 +42,14 @@ public class TourServiceImpl implements TourService {
 
 
     @Override
-    public Long create(Member seller, CreateTourDto dto) {
+    public Tour create(Member seller, CreateTourDto dto) {
 
 
         tourValidator.createValidate(seller,dto);
 
         Tour createdTour = dto.toEntity(authValidator.sellerValidate(seller));
 
-        return tourRepository.save(createdTour).getId();
+        return tourRepository.save(createdTour);
     }
 
 

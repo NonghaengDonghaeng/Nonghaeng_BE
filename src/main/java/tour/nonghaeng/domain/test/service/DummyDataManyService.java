@@ -18,7 +18,7 @@ import tour.nonghaeng.domain.member.dto.SellerJoinDto;
 import tour.nonghaeng.domain.member.dto.UserJoinDto;
 import tour.nonghaeng.domain.member.service.SellerService;
 import tour.nonghaeng.domain.member.service.UserService;
-import tour.nonghaeng.domain.reservation.service.ReservationService;
+import tour.nonghaeng.domain.reservation.service.ReservationServiceImpl;
 import tour.nonghaeng.domain.room.dto.CreateRoomDto;
 import tour.nonghaeng.domain.room.service.RoomService;
 import tour.nonghaeng.domain.tour.dto.CreateTourDto;
@@ -40,7 +40,7 @@ public class DummyDataManyService implements DummyDataService {
     private final TourService tourService;
     private final ExperienceService experienceService;
     private final RoomService roomService;
-    private final ReservationService reservationService;
+    private final ReservationServiceImpl reservationServiceImpl;
 
     @Override
     public void setDummyData() {
@@ -87,16 +87,16 @@ public class DummyDataManyService implements DummyDataService {
 
 
 
-        Long tourId1 = tourService.create(seller1, createTourDto1);
-        Long tourId2 = tourService.create(seller2, createTourDto2);
-        Long tourId3 = tourService.create(seller3, createTourDto3);
-        Long tourId4 = tourService.create(seller4, createTourDto4);
-        Long tourId5 = tourService.create(seller5, createTourDto5);
-        Long tourId6 = tourService.create(seller6, createTourDto6);
-        Long tourId7 = tourService.create(seller7, createTourDto1);
-        Long tourId8 = tourService.create(seller8, createTourDto2);
-        Long tourId9 = tourService.create(seller9, createTourDto3);
-        Long tourId10 = tourService.create(seller10, createTourDto4);
+        tourService.create(seller1, createTourDto1);
+        tourService.create(seller2, createTourDto2);
+        tourService.create(seller3, createTourDto3);
+        tourService.create(seller4, createTourDto4);
+        tourService.create(seller5, createTourDto5);
+        tourService.create(seller6, createTourDto6);
+        tourService.create(seller7, createTourDto1);
+        tourService.create(seller8, createTourDto2);
+        tourService.create(seller9, createTourDto3);
+        tourService.create(seller10, createTourDto4);
 
         //체험 생성
         LocalDate startDate = LocalDate.of(2024, 1, 1);

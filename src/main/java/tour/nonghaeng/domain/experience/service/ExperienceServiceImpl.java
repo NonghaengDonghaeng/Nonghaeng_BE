@@ -50,7 +50,7 @@ public class ExperienceServiceImpl implements ExperienceService {
 
 
     @Override
-    public Long create(Member seller, CreateExpDto dto) {
+    public Experience create(Member seller, CreateExpDto dto) {
 
         //TODO: dto 검증
 
@@ -60,7 +60,7 @@ public class ExperienceServiceImpl implements ExperienceService {
 
         experienceRoundService.addRounds(experience,dto.getExpRoundDtoList());
 
-        return experienceRepository.save(experience).getId();
+        return experienceRepository.save(experience);
     }
 
 

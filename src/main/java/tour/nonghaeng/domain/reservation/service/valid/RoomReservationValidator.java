@@ -50,6 +50,7 @@ public class RoomReservationValidator {
         int price = room.getPriceOffPeak();
 
         if (dto.getFinalPrice() != (price * dto.getNumOfRoom()+ (additionalCost * additionNum))  * dto.getReservationDates().size()) {
+            log.info("최종가격: {}", (price * dto.getNumOfRoom() + (additionalCost * additionNum)) * dto.getReservationDates().size());
             throw new ReservationException(ReservationErrorCode.WRONG_FINAL_PRICE_ERROR);
         }
         //운영날짜 확인

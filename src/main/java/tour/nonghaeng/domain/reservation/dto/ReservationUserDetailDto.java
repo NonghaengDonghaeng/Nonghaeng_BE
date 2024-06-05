@@ -1,4 +1,6 @@
 package tour.nonghaeng.domain.reservation.dto;
 
-public abstract class ReservationUserDetailDto {
+import tour.nonghaeng.global.infra.dto.DetailDto;
+
+public abstract class ReservationUserDetailDto extends DetailDto {
 }
