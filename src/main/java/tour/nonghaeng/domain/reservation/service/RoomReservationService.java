@@ -59,6 +59,7 @@ public class RoomReservationService implements SubReservationEntityService<Room>
     public RoomReservation create(Member member, CreateReservationDto createDto) {
 
         CreateRoomReservationDto createDto1 = (CreateRoomReservationDto) createDto;
+
         createDto1.toSetLocalDateList();
 
         User user = authValidator.userValidate(member);

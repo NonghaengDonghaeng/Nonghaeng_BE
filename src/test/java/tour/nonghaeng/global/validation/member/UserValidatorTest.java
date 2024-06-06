@@ -41,7 +41,7 @@ class UserValidatorTest {
     @DisplayName("예외1: 회원가입시 비밀번호 체크 실패")
     void joinValidate() {
         //given
-        UserJoinDto dto = UserJoinDto.builder().name("test").email("test@email.com").number("1234-1234")
+        UserJoinDto dto = UserJoinDto.builder().name("test").email("test@email.com").phoneNumber("1234-1234")
                 .password("password")
                 .checkPassword("notPassword")
                 .build();
@@ -56,7 +56,7 @@ class UserValidatorTest {
     @DisplayName("정상")
     void joinValidate2() {
         //given
-        UserJoinDto dto = UserJoinDto.builder().name("test").email("test@email.com").number("1234-1234")
+        UserJoinDto dto = UserJoinDto.builder().name("test").email("test@email.com").phoneNumber("1234-1234")
                 .password("password")
                 .checkPassword("password")
                 .build();

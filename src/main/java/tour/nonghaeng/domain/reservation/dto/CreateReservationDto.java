@@ -15,5 +15,7 @@ import tour.nonghaeng.global.infra.dto.CreateDto;
         @JsonSubTypes.Type(value = CreateRoomReservationDto.class, name = "room"),
         @JsonSubTypes.Type(value = CreateExpReservationDto.class, name = "experience")
 })
-public class CreateReservationDto extends CreateDto {
+public abstract class CreateReservationDto extends CreateDto {
+//    public abstract SubReservation toEntity(User user, Entity entity);
+
 }

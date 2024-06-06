@@ -39,6 +39,10 @@ public class Seller extends Member{
         this.bankAccountName = bankAccountName;
     }
 
+    public int payPoint(int price) {
+        super.point -= price;
+        return super.getPoint();
+    }
 
     public int payBackPoint(int price) {
         super.point += price;

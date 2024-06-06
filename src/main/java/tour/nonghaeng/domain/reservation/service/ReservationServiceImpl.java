@@ -250,7 +250,7 @@ public class ReservationServiceImpl implements ReservationService {
         if (checkPastReservation(reservation)) {
 
             reservation.changeCompleteReservation();
-            sellerService.payBackPoint(reservation.getSeller(), reservation.getPrice());
+            sellerService.payBackPoint(reservation.getSeller(), reservation.getPrice(),null);
             reservationRepository.save(reservation);
         }
     }

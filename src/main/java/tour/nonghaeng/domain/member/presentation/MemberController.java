@@ -9,29 +9,30 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import tour.nonghaeng.domain.member.dto.UserJoinDto;
-import tour.nonghaeng.domain.member.dto.mypage.MyPageUserDto;
 import tour.nonghaeng.domain.member.data.Member;
+import tour.nonghaeng.domain.member.dto.JoinDto;
+import tour.nonghaeng.domain.member.dto.mypage.MyPageUserDto;
 import tour.nonghaeng.domain.member.service.MyPageService;
-import tour.nonghaeng.domain.member.service.UserService;
+import tour.nonghaeng.domain.member.service.registry.MemberServiceRegistry;
 import tour.nonghaeng.global.auth.AuthService;
 
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-public class UserController {
+public class MemberController {
 
-    private final UserService userService;
-    private final MyPageService myPageService;
+    private final MemberServiceRegistry memberServiceRegistry;
+
     private final AuthService authService;
+    private final MyPageService myPageService;
 
 
-    @PostMapping("/join-test")
-    public ResponseEntity<String> join(@RequestBody UserJoinDto userJoinDto){
+    @PostMapping("/join")
+    public ResponseEntity<String> join(@RequestBody JoinDto joinDto){
 
-        log.info(userJoinDto.toString());
-        userService.join(userJoinDto);
+        log.info(joinDto.toString());
 
+        memberServiceRegistry.getServiceByDto(joinDto).join(joinDto);
 
         return new ResponseEntity<>("회원가입 성공", HttpStatus.OK);
     }
