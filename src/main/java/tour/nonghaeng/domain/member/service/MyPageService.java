@@ -32,7 +32,7 @@ public class MyPageService {
                 .email(user.getEmail())
                 .number(user.getPhoneNumber())
                 .point(user.getPoint())
-                .reservationPage(reservationService.getReservationSummaryDtoPage(user, defaultPageRequest))
+                .reservationPage(reservationService.getReservationSummaryDtoPage(user, defaultPageRequest,"all"))
                 .reviewPage(reviewService.getReviewSummaryDtoPageByUser(user,defaultPageRequest))
                 .build();
 

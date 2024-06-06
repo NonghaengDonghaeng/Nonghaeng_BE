@@ -13,7 +13,6 @@ import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.reservation.data.Reservation;
 import tour.nonghaeng.domain.reservation.dto.*;
 import tour.nonghaeng.domain.reservation.service.ReservationService;
-import tour.nonghaeng.domain.reservation.service.registry.ViewReservationSummaryDtoByTypeServiceRegistry;
 import tour.nonghaeng.domain.reservation.service.valid.ReservationValidator;
 import tour.nonghaeng.global.auth.AuthService;
 
@@ -27,8 +26,6 @@ public class ReservationController {
     private final ReservationService reservationService;
 
     private final ReservationValidator reservationValidator;
-
-    private final ViewReservationSummaryDtoByTypeServiceRegistry viewReservationSummaryDtoByTypeServiceRegistry;
 
 
 
@@ -52,9 +49,7 @@ public class ReservationController {
         Member member = authService.toMemberEntity(authentication);
 
         Page<? extends ReservationSummaryDto> dtoPage =
-                viewReservationSummaryDtoByTypeServiceRegistry.getService(type)
-                        .getReservationSummaryDtoPage(member, pageable);
-
+                reservationService.getReservationSummaryDtoPage(member, pageable, type);
 
         return new ResponseEntity<>(dtoPage, HttpStatus.OK);
     }

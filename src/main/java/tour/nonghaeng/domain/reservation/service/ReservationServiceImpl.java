@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.etc.enums.cancel.CancelPolicy;
-import tour.nonghaeng.domain.etc.enums.reservation.ReservationServiceType;
 import tour.nonghaeng.domain.etc.enums.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.member.data.Seller;
@@ -21,13 +20,14 @@ import tour.nonghaeng.domain.reservation.data.repo.ReservationRepository;
 import tour.nonghaeng.domain.reservation.dto.*;
 import tour.nonghaeng.domain.reservation.presentation.exception.ReservationException;
 import tour.nonghaeng.domain.reservation.presentation.exception.error.ReservationErrorCode;
-import tour.nonghaeng.domain.reservation.service.registry.CrudReservationServiceRegistry;
+import tour.nonghaeng.domain.reservation.service.registry.SubReservationEntityServiceRegistry;
 import tour.nonghaeng.domain.reservation.service.valid.ReservationValidator;
 import tour.nonghaeng.global.auth.AuthValidator;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -45,13 +45,10 @@ public class ReservationServiceImpl implements ReservationService {
     private final ReservationValidator reservationValidator;
     private final AuthValidator authValidator;
 
-    private final CrudReservationServiceRegistry crudReservationServiceRegistry;
+    private final SubReservationEntityServiceRegistry subReservationEntityServiceRegistry;
 
 
-    @Override
-    public ReservationServiceType getType() {
-        return ReservationServiceType.TOUR_AND_ALL;
-    }
+
 
 
     @Override
@@ -59,17 +56,15 @@ public class ReservationServiceImpl implements ReservationService {
 
         String type = reservationRepository.findReservationTypeById(reservationId);
 
-        return crudReservationServiceRegistry.getServiceByType(type).findById(reservationId);
-
+        return subReservationEntityServiceRegistry.getServiceByType(type).findById(reservationId);
     }
 
 
     @Override
     public Reservation create(Member user, CreateReservationDto createDto) {
 
-        CrudReservationService service = crudReservationServiceRegistry.getServiceByDto(createDto);
+        return subReservationEntityServiceRegistry.getServiceByDto(createDto).create(user, createDto);
 
-        return service.create(user, createDto);
     }
 
 
@@ -97,7 +92,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         if (reservation instanceof ExperienceReservation expReservation) {
 
-            return experienceReservationService.countRemainOfParticipant(expReservation.getExperienceRound(),
+            return experienceReservationService.countRemain(expReservation.getExperienceRound(),
                     expReservation.getReservationDate());
         }
         return 0;
@@ -105,7 +100,19 @@ public class ReservationServiceImpl implements ReservationService {
 
 
     @Override
-    public Page<? extends ReservationSummaryDto> getReservationSummaryDtoPage(Member member, Pageable pageable) {
+    public Page<? extends ReservationSummaryDto> getReservationSummaryDtoPage(Member member, Pageable pageable,String type) {
+
+        SubReservationEntityService<Objects> service = subReservationEntityServiceRegistry.getServiceByType(type);
+
+        if (service == null) {
+            return getReservationSummaryDtoPageAll(member, pageable);
+        }
+
+        return service.getReservationSummaryDtoPage(member, pageable);
+
+    }
+
+    private Page<? extends ReservationSummaryDto> getReservationSummaryDtoPageAll(Member member, Pageable pageable) {
 
         if (member instanceof Seller) {
             Page<Reservation> reservationPage = reservationRepository.findReservationPageBySeller(authValidator.sellerValidate(member), pageable)
@@ -125,6 +132,7 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationPage.map(Reservation::toSummaryDto);
 
     }
+
 
     @Override
     public ReservationPersonInfo getReservationPersonInfo(Member user) {
@@ -182,7 +190,7 @@ public class ReservationServiceImpl implements ReservationService {
         LocalDate reservationAt = reservation.getCreatedAt().toLocalDate();
         LocalDateTime startAt = findStartAt(reservation);
 
-        Long diffHour = countDiffHourDate(startAt);
+        long diffHour = countDiffHourDate(startAt);
 
         if (reservation.getStateType().equals(ReservationStateType.WAITING_RESERVATION)) {
             return CancelPolicy.NOT_CONFIRM_CANCEL_POLICY;
@@ -281,10 +289,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     private boolean checkPast(LocalDate reservationDate) {
 
-        if (reservationDate.isAfter(LocalDate.now())) {
-            return true;
-        }
-        return false;
+        return reservationDate.isAfter(LocalDate.now());
     }
 
     @Override

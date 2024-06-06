@@ -5,27 +5,31 @@ import tour.nonghaeng.domain.etc.enums.reservation.ReservationServiceType;
 import tour.nonghaeng.domain.reservation.dto.CreateReservationDto;
 import tour.nonghaeng.domain.reservation.dto.exp.CreateExpReservationDto;
 import tour.nonghaeng.domain.reservation.dto.room.CreateRoomReservationDto;
-import tour.nonghaeng.domain.reservation.service.CrudReservationService;
+import tour.nonghaeng.domain.reservation.service.SubReservationEntityService;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
-public class CrudReservationServiceRegistry {
+public class SubReservationEntityServiceRegistry {
 
-    private final Map<ReservationServiceType, CrudReservationService> serviceMap;
+    private final Map<ReservationServiceType, SubReservationEntityService<Objects>> serviceMap;
 
-    public CrudReservationServiceRegistry(List<CrudReservationService> serviceList) {
-        this.serviceMap = serviceList.stream().collect(Collectors.toMap(CrudReservationService::getType, Function.identity()));
+    public SubReservationEntityServiceRegistry(List<SubReservationEntityService<Objects>> serviceList) {
+        this.serviceMap = serviceList.stream().collect(Collectors.toMap(SubReservationEntityService::getType, Function.identity()));
     }
 
-    public CrudReservationService getServiceByType(String type) {
-        return serviceMap.get(ReservationServiceType.ofDtype(type));
+    public SubReservationEntityService<Objects> getServiceByType(String type) {
+
+        ReservationServiceType reservationServiceType = ReservationServiceType.ofDtype(type);
+
+        return serviceMap.getOrDefault(reservationServiceType, null);
     }
 
-    public CrudReservationService getServiceByDto(CreateReservationDto createReservationDto) {
+    public SubReservationEntityService<Objects> getServiceByDto(CreateReservationDto createReservationDto) {
         return serviceMap.get(getType(createReservationDto));
     }
 

@@ -19,7 +19,6 @@ import tour.nonghaeng.domain.reservation.dto.ReservationSummaryDto;
 import tour.nonghaeng.domain.reservation.dto.room.CreateRoomReservationDto;
 import tour.nonghaeng.domain.reservation.presentation.exception.ReservationException;
 import tour.nonghaeng.domain.reservation.presentation.exception.error.ReservationErrorCode;
-import tour.nonghaeng.domain.reservation.service.valid.ReservationValidator;
 import tour.nonghaeng.domain.reservation.service.valid.RoomReservationValidator;
 import tour.nonghaeng.domain.room.data.Room;
 import tour.nonghaeng.domain.room.service.RoomService;
@@ -31,7 +30,7 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class RoomReservationService implements CrudReservationService, ViewReservationSummaryDtoByTypeService {
+public class RoomReservationService implements SubReservationEntityService<Room> {
 
     private final RoomReservationRepository roomReservationRepository;
 
@@ -39,7 +38,6 @@ public class RoomReservationService implements CrudReservationService, ViewReser
     private final UserService userService;
 
     private final RoomReservationValidator roomReservationValidator;
-    private final ReservationValidator reservationValidator;
     private final AuthValidator authValidator;
 
 
@@ -49,13 +47,13 @@ public class RoomReservationService implements CrudReservationService, ViewReser
     }
 
 
-
     @Override
     public RoomReservation findById(Long roomReservationId) {
 
         return roomReservationRepository.findById(roomReservationId)
                 .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_EXIST_ROOM_RESERVATION_BY_ID));
     }
+
 
     @Override
     public RoomReservation create(Member member, CreateReservationDto createDto) {
@@ -73,6 +71,8 @@ public class RoomReservationService implements CrudReservationService, ViewReser
 
         return roomReservationRepository.save(createDto1.toEntity(user, room));
     }
+
+
 
 
     @Override
@@ -93,28 +93,27 @@ public class RoomReservationService implements CrudReservationService, ViewReser
         return reservationPage.map(Reservation::toSummaryDto);
     }
 
-    //해당 날짜의 남은 방 수 구하기
-    public int countRemainOfRoom(Room room, LocalDate date) {
 
-        int currentReservationRoom = roomReservationRepository.countByRoomAndReservationDate(room, date)
-                .orElse(0);
-
-        return room.getNumOfRoom() - currentReservationRoom;
-    }
-
-
-
-
-
+    @Override
     public LocalDate findStartDateById(Long roomReservationId) {
         return roomReservationRepository.findStartDateById(roomReservationId)
                 .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_RESERVATION_DATE_BY_ID));
     }
 
+
+    @Override
     public LocalDate findEndDateById(Long roomReservationId) {
         return roomReservationRepository.findEndDateById(roomReservationId)
                 .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_RESERVATION_DATE_BY_ID));
     }
 
 
+    @Override
+    public int countRemain(Room room, LocalDate date) {
+
+        int currentReservationRoom = roomReservationRepository.countByRoomAndReservationDate(room, date)
+                .orElse(0);
+
+        return room.getNumOfRoom() - currentReservationRoom;
+    }
 }

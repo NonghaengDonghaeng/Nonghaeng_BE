@@ -110,7 +110,7 @@ public class ExperienceServiceImpl implements ExperienceService {
 
         for (ExperienceRound round : experience.getExperienceRounds()) {
             ExpRoundInfoDto.RoundInfo roundInfo = ExpRoundInfoDto.RoundInfo.toRoundInfo(round);
-            roundInfo.setRemainParticipant(experienceReservationService.countRemainOfParticipant(round, dateParameter));
+            roundInfo.setRemainParticipant(experienceReservationService.countRemain(round, dateParameter));
             dto.addRoundInfo(roundInfo);
         }
 

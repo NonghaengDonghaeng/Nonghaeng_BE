@@ -23,6 +23,6 @@ public enum ReservationServiceType {
                 return rt;
             }
         }
-        throw new IllegalArgumentException("일치하는 사진타입이 없습니다.");
+        return null;
     }
 }

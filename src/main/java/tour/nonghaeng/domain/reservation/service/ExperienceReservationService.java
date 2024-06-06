@@ -31,7 +31,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class ExperienceReservationService implements CrudReservationService, ViewReservationSummaryDtoByTypeService {
+public class ExperienceReservationService implements SubReservationEntityService<ExperienceRound> {
 
     private final ExperienceReservationRepository experienceReservationRepository;
 
@@ -47,12 +47,14 @@ public class ExperienceReservationService implements CrudReservationService, Vie
         return ReservationServiceType.EXPERIENCE;
     }
 
+
     @Override
     public ExperienceReservation findById(Long experienceReservationId) {
 
         return experienceReservationRepository.findById(experienceReservationId)
                 .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_EXIST_EXPERIENCE_RESERVATION_BY_ID));
     }
+
 
     @Override
     public ExperienceReservation create(Member member, CreateReservationDto createDto) {
@@ -65,13 +67,15 @@ public class ExperienceReservationService implements CrudReservationService, Vie
         experienceReservationValidator
                 .experienceReservationValidate(
                         experienceRound, user,
-                        countRemainOfParticipant(experienceRound, createDto1.getReservationDate()),
+                        countRemain(experienceRound, createDto1.getReservationDate()),
                         createDto1);
 
         userService.payPoint(user, createDto1.getFinalPrice());
 
         return experienceReservationRepository.save(createDto1.toEntity(user, experienceRound));
     }
+
+
 
 
     @Override
@@ -96,8 +100,9 @@ public class ExperienceReservationService implements CrudReservationService, Vie
 
     }
 
-    //해당 날짜, 해당 회차에 잔여인원 구하기
-    public int countRemainOfParticipant(ExperienceRound experienceRound, LocalDate localDate) {
+
+    @Override
+    public int countRemain(ExperienceRound experienceRound, LocalDate localDate) {
 
         int currentReservationParticipant = 0;
 
@@ -112,12 +117,19 @@ public class ExperienceReservationService implements CrudReservationService, Vie
     }
 
 
-    public LocalDate findEndDateById(Long reservationId) {
-
+    @Override
+    public LocalDate findStartDateById(Long reservationId) {
         return experienceReservationRepository.findById(reservationId)
                 .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_EXIST_EXPERIENCE_RESERVATION_BY_ID))
                 .getReservationDate();
     }
 
 
+    @Override
+    public LocalDate findEndDateById(Long reservationId) {
+
+        return experienceReservationRepository.findById(reservationId)
+                .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_EXIST_EXPERIENCE_RESERVATION_BY_ID))
+                .getReservationDate();
+    }
 }
