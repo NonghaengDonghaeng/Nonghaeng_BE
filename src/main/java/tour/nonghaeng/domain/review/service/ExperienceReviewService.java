@@ -12,7 +12,7 @@ import tour.nonghaeng.domain.experience.service.ExperienceService;
 import tour.nonghaeng.domain.experience.service.valid.ExperienceValidator;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.reservation.data.Reservation;
-import tour.nonghaeng.domain.reservation.service.ReservationServiceImpl;
+import tour.nonghaeng.domain.reservation.service.ReservationService;
 import tour.nonghaeng.domain.review.data.ExperienceReview;
 import tour.nonghaeng.domain.review.data.Review;
 import tour.nonghaeng.domain.review.data.repo.ExperienceReviewRepository;
@@ -30,7 +30,7 @@ public class ExperienceReviewService implements ViewForEachEntityService, CrudRe
     private final ExperienceReviewRepository experienceReviewRepository;
 
     private final ExperienceService experienceService;
-    private final ReservationServiceImpl reservationServiceImpl;
+    private final ReservationService reservationService;
 
     private final ExperienceValidator experienceValidator;
     private final AuthValidator authValidator;
@@ -79,7 +79,7 @@ public class ExperienceReviewService implements ViewForEachEntityService, CrudRe
 
     @Override
     public Review create(Member user, CreateReviewDto createDto) {
-        Reservation reservation = reservationServiceImpl.findById(createDto.getReservationId());
+        Reservation reservation = reservationService.findById(createDto.getReservationId());
         Experience experience = experienceService.findById(createDto.getId());
 
         //TODO: validator

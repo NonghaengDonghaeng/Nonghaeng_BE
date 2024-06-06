@@ -45,8 +45,8 @@ public class RoomReservation extends Reservation {
     }
 
     @Override
-    public ReservationUserSummaryDto toUserSummaryDto() {
-        return RoomReservationUserSummaryDto.builder()
+    public ReservationSummaryDto toSummaryDto() {
+        return RoomReservationSummaryDto.builder()
                 .roomReservationId(this.getId())
                 .roomName(this.getRoom().getRoomName())
                 .reservationState(this.getStateType().getName())
@@ -61,9 +61,22 @@ public class RoomReservation extends Reservation {
     }
 
     @Override
-    public ReservationUserDetailDto toUserDetailDto() {
+    public ReservationSummaryDto toSummaryDtoForSeller() {
+        return RoomReservationSummaryDtoForSeller.builder()
+                .roomReservationId(this.getId())
+                .reservationState(this.getStateType().getName())
+                .roomName(this.getRoom().getRoomName())
+                .reservationDates(this.getReservationDates().stream().map(RoomReservationDate::getReservationDate).toList())
+                .price(this.getPrice())
+                .numOfParticipant(this.getNumOfParticipant())
+                .numOfRoom(this.getNumOfRoom())
+                .build();
+    }
 
-        return RoomReservationUserDetailDto.builder()
+    @Override
+    public ReservationDetailDto toDetailDto() {
+
+        return RoomReservationDetailDto.builder()
                 .reservationState(this.getStateType().getName())
                 .tourName(this.getRoom().getTour().getName())
                 .roomName(this.getRoom().getRoomName())
@@ -78,21 +91,8 @@ public class RoomReservation extends Reservation {
     }
 
     @Override
-    public ReservationSellerSummaryDto toSellerSummaryDto() {
-        return RoomReservationSellerSummaryDto.builder()
-                .roomReservationId(this.getId())
-                .reservationState(this.getStateType().getName())
-                .roomName(this.getRoom().getRoomName())
-                .reservationDates(this.getReservationDates().stream().map(RoomReservationDate::getReservationDate).toList())
-                .price(this.getPrice())
-                .numOfParticipant(this.getNumOfParticipant())
-                .numOfRoom(this.getNumOfRoom())
-                .build();
-    }
-
-    @Override
-    public ReservationSellerDetailDto toSellerDetailDto(int remainParticipant) {
-        return RoomReservationSellerDetailDto.builder()
+    public ReservationDetailDto toDetailDtoForSeller(int remainParticipant) {
+        return RoomReservationDetailDtoForSeller.builder()
                 .reservationState(this.getStateType().getName())
                 .roomName(this.getRoom().getRoomName())
                 .roomId(this.getRoom().getId())
@@ -105,6 +105,8 @@ public class RoomReservation extends Reservation {
                 .price(this.getPrice())
                 .build();
     }
+
+
 
     @Override
     public ReservationCancelResponseDto toCancelResponseDto(CancelPolicy cancelPolicy) {

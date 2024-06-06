@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.member.dto.mypage.MyPageUserDto;
-import tour.nonghaeng.domain.reservation.service.ReservationServiceImpl;
+import tour.nonghaeng.domain.reservation.service.ReservationService;
 import tour.nonghaeng.domain.review.service.ReviewService;
 
 @Service
@@ -16,7 +16,7 @@ import tour.nonghaeng.domain.review.service.ReviewService;
 @Slf4j
 public class MyPageService {
 
-    private final ReservationServiceImpl reservationServiceImpl;
+    private final ReservationService reservationService;
     //네이밍 바꿔야할듯
     private final ReviewService reviewService;
 
@@ -32,7 +32,7 @@ public class MyPageService {
                 .email(user.getEmail())
                 .number(user.getPhoneNumber())
                 .point(user.getPoint())
-                .reservationPage(reservationServiceImpl.getReservationUserSummaryDtoPage(user, defaultPageRequest,"all"))
+                .reservationPage(reservationService.getReservationSummaryDtoPage(user, defaultPageRequest))
                 .reviewPage(reviewService.getReviewSummaryDtoPageByUser(user,defaultPageRequest))
                 .build();
 

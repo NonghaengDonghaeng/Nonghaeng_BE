@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.etc.enums.cancel.CancelPolicy;
+import tour.nonghaeng.domain.etc.enums.reservation.ReservationServiceType;
 import tour.nonghaeng.domain.etc.enums.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.member.data.Seller;
@@ -47,6 +48,11 @@ public class ReservationServiceImpl implements ReservationService {
     private final CrudReservationServiceRegistry crudReservationServiceRegistry;
 
 
+    @Override
+    public ReservationServiceType getType() {
+        return ReservationServiceType.TOUR_AND_ALL;
+    }
+
 
     @Override
     public Reservation findById(Long reservationId) {
@@ -56,6 +62,7 @@ public class ReservationServiceImpl implements ReservationService {
         return crudReservationServiceRegistry.getServiceByType(type).findById(reservationId);
 
     }
+
 
     @Override
     public Reservation create(Member user, CreateReservationDto createDto) {
@@ -69,29 +76,26 @@ public class ReservationServiceImpl implements ReservationService {
 
 
     //예약조회 서비스
-    public ReservationUserDetailDto getReservationUserDetailDto(Long reservationId) {
+    @Override
+    public ReservationDetailDto getReservationDetailDto(Member member, Long reservationId) {
 
         reservationValidator.idValidate(reservationId);
 
         Reservation reservation = findById(reservationId);
 
-        return reservation.toUserDetailDto();
-    }
+        if (member instanceof Seller) {
 
+            reservationValidator.ownerSellerValidate(member, reservationId);
+            return reservation.toDetailDtoForSeller(countRemainOfParticipant(reservation));
+        }
 
-
-    public ReservationSellerDetailDto getReservationSellerDetailDto(Long reservationId) {
-
-        reservationValidator.idValidate(reservationId);
-
-        Reservation reservation = findById(reservationId);
-
-        return reservation.toSellerDetailDto(countRemainOfParticipant(reservation));
+        reservationValidator.ownerUserValidate(member, reservationId);
+        return reservation.toDetailDto();
     }
 
     private int countRemainOfParticipant(Reservation reservation) {
 
-        if(reservation instanceof ExperienceReservation expReservation) {
+        if (reservation instanceof ExperienceReservation expReservation) {
 
             return experienceReservationService.countRemainOfParticipant(expReservation.getExperienceRound(),
                     expReservation.getReservationDate());
@@ -100,70 +104,38 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
 
+    @Override
+    public Page<? extends ReservationSummaryDto> getReservationSummaryDtoPage(Member member, Pageable pageable) {
 
-    public Page<? extends ReservationUserSummaryDto> getReservationUserSummaryDtoPage(Member user, Pageable pageable,String type) {
+        if (member instanceof Seller) {
+            Page<Reservation> reservationPage = reservationRepository.findReservationPageBySeller(authValidator.sellerValidate(member), pageable)
+                    .map(reservation -> findById(reservation.getId()));
+            if (!reservationPage.hasContent()) {
+                return Page.empty();
+            }
+            return reservationPage.map(Reservation::toSummaryDtoForSeller);
+        }
 
-        Page<Reservation> reservationPage = getReservationPageByUserAndType(user, pageable, type);
-
-        if(!reservationPage.hasContent()) {
+        Page<Reservation> reservationPage = reservationRepository.findReservationPageByUser(authValidator.userValidate(member), pageable)
+                .map(reservation -> findById(reservation.getId()));
+        if (!reservationPage.hasContent()) {
             return Page.empty();
         }
 
-        return reservationPage.map(Reservation::toUserSummaryDto);
+        return reservationPage.map(Reservation::toSummaryDto);
+
     }
 
-    private Page<Reservation> getReservationPageByUserAndType(Member user, Pageable pageable, String type) {
-
-        if (type.equals("room")) {
-
-            return roomReservationService.findReservationPageByUser(user, pageable);
-        } else if (type.equals("experience")) {
-
-            return experienceReservationService.findReservationPageByUser(user, pageable);
-        }
-        // type: all 일때
-        return reservationRepository.findReservationPageByUser(authValidator.userValidate(user), pageable)
-                .map(reservation -> findById(reservation.getId()));
-    }
-
-
-    public Page<? extends ReservationSellerSummaryDto> getReservationSellerSummaryDtoPage(Member seller, Pageable pageable,String type) {
-
-        Page<Reservation> reservationPage = findReservationPageBySeller(seller, pageable, type);
-
-        reservationValidator.pageValidate(reservationPage);
-
-        return reservationPage.map(Reservation::toSellerSummaryDto);
-    }
-
-    private Page<Reservation> findReservationPageBySeller(Member seller, Pageable pageable, String type) {
-
-        if (type.equals("room")) {
-
-            return roomReservationService.findReservationPageBySeller(seller, pageable);
-        }
-        else if (type.equals("exp")) {
-
-            return experienceReservationService.findReservationPageBySeller(seller, pageable);
-        }
-        return findReservationPageBySeller(seller, pageable);
-    }
-
-    private Page<Reservation> findReservationPageBySeller(Member seller, Pageable pageable) {
-
-        return reservationRepository.findReservationPageBySeller((Seller) seller, pageable)
-                .map(reservation -> findById(reservation.getId()));
-    }
-
-
-
+    @Override
     public ReservationPersonInfo getReservationPersonInfo(Member user) {
         return ReservationPersonInfo.toDto(user);
     }
 
 
 
+
     //취소,승인 서비스
+    @Override
     public Long approveReservation(Long reservationId, boolean notApproveFlag) {
 
         Reservation reservation = findById(reservationId);
@@ -188,7 +160,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
 
-
+    @Override
     public ReservationCancelResponseDto cancelReservation(Member user, Long reservationId) {
 
         Reservation reservation = findById(reservationId);
@@ -254,7 +226,9 @@ public class ReservationServiceImpl implements ReservationService {
 
 
 
+
     //스케줄링 서비스
+    @Override
     public void autoChangeCompleteReservation() {
 
         reservationRepository.findAllConfirmReservation()
@@ -273,8 +247,7 @@ public class ReservationServiceImpl implements ReservationService {
         }
     }
 
-
-
+    @Override
     public void autoChangeCancelReservation() {
 
         reservationRepository.findAllWaitingReservation()
@@ -314,7 +287,7 @@ public class ReservationServiceImpl implements ReservationService {
         return false;
     }
 
-
+    @Override
     public String findTypeById(Long reservationId) {
         return reservationRepository.findReservationTypeById(reservationId);
     }

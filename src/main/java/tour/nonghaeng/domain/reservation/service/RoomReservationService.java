@@ -8,12 +8,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.etc.enums.reservation.ReservationServiceType;
 import tour.nonghaeng.domain.member.data.Member;
+import tour.nonghaeng.domain.member.data.Seller;
 import tour.nonghaeng.domain.member.data.User;
 import tour.nonghaeng.domain.member.service.UserService;
 import tour.nonghaeng.domain.reservation.data.Reservation;
 import tour.nonghaeng.domain.reservation.data.RoomReservation;
 import tour.nonghaeng.domain.reservation.data.repo.RoomReservationRepository;
 import tour.nonghaeng.domain.reservation.dto.CreateReservationDto;
+import tour.nonghaeng.domain.reservation.dto.ReservationSummaryDto;
 import tour.nonghaeng.domain.reservation.dto.room.CreateRoomReservationDto;
 import tour.nonghaeng.domain.reservation.presentation.exception.ReservationException;
 import tour.nonghaeng.domain.reservation.presentation.exception.error.ReservationErrorCode;
@@ -29,7 +31,7 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class RoomReservationService implements CrudReservationService {
+public class RoomReservationService implements CrudReservationService, ViewReservationSummaryDtoByTypeService {
 
     private final RoomReservationRepository roomReservationRepository;
 
@@ -45,6 +47,8 @@ public class RoomReservationService implements CrudReservationService {
     public ReservationServiceType getType() {
         return ReservationServiceType.ROOM;
     }
+
+
 
     @Override
     public RoomReservation findById(Long roomReservationId) {
@@ -71,6 +75,24 @@ public class RoomReservationService implements CrudReservationService {
     }
 
 
+    @Override
+    public Page<? extends ReservationSummaryDto> getReservationSummaryDtoPage(Member member, Pageable pageable) {
+
+        if (member instanceof Seller) {
+            Page<Reservation> reservationPage = roomReservationRepository.findReservationPageBySeller(authValidator.sellerValidate(member), pageable);
+
+            if (!reservationPage.hasContent()) {
+                return Page.empty();
+            }
+            return reservationPage.map(Reservation::toSummaryDtoForSeller);
+        }
+        Page<Reservation> reservationPage = roomReservationRepository.findReservationPageByUser(authValidator.userValidate(member), pageable);
+        if (!reservationPage.hasContent()) {
+            return Page.empty();
+        }
+        return reservationPage.map(Reservation::toSummaryDto);
+    }
+
     //해당 날짜의 남은 방 수 구하기
     public int countRemainOfRoom(Room room, LocalDate date) {
 
@@ -82,15 +104,7 @@ public class RoomReservationService implements CrudReservationService {
 
 
 
-    public Page<Reservation> findReservationPageByUser(Member user, Pageable pageable) {
-        return roomReservationRepository.findReservationPageByUser(authValidator.userValidate(user), pageable);
-    }
 
-
-
-    public Page<Reservation> findReservationPageBySeller(Member seller, Pageable pageable) {
-        return roomReservationRepository.findReservationPageBySeller(authValidator.sellerValidate(seller), pageable);
-    }
 
     public LocalDate findStartDateById(Long roomReservationId) {
         return roomReservationRepository.findStartDateById(roomReservationId)

@@ -10,12 +10,14 @@ import tour.nonghaeng.domain.etc.enums.reservation.ReservationServiceType;
 import tour.nonghaeng.domain.experience.data.ExperienceRound;
 import tour.nonghaeng.domain.experience.service.ExperienceRoundService;
 import tour.nonghaeng.domain.member.data.Member;
+import tour.nonghaeng.domain.member.data.Seller;
 import tour.nonghaeng.domain.member.data.User;
 import tour.nonghaeng.domain.member.service.UserService;
 import tour.nonghaeng.domain.reservation.data.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.data.Reservation;
 import tour.nonghaeng.domain.reservation.data.repo.ExperienceReservationRepository;
 import tour.nonghaeng.domain.reservation.dto.CreateReservationDto;
+import tour.nonghaeng.domain.reservation.dto.ReservationSummaryDto;
 import tour.nonghaeng.domain.reservation.dto.exp.CreateExpReservationDto;
 import tour.nonghaeng.domain.reservation.presentation.exception.ReservationException;
 import tour.nonghaeng.domain.reservation.presentation.exception.error.ReservationErrorCode;
@@ -29,7 +31,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class ExperienceReservationService implements CrudReservationService {
+public class ExperienceReservationService implements CrudReservationService, ViewReservationSummaryDtoByTypeService {
 
     private final ExperienceReservationRepository experienceReservationRepository;
 
@@ -72,6 +74,28 @@ public class ExperienceReservationService implements CrudReservationService {
     }
 
 
+    @Override
+    public Page<? extends ReservationSummaryDto> getReservationSummaryDtoPage(Member member,Pageable pageable) {
+
+        if (member instanceof Seller) {
+            Page<Reservation> reservationPage = experienceReservationRepository.findReservationPageBySeller(authValidator.sellerValidate(member), pageable);
+
+            if(!reservationPage.hasContent()) {
+                return Page.empty();
+            }
+
+            return reservationPage.map(Reservation::toSummaryDtoForSeller);
+        }
+        Page<Reservation> reservationPage = experienceReservationRepository.findReservationPageByUser(authValidator.userValidate(member), pageable);
+
+        if(!reservationPage.hasContent()) {
+            return Page.empty();
+        }
+
+        return reservationPage.map(Reservation::toSummaryDto);
+
+    }
+
     //해당 날짜, 해당 회차에 잔여인원 구하기
     public int countRemainOfParticipant(ExperienceRound experienceRound, LocalDate localDate) {
 
@@ -80,24 +104,12 @@ public class ExperienceReservationService implements CrudReservationService {
         Optional<Integer> currentNum =
                 experienceReservationRepository.countParticipantByExperienceRoundAndReservationDate(experienceRound, localDate);
 
-        if (currentNum.isPresent()){
+        if (currentNum.isPresent()) {
             currentReservationParticipant = currentNum.get();
         }
 
         return experienceRound.getMaxParticipant() - currentReservationParticipant;
     }
-
-    public Page<Reservation> findReservationPageByUser(Member user, Pageable pageable) {
-
-        return experienceReservationRepository.findReservationPageByUser(authValidator.userValidate(user), pageable);
-    }
-
-
-    public Page<Reservation> findReservationPageBySeller(Member seller, Pageable pageable) {
-
-        return experienceReservationRepository.findReservationPageBySeller(authValidator.sellerValidate(seller), pageable);
-    }
-
 
 
     public LocalDate findEndDateById(Long reservationId) {

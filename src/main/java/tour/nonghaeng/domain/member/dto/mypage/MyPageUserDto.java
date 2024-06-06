@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
-import tour.nonghaeng.domain.reservation.dto.ReservationUserSummaryDto;
+import tour.nonghaeng.domain.reservation.dto.ReservationSummaryDto;
 import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
@@ -19,11 +19,11 @@ public class MyPageUserDto {
     private String email;
     private String number;
     private int point;
-    private Page<? extends ReservationUserSummaryDto> reservationPage;
+    private Page<? extends ReservationSummaryDto> reservationPage;
     private Page<? extends ReviewSummaryDto> reviewPage;
 
     @Builder
-    private MyPageUserDto(String name, String email, String number, int point, Page<? extends ReservationUserSummaryDto> reservationPage, Page<? extends ReviewSummaryDto> reviewPage) {
+    private MyPageUserDto(String name, String email, String number, int point, Page<? extends ReservationSummaryDto> reservationPage, Page<? extends ReviewSummaryDto> reviewPage) {
 
         this.name = name;
         this.email = email;

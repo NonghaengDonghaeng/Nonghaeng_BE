@@ -8,44 +8,45 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
-import tour.nonghaeng.domain.reservation.dto.ReservationUserSummaryDto;
 import tour.nonghaeng.domain.reservation.data.ExperienceReservation;
+import tour.nonghaeng.domain.reservation.dto.ReservationSummaryDto;
 
 import java.time.LocalDate;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class ExpReservationUserSummaryDto extends ReservationUserSummaryDto {
-
-    private Long experienceReservationId;
-    private String experienceName;
+public class ExpReservationSummaryDtoForSeller extends ReservationSummaryDto {
     private String reservationState;
+    private String experienceName;
+    private Long experienceReservationId;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate reservationDate;
     private int price;
     private int numOfParticipant;
-    private String type;
+
+    //TODO: 체험 회차정보도 추가하기
+
 
     @Builder
-    public ExpReservationUserSummaryDto(Long experienceReservationId, String experienceName, String reservationState, LocalDate reservationDate, int price, int numOfParticipant,String type) {
-        this.experienceReservationId = experienceReservationId;
-        this.experienceName = experienceName;
+    public ExpReservationSummaryDtoForSeller(String reservationState, String experienceName, Long experienceReservationId, LocalDate reservationDate, int price, int numOfParticipant) {
         this.reservationState = reservationState;
+        this.experienceName = experienceName;
+        this.experienceReservationId = experienceReservationId;
         this.reservationDate = reservationDate;
         this.price = price;
         this.numOfParticipant = numOfParticipant;
-        this.type = type;
     }
 
-    public static Page<ExpReservationUserSummaryDto> toPageDto(Page<ExperienceReservation> page) {
-        return page.map(experienceReservation -> ExpReservationUserSummaryDto.builder()
-                .experienceReservationId(experienceReservation.getId())
-                .experienceName(experienceReservation.getExperience().getExperienceName())
+    public static Page<ExpReservationSummaryDtoForSeller> toPageDto(Page<ExperienceReservation> experienceReservationPage) {
+        return experienceReservationPage.map(experienceReservation -> ExpReservationSummaryDtoForSeller.builder()
                 .reservationState(experienceReservation.getStateType().getName())
+                .experienceName(experienceReservation.getExperience().getExperienceName())
+                .experienceReservationId(experienceReservation.getId())
                 .reservationDate(experienceReservation.getReservationDate())
                 .price(experienceReservation.getPrice())
                 .numOfParticipant(experienceReservation.getNumOfParticipant())
                 .build());
+
     }
 }

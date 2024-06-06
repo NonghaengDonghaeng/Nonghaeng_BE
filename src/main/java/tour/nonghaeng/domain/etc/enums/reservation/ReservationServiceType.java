@@ -9,7 +9,7 @@ public enum ReservationServiceType {
 
     EXPERIENCE("experience"),
     ROOM("room"),
-    TOUR_AND_ALL("etc"),
+    TOUR_AND_ALL("all"),
     ;
 
     private final String dtype;

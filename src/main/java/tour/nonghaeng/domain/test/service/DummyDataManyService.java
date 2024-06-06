@@ -18,7 +18,7 @@ import tour.nonghaeng.domain.member.dto.SellerJoinDto;
 import tour.nonghaeng.domain.member.dto.UserJoinDto;
 import tour.nonghaeng.domain.member.service.SellerService;
 import tour.nonghaeng.domain.member.service.UserService;
-import tour.nonghaeng.domain.reservation.service.ReservationServiceImpl;
+import tour.nonghaeng.domain.reservation.service.ReservationService;
 import tour.nonghaeng.domain.room.dto.CreateRoomDto;
 import tour.nonghaeng.domain.room.service.RoomService;
 import tour.nonghaeng.domain.tour.dto.CreateTourDto;
@@ -40,7 +40,7 @@ public class DummyDataManyService implements DummyDataService {
     private final TourService tourService;
     private final ExperienceService experienceService;
     private final RoomService roomService;
-    private final ReservationServiceImpl reservationServiceImpl;
+    private final ReservationService reservationService;
 
     @Override
     public void setDummyData() {

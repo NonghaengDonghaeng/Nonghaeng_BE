@@ -7,8 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import tour.nonghaeng.domain.reservation.dto.ReservationUserDetailDto;
 import tour.nonghaeng.domain.reservation.data.ExperienceReservation;
+import tour.nonghaeng.domain.reservation.dto.ReservationDetailDto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,7 +17,9 @@ import java.time.LocalTime;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class ExpReservationUserDetailDto extends ReservationUserDetailDto {
+public class ExpReservationDetailDtoForSeller extends ReservationDetailDto {
+
+    //TODO: userInfo, roundInfo, ExpInfo 로 클래스 분리해서 보내주는 방안, email, number 추가하기
 
     private String reservationState;
     private String experienceName;
@@ -31,10 +33,11 @@ public class ExpReservationUserDetailDto extends ReservationUserDetailDto {
     private String userName;
     private LocalDateTime reservationAt;
     private int numOfParticipant;
+    private int remainParticipant;
     private int price;
 
     @Builder
-    public ExpReservationUserDetailDto(String reservationState, String experienceName, Long experienceId, LocalDate reservationDate, LocalTime startTime, LocalTime endTime, String userName, LocalDateTime reservationAt, int numOfParticipant, int price) {
+    public ExpReservationDetailDtoForSeller(String reservationState, String experienceName, Long experienceId, LocalDate reservationDate, LocalTime startTime, LocalTime endTime, String userName, LocalDateTime reservationAt, int numOfParticipant, int remainParticipant, int price) {
         this.reservationState = reservationState;
         this.experienceName = experienceName;
         this.experienceId = experienceId;
@@ -44,11 +47,13 @@ public class ExpReservationUserDetailDto extends ReservationUserDetailDto {
         this.userName = userName;
         this.reservationAt = reservationAt;
         this.numOfParticipant = numOfParticipant;
+        this.remainParticipant = remainParticipant;
         this.price = price;
     }
 
-    public static ExpReservationUserDetailDto toDto(ExperienceReservation experienceReservation) {
-        return ExpReservationUserDetailDto.builder()
+    public static ExpReservationDetailDtoForSeller toDto(ExperienceReservation experienceReservation, int remainParticipant) {
+
+        return ExpReservationDetailDtoForSeller.builder()
                 .reservationState(experienceReservation.getStateType().getName())
                 .experienceName(experienceReservation.getExperience().getExperienceName())
                 .experienceId(experienceReservation.getExperience().getId())
@@ -58,6 +63,7 @@ public class ExpReservationUserDetailDto extends ReservationUserDetailDto {
                 .userName(experienceReservation.getReservationName())
                 .reservationAt(experienceReservation.getCreatedAt())
                 .numOfParticipant(experienceReservation.getNumOfParticipant())
+                .remainParticipant(remainParticipant)
                 .price(experienceReservation.getPrice())
                 .build();
     }
