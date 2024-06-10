@@ -17,7 +17,7 @@ public class CustomRequestBodyAdvice implements RequestBodyAdvice {
     @Override
     public boolean supports(MethodParameter methodParameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
 
-        return targetType.getTypeName().equals(CreateRoomReservationDto.class.getTypeName());
+        return CreateRoomReservationDto.class.isAssignableFrom((Class<?>) targetType);
 
     }
 

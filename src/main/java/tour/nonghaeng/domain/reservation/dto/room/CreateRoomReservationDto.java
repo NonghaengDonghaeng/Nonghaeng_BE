@@ -1,5 +1,6 @@
 package tour.nonghaeng.domain.reservation.dto.room;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Builder;
@@ -11,17 +12,19 @@ import tour.nonghaeng.domain.etc.enums.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.data.User;
 import tour.nonghaeng.domain.reservation.data.RoomReservation;
 import tour.nonghaeng.domain.reservation.data.RoomReservationDate;
+import tour.nonghaeng.domain.reservation.dto.CreateReservationDto;
 import tour.nonghaeng.domain.room.data.Room;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonTypeName("room")
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor
 @Getter
 @Slf4j
-public class CreateRoomReservationDto {
+public class CreateRoomReservationDto extends CreateReservationDto<RoomReservation,Room> {
 
     private Long roomId;
     private int numOfRoom;
@@ -51,6 +54,7 @@ public class CreateRoomReservationDto {
         this.finalPrice = finalPrice;
     }
 
+    @Override
     public RoomReservation toEntity(User user, Room room) {
 
         RoomReservation roomReservation = RoomReservation.builder()
@@ -84,22 +88,6 @@ public class CreateRoomReservationDto {
             currentDate = currentDate.plusDays(1);
         }
         this.reservationDates = dates;
-    }
-
-    @Override
-    public String toString() {
-        return "CreateRoomReservationDto{" +
-                "roomId=" + roomId +
-                ", numOfRoom=" + numOfRoom +
-                ", numOfParticipant=" + numOfParticipant +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", reservationDates=" + reservationDates +
-                ", reservationName='" + reservationName + '\'' +
-                ", number='" + number + '\'' +
-                ", email='" + email + '\'' +
-                ", finalPrice=" + finalPrice +
-                '}';
     }
 
 }

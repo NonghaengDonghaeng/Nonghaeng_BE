@@ -12,6 +12,7 @@ https://nonghaeng-fe.vercel.app
 - 관광등록시에 사진도 같이 등록하게 할지, 관광등록따로 사진등록 따로로 할지 고민중
 - member의 역할중 admin 추가하기
 ## 내일할것(오늘 5/20)
+- reservation 인터페이스 제네릭 통합
 - 포스트맨 정리하기(사진부분 많이 바뀜 pathvariable type 도입)
 - oauth 로그인(구글,네이버)
 - 테스트작성할거 작성하기

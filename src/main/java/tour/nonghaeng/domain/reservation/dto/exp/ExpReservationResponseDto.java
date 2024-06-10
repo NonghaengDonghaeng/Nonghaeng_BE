@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import tour.nonghaeng.domain.reservation.data.ExperienceReservation;
+import tour.nonghaeng.domain.reservation.dto.ReservationResponseDto;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -15,7 +16,7 @@ import java.time.LocalTime;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class ExpReservationResponseDto {
+public class ExpReservationResponseDto extends ReservationResponseDto {
     private Long experienceReservationId;
     private String experienceName;
     private String reservationName;

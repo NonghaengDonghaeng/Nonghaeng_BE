@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import tour.nonghaeng.domain.reservation.data.RoomReservation;
 import tour.nonghaeng.domain.reservation.data.RoomReservationDate;
+import tour.nonghaeng.domain.reservation.dto.ReservationResponseDto;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class RoomReservationResponseDto {
+public class RoomReservationResponseDto extends ReservationResponseDto {
 
     private Long roomReservationId;
     private String roomName;
@@ -63,7 +64,7 @@ public class RoomReservationResponseDto {
     }
 
 
-    private void setStartDateAndEndDate (RoomReservation roomReservation) {
+    public void setStartDateAndEndDate (RoomReservation roomReservation) {
 
         List<LocalDate> reservationDates = roomReservation.getReservationDates()
                 .stream().map(RoomReservationDate::getReservationDate).toList();

@@ -23,6 +23,7 @@ public enum ReviewServiceType {
                 return rt;
             }
         }
-        throw new IllegalArgumentException("일치하는 사진타입이 없습니다.");
+        return null;
+//        throw new IllegalArgumentException("일치하는 리뷰타입이 없습니다.");
     }
 }

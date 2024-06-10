@@ -7,9 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
-import tour.nonghaeng.domain.reservation.dto.ReservationSellerSummaryDto;
+import tour.nonghaeng.domain.reservation.dto.ReservationSummaryDto;
 import tour.nonghaeng.domain.reservation.data.RoomReservation;
-import tour.nonghaeng.domain.reservation.data.RoomReservationDate;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,36 +16,41 @@ import java.util.List;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class RoomReservationSellerSummaryDto extends ReservationSellerSummaryDto {
+public class RoomReservationSummaryDto extends ReservationSummaryDto {
 
     private Long roomReservationId;
-    private String reservationState;
     private String roomName;
+    private String reservationState;
     private List<LocalDate> reservationDates;
     private int price;
     private int numOfParticipant;
     private int numOfRoom;
+    private String type;
 
     @Builder
-    private RoomReservationSellerSummaryDto(Long roomReservationId, String reservationState, String roomName, List<LocalDate> reservationDates, int price, int numOfParticipant, int numOfRoom) {
+    private RoomReservationSummaryDto(Long roomReservationId, String roomName, String reservationState, List<LocalDate> reservationDates, int price, int numOfParticipant, int numOfRoom, String type) {
         this.roomReservationId = roomReservationId;
-        this.reservationState = reservationState;
         this.roomName = roomName;
+        this.reservationState = reservationState;
         this.reservationDates = reservationDates;
         this.price = price;
         this.numOfParticipant = numOfParticipant;
         this.numOfRoom = numOfRoom;
+        this.type = type;
     }
 
-    public static Page<RoomReservationSellerSummaryDto> toPageDto(Page<RoomReservation> page) {
-        return page.map(roomReservation -> RoomReservationSellerSummaryDto.builder()
+    public static Page<RoomReservationSummaryDto> toPageDto(Page<RoomReservation> page) {
+        return page.map(roomReservation -> RoomReservationSummaryDto.builder()
                 .roomReservationId(roomReservation.getId())
-                .reservationState(roomReservation.getStateType().getName())
                 .roomName(roomReservation.getRoom().getRoomName())
-                .reservationDates(roomReservation.getReservationDates().stream().map(RoomReservationDate::getReservationDate).toList())
+                .reservationState(roomReservation.getStateType().getName())
+                .reservationDates(roomReservation.getReservationDates()
+                        .stream().map(roomReservationDate -> roomReservationDate.getReservationDate())
+                        .toList())
                 .price(roomReservation.getPrice())
                 .numOfParticipant(roomReservation.getNumOfParticipant())
                 .numOfRoom(roomReservation.getNumOfRoom())
                 .build());
     }
+
 }

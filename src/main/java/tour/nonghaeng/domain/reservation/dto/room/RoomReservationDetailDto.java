@@ -6,7 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import tour.nonghaeng.domain.reservation.dto.ReservationUserDetailDto;
+import tour.nonghaeng.domain.reservation.dto.ReservationDetailDto;
 import tour.nonghaeng.domain.reservation.data.RoomReservation;
 
 import java.time.LocalDate;
@@ -16,7 +16,7 @@ import java.util.List;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class RoomReservationUserDetailDto extends ReservationUserDetailDto {
+public class RoomReservationDetailDto extends ReservationDetailDto {
 
     private String reservationState;
     private String tourName;
@@ -30,7 +30,7 @@ public class RoomReservationUserDetailDto extends ReservationUserDetailDto {
     private int price;
 
     @Builder
-    private RoomReservationUserDetailDto(String reservationState, String tourName, String roomName, Long roomId, List<LocalDate> reservationDates, String userName, LocalDateTime reservationAt, int numOfParticipant, int numOfRoom, int price) {
+    private RoomReservationDetailDto(String reservationState, String tourName, String roomName, Long roomId, List<LocalDate> reservationDates, String userName, LocalDateTime reservationAt, int numOfParticipant, int numOfRoom, int price) {
         this.reservationState = reservationState;
         this.tourName = tourName;
         this.roomName = roomName;
@@ -43,8 +43,8 @@ public class RoomReservationUserDetailDto extends ReservationUserDetailDto {
         this.price = price;
     }
 
-    public static RoomReservationUserDetailDto toDto(RoomReservation roomReservation) {
-        return RoomReservationUserDetailDto.builder()
+    public static RoomReservationDetailDto toDto(RoomReservation roomReservation) {
+        return RoomReservationDetailDto.builder()
                 .reservationState(roomReservation.getStateType().getName())
                 .tourName(roomReservation.getRoom().getTour().getName())
                 .roomName(roomReservation.getRoom().getRoomName())

@@ -10,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import tour.nonghaeng.domain.etc.enums.area.AreaCode;
-import tour.nonghaeng.domain.etc.enums.experience.ExperienceType;
 import tour.nonghaeng.domain.experience.dto.*;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
 import tour.nonghaeng.domain.experience.service.valid.ExperienceValidator;
@@ -33,15 +31,12 @@ public class ExperienceController {
     private final ExperienceValidator experienceValidator;
 
 
-
     //여행 리스트 조회(파라미터 page, 예시 page=0)
     @GetMapping
     public ResponseEntity<Page<ExpSummaryDto>> showExperienceSummaryPage(@PageableDefault(size = 10) Pageable pageable,
-                                                                         @RequestParam(name = "keyword",required = false)String keyword,
-                                                                         @RequestParam(name = "area",required = false) List<AreaCode> areaCodes,
-                                                                         @RequestParam(name = "type",required = false) ExperienceType experienceType) {
+                                                                         @ModelAttribute ExpSpecDto expSpecDto) {
 
-        Page<ExpSummaryDto> pageDto = experienceService.getExpSummaryDtoPage(pageable,keyword,areaCodes,experienceType);
+        Page<ExpSummaryDto> pageDto = experienceService.getSummaryDtoPage(pageable, expSpecDto);
 
         return new ResponseEntity<>(pageDto, HttpStatus.OK);
     }
@@ -50,7 +45,7 @@ public class ExperienceController {
     @GetMapping("/{experienceId}")
     public ResponseEntity<ExpDetailDto> showExperienceDetail(@PathVariable Long experienceId) {
 
-        ExpDetailDto dto = experienceService.getExpDetailDto(experienceId);
+        ExpDetailDto dto = experienceService.getDetailDto(experienceId);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
@@ -62,7 +57,7 @@ public class ExperienceController {
 
         Member seller = authService.toMemberEntity(authentication);
 
-        Long expId = experienceService.createExperience(seller, createExpDto);
+        Long expId = experienceService.create(seller, createExpDto).getId();
 
         return new ResponseEntity<>("체험등록 성공, 체험 id : " + expId, HttpStatus.OK);
     }
@@ -75,11 +70,11 @@ public class ExperienceController {
 
         experienceValidator.ownerValidate(authService.toMemberEntity(authentication), experienceId);
 
-        Long expId = experienceService.addOnlyRounds(experienceId, addExpRoundDtoList);
+        experienceService.addOnlyRounds(experienceId, addExpRoundDtoList);
 
         int count = addExpRoundDtoList.size();
 
-        return new ResponseEntity<>("체험(id:" + expId + ")에 회차(" + count + "개) 등록 완료.", HttpStatus.OK);
+        return new ResponseEntity<>("체험에 회차(" + count + "개) 등록 완료.", HttpStatus.OK);
     }
 
     //관리자 API: 체험에 대한 미운영날짜 추가하기
@@ -89,11 +84,11 @@ public class ExperienceController {
 
         experienceValidator.ownerValidate(authService.toMemberEntity(authentication), experienceId);
 
-        Long expId = experienceService.addOnlyCloseDates(experienceId, addExpCloseDateDtos);
+        experienceService.addOnlyCloseDates(experienceId, addExpCloseDateDtos);
 
         int count = addExpCloseDateDtos.size();
 
-        return new ResponseEntity<>("체험(id:" + expId + ")에 미운영날짜(" + count + "개) 등록 완료.", HttpStatus.OK);
+        return new ResponseEntity<>("체험에 미운영날짜(" + count + "개) 등록 완료.", HttpStatus.OK);
     }
 
 

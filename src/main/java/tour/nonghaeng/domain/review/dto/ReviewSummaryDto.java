@@ -1,5 +1,7 @@
 package tour.nonghaeng.domain.review.dto;
 
-public abstract class ReviewSummaryDto {
+import tour.nonghaeng.global.infra.dto.SummaryDto;
+
+public abstract class ReviewSummaryDto extends SummaryDto {
 
 }

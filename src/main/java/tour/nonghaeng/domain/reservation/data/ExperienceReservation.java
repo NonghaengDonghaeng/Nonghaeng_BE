@@ -42,8 +42,8 @@ public class ExperienceReservation extends Reservation {
     }
 
     @Override
-    public ReservationUserSummaryDto toUserSummaryDto() {
-        return ExpReservationUserSummaryDto.builder()
+    public ReservationSummaryDto toSummaryDto() {
+        return ExpReservationSummaryDto.builder()
                 .experienceReservationId(this.getId())
                 .experienceName(this.getExperience().getExperienceName())
                 .reservationState(this.getStateType().getName())
@@ -55,8 +55,8 @@ public class ExperienceReservation extends Reservation {
     }
 
     @Override
-    public ReservationUserDetailDto toUserDetailDto() {
-        return ExpReservationUserDetailDto.builder()
+    public ReservationDetailDto toDetailDto() {
+        return ExpReservationDetailDto.builder()
                 .reservationState(this.getStateType().getName())
                 .experienceName(this.getExperience().getExperienceName())
                 .experienceId(this.getExperience().getId())
@@ -72,20 +72,8 @@ public class ExperienceReservation extends Reservation {
     }
 
     @Override
-    public ReservationSellerSummaryDto toSellerSummaryDto() {
-        return ExpReservationSellerSummaryDto.builder()
-                .reservationState(this.getStateType().getName())
-                .experienceName(this.getExperience().getExperienceName())
-                .experienceReservationId(this.getId())
-                .reservationDate(this.getReservationDate())
-                .price(this.getPrice())
-                .numOfParticipant(this.getNumOfParticipant())
-                .build();
-    }
-
-    @Override
-    public ReservationSellerDetailDto toSellerDetailDto(int remainParticipant) {
-        return ExpReservationSellerDetailDto.builder()
+    public ReservationDetailDto toDetailDtoForSeller(int remainParticipant) {
+        return ExpReservationDetailDtoForSeller.builder()
                 .reservationState(this.getStateType().getName())
                 .experienceName(this.getExperience().getExperienceName())
                 .experienceId(this.getExperience().getId())
@@ -101,6 +89,18 @@ public class ExperienceReservation extends Reservation {
     }
 
     @Override
+    public ReservationSummaryDto toSummaryDtoForSeller() {
+        return ExpReservationSummaryDtoForSeller.builder()
+                .reservationState(this.getStateType().getName())
+                .experienceName(this.getExperience().getExperienceName())
+                .experienceReservationId(this.getId())
+                .reservationDate(this.getReservationDate())
+                .price(this.getPrice())
+                .numOfParticipant(this.getNumOfParticipant())
+                .build();
+    }
+
+    @Override
     public ReservationCancelResponseDto toCancelResponseDto(CancelPolicy cancelPolicy) {
         return ExpReservationCancelResponseDto.builder()
                 .cancelPolicy(cancelPolicy.getName())
@@ -112,5 +112,22 @@ public class ExperienceReservation extends Reservation {
                 .experienceReservationId(this.getId())
                 .build();
     }
+
+    @Override
+    public ReservationResponseDto toReservationResponseDto() {
+        return ExpReservationResponseDto.builder()
+                .experienceReservationId(this.getId())
+                .experienceName(this.getExperience().getExperienceName())
+                .reservationName(this.getReservationName())
+                .reservationDate(this.getReservationDate())
+                .startTime(this.getExperienceRound().getStartTime())
+                .endTime(this.getExperienceRound().getEndTime())
+                .number(this.getNumber())
+                .email(this.getEmail())
+                .numOfParticipant(this.getNumOfParticipant())
+                .finalPrice(this.getPrice())
+                .build();
+    }
+
 
 }

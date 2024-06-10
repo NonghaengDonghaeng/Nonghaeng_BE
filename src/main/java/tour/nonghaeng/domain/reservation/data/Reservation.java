@@ -92,14 +92,16 @@ public abstract class Reservation extends BaseTimeEntity {
         }
     }
 
-    public abstract ReservationUserSummaryDto toUserSummaryDto();
+    public abstract ReservationSummaryDto toSummaryDto();
 
-    public abstract ReservationUserDetailDto toUserDetailDto();
+    public abstract ReservationSummaryDto toSummaryDtoForSeller();
 
-    public abstract ReservationSellerSummaryDto toSellerSummaryDto();
+    public abstract ReservationDetailDto toDetailDto();
 
-    public abstract ReservationSellerDetailDto toSellerDetailDto(int remainParticipant);
+    public abstract ReservationDetailDto toDetailDtoForSeller(int remainParticipant);
 
     public abstract ReservationCancelResponseDto toCancelResponseDto(CancelPolicy cancelPolicy);
+
+    public abstract ReservationResponseDto toReservationResponseDto();
 
 }

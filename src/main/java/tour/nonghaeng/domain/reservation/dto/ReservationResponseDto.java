@@ -1,4 +1,4 @@
 package tour.nonghaeng.domain.reservation.dto;
 
-public abstract class ReservationUserDetailDto {
+public class ReservationResponseDto {
 }

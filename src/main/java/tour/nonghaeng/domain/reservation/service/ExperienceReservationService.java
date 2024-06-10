@@ -6,18 +6,20 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tour.nonghaeng.domain.etc.enums.reservation.ReservationServiceType;
 import tour.nonghaeng.domain.experience.data.ExperienceRound;
 import tour.nonghaeng.domain.experience.service.ExperienceRoundService;
 import tour.nonghaeng.domain.member.data.Member;
+import tour.nonghaeng.domain.member.data.Seller;
 import tour.nonghaeng.domain.member.data.User;
 import tour.nonghaeng.domain.member.service.UserService;
-import tour.nonghaeng.domain.reservation.dto.exp.CreateExpReservationDto;
-import tour.nonghaeng.domain.reservation.dto.exp.ExpReservationResponseDto;
 import tour.nonghaeng.domain.reservation.data.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.data.Reservation;
+import tour.nonghaeng.domain.reservation.data.repo.ExperienceReservationRepository;
+import tour.nonghaeng.domain.reservation.dto.ReservationSummaryDto;
+import tour.nonghaeng.domain.reservation.dto.exp.CreateExpReservationDto;
 import tour.nonghaeng.domain.reservation.presentation.exception.ReservationException;
 import tour.nonghaeng.domain.reservation.presentation.exception.error.ReservationErrorCode;
-import tour.nonghaeng.domain.reservation.data.repo.ExperienceReservationRepository;
 import tour.nonghaeng.domain.reservation.service.valid.ExperienceReservationValidator;
 import tour.nonghaeng.global.auth.AuthValidator;
 
@@ -28,7 +30,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class ExperienceReservationService {
+public class ExperienceReservationService implements SubReservationService<ExperienceReservation,ExperienceRound,CreateExpReservationDto> {
 
     private final ExperienceReservationRepository experienceReservationRepository;
 
@@ -39,64 +41,93 @@ public class ExperienceReservationService {
     private final AuthValidator authValidator;
 
 
-    public ExpReservationResponseDto createExpReservation(Member member, CreateExpReservationDto requestDto) {
+    @Override
+    public ReservationServiceType getType() {
+        return ReservationServiceType.EXPERIENCE;
+    }
+
+
+    @Override
+    public ExperienceReservation findById(Long experienceReservationId) {
+
+        return experienceReservationRepository.findById(experienceReservationId)
+                .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_EXIST_EXPERIENCE_RESERVATION_BY_ID));
+    }
+
+
+    @Override
+    public ExperienceReservation create(Member member, CreateExpReservationDto createDto) {
 
         User user = authValidator.userValidate(member);
 
-        ExperienceRound experienceRound = experienceRoundService.findById(requestDto.getRoundId());
+        ExperienceRound experienceRound = experienceRoundService.findById(createDto.getRoundId());
 
         experienceReservationValidator
                 .experienceReservationValidate(
                         experienceRound, user,
-                        countRemainOfParticipant(experienceRound, requestDto.getReservationDate()),
-                        requestDto);
+                        countRemain(experienceRound, createDto.getReservationDate()),
+                        createDto);
 
-        userService.payPoint(user, requestDto.getFinalPrice());
+        userService.payPoint(user, createDto.getFinalPrice());
 
-        ExperienceReservation experienceReservation = experienceReservationRepository.save(requestDto.toEntity(user, experienceRound));
-
-        return ExpReservationResponseDto.toDto(experienceReservation);
+        return experienceReservationRepository.save(createDto.toEntity(user, experienceRound));
     }
 
-    //해당 날짜, 해당 회차에 잔여인원 구하기
-    public int countRemainOfParticipant(ExperienceRound experienceRound, LocalDate localDate) {
+
+
+
+    @Override
+    public Page<? extends ReservationSummaryDto> getReservationSummaryDtoPage(Member member,Pageable pageable) {
+
+        if (member instanceof Seller) {
+            Page<Reservation> reservationPage = experienceReservationRepository.findReservationPageBySeller(authValidator.sellerValidate(member), pageable);
+
+            if(!reservationPage.hasContent()) {
+                return Page.empty();
+            }
+
+            return reservationPage.map(Reservation::toSummaryDtoForSeller);
+        }
+        Page<Reservation> reservationPage = experienceReservationRepository.findReservationPageByUser(authValidator.userValidate(member), pageable);
+
+        if(!reservationPage.hasContent()) {
+            return Page.empty();
+        }
+
+        return reservationPage.map(Reservation::toSummaryDto);
+
+    }
+
+
+    @Override
+    public int countRemain(ExperienceRound experienceRound, LocalDate localDate) {
 
         int currentReservationParticipant = 0;
 
         Optional<Integer> currentNum =
                 experienceReservationRepository.countParticipantByExperienceRoundAndReservationDate(experienceRound, localDate);
 
-        if (currentNum.isPresent()){
+        if (currentNum.isPresent()) {
             currentReservationParticipant = currentNum.get();
         }
 
         return experienceRound.getMaxParticipant() - currentReservationParticipant;
     }
 
-    public Page<Reservation> findReservationPageByUser(Member user, Pageable pageable) {
 
-        return experienceReservationRepository.findReservationPageByUser(authValidator.userValidate(user), pageable);
+    @Override
+    public LocalDate findStartDateById(Long reservationId) {
+        return experienceReservationRepository.findById(reservationId)
+                .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_EXIST_EXPERIENCE_RESERVATION_BY_ID))
+                .getReservationDate();
     }
 
 
-    public Page<Reservation> findReservationPageBySeller(Member seller, Pageable pageable) {
-
-        return experienceReservationRepository.findReservationPageBySeller(authValidator.sellerValidate(seller), pageable);
-    }
-
-    public Reservation findReservationById(Long reservationId) {
-
-        return experienceReservationRepository.findReservationById(reservationId)
-                .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_EXIST_EXPERIENCE_RESERVATION_BY_ID));
-    }
-
-    private ExperienceReservation findById(Long experienceReservationId) {
-
-        return experienceReservationRepository.findById(experienceReservationId)
-                .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_EXIST_EXPERIENCE_RESERVATION_BY_ID));
-    }
-
+    @Override
     public LocalDate findEndDateById(Long reservationId) {
-        return findById(reservationId).getReservationDate();
+
+        return experienceReservationRepository.findById(reservationId)
+                .orElseThrow(() -> new ReservationException(ReservationErrorCode.NO_EXIST_EXPERIENCE_RESERVATION_BY_ID))
+                .getReservationDate();
     }
 }

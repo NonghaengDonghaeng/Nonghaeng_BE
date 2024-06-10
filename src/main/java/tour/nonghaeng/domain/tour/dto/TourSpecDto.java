@@ -1,18 +1,40 @@
-package tour.nonghaeng.domain.tour.dto.speciification;
+package tour.nonghaeng.domain.tour.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Predicate;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import tour.nonghaeng.domain.etc.enums.area.AreaCode;
 import tour.nonghaeng.domain.etc.enums.tour.TourType;
 import tour.nonghaeng.domain.tour.data.Tour;
+import tour.nonghaeng.global.infra.dto.SpecDto;
 
 import java.util.List;
 
-public class TourSpecification {
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+@NoArgsConstructor
+@Getter
+public class TourSpecDto extends SpecDto<Tour> {
 
-    public static Specification<Tour> buildSpecification(String keyword, List<AreaCode> areaCodes, TourType tourType) {
+    private String keyword;
+    @JsonProperty("area")
+    private List<AreaCode> areaCodes;
+    @JsonProperty("type")
+    private TourType tourType;
+
+    @Override
+    public Specification<Tour> buildSpecification() {
+
+        String keyword = this.getKeyword();
+        List<AreaCode> areaCodes = this.getAreaCodes();
+        TourType tourType = this.getTourType();
+
         return (root, query, criteriaBuilder) -> {
+
             Predicate predicate = criteriaBuilder.conjunction(); // Initialize predicate as conjunction (AND)
 
             if (keyword != null && !keyword.isEmpty()) {
@@ -35,4 +57,5 @@ public class TourSpecification {
             return predicate;
         };
     }
+
 }

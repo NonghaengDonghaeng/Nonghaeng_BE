@@ -10,11 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import tour.nonghaeng.domain.member.data.Member;
+import tour.nonghaeng.domain.reservation.data.Reservation;
 import tour.nonghaeng.domain.reservation.dto.*;
-import tour.nonghaeng.domain.reservation.dto.exp.CreateExpReservationDto;
-import tour.nonghaeng.domain.reservation.dto.exp.ExpReservationResponseDto;
-import tour.nonghaeng.domain.reservation.dto.room.CreateRoomReservationDto;
-import tour.nonghaeng.domain.reservation.dto.room.RoomReservationResponseDto;
 import tour.nonghaeng.domain.reservation.service.ReservationService;
 import tour.nonghaeng.domain.reservation.service.valid.ReservationValidator;
 import tour.nonghaeng.global.auth.AuthService;
@@ -31,26 +28,43 @@ public class ReservationController {
     private final ReservationValidator reservationValidator;
 
 
-    @PostMapping("/experience")
-    public ResponseEntity<ExpReservationResponseDto> createExpReservation(Authentication authentication,
-                                                                          @RequestBody CreateExpReservationDto requestDto) {
 
+    @PostMapping
+    public ResponseEntity<? extends ReservationResponseDto> create(Authentication authentication,
+                                                                   @RequestBody CreateReservationDto<?,?> requestDto) {
         Member user = authService.toMemberEntity(authentication);
 
-        ExpReservationResponseDto responseDto = reservationService.createExpReservation(user, requestDto);
+        Reservation reservation = reservationService.create(user, requestDto);
 
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+        return new ResponseEntity<>(reservation.toReservationResponseDto(), HttpStatus.OK);
     }
 
-    @PostMapping("/room")
-    public ResponseEntity<RoomReservationResponseDto> createRoomReservation(Authentication authentication,
-                                                                            @RequestBody CreateRoomReservationDto requestDto) {
+    //소비자,판매자 내 체험/숙소 예약 리스트보기 만약 타입이 안오면 전체로
+    //파라미터 type=room,exp,all
+    @GetMapping("/my-reservation")
+    public ResponseEntity<Page<? extends ReservationSummaryDto>> showMyReservationUser(Authentication authentication,
+                                                                                       @PageableDefault(size = 10) Pageable pageable,
+                                                                                       @RequestParam(value = "type", defaultValue = "all", required = false) String type) {
 
-        Member user = authService.toMemberEntity(authentication);
+        Member member = authService.toMemberEntity(authentication);
 
-        RoomReservationResponseDto responseDto = reservationService.createRoomReservation(user, requestDto);
+        Page<? extends ReservationSummaryDto> dtoPage =
+                reservationService.getReservationSummaryDtoPage(member, pageable, type);
 
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+        return new ResponseEntity<>(dtoPage, HttpStatus.OK);
+    }
+
+    // 내 체험/숙소 예약 상세보기
+    @GetMapping("/{reservationId}")
+    public ResponseEntity<? extends ReservationDetailDto> showReservationUserDetailDto(Authentication authentication,
+                                                                                       @PathVariable("reservationId") Long reservationId) {
+
+        Member member = authService.toMemberEntity(authentication);
+
+        ReservationDetailDto detailDto =
+                reservationService.getReservationDetailDto(member, reservationId);
+
+        return new ResponseEntity<>(detailDto, HttpStatus.OK);
     }
 
     @GetMapping("/reservation-person-info")
@@ -63,58 +77,7 @@ public class ReservationController {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
-    //소비자 내 체험/숙소 예약 리스트보기 만약 타입이 안오면 전체로
-    //파라미터 type=room,exp
-    @GetMapping("/my-reservation")
-    public ResponseEntity<Page<? extends ReservationUserSummaryDto>> showMyReservationUser(Authentication authentication,
-                                                                                           @PageableDefault(size = 10) Pageable pageable,
-                                                                                           @RequestParam(value = "type", defaultValue = "all", required = false) String type) {
 
-        Member user = authService.toMemberEntity(authentication);
-
-        Page<? extends ReservationUserSummaryDto> dtoPage =
-                reservationService.getReservationUserSummaryDtoPage(user, pageable, type);
-
-        return new ResponseEntity<>(dtoPage, HttpStatus.OK);
-    }
-
-    //소비자 내 체험/숙소 예약 상세보기
-    @GetMapping("/{reservationId}")
-    public ResponseEntity<? extends ReservationUserDetailDto> showReservationUserDetailDto(Authentication authentication,
-                                                                                           @PathVariable("reservationId") Long reservationId) {
-
-        Member user = authService.toMemberEntity(authentication);
-
-        reservationValidator.ownerUserValidate(user, reservationId);
-
-        return new ResponseEntity<>(reservationService.getReservationUserDetailDto(reservationId), HttpStatus.OK);
-    }
-
-    //관리자 API : 관리자용 내 예약요약 보기
-    @GetMapping("/seller/my-reservation")
-    public ResponseEntity<Page<? extends ReservationSellerSummaryDto>> showMyReservationSeller(Authentication authentication,
-                                                                                               @PageableDefault(size = 20) Pageable pageable,
-                                                                                               @RequestParam(value = "type", defaultValue = "room") String type) {
-
-        Member seller = authService.toMemberEntity(authentication);
-
-        Page<? extends ReservationSellerSummaryDto> dtoPage =
-                reservationService.getReservationSellerSummaryDtoPage(seller, pageable, type);
-
-        return new ResponseEntity<>(dtoPage, HttpStatus.OK);
-    }
-
-    //관리자 API : 관리자용 내 예약상세 보기
-    @GetMapping("/seller/{reservationId}")
-    public ResponseEntity<? extends ReservationSellerDetailDto> showReservationSellerDetailDto(Authentication authentication,
-                                                                                               @PathVariable("reservationId") Long reservationId) {
-
-        Member seller = authService.toMemberEntity(authentication);
-
-        reservationValidator.ownerSellerValidate(seller, reservationId);
-
-        return new ResponseEntity<>(reservationService.getReservationSellerDetailDto(reservationId), HttpStatus.OK);
-    }
 
     @GetMapping("/seller/approve/{reservationId}")
     public ResponseEntity<String> approveReservation(Authentication authentication,

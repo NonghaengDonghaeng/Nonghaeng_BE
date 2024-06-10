@@ -7,16 +7,16 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import tour.nonghaeng.domain.etc.enums.photo.PhotoType;
 import tour.nonghaeng.domain.member.data.Member;
-import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.photo.data.Photo;
 import tour.nonghaeng.domain.photo.data.ReviewPhoto;
-import tour.nonghaeng.domain.photo.presentation.exception.PhotoException;
-import tour.nonghaeng.domain.photo.imageServer.service.ImageService;
 import tour.nonghaeng.domain.photo.data.repo.ReviewPhotoRepository;
+import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
+import tour.nonghaeng.domain.photo.imageServer.service.ImageService;
+import tour.nonghaeng.domain.photo.presentation.exception.PhotoException;
 import tour.nonghaeng.domain.photo.service.valid.PhotoValidator;
 import tour.nonghaeng.domain.photo.service.valid.ReviewPhotoValidator;
 import tour.nonghaeng.domain.review.data.Review;
-import tour.nonghaeng.domain.review.service.ReviewServiceImpl;
+import tour.nonghaeng.domain.review.service.ReviewService;
 import tour.nonghaeng.domain.review.service.valid.ReviewValidator;
 import tour.nonghaeng.global.auth.AuthValidator;
 
@@ -32,7 +32,7 @@ public class ReviewPhotoService implements PhotoService {
 
     private final ReviewPhotoRepository reviewPhotoRepository;
 
-    private final ReviewServiceImpl reviewServiceImpl;
+    private final ReviewService reviewService;
     private final ImageService imageService;
 
     private final PhotoValidator photoValidator;
@@ -53,7 +53,7 @@ public class ReviewPhotoService implements PhotoService {
 
         reviewValidator.ownerValidate(user,reviewId);
 
-        Review review = reviewServiceImpl.findById(reviewId);
+        Review review = reviewService.findById(reviewId);
 
         for(MultipartFile imageFile : imageFiles) {
 
@@ -82,7 +82,7 @@ public class ReviewPhotoService implements PhotoService {
     @Override
     public List<PhotoInfoDto> getPhotoInfoListDto(Long reviewId) {
 
-        List<Photo> photoList = reviewPhotoRepository.findAllByReview(reviewServiceImpl.findById(reviewId));
+        List<Photo> photoList = reviewPhotoRepository.findAllByReview(reviewService.findById(reviewId));
 
         photoValidator.emptyPhotoListValidate(photoList);
 

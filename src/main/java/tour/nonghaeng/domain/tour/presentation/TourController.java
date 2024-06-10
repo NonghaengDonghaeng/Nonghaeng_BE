@@ -9,15 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import tour.nonghaeng.domain.etc.enums.area.AreaCode;
-import tour.nonghaeng.domain.etc.enums.tour.TourType;
 import tour.nonghaeng.domain.tour.dto.CreateTourDto;
 import tour.nonghaeng.domain.tour.dto.TourDetailDto;
+import tour.nonghaeng.domain.tour.dto.TourSpecDto;
 import tour.nonghaeng.domain.tour.dto.TourSummaryDto;
 import tour.nonghaeng.domain.tour.service.TourService;
 import tour.nonghaeng.global.auth.AuthService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/tours")
@@ -33,11 +30,9 @@ public class TourController {
     //여행 리스트 조회(파라미터 page, 예시 page=0)
     @GetMapping
     public ResponseEntity<Page<TourSummaryDto>> showTourSummaryPage(@PageableDefault(size=10) Pageable pageable,
-                                                                    @RequestParam(name = "keyword",required = false)String keyword,
-                                                                    @RequestParam(name = "area",required = false) List<AreaCode> areaCodes,
-                                                                    @RequestParam(name = "type",required = false) TourType tourType) {
-        
-        Page<TourSummaryDto> tourSummaryDtoPage = tourService.getTourSummaryDtoPage(pageable, keyword, areaCodes, tourType);
+                                                                     @ModelAttribute TourSpecDto specDto) {
+
+        Page<TourSummaryDto> tourSummaryDtoPage = tourService.getSummaryDtoPage(pageable, specDto);
 
         return new ResponseEntity<>(tourSummaryDtoPage, HttpStatus.OK);
     }
@@ -47,7 +42,7 @@ public class TourController {
     @PostMapping("/seller/add")
     public ResponseEntity<String> createTour(Authentication authentication, @RequestBody CreateTourDto createTourDto) {
 
-        Long tourId = tourService.createTour(authService.toMemberEntity(authentication), createTourDto);
+        Long tourId = tourService.create(authService.toMemberEntity(authentication), createTourDto).getId();
 
         return new ResponseEntity<>("여행지 등록 성공, 여행지 id: "+tourId, HttpStatus.CREATED);
     }
@@ -57,8 +52,7 @@ public class TourController {
     @GetMapping("/{tourId}")
     public ResponseEntity<TourDetailDto> showTourDetail(@PathVariable Long tourId) {
 
-        TourDetailDto dto = tourService.getTourDetailDto(tourId);
-
+        TourDetailDto dto = tourService.getDetailDto(tourId);
 
         return new ResponseEntity<>(dto,HttpStatus.OK);
     }

@@ -9,11 +9,12 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.tour.data.Tour;
+import tour.nonghaeng.global.infra.dto.SummaryDto;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class TourSummaryDto {
+public class TourSummaryDto extends SummaryDto {
 
     private Long tourId;
     private String name;

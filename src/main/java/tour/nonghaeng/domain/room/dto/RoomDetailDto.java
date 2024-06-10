@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.photo.dto.PhotoInfoDto;
 import tour.nonghaeng.domain.room.data.Room;
+import tour.nonghaeng.global.infra.dto.DetailDto;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class RoomDetailDto {
+public class RoomDetailDto extends DetailDto {
     private String roomName;
     private String roomTypeName;
     private String summary;

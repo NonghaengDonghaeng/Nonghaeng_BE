@@ -24,7 +24,7 @@ public class ExperienceCloseDateValidator {
 
         //검증: dto 내 과거날짜가 존재하는지
         if (dtoList.stream()
-                .anyMatch(dto -> dto.closeDate().isBefore(today))) {
+                .anyMatch(dto -> dto.getCloseDate().isBefore(today))) {
             throw new ExperienceException(ExperienceErrorCode.PAST_EXPERIENCE_CLOSE_DATE_ADD_ERROR);
         }
         //검증: dto 내 중복된 날짜가 존재하는지
@@ -35,7 +35,7 @@ public class ExperienceCloseDateValidator {
 
     public void createAndSaveValidate(Experience experience, AddExpCloseDateDto addExpCloseDateDto) {
 
-        LocalDate shouldValidateDate = addExpCloseDateDto.closeDate();
+        LocalDate shouldValidateDate = addExpCloseDateDto.getCloseDate();
 
         if (isCloseDateRegister(experience, shouldValidateDate)) {
             throw new ExperienceException(ExperienceErrorCode.ALREADY_EXIST_EXPERIENCE_CLOSE_DATE_ADD_ERROR);
@@ -51,7 +51,7 @@ public class ExperienceCloseDateValidator {
         defaultCloseDateDtoValidate(dtoList);
 
         for (AddExpCloseDateDto dto : dtoList) {
-            removeCloseDateParamValidate(experience, dto.closeDate());
+            removeCloseDateParamValidate(experience, dto.getCloseDate());
         }
     }
 

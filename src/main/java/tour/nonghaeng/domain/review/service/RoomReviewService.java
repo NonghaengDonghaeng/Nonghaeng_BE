@@ -10,12 +10,12 @@ import tour.nonghaeng.domain.etc.enums.review.ReviewServiceType;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.reservation.data.Reservation;
 import tour.nonghaeng.domain.reservation.service.ReservationService;
-import tour.nonghaeng.domain.review.dto.CreateReviewDto;
-import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
 import tour.nonghaeng.domain.review.data.Review;
 import tour.nonghaeng.domain.review.data.RoomReview;
-import tour.nonghaeng.domain.review.presentation.exception.ReviewException;
 import tour.nonghaeng.domain.review.data.repo.RoomReviewRepository;
+import tour.nonghaeng.domain.review.dto.CreateReviewDto;
+import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
+import tour.nonghaeng.domain.review.presentation.exception.ReviewException;
 import tour.nonghaeng.domain.room.data.Room;
 import tour.nonghaeng.domain.room.service.RoomService;
 import tour.nonghaeng.domain.room.service.valid.RoomValidator;
@@ -25,7 +25,7 @@ import tour.nonghaeng.global.auth.AuthValidator;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class RoomReviewService implements ReviewService, CreateReviewService, FindUpCastedReviewService {
+public class RoomReviewService implements SubReviewService {
 
     private final RoomReviewRepository roomReviewRepository;
 
@@ -36,32 +36,12 @@ public class RoomReviewService implements ReviewService, CreateReviewService, Fi
     private final AuthValidator authValidator;
 
 
-
+    //ViewForEachEntityService
     @Override
     public ReviewServiceType getType() {
         return ReviewServiceType.ROOM;
     }
 
-    @Override
-    public Long createReview(Member user, Long reservationId, CreateReviewDto requestDto) {
-
-        Reservation reservation = reservationService.findById(reservationId);
-        Room room = roomService.findById(requestDto.getId());
-
-        //TODO: validator
-
-        String formatTitle = "[" + room.getTour().getName() + "] " + requestDto.getTitle();
-        RoomReview roomReview = RoomReview.builder()
-                .user(authValidator.userValidate(user))
-                .reservation(reservation)
-                .room(room)
-                .title(formatTitle)
-                .content(requestDto.getContent())
-                .build();
-
-
-        return roomReviewRepository.save(roomReview).getId();
-    }
 
     @Override
     public Page<? extends ReviewSummaryDto> getReviewSummaryDtoPageById(Long id, Pageable pageable) {
@@ -85,9 +65,31 @@ public class RoomReviewService implements ReviewService, CreateReviewService, Fi
     }
 
 
+
+    //CrudReviewService
     @Override
-    public Review findReviewById(Long reviewId) {
+    public Review findById(Long reviewId) {
         return roomReviewRepository.findReviewById(reviewId)
                 .orElseThrow(() -> ReviewException.EXCEPTION);
+    }
+
+    @Override
+    public Review create(Member user, CreateReviewDto createDto) {
+        Reservation reservation = reservationService.findById(createDto.getReservationId());
+        Room room = roomService.findById(createDto.getId());
+
+        //TODO: validator
+
+        String formatTitle = "[" + room.getTour().getName() + "] " + createDto.getTitle();
+        RoomReview roomReview = RoomReview.builder()
+                .user(authValidator.userValidate(user))
+                .reservation(reservation)
+                .room(room)
+                .title(formatTitle)
+                .content(createDto.getContent())
+                .build();
+
+
+        return roomReviewRepository.save(roomReview);
     }
 }
