@@ -20,7 +20,7 @@ import java.time.LocalDate;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class CreateExpReservationDto extends CreateReservationDto {
+public class CreateExpReservationDto extends CreateReservationDto<ExperienceReservation,ExperienceRound> {
     private Long roundId;                   //예약 회차
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate reservationDate;      //예약 날짜
@@ -41,7 +41,7 @@ public class CreateExpReservationDto extends CreateReservationDto {
         this.finalPrice = finalPrice;
     }
 
-
+    @Override
     public ExperienceReservation toEntity(User user, ExperienceRound experienceRound) {
         return ExperienceReservation.builder()
                 .user(user)

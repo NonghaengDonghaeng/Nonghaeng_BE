@@ -31,7 +31,7 @@ public class ReservationController {
 
     @PostMapping
     public ResponseEntity<? extends ReservationResponseDto> create(Authentication authentication,
-                                                                   @RequestBody CreateReservationDto requestDto) {
+                                                                   @RequestBody CreateReservationDto<?,?> requestDto) {
         Member user = authService.toMemberEntity(authentication);
 
         Reservation reservation = reservationService.create(user, requestDto);

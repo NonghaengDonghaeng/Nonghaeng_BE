@@ -27,7 +27,6 @@ import tour.nonghaeng.global.auth.AuthValidator;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -61,12 +60,19 @@ public class ReservationServiceImpl implements ReservationService {
 
 
     @Override
-    public Reservation create(Member user, CreateReservationDto createDto) {
+    public Reservation create(Member user, CreateReservationDto<?,?> createDto) {
 
-        return subReservationEntityServiceRegistry.getServiceByDto(createDto).create(user, createDto);
-
+        return createInternal(user, createDto);
     }
 
+    //여기에서 런타입 유형을 기반으로 제네릭 SubReservation,Entity 추론
+    private <SubReservation extends Reservation, Entity>
+    Reservation createInternal(Member user, CreateReservationDto<SubReservation, Entity> createDto) {
+
+        SubReservationEntityService<SubReservation, Entity, CreateReservationDto<SubReservation, Entity>> service =
+                subReservationEntityServiceRegistry.getServiceByDto(createDto);
+        return service.create(user, createDto);
+    }
 
 
 
@@ -102,7 +108,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public Page<? extends ReservationSummaryDto> getReservationSummaryDtoPage(Member member, Pageable pageable,String type) {
 
-        SubReservationEntityService<Objects> service = subReservationEntityServiceRegistry.getServiceByType(type);
+        SubReservationEntityService<?,?,?> service = subReservationEntityServiceRegistry.getServiceByType(type);
 
         if (service == null) {
             return getReservationSummaryDtoPageAll(member, pageable);

@@ -11,7 +11,11 @@ import tour.nonghaeng.global.infra.service.CrudService;
 
 import java.time.LocalDate;
 
-public interface SubReservationEntityService<T> extends CrudService<Reservation, CreateReservationDto> {
+public interface SubReservationEntityService<
+        SubReservation extends Reservation,
+        Entity,
+        DtoType extends CreateReservationDto<SubReservation,Entity>
+        > extends CrudService<Reservation, DtoType> {
 
     ReservationServiceType getType();
 
@@ -22,5 +26,5 @@ public interface SubReservationEntityService<T> extends CrudService<Reservation,
 
     LocalDate findEndDateById(Long roomReservationId);
 
-    int countRemain(T t, LocalDate date);
+    int countRemain(Entity entity, LocalDate date);
 }

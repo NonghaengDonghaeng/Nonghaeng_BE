@@ -24,7 +24,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Slf4j
-public class CreateRoomReservationDto extends CreateReservationDto {
+public class CreateRoomReservationDto extends CreateReservationDto<RoomReservation,Room> {
 
     private Long roomId;
     private int numOfRoom;
@@ -54,7 +54,7 @@ public class CreateRoomReservationDto extends CreateReservationDto {
         this.finalPrice = finalPrice;
     }
 
-
+    @Override
     public RoomReservation toEntity(User user, Room room) {
 
         RoomReservation roomReservation = RoomReservation.builder()
@@ -88,22 +88,6 @@ public class CreateRoomReservationDto extends CreateReservationDto {
             currentDate = currentDate.plusDays(1);
         }
         this.reservationDates = dates;
-    }
-
-    @Override
-    public String toString() {
-        return "CreateRoomReservationDto{" +
-                "roomId=" + roomId +
-                ", numOfRoom=" + numOfRoom +
-                ", numOfParticipant=" + numOfParticipant +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", reservationDates=" + reservationDates +
-                ", reservationName='" + reservationName + '\'' +
-                ", number='" + number + '\'' +
-                ", email='" + email + '\'' +
-                ", finalPrice=" + finalPrice +
-                '}';
     }
 
 }

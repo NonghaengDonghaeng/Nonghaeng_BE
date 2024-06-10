@@ -16,7 +16,6 @@ import tour.nonghaeng.domain.member.service.UserService;
 import tour.nonghaeng.domain.reservation.data.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.data.Reservation;
 import tour.nonghaeng.domain.reservation.data.repo.ExperienceReservationRepository;
-import tour.nonghaeng.domain.reservation.dto.CreateReservationDto;
 import tour.nonghaeng.domain.reservation.dto.ReservationSummaryDto;
 import tour.nonghaeng.domain.reservation.dto.exp.CreateExpReservationDto;
 import tour.nonghaeng.domain.reservation.presentation.exception.ReservationException;
@@ -31,7 +30,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class ExperienceReservationService implements SubReservationEntityService<ExperienceRound> {
+public class ExperienceReservationService implements SubReservationEntityService<ExperienceReservation,ExperienceRound,CreateExpReservationDto> {
 
     private final ExperienceReservationRepository experienceReservationRepository;
 
@@ -57,22 +56,21 @@ public class ExperienceReservationService implements SubReservationEntityService
 
 
     @Override
-    public ExperienceReservation create(Member member, CreateReservationDto createDto) {
+    public ExperienceReservation create(Member member, CreateExpReservationDto createDto) {
+
         User user = authValidator.userValidate(member);
 
-        CreateExpReservationDto createDto1 = (CreateExpReservationDto) createDto;
-
-        ExperienceRound experienceRound = experienceRoundService.findById(createDto1.getRoundId());
+        ExperienceRound experienceRound = experienceRoundService.findById(createDto.getRoundId());
 
         experienceReservationValidator
                 .experienceReservationValidate(
                         experienceRound, user,
-                        countRemain(experienceRound, createDto1.getReservationDate()),
-                        createDto1);
+                        countRemain(experienceRound, createDto.getReservationDate()),
+                        createDto);
 
-        userService.payPoint(user, createDto1.getFinalPrice());
+        userService.payPoint(user, createDto.getFinalPrice());
 
-        return experienceReservationRepository.save(createDto1.toEntity(user, experienceRound));
+        return experienceReservationRepository.save(createDto.toEntity(user, experienceRound));
     }
 
 

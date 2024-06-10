@@ -14,7 +14,6 @@ import tour.nonghaeng.domain.member.service.UserService;
 import tour.nonghaeng.domain.reservation.data.Reservation;
 import tour.nonghaeng.domain.reservation.data.RoomReservation;
 import tour.nonghaeng.domain.reservation.data.repo.RoomReservationRepository;
-import tour.nonghaeng.domain.reservation.dto.CreateReservationDto;
 import tour.nonghaeng.domain.reservation.dto.ReservationSummaryDto;
 import tour.nonghaeng.domain.reservation.dto.room.CreateRoomReservationDto;
 import tour.nonghaeng.domain.reservation.presentation.exception.ReservationException;
@@ -30,7 +29,7 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class RoomReservationService implements SubReservationEntityService<Room> {
+public class RoomReservationService implements SubReservationEntityService<RoomReservation,Room,CreateRoomReservationDto> {
 
     private final RoomReservationRepository roomReservationRepository;
 
@@ -56,21 +55,19 @@ public class RoomReservationService implements SubReservationEntityService<Room>
 
 
     @Override
-    public RoomReservation create(Member member, CreateReservationDto createDto) {
+    public RoomReservation create(Member member, CreateRoomReservationDto createDto) {
 
-        CreateRoomReservationDto createDto1 = (CreateRoomReservationDto) createDto;
-
-        createDto1.toSetLocalDateList();
+        createDto.toSetLocalDateList();
 
         User user = authValidator.userValidate(member);
 
-        Room room = roomService.findById(createDto1.getRoomId());
+        Room room = roomService.findById(createDto.getRoomId());
 
-        roomReservationValidator.roomReservationValidate(room, member, createDto1);
+        roomReservationValidator.roomReservationValidate(room, member, createDto);
 
-        userService.payPoint(user, createDto1.getFinalPrice());
+        userService.payPoint(user, createDto.getFinalPrice());
 
-        return roomReservationRepository.save(createDto1.toEntity(user, room));
+        return roomReservationRepository.save(createDto.toEntity(user, room));
     }
 
 
