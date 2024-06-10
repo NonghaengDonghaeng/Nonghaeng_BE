@@ -15,8 +15,6 @@ import tour.nonghaeng.domain.review.dto.ReviewDetailDto;
 import tour.nonghaeng.domain.review.dto.ReviewSpecDto;
 import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
 import tour.nonghaeng.domain.review.service.ReviewService;
-import tour.nonghaeng.domain.review.service.ViewForEachEntityService;
-import tour.nonghaeng.domain.review.service.registry.ViewForEachEntityServiceRegistry;
 import tour.nonghaeng.global.auth.AuthService;
 
 @RestController
@@ -27,8 +25,6 @@ public class ReviewController {
 
     private final ReviewService reviewService;
     private final AuthService authService;
-
-    private final ViewForEachEntityServiceRegistry viewForEachEntityServiceRegistry;
 
 
     @GetMapping
@@ -68,9 +64,9 @@ public class ReviewController {
     public ResponseEntity<Page<? extends ReviewSummaryDto>> getReviewSummaryDtoPage(@PathVariable("type") String type,
                                                                                     @PathVariable("id") Long id, Pageable pageable) {
 
-        ViewForEachEntityService service = viewForEachEntityServiceRegistry.getService(type);
 
-        Page<? extends ReviewSummaryDto> summaryDtoPage = service.getReviewSummaryDtoPageById(id, pageable);
+        Page<? extends ReviewSummaryDto> summaryDtoPage =
+                reviewService.getReviewSummaryDtoPageById(id, pageable, type);
 
         return new ResponseEntity<>(summaryDtoPage, HttpStatus.OK);
     }
@@ -81,11 +77,10 @@ public class ReviewController {
                                                                                       Pageable pageable,
                                                                                       @RequestParam(value = "type", defaultValue = "all", required = false) String type) {
 
-        ViewForEachEntityService service = viewForEachEntityServiceRegistry.getService(type);
-
         Member user = authService.toMemberEntity(authentication);
 
-        Page<? extends ReviewSummaryDto> summaryDtoPage = service.getReviewSummaryDtoPageByUser(user, pageable);
+        Page<? extends ReviewSummaryDto> summaryDtoPage =
+                reviewService.getReviewSummaryDtoPageByUser(user, pageable, type);
 
         return new ResponseEntity<>(summaryDtoPage, HttpStatus.OK);
     }

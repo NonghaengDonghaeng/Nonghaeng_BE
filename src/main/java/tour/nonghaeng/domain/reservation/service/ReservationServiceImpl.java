@@ -20,7 +20,7 @@ import tour.nonghaeng.domain.reservation.data.repo.ReservationRepository;
 import tour.nonghaeng.domain.reservation.dto.*;
 import tour.nonghaeng.domain.reservation.presentation.exception.ReservationException;
 import tour.nonghaeng.domain.reservation.presentation.exception.error.ReservationErrorCode;
-import tour.nonghaeng.domain.reservation.service.registry.SubReservationEntityServiceRegistry;
+import tour.nonghaeng.domain.reservation.service.registry.SubReservationServiceRegistry;
 import tour.nonghaeng.domain.reservation.service.valid.ReservationValidator;
 import tour.nonghaeng.global.auth.AuthValidator;
 
@@ -44,7 +44,7 @@ public class ReservationServiceImpl implements ReservationService {
     private final ReservationValidator reservationValidator;
     private final AuthValidator authValidator;
 
-    private final SubReservationEntityServiceRegistry subReservationEntityServiceRegistry;
+    private final SubReservationServiceRegistry subReservationServiceRegistry;
 
 
 
@@ -55,7 +55,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         String type = reservationRepository.findReservationTypeById(reservationId);
 
-        return subReservationEntityServiceRegistry.getServiceByType(type).findById(reservationId);
+        return subReservationServiceRegistry.getServiceByType(type).findById(reservationId);
     }
 
 
@@ -69,8 +69,8 @@ public class ReservationServiceImpl implements ReservationService {
     private <SubReservation extends Reservation, Entity>
     Reservation createInternal(Member user, CreateReservationDto<SubReservation, Entity> createDto) {
 
-        SubReservationEntityService<SubReservation, Entity, CreateReservationDto<SubReservation, Entity>> service =
-                subReservationEntityServiceRegistry.getServiceByDto(createDto);
+        SubReservationService<SubReservation, Entity, CreateReservationDto<SubReservation, Entity>> service =
+                subReservationServiceRegistry.getServiceByDto(createDto);
         return service.create(user, createDto);
     }
 
@@ -108,7 +108,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public Page<? extends ReservationSummaryDto> getReservationSummaryDtoPage(Member member, Pageable pageable,String type) {
 
-        SubReservationEntityService<?,?,?> service = subReservationEntityServiceRegistry.getServiceByType(type);
+        SubReservationService<?,?,?> service = subReservationServiceRegistry.getServiceByType(type);
 
         if (service == null) {
             return getReservationSummaryDtoPageAll(member, pageable);

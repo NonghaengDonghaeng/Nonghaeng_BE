@@ -33,7 +33,7 @@ public class MyPageService {
                 .number(user.getPhoneNumber())
                 .point(user.getPoint())
                 .reservationPage(reservationService.getReservationSummaryDtoPage(user, defaultPageRequest,"all"))
-                .reviewPage(reviewService.getReviewSummaryDtoPageByUser(user,defaultPageRequest))
+                .reviewPage(reviewService.getReviewSummaryDtoPageByUser(user,defaultPageRequest,"all"))
                 .build();
 
         return dto;

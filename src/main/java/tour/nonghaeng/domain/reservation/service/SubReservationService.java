@@ -11,7 +11,7 @@ import tour.nonghaeng.global.infra.service.CrudService;
 
 import java.time.LocalDate;
 
-public interface SubReservationEntityService<
+public interface SubReservationService<
         SubReservation extends Reservation,
         Entity,
         DtoType extends CreateReservationDto<SubReservation,Entity>

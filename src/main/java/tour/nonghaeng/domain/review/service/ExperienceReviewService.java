@@ -25,7 +25,7 @@ import tour.nonghaeng.global.auth.AuthValidator;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class ExperienceReviewService implements ViewForEachEntityService, CrudReviewService {
+public class ExperienceReviewService implements SubReviewService {
 
     private final ExperienceReviewRepository experienceReviewRepository;
 

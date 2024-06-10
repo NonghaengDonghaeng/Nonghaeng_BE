@@ -19,7 +19,7 @@ public class UserValidator {
         //TODO: 다른 검증로직 더 추가하기
 
         //비밀번호 체크
-        if(!dto.password().equals(dto.checkPassword())){
+        if(!dto.getPassword().equals(dto.getCheckPassword())){
             throw new UserException(UserErrorCode.PASSWORD_MISMATCH_ERROR);
         }
     }

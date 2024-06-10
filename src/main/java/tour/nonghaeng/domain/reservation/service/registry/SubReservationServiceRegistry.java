@@ -6,7 +6,7 @@ import tour.nonghaeng.domain.reservation.data.Reservation;
 import tour.nonghaeng.domain.reservation.dto.CreateReservationDto;
 import tour.nonghaeng.domain.reservation.dto.exp.CreateExpReservationDto;
 import tour.nonghaeng.domain.reservation.dto.room.CreateRoomReservationDto;
-import tour.nonghaeng.domain.reservation.service.SubReservationEntityService;
+import tour.nonghaeng.domain.reservation.service.SubReservationService;
 
 import java.util.List;
 import java.util.Map;
@@ -14,25 +14,25 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
-public class SubReservationEntityServiceRegistry {
+public class SubReservationServiceRegistry {
 
-    private final Map<ReservationServiceType, SubReservationEntityService<?,?,?>> serviceMap;
+    private final Map<ReservationServiceType, SubReservationService<?,?,?>> serviceMap;
 
-    public SubReservationEntityServiceRegistry(List<SubReservationEntityService<?,?,?>> serviceList) {
-        this.serviceMap = serviceList.stream().collect(Collectors.toMap(SubReservationEntityService::getType, Function.identity()));
+    public SubReservationServiceRegistry(List<SubReservationService<?,?,?>> serviceList) {
+        this.serviceMap = serviceList.stream().collect(Collectors.toMap(SubReservationService::getType, Function.identity()));
     }
 
     @SuppressWarnings("unchecked")
     public <SubReservation extends Reservation, Entity, DtoType extends CreateReservationDto<SubReservation, Entity>>
-    SubReservationEntityService<SubReservation, Entity, DtoType> getServiceByType(String type) {
+    SubReservationService<SubReservation, Entity, DtoType> getServiceByType(String type) {
         ReservationServiceType reservationServiceType = ReservationServiceType.ofDtype(type);
-        return (SubReservationEntityService<SubReservation, Entity, DtoType>) serviceMap.get(reservationServiceType);
+        return (SubReservationService<SubReservation, Entity, DtoType>) serviceMap.getOrDefault(reservationServiceType,null);
     }
 
     @SuppressWarnings("unchecked")
     public <SubReservation extends Reservation, Entity, DtoType extends CreateReservationDto<SubReservation, Entity>>
-    SubReservationEntityService<SubReservation, Entity, DtoType> getServiceByDto(DtoType createReservationDto) {
-        return (SubReservationEntityService<SubReservation, Entity, DtoType>) serviceMap.get(getType(createReservationDto));
+    SubReservationService<SubReservation, Entity, DtoType> getServiceByDto(DtoType createReservationDto) {
+        return (SubReservationService<SubReservation, Entity, DtoType>) serviceMap.get(getType(createReservationDto));
     }
 
     private ReservationServiceType getType(CreateReservationDto<?, ?> createReservationDto) {

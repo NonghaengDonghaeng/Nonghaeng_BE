@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tour.nonghaeng.domain.etc.enums.review.ReviewServiceType;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.reservation.service.ReservationService;
 import tour.nonghaeng.domain.review.data.Review;
@@ -15,7 +14,7 @@ import tour.nonghaeng.domain.review.dto.CreateReviewDto;
 import tour.nonghaeng.domain.review.dto.ReviewDetailDto;
 import tour.nonghaeng.domain.review.dto.ReviewSpecDto;
 import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
-import tour.nonghaeng.domain.review.service.registry.CrudReviewServiceRegistry;
+import tour.nonghaeng.domain.review.service.registry.SubReviewServiceRegistry;
 import tour.nonghaeng.domain.review.service.valid.ReviewValidator;
 import tour.nonghaeng.domain.tour.service.TourService;
 import tour.nonghaeng.global.auth.AuthValidator;
@@ -34,20 +33,23 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewValidator reviewValidator;
     private final AuthValidator authValidator;
 
-
-    private final CrudReviewServiceRegistry crudReviewServiceRegistry;
-
+    private final SubReviewServiceRegistry subReviewServiceRegistry;
 
 
-    //ViewForEachEntityService
+    //ReviewService
     @Override
-    public ReviewServiceType getType() {
-        return ReviewServiceType.TOUR_AND_ALL;
+    public Page<? extends ReviewSummaryDto> getReviewSummaryDtoPageById(Long id, Pageable pageable,String type) {
+
+        SubReviewService service = subReviewServiceRegistry.getService(type);
+
+        if (service == null) {
+            return getReviewSummaryDtoPageByIdTour(id, pageable);
+        }
+
+        return service.getReviewSummaryDtoPageById(id, pageable);
     }
 
-
-    @Override
-    public Page<? extends ReviewSummaryDto> getReviewSummaryDtoPageById(Long id, Pageable pageable) {
+    private Page<? extends ReviewSummaryDto> getReviewSummaryDtoPageByIdTour(Long id, Pageable pageable) {
 
         ReviewSpecDto specDto = ReviewSpecDto.builder()
                 .title(tourService.findById(id).getName())
@@ -59,10 +61,19 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
 
-    //TODO : 사실 이건 이 함수에서만 구현하고 type에 따라 필터링해서 보여주면 되기때문에 ViewForEachEntityServie에서 빼도 된다.
-    //TODO : MyPageService에서 한쪽으로 맞추기, reservation처럼 할건지 여기처럼할건지
     @Override
-    public Page<? extends ReviewSummaryDto> getReviewSummaryDtoPageByUser(Member user, Pageable pageable) {
+    public Page<? extends ReviewSummaryDto> getReviewSummaryDtoPageByUser(Member user, Pageable pageable,String type) {
+
+        SubReviewService service = subReviewServiceRegistry.getService(type);
+
+        if (service == null) {
+            return getReviewSummaryDtoPageByUserTour(user, pageable);
+        }
+
+        return service.getReviewSummaryDtoPageByUser(user, pageable);
+    }
+
+    private Page<? extends ReviewSummaryDto> getReviewSummaryDtoPageByUserTour(Member user, Pageable pageable) {
 
         Page<Review> reviewPage = reviewRepository.findReviewPageByUser(authValidator.userValidate(user), pageable)
                 .map(review -> findById(review.getId()));
@@ -85,7 +96,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         reviewValidator.createReviewValidate(user,reservationId,type);
 
-        CrudReviewService service = crudReviewServiceRegistry.getService(type);
+        SubReviewService service = subReviewServiceRegistry.getService(type);
 
         return service.create(user,requestDto);
     }
@@ -94,7 +105,7 @@ public class ReviewServiceImpl implements ReviewService {
     public Review findById(Long reviewId) {
         String type = reviewRepository.findReviewTypeById(reviewId);
 
-        CrudReviewService service = crudReviewServiceRegistry.getService(type);
+        SubReviewService service = subReviewServiceRegistry.getService(type);
 
         return service.findById(reviewId);
     }

@@ -30,7 +30,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class ExperienceReservationService implements SubReservationEntityService<ExperienceReservation,ExperienceRound,CreateExpReservationDto> {
+public class ExperienceReservationService implements SubReservationService<ExperienceReservation,ExperienceRound,CreateExpReservationDto> {
 
     private final ExperienceReservationRepository experienceReservationRepository;
 

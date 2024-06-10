@@ -29,7 +29,7 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class RoomReservationService implements SubReservationEntityService<RoomReservation,Room,CreateRoomReservationDto> {
+public class RoomReservationService implements SubReservationService<RoomReservation,Room,CreateRoomReservationDto> {
 
     private final RoomReservationRepository roomReservationRepository;
 
