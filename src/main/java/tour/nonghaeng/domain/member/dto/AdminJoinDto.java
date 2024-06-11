@@ -1,10 +1,17 @@
 package tour.nonghaeng.domain.member.dto;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Builder;
+import lombok.Getter;
 import tour.nonghaeng.domain.member.data.Admin;
 import tour.nonghaeng.global.infra.enums.area.AreaCode;
 import tour.nonghaeng.global.infra.enums.role.Role;
 
+@JsonTypeName("admin")
+@JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)   //변수마다 @JsonProperty 사용 필요없이 모두 변환
+@Getter
 public class AdminJoinDto extends JoinDto{
     @Builder
     public AdminJoinDto(AreaCode areaCode, String phoneNumber, String name, String email, String username, String password, String checkPassword) {

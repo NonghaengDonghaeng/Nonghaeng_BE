@@ -46,7 +46,7 @@ public class ReviewController {
 
         Long reviewId = reviewService.create(user, requestDto).getId();
 
-        return new ResponseEntity<>("리뷰 생성완료(id:"+reviewId+")", HttpStatus.OK);
+        return new ResponseEntity<>("리뷰 생성완료(id:"+reviewId+")", HttpStatus.CREATED);
     }
 
 

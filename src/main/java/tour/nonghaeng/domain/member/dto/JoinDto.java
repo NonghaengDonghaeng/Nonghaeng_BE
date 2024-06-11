@@ -2,6 +2,8 @@ package tour.nonghaeng.domain.member.dto;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
 import tour.nonghaeng.global.infra.enums.area.AreaCode;
 
@@ -12,17 +14,19 @@ import tour.nonghaeng.global.infra.enums.area.AreaCode;
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = SellerJoinDto.class, name = "seller"),
-        @JsonSubTypes.Type(value = UserJoinDto.class, name = "user")
+        @JsonSubTypes.Type(value = UserJoinDto.class, name = "user"),
+        @JsonSubTypes.Type(value = AdminJoinDto.class, name = "admin")
 })
+@JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 @Getter
 public class JoinDto {
-    private AreaCode areaCode;
-    private String phoneNumber;
-    private String name;
-    private String email;
-    private String username;
-    private String password;
-    private String checkPassword;
+    private final AreaCode areaCode;
+    private final String phoneNumber;
+    private final String name;
+    private final String email;
+    private final String username;
+    private final String password;
+    private final String checkPassword;
 
     public JoinDto(AreaCode areaCode, String phoneNumber, String name, String email, String username, String password, String checkPassword) {
         this.areaCode = areaCode;

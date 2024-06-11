@@ -66,6 +66,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     //여기에서 런타입 유형을 기반으로 제네릭 SubReservation,Entity 추론
+    //여기 과정 다시 보고 이해하기
     private <SubReservation extends Reservation, Entity>
     Reservation createInternal(Member user, CreateReservationDto<SubReservation, Entity> createDto) {
 

@@ -40,6 +40,7 @@ public abstract class Review extends BaseTimeEntity {
 
     private String title;
 
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @OneToMany(mappedBy = "review", fetch = FetchType.LAZY,
