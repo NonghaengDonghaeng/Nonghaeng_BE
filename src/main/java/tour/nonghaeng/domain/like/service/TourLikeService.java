@@ -4,7 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import tour.nonghaeng.domain.etc.enums.like.LikeType;
+import tour.nonghaeng.global.infra.enums.like.LikeType;
 import tour.nonghaeng.domain.like.data.TourLike;
 import tour.nonghaeng.domain.like.data.repo.TourLikeRepository;
 import tour.nonghaeng.domain.member.data.Member;

@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.TestPropertySource;
-import tour.nonghaeng.domain.etc.enums.area.AreaCode;
-import tour.nonghaeng.domain.etc.enums.bank.BankCode;
-import tour.nonghaeng.domain.etc.enums.role.Role;
+import tour.nonghaeng.global.infra.enums.area.AreaCode;
+import tour.nonghaeng.global.infra.enums.bank.BankCode;
+import tour.nonghaeng.global.infra.enums.role.Role;
 import tour.nonghaeng.domain.member.data.Seller;
 import tour.nonghaeng.domain.member.data.repo.SellerRepository;
 

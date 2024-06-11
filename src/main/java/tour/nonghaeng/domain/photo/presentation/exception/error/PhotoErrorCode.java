@@ -3,8 +3,8 @@ package tour.nonghaeng.domain.photo.presentation.exception.error;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
-import tour.nonghaeng.global.exception.error.BaseErrorCode;
-import tour.nonghaeng.global.exception.dto.ErrorReason;
+import tour.nonghaeng.global.infra.exception.error.BaseErrorCode;
+import tour.nonghaeng.global.infra.exception.dto.ErrorReason;
 
 @AllArgsConstructor
 @Getter

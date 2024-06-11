@@ -6,9 +6,9 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import tour.nonghaeng.domain.etc.enums.area.AreaCode;
-import tour.nonghaeng.domain.etc.enums.role.Role;
-import tour.nonghaeng.domain.etc.enums.social.SocialType;
+import tour.nonghaeng.global.infra.enums.area.AreaCode;
+import tour.nonghaeng.global.infra.enums.role.Role;
+import tour.nonghaeng.global.infra.enums.social.SocialType;
 import tour.nonghaeng.domain.member.data.User;
 
 @JsonTypeName("user")
@@ -48,4 +48,16 @@ public class UserJoinDto extends JoinDto {
                         .build();
         }
 
+        @Override
+        public String toString() {
+                return "UserJoinDto{" +
+                        "areaCode=" + areaCode +
+                        ", phoneNumber='" + phoneNumber + '\'' +
+                        ", name='" + name + '\'' +
+                        ", email='" + email + '\'' +
+                        ", username='" + username + '\'' +
+                        ", password='" + password + '\'' +
+                        ", checkPassword='" + checkPassword + '\'' +
+                        '}';
+        }
 }

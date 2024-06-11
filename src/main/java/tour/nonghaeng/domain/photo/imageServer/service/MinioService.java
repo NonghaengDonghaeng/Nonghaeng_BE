@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import tour.nonghaeng.domain.etc.enums.photo.PhotoType;
+import tour.nonghaeng.global.infra.enums.photo.PhotoType;
 import tour.nonghaeng.domain.photo.imageServer.exception.ImageServerException;
 import tour.nonghaeng.domain.photo.imageServer.exception.ImageServerErrorCode;
 import tour.nonghaeng.domain.photo.imageServer.service.valid.ImageServerValidator;

@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import tour.nonghaeng.domain.etc.enums.social.SocialType;
+import tour.nonghaeng.global.infra.enums.social.SocialType;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.member.data.User;
 

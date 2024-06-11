@@ -1,7 +1,7 @@
 package tour.nonghaeng.domain.member.presentation.exception;
 
 import tour.nonghaeng.domain.member.presentation.exception.error.UserErrorCode;
-import tour.nonghaeng.global.exception.NongHaengException;
+import tour.nonghaeng.global.infra.exception.NongHaengException;
 
 public class UserException extends NongHaengException {
 

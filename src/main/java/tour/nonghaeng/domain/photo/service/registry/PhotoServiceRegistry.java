@@ -1,7 +1,7 @@
 package tour.nonghaeng.domain.photo.service.registry;
 
 import org.springframework.stereotype.Component;
-import tour.nonghaeng.domain.etc.enums.photo.PhotoType;
+import tour.nonghaeng.global.infra.enums.photo.PhotoType;
 import tour.nonghaeng.domain.photo.presentation.exception.PhotoException;
 import tour.nonghaeng.domain.photo.data.repo.PhotoRepository;
 import tour.nonghaeng.domain.photo.service.PhotoService;

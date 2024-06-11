@@ -1,7 +1,7 @@
 package tour.nonghaeng.domain.photo.imageServer.service;
 
 import org.springframework.web.multipart.MultipartFile;
-import tour.nonghaeng.domain.etc.enums.photo.PhotoType;
+import tour.nonghaeng.global.infra.enums.photo.PhotoType;
 
 public interface ImageService {
 

@@ -6,9 +6,9 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import tour.nonghaeng.domain.etc.enums.area.AreaCode;
-import tour.nonghaeng.domain.etc.enums.bank.BankCode;
-import tour.nonghaeng.domain.etc.enums.role.Role;
+import tour.nonghaeng.global.infra.enums.area.AreaCode;
+import tour.nonghaeng.global.infra.enums.bank.BankCode;
+import tour.nonghaeng.global.infra.enums.role.Role;
 import tour.nonghaeng.domain.member.data.Seller;
 
 @JsonTypeName("seller")
@@ -63,5 +63,24 @@ public class SellerJoinDto extends JoinDto {
                 .bankAccountName(this.bankAccountName)
                 .role(Role.SELLER)
                 .build();
+    }
+
+    @Override
+    public String toString() {
+        return "SellerJoinDto{" +
+                "phoneNumber='" + phoneNumber + '\'' +
+                ", businessNumber='" + businessNumber + '\'' +
+                ", username='" + username + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", checkPassword='" + checkPassword + '\'' +
+                ", address='" + address + '\'' +
+                ", callNumber='" + callNumber + '\'' +
+                ", areaCode=" + areaCode +
+                ", bankCode=" + bankCode +
+                ", bankAccount='" + bankAccount + '\'' +
+                ", bankAccountName='" + bankAccountName + '\'' +
+                '}';
     }
 }

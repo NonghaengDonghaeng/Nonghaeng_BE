@@ -1,7 +1,7 @@
 package tour.nonghaeng.domain.reservation.service.registry;
 
 import org.springframework.stereotype.Component;
-import tour.nonghaeng.domain.etc.enums.reservation.ReservationServiceType;
+import tour.nonghaeng.global.infra.enums.reservation.ReservationServiceType;
 import tour.nonghaeng.domain.reservation.data.Reservation;
 import tour.nonghaeng.domain.reservation.dto.CreateReservationDto;
 import tour.nonghaeng.domain.reservation.dto.exp.CreateExpReservationDto;

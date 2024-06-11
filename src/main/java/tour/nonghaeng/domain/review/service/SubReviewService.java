@@ -2,7 +2,7 @@ package tour.nonghaeng.domain.review.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import tour.nonghaeng.domain.etc.enums.review.ReviewServiceType;
+import tour.nonghaeng.global.infra.enums.review.ReviewServiceType;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.review.data.Review;
 import tour.nonghaeng.domain.review.dto.CreateReviewDto;

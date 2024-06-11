@@ -1,7 +1,7 @@
 package tour.nonghaeng.domain.photo.presentation.exception;
 
 import tour.nonghaeng.domain.photo.presentation.exception.error.PhotoErrorCode;
-import tour.nonghaeng.global.exception.NongHaengException;
+import tour.nonghaeng.global.infra.exception.NongHaengException;
 
 public class PhotoException extends NongHaengException {
 

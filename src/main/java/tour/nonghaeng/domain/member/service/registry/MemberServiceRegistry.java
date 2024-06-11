@@ -1,7 +1,8 @@
 package tour.nonghaeng.domain.member.service.registry;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import tour.nonghaeng.domain.etc.enums.role.Role;
+import tour.nonghaeng.global.infra.enums.role.Role;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.member.dto.JoinDto;
 import tour.nonghaeng.domain.member.dto.SellerJoinDto;
@@ -14,21 +15,23 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
-public class MemberServiceRegistry {
+@Slf4j
+public class MemberServiceRegistry<Entity extends Member, JoinDtoType extends JoinDto> {
 
-    private final Map<Role, MemberService<Member, JoinDto>> memberServiceMap;
+    private final Map<Role, MemberService<Entity,JoinDtoType>> memberServiceMap;
 
 
-    public MemberServiceRegistry(List<MemberService<Member, JoinDto>> memberServiceList) {
+    public MemberServiceRegistry(List<MemberService<Entity,JoinDtoType>> memberServiceList) {
         this.memberServiceMap = memberServiceList.stream()
                 .collect(Collectors.toMap(MemberService::getRole, Function.identity()));
     }
 
-    public MemberService<Member, JoinDto> getService(Role role) {
+    public MemberService<Entity, JoinDtoType> getService(Role role) {
         return memberServiceMap.get(role);
     }
 
-    public MemberService<Member,JoinDto> getServiceByDto(JoinDto joinDto) {
+    public MemberService<Entity,JoinDtoType> getServiceByDto(JoinDto joinDto) {
+
         return memberServiceMap.get(getType(joinDto));
     }
 

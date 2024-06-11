@@ -1,7 +1,7 @@
 package tour.nonghaeng.domain.like.presentation.exception;
 
 import tour.nonghaeng.domain.like.presentation.exception.error.LikeErrorCode;
-import tour.nonghaeng.global.exception.NongHaengException;
+import tour.nonghaeng.global.infra.exception.NongHaengException;
 
 public class LikeException extends NongHaengException {
 

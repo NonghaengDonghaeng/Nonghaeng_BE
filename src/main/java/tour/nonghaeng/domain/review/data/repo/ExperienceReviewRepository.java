@@ -22,6 +22,6 @@ public interface ExperienceReviewRepository extends JpaRepository<ExperienceRevi
     @Query("select er from ExperienceReview er where er.experience.id = :expId")
     Page<Review> findReviewPageByExpId(@Param("expId") Long expId, Pageable pageable);
 
-    @Query("select er from ExperienceReview er where er.user = : user")
+    @Query("select er from ExperienceReview er where er.user = :user")
     Page<Review> findReviewPageByUser(@Param("user") User user, Pageable pageable);
 }

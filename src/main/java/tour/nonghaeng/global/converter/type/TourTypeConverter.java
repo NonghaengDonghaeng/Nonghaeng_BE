@@ -2,7 +2,7 @@ package tour.nonghaeng.global.converter.type;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
-import tour.nonghaeng.domain.etc.enums.tour.TourType;
+import tour.nonghaeng.global.infra.enums.tour.TourType;
 
 @Component
 public class TourTypeConverter implements Converter<String,TourType> {

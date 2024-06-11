@@ -12,7 +12,7 @@ import tour.nonghaeng.domain.member.data.User;
 import tour.nonghaeng.domain.member.data.repo.UserRepository;
 import tour.nonghaeng.domain.member.service.valid.UserValidator;
 import tour.nonghaeng.domain.member.presentation.exception.UserException;
-import tour.nonghaeng.global.exception.error.BaseErrorCode;
+import tour.nonghaeng.global.infra.exception.error.BaseErrorCode;
 import tour.nonghaeng.domain.member.presentation.exception.error.UserErrorCode;
 
 import static org.assertj.core.api.Assertions.assertThat;

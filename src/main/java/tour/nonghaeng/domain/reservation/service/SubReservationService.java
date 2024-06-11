@@ -2,7 +2,7 @@ package tour.nonghaeng.domain.reservation.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import tour.nonghaeng.domain.etc.enums.reservation.ReservationServiceType;
+import tour.nonghaeng.global.infra.enums.reservation.ReservationServiceType;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.reservation.data.Reservation;
 import tour.nonghaeng.domain.reservation.dto.CreateReservationDto;

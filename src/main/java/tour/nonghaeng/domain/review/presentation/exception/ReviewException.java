@@ -1,7 +1,7 @@
 package tour.nonghaeng.domain.review.presentation.exception;
 
 import tour.nonghaeng.domain.review.presentation.exception.error.ReviewErrorCode;
-import tour.nonghaeng.global.exception.NongHaengException;
+import tour.nonghaeng.global.infra.exception.NongHaengException;
 
 public class ReviewException extends NongHaengException {
 

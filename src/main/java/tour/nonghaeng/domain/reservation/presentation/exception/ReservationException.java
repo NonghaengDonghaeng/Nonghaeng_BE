@@ -1,7 +1,7 @@
 package tour.nonghaeng.domain.reservation.presentation.exception;
 
 import tour.nonghaeng.domain.reservation.presentation.exception.error.ReservationErrorCode;
-import tour.nonghaeng.global.exception.NongHaengException;
+import tour.nonghaeng.global.infra.exception.NongHaengException;
 
 public class ReservationException extends NongHaengException {
 

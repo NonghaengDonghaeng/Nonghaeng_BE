@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import tour.nonghaeng.domain.etc.enums.tour.TourType;
+import tour.nonghaeng.global.infra.enums.tour.TourType;
 import tour.nonghaeng.domain.member.data.Seller;
 import tour.nonghaeng.domain.tour.data.Tour;
 import tour.nonghaeng.global.infra.dto.CreateDto;

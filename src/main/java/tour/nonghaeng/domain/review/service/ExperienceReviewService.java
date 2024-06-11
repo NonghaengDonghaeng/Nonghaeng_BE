@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tour.nonghaeng.domain.etc.enums.review.ReviewServiceType;
+import tour.nonghaeng.global.infra.enums.review.ReviewServiceType;
 import tour.nonghaeng.domain.experience.data.Experience;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
 import tour.nonghaeng.domain.experience.service.valid.ExperienceValidator;
@@ -80,7 +80,7 @@ public class ExperienceReviewService implements SubReviewService {
     @Override
     public Review create(Member user, CreateReviewDto createDto) {
         Reservation reservation = reservationService.findById(createDto.getReservationId());
-        Experience experience = experienceService.findById(createDto.getId());
+        Experience experience = experienceService.findById(reservation.getEntityId());
 
         //TODO: validator
 

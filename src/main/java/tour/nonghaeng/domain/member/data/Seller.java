@@ -5,9 +5,9 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import tour.nonghaeng.domain.etc.enums.area.AreaCode;
-import tour.nonghaeng.domain.etc.enums.bank.BankCode;
-import tour.nonghaeng.domain.etc.enums.role.Role;
+import tour.nonghaeng.global.infra.enums.area.AreaCode;
+import tour.nonghaeng.global.infra.enums.bank.BankCode;
+import tour.nonghaeng.global.infra.enums.role.Role;
 
 @Entity
 @Table(name = "SELLERS")

@@ -1,6 +1,6 @@
 package tour.nonghaeng.domain.photo.imageServer.exception;
 
-import tour.nonghaeng.global.exception.NongHaengException;
+import tour.nonghaeng.global.infra.exception.NongHaengException;
 
 public class ImageServerException extends NongHaengException {
 

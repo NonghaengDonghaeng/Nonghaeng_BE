@@ -5,10 +5,13 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import tour.nonghaeng.domain.etc.enums.cancel.CancelPolicy;
-import tour.nonghaeng.domain.etc.enums.reservation.ReservationStateType;
+import tour.nonghaeng.global.infra.enums.cancel.CancelPolicy;
+import tour.nonghaeng.global.infra.enums.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.data.User;
-import tour.nonghaeng.domain.reservation.dto.*;
+import tour.nonghaeng.domain.reservation.dto.ReservationCancelResponseDto;
+import tour.nonghaeng.domain.reservation.dto.ReservationDetailDto;
+import tour.nonghaeng.domain.reservation.dto.ReservationResponseDto;
+import tour.nonghaeng.domain.reservation.dto.ReservationSummaryDto;
 import tour.nonghaeng.domain.reservation.dto.room.*;
 import tour.nonghaeng.domain.room.data.Room;
 
@@ -62,11 +65,14 @@ public class RoomReservation extends Reservation {
 
     @Override
     public ReservationSummaryDto toSummaryDtoForSeller() {
+
         return RoomReservationSummaryDtoForSeller.builder()
                 .roomReservationId(this.getId())
                 .reservationState(this.getStateType().getName())
                 .roomName(this.getRoom().getRoomName())
-                .reservationDates(this.getReservationDates().stream().map(RoomReservationDate::getReservationDate).toList())
+                .reservationDates(this.getReservationDates()
+                        .stream().map(RoomReservationDate::getReservationDate)
+                        .toList())
                 .price(this.getPrice())
                 .numOfParticipant(this.getNumOfParticipant())
                 .numOfRoom(this.getNumOfRoom())
@@ -81,7 +87,9 @@ public class RoomReservation extends Reservation {
                 .tourName(this.getRoom().getTour().getName())
                 .roomName(this.getRoom().getRoomName())
                 .roomId(this.getRoom().getId())
-                .reservationDates(this.getReservationDates().stream().map(roomReservationDate -> roomReservationDate.getReservationDate()).toList())
+                .reservationDates(this.getReservationDates()
+                        .stream().map(RoomReservationDate::getReservationDate)
+                        .toList())
                 .userName(this.getReservationName())
                 .numOfParticipant(this.getNumOfParticipant())
                 .numOfRoom(this.getNumOfRoom())
@@ -96,6 +104,9 @@ public class RoomReservation extends Reservation {
                 .reservationState(this.getStateType().getName())
                 .roomName(this.getRoom().getRoomName())
                 .roomId(this.getRoom().getId())
+                .reservationDates(this.reservationDates
+                        .stream().map(RoomReservationDate::getReservationDate)
+                        .toList())
                 .reservationAt(this.getCreatedAt())
                 .userName(this.getReservationName())
                 .number(this.getNumber())
@@ -137,6 +148,11 @@ public class RoomReservation extends Reservation {
         responseDto.setStartDateAndEndDate(this);
 
         return responseDto;
+    }
+
+    @Override
+    public Long getEntityId() {
+        return this.room.getId();
     }
 
 

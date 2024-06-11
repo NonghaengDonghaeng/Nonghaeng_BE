@@ -3,9 +3,9 @@ package tour.nonghaeng.domain.reservation.data;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import tour.nonghaeng.domain.etc.BaseTimeEntity;
-import tour.nonghaeng.domain.etc.enums.cancel.CancelPolicy;
-import tour.nonghaeng.domain.etc.enums.reservation.ReservationStateType;
+import tour.nonghaeng.global.infra.BaseTimeEntity;
+import tour.nonghaeng.global.infra.enums.cancel.CancelPolicy;
+import tour.nonghaeng.global.infra.enums.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.data.Seller;
 import tour.nonghaeng.domain.member.data.User;
 import tour.nonghaeng.domain.reservation.dto.*;
@@ -103,5 +103,7 @@ public abstract class Reservation extends BaseTimeEntity {
     public abstract ReservationCancelResponseDto toCancelResponseDto(CancelPolicy cancelPolicy);
 
     public abstract ReservationResponseDto toReservationResponseDto();
+
+    public abstract Long getEntityId();
 
 }

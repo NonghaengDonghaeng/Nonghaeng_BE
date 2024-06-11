@@ -13,16 +13,14 @@ import tour.nonghaeng.global.infra.dto.CreateDto;
 @Getter
 public class CreateReviewDto extends CreateDto {
 
-    private Long id;    //entity id
+    private Long reservationId;
     private String title;
     private String content;
-    private Long reservationId;
 
     @Builder
-    private CreateReviewDto(Long id, String title, String content,Long reservationId) {
-        this.id = id;
+    private CreateReviewDto(Long reservationId,String title, String content) {
+        this.reservationId = reservationId;
         this.title = title;
         this.content = content;
-        this.reservationId = reservationId;
     }
 }

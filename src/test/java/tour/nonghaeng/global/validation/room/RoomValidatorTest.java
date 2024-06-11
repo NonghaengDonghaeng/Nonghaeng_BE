@@ -19,7 +19,7 @@ import tour.nonghaeng.domain.room.data.repo.RoomRepository;
 import tour.nonghaeng.domain.room.service.valid.RoomValidator;
 import tour.nonghaeng.domain.tour.data.Tour;
 import tour.nonghaeng.domain.room.presentation.exception.RoomException;
-import tour.nonghaeng.global.exception.error.BaseErrorCode;
+import tour.nonghaeng.global.infra.exception.error.BaseErrorCode;
 import tour.nonghaeng.domain.room.presentation.exception.error.RoomErrorCode;
 
 import java.time.LocalDate;

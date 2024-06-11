@@ -18,9 +18,9 @@ import tour.nonghaeng.domain.reservation.data.repo.ExperienceReservationReposito
 import tour.nonghaeng.domain.reservation.service.valid.ExperienceReservationValidator;
 import tour.nonghaeng.domain.tour.data.Tour;
 import tour.nonghaeng.domain.experience.presentation.exception.ExperienceException;
-import tour.nonghaeng.global.exception.NongHaengException;
+import tour.nonghaeng.global.infra.exception.NongHaengException;
 import tour.nonghaeng.domain.reservation.presentation.exception.ReservationException;
-import tour.nonghaeng.global.exception.error.BaseErrorCode;
+import tour.nonghaeng.global.infra.exception.error.BaseErrorCode;
 import tour.nonghaeng.domain.experience.presentation.exception.error.ExperienceErrorCode;
 import tour.nonghaeng.domain.reservation.presentation.exception.error.ReservationErrorCode;
 import tour.nonghaeng.domain.experience.service.valid.ExperienceCloseDateValidator;

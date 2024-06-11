@@ -2,8 +2,8 @@ package tour.nonghaeng.global.auth.oauth;
 
 import lombok.Builder;
 import lombok.Getter;
-import tour.nonghaeng.domain.etc.enums.role.Role;
-import tour.nonghaeng.domain.etc.enums.social.SocialType;
+import tour.nonghaeng.global.infra.enums.role.Role;
+import tour.nonghaeng.global.infra.enums.social.SocialType;
 import tour.nonghaeng.domain.member.data.User;
 import tour.nonghaeng.global.auth.oauth.userinfo.KakaoOAuth2UserInfo;
 import tour.nonghaeng.global.auth.oauth.userinfo.OAuth2UserInfo;

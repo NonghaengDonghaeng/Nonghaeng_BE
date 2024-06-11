@@ -2,7 +2,7 @@ package tour.nonghaeng.global.converter.type;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
-import tour.nonghaeng.domain.etc.enums.bank.BankCode;
+import tour.nonghaeng.global.infra.enums.bank.BankCode;
 
 @Component
 public class BankCodeConverter implements Converter<String, BankCode> {

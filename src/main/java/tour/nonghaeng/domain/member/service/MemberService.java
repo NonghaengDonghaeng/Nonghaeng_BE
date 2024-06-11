@@ -1,7 +1,7 @@
 package tour.nonghaeng.domain.member.service;
 
-import tour.nonghaeng.domain.etc.enums.cancel.CancelPolicy;
-import tour.nonghaeng.domain.etc.enums.role.Role;
+import tour.nonghaeng.global.infra.enums.cancel.CancelPolicy;
+import tour.nonghaeng.global.infra.enums.role.Role;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.member.dto.JoinDto;
 

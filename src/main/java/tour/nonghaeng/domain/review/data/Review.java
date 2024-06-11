@@ -3,7 +3,7 @@ package tour.nonghaeng.domain.review.data;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import tour.nonghaeng.domain.etc.BaseTimeEntity;
+import tour.nonghaeng.global.infra.BaseTimeEntity;
 import tour.nonghaeng.domain.like.data.ReviewLike;
 import tour.nonghaeng.domain.member.data.User;
 import tour.nonghaeng.domain.photo.data.Photo;

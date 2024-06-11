@@ -1,7 +1,7 @@
 package tour.nonghaeng.domain.room.presentation.exception;
 
 import tour.nonghaeng.domain.room.presentation.exception.error.RoomErrorCode;
-import tour.nonghaeng.global.exception.NongHaengException;
+import tour.nonghaeng.global.infra.exception.NongHaengException;
 
 public class RoomException extends NongHaengException {
 

@@ -9,7 +9,7 @@ import tour.nonghaeng.global.infra.service.CrudService;
 
 public interface ReservationService extends CrudService<Reservation, CreateReservationDto<?,?>>{
 
-    //조회(ViewService를 상속안한 이유는 기본 메소드랑 살짝 다름)
+    //조회(ViewService 상속안한 이유는 기본 메소드랑 살짝 다름)
     ReservationDetailDto getReservationDetailDto(Member member, Long reservationId);
 
     Page<? extends ReservationSummaryDto> getReservationSummaryDtoPage(Member member, Pageable pageable,String type);

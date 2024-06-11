@@ -1,6 +1,6 @@
 package tour.nonghaeng.global.testEntity.experience;
 
-import tour.nonghaeng.domain.etc.enums.experience.ExperienceType;
+import tour.nonghaeng.global.infra.enums.experience.ExperienceType;
 import tour.nonghaeng.domain.experience.data.Experience;
 import tour.nonghaeng.domain.tour.data.Tour;
 

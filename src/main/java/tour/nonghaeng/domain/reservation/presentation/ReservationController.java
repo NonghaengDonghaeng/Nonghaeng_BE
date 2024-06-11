@@ -40,7 +40,7 @@ public class ReservationController {
     }
 
     //소비자,판매자 내 체험/숙소 예약 리스트보기 만약 타입이 안오면 전체로
-    //파라미터 type=room,exp,all
+    //파라미터 type=room,experience,all
     @GetMapping("/my-reservation")
     public ResponseEntity<Page<? extends ReservationSummaryDto>> showMyReservationUser(Authentication authentication,
                                                                                        @PageableDefault(size = 10) Pageable pageable,
@@ -91,10 +91,10 @@ public class ReservationController {
         Long id = reservationService.approveReservation(reservationId, notApproveFlag);
 
         if (notApproveFlag) {
-            return new ResponseEntity<>("체험예약 미승인 완료", HttpStatus.OK);
+            return new ResponseEntity<>("예약 미승인 완료(예약 id:" + id + ")", HttpStatus.OK);
         }
 
-        return new ResponseEntity<>("체험예약 승인 완료(체험예약 id:" + id + ")", HttpStatus.OK);
+        return new ResponseEntity<>("예약 승인 완료(예약 id:" + id + ")", HttpStatus.OK);
     }
 
     @GetMapping("/cancel/{reservationId}")

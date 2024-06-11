@@ -1,6 +1,6 @@
 package tour.nonghaeng.domain.like.service;
 
-import tour.nonghaeng.domain.etc.enums.like.LikeType;
+import tour.nonghaeng.global.infra.enums.like.LikeType;
 import tour.nonghaeng.domain.member.data.Member;
 
 public interface LikeService {

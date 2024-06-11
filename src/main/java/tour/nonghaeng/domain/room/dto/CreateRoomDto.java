@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import tour.nonghaeng.domain.etc.enums.room.RoomType;
+import tour.nonghaeng.global.infra.enums.room.RoomType;
 import tour.nonghaeng.domain.room.data.Room;
 import tour.nonghaeng.domain.tour.data.Tour;
 import tour.nonghaeng.global.infra.dto.CreateDto;

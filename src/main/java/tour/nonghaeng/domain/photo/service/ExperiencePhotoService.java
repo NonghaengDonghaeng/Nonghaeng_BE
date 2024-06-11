@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import tour.nonghaeng.domain.etc.enums.photo.PhotoType;
+import tour.nonghaeng.global.infra.enums.photo.PhotoType;
 import tour.nonghaeng.domain.experience.data.Experience;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
 import tour.nonghaeng.domain.experience.service.valid.ExperienceValidator;

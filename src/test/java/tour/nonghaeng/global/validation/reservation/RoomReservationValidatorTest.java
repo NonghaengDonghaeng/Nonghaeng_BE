@@ -19,7 +19,7 @@ import tour.nonghaeng.domain.room.data.RoomCloseDate;
 import tour.nonghaeng.domain.tour.data.Tour;
 import tour.nonghaeng.domain.reservation.presentation.exception.ReservationException;
 import tour.nonghaeng.domain.room.presentation.exception.RoomException;
-import tour.nonghaeng.global.exception.error.BaseErrorCode;
+import tour.nonghaeng.global.infra.exception.error.BaseErrorCode;
 import tour.nonghaeng.domain.reservation.presentation.exception.error.ReservationErrorCode;
 import tour.nonghaeng.domain.room.presentation.exception.error.RoomErrorCode;
 import tour.nonghaeng.domain.room.service.valid.RoomCloseDateValidator;

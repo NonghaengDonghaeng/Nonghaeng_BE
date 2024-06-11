@@ -10,7 +10,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import tour.nonghaeng.domain.etc.enums.tour.TourType;
+import tour.nonghaeng.global.infra.enums.tour.TourType;
 import tour.nonghaeng.domain.member.data.Seller;
 import tour.nonghaeng.domain.tour.dto.CreateTourDto;
 import tour.nonghaeng.domain.tour.data.Tour;

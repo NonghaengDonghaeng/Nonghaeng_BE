@@ -10,7 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import tour.nonghaeng.domain.etc.enums.role.Role;
+import tour.nonghaeng.global.infra.enums.role.Role;
 import tour.nonghaeng.domain.member.data.repo.MemberRepository;
 import tour.nonghaeng.global.auth.jwt.service.JwtService;
 
@@ -47,7 +47,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         response.setStatus(HttpServletResponse.SC_OK);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/plain;charset=UTF-8");
-        response.getWriter().write("소비자 로그인 성공");
+        response.getWriter().write("로그인 성공");
 
         log.info("로그인에 성공하였습니다. username : {}", username);
         log.info("로그인에 성공하였습니다. AccessToken : {}", accessToken);

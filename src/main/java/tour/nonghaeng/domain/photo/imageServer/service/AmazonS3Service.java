@@ -12,7 +12,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetUrlRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
-import tour.nonghaeng.domain.etc.enums.photo.PhotoType;
+import tour.nonghaeng.global.infra.enums.photo.PhotoType;
 import tour.nonghaeng.domain.photo.imageServer.exception.ImageServerErrorCode;
 import tour.nonghaeng.domain.photo.imageServer.exception.ImageServerException;
 import tour.nonghaeng.domain.photo.imageServer.service.valid.ImageServerValidator;

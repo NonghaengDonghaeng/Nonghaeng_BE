@@ -17,7 +17,7 @@ import tour.nonghaeng.domain.experience.service.valid.ExperienceRoundValidator;
 import tour.nonghaeng.domain.member.data.Seller;
 import tour.nonghaeng.domain.tour.data.Tour;
 import tour.nonghaeng.domain.experience.presentation.exception.ExperienceException;
-import tour.nonghaeng.global.exception.error.BaseErrorCode;
+import tour.nonghaeng.global.infra.exception.error.BaseErrorCode;
 import tour.nonghaeng.domain.experience.presentation.exception.error.ExperienceErrorCode;
 
 import java.time.LocalTime;

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tour.nonghaeng.domain.etc.enums.like.LikeType;
+import tour.nonghaeng.global.infra.enums.like.LikeType;
 import tour.nonghaeng.domain.like.presentation.exception.LikeException;
 import tour.nonghaeng.domain.like.service.registry.LikeServiceRegistry;
 import tour.nonghaeng.domain.member.data.Member;

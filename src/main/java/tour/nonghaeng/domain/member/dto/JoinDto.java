@@ -12,5 +12,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(value = SellerJoinDto.class, name = "seller"),
         @JsonSubTypes.Type(value = UserJoinDto.class, name = "user")
 })
-public class JoinDto {
+public abstract class JoinDto {
+
+    public abstract String toString();
+
 }

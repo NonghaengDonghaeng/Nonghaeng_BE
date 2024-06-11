@@ -5,8 +5,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import tour.nonghaeng.domain.etc.enums.cancel.CancelPolicy;
-import tour.nonghaeng.domain.etc.enums.reservation.ReservationStateType;
+import tour.nonghaeng.global.infra.enums.cancel.CancelPolicy;
+import tour.nonghaeng.global.infra.enums.reservation.ReservationStateType;
 import tour.nonghaeng.domain.experience.data.Experience;
 import tour.nonghaeng.domain.experience.data.ExperienceRound;
 import tour.nonghaeng.domain.member.data.User;
@@ -127,6 +127,11 @@ public class ExperienceReservation extends Reservation {
                 .numOfParticipant(this.getNumOfParticipant())
                 .finalPrice(this.getPrice())
                 .build();
+    }
+
+    @Override
+    public Long getEntityId() {
+        return this.experience.getId();
     }
 
 

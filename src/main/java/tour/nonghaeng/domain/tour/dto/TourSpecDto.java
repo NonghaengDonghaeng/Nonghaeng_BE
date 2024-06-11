@@ -8,8 +8,8 @@ import jakarta.persistence.criteria.Predicate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
-import tour.nonghaeng.domain.etc.enums.area.AreaCode;
-import tour.nonghaeng.domain.etc.enums.tour.TourType;
+import tour.nonghaeng.global.infra.enums.area.AreaCode;
+import tour.nonghaeng.global.infra.enums.tour.TourType;
 import tour.nonghaeng.domain.tour.data.Tour;
 import tour.nonghaeng.global.infra.dto.SpecDto;
 
