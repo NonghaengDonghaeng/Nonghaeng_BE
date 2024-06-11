@@ -2,6 +2,7 @@ package tour.nonghaeng.global.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import tour.nonghaeng.domain.member.data.Admin;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.member.data.Seller;
 import tour.nonghaeng.domain.member.data.User;
@@ -26,6 +27,13 @@ public class AuthValidator {
         if(member instanceof User) {
 
             return (User) member;
+        }
+        throw new GlobalException(GlobalErrorCode.MEMBER_DOWN_CASTING_ERROR);
+    }
+
+    public Admin adminValidate(Member admin){
+        if(admin instanceof Admin) {
+            return (Admin) admin;
         }
         throw new GlobalException(GlobalErrorCode.MEMBER_DOWN_CASTING_ERROR);
     }

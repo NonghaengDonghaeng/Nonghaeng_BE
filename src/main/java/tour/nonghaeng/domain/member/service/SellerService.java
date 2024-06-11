@@ -30,6 +30,18 @@ public class SellerService implements MemberService<Seller, SellerJoinDto> {
     private final PasswordEncoder passwordEncoder;
 
 
+    @Override
+    public Role getRole() {
+        return Role.SELLER;
+    }
+
+    @Override
+    public Member findMemberByUsername(String username) {
+        return sellerRepository.findMemberByUsername(username)
+                .orElseThrow(() ->
+                        new UserException(UserErrorCode.NO_EXIST_USER_BY_NUMBER_ERROR));
+
+    }
 
 
     @Override
@@ -63,19 +75,6 @@ public class SellerService implements MemberService<Seller, SellerJoinDto> {
         sellerRepository.save(seller);
 
         return seller.getPoint();
-    }
-
-    @Override
-    public Role getRole() {
-        return Role.SELLER;
-    }
-
-    @Override
-    public Member findMemberByUsername(String username) {
-        return sellerRepository.findMemberByUsername(username)
-                .orElseThrow(() ->
-                        new UserException(UserErrorCode.NO_EXIST_USER_BY_NUMBER_ERROR));
-
     }
 
 }

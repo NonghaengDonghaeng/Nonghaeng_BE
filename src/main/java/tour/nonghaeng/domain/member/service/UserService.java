@@ -32,6 +32,21 @@ public class UserService implements MemberService<User, UserJoinDto> {
     private final AuthValidator authValidator;
 
 
+
+    @Override
+    public Role getRole() {
+        return Role.USER;
+    }
+
+    @Override
+    public Member findMemberByUsername(String username) {
+        return userRepository.findMemberByUsername(username)
+                .orElseThrow(() ->
+                        new UserException(UserErrorCode.NO_EXIST_USER_BY_NUMBER_ERROR));
+
+    }
+
+
     @Override
     public User join(UserJoinDto dto){
 
@@ -70,18 +85,5 @@ public class UserService implements MemberService<User, UserJoinDto> {
 
 
 
-
-    @Override
-    public Role getRole() {
-        return Role.USER;
-    }
-
-    @Override
-    public Member findMemberByUsername(String username) {
-        return userRepository.findMemberByUsername(username)
-                .orElseThrow(() ->
-                        new UserException(UserErrorCode.NO_EXIST_USER_BY_NUMBER_ERROR));
-
-    }
 
 }

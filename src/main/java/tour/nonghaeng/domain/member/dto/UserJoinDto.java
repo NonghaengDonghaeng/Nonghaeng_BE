@@ -5,59 +5,33 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import tour.nonghaeng.domain.member.data.User;
 import tour.nonghaeng.global.infra.enums.area.AreaCode;
 import tour.nonghaeng.global.infra.enums.role.Role;
 import tour.nonghaeng.global.infra.enums.social.SocialType;
-import tour.nonghaeng.domain.member.data.User;
 
 @JsonTypeName("user")
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-@NoArgsConstructor
 @Getter
 public class UserJoinDto extends JoinDto {
-        private AreaCode areaCode;
-        private String phoneNumber;
-        private String name;
-        private String email;
-        private String username;
-        private String password;
-        private String checkPassword;
+
 
         @Builder
         public UserJoinDto(AreaCode areaCode, String phoneNumber, String name, String email, String username, String password, String checkPassword) {
-                this.areaCode = areaCode;
-                this.phoneNumber = phoneNumber;
-                this.name = name;
-                this.email = email;
-                this.username = username;
-                this.password = password;
-                this.checkPassword = checkPassword;
+                super(areaCode,phoneNumber,name,email,username,password,checkPassword);
+
         }
 
         public User toEntity() {
                 return User.builder()
                         .role(Role.USER)
-                        .areaCode(this.areaCode)
+                        .areaCode(this.getAreaCode())
                         .socialType(SocialType.ORIGIN)
-                        .phoneNumber(this.phoneNumber)
-                        .name(this.name)
-                        .email(this.email)
-                        .username(this.username)
-                        .password(this.password)
+                        .phoneNumber(this.getPhoneNumber())
+                        .name(this.getName())
+                        .email(this.getEmail())
+                        .username(this.getUsername())
+                        .password(this.getPassword())
                         .build();
-        }
-
-        @Override
-        public String toString() {
-                return "UserJoinDto{" +
-                        "areaCode=" + areaCode +
-                        ", phoneNumber='" + phoneNumber + '\'' +
-                        ", name='" + name + '\'' +
-                        ", email='" + email + '\'' +
-                        ", username='" + username + '\'' +
-                        ", password='" + password + '\'' +
-                        ", checkPassword='" + checkPassword + '\'' +
-                        '}';
         }
 }

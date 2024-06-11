@@ -2,12 +2,13 @@ package tour.nonghaeng.domain.member.service.registry;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import tour.nonghaeng.global.infra.enums.role.Role;
 import tour.nonghaeng.domain.member.data.Member;
+import tour.nonghaeng.domain.member.dto.AdminJoinDto;
 import tour.nonghaeng.domain.member.dto.JoinDto;
 import tour.nonghaeng.domain.member.dto.SellerJoinDto;
 import tour.nonghaeng.domain.member.dto.UserJoinDto;
 import tour.nonghaeng.domain.member.service.MemberService;
+import tour.nonghaeng.global.infra.enums.role.Role;
 
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,9 @@ public class MemberServiceRegistry<Entity extends Member, JoinDtoType extends Jo
             return Role.SELLER;
         } else if (joinDto instanceof UserJoinDto) {
             return Role.USER;
+        }
+        else if (joinDto instanceof AdminJoinDto) {
+            return Role.ADMIN;
         }
         throw new RuntimeException();
     }

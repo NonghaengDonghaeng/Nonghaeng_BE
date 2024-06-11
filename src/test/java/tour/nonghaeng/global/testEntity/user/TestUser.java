@@ -20,7 +20,7 @@ public class TestUser {
         return User.builder()
                 .role(USER_ROLE)
                 .areaCode(USER_AREA_CODE)
-                .number(USER_NUMBER+String.valueOf(num))
+                .phoneNumber(USER_NUMBER+String.valueOf(num))
                 .name(USER_NAME+String.valueOf(num))
                 .password(USER_PASSWORD)
                 .email(USER_EMAIL+String.valueOf(num))
