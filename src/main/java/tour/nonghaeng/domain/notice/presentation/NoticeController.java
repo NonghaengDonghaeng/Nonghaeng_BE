@@ -28,8 +28,11 @@ public class NoticeController {
 
 
     @GetMapping
-    public ResponseEntity<Page<NoticeSummaryDto>> getNoticeSummaryDtoPAge(@PageableDefault(size = 10) Pageable pageable,
+    public ResponseEntity<Page<NoticeSummaryDto>> getNoticeSummaryDtoPage(@PageableDefault(size = 10) Pageable pageable,
                                                                           @ModelAttribute NoticeSpecDto noticeSpecDto) {
+
+        log.info(noticeSpecDto.toString());
+
         Page<NoticeSummaryDto> dtoPage = noticeService.getSummaryDtoPage(pageable, noticeSpecDto);
 
         return new ResponseEntity<>(dtoPage, HttpStatus.OK);
@@ -66,13 +69,14 @@ public class NoticeController {
 
     @GetMapping("/important/{noticeId}")
     public ResponseEntity<String> onImportantNotice(Authentication authentication,
-                                               @PathVariable("noticeId") Long noticeId) {
+                                                    @PathVariable("noticeId") Long noticeId,
+                                                    @RequestParam(value = "not",defaultValue = "false") boolean notFlg) {
 
         Member member = authService.toMemberEntity(authentication);
 
-        noticeService.onImportant(member,noticeId);
+        noticeService.setImportant(member, noticeId, notFlg);
 
-        return new ResponseEntity<>("중요공지로 변환(id:"+noticeId+")", HttpStatus.OK);
+        return new ResponseEntity<>("중요공지로 변환(id:" + noticeId + ")", HttpStatus.OK);
     }
 
 }

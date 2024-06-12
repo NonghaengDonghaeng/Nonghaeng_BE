@@ -9,6 +9,7 @@ import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.jpa.domain.Specification;
 import tour.nonghaeng.global.infra.enums.area.AreaCode;
 import tour.nonghaeng.global.infra.enums.experience.ExperienceType;
@@ -21,6 +22,7 @@ import java.util.List;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor
 @Getter
+@Setter
 public class ExpSpecDto extends SpecDto<Experience> {
 
     private String keyword;

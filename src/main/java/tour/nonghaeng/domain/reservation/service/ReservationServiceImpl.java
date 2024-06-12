@@ -159,6 +159,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         if (notApproveFlag) {
             notApproveReservation(reservation);
+            return reservationRepository.save(reservation).getId();
         }
 
         reservation.approveReservation();

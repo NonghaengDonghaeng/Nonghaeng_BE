@@ -68,11 +68,18 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public boolean onImportant(Member member, Long noticeId) {
+    public boolean setImportant(Member member, Long noticeId,boolean notImportantFlg) {
         authValidator.adminValidate(member);
 
         Notice notice = findById(noticeId);
-        return notice.isImportant();
+
+        if(notImportantFlg){
+            notice.offImportant();
+            return noticeRepository.save(notice).isImportant();
+        }
+
+        notice.onImportant();
+        return noticeRepository.save(notice).isImportant();
 
     }
 }

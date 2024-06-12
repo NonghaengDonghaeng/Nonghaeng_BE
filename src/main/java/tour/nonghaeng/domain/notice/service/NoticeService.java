@@ -14,6 +14,6 @@ public interface NoticeService extends CrudService<Notice, CreateNoticeDto>, Vie
     void deleteNotice(Member member, Long noticeId);
 
 
-    boolean onImportant(Member member, Long noticeId);
+    boolean setImportant(Member member, Long noticeId,boolean notImportantFlg);
 
 }

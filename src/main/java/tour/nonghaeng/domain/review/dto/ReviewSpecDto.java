@@ -4,12 +4,14 @@ import jakarta.persistence.criteria.Predicate;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.jpa.domain.Specification;
 import tour.nonghaeng.domain.review.data.Review;
 import tour.nonghaeng.global.infra.dto.SpecDto;
 
 @NoArgsConstructor
 @Getter
+@Setter
 public class ReviewSpecDto extends SpecDto<Review> {
 
     private String title;

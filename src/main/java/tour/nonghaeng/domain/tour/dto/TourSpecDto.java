@@ -7,6 +7,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Predicate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.jpa.domain.Specification;
 import tour.nonghaeng.global.infra.enums.area.AreaCode;
 import tour.nonghaeng.global.infra.enums.tour.TourType;
@@ -18,6 +19,7 @@ import java.util.List;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor
 @Getter
+@Setter
 public class TourSpecDto extends SpecDto<Tour> {
 
     private String keyword;
