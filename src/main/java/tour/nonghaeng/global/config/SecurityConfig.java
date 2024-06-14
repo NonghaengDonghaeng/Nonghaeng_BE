@@ -77,6 +77,7 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequest -> authorizeRequest
                         .requestMatchers("/").permitAll()
+                        .requestMatchers("/static1/**").permitAll()
                         .requestMatchers("/test/exception").permitAll()
                         .requestMatchers("/test/user-role").hasRole(Role.USER.name())
                         .requestMatchers("/test/seller-role").hasRole(Role.SELLER.name())
