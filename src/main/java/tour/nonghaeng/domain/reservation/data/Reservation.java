@@ -3,12 +3,17 @@ package tour.nonghaeng.domain.reservation.data;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import tour.nonghaeng.domain.member.data.Seller;
+import tour.nonghaeng.domain.member.data.User;
+import tour.nonghaeng.domain.payment.data.Payment;
+import tour.nonghaeng.domain.payment.dto.RequestPaymentDto;
+import tour.nonghaeng.domain.reservation.dto.ReservationCancelResponseDto;
+import tour.nonghaeng.domain.reservation.dto.ReservationDetailDto;
+import tour.nonghaeng.domain.reservation.dto.ReservationResponseDto;
+import tour.nonghaeng.domain.reservation.dto.ReservationSummaryDto;
 import tour.nonghaeng.global.infra.BaseTimeEntity;
 import tour.nonghaeng.global.infra.enums.cancel.CancelPolicy;
 import tour.nonghaeng.global.infra.enums.reservation.ReservationStateType;
-import tour.nonghaeng.domain.member.data.Seller;
-import tour.nonghaeng.domain.member.data.User;
-import tour.nonghaeng.domain.reservation.dto.*;
 
 @Entity
 @Table(name="RESERVATIONS")
@@ -44,7 +49,13 @@ public abstract class Reservation extends BaseTimeEntity {
 
     private String email;
 
-    public Reservation(User user, Seller seller, ReservationStateType stateType, int numOfParticipant, int price, String reservationName, String number, String email) {
+    private String reservationUid;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "payment_id")
+    private Payment payment;
+
+    public Reservation(User user, Seller seller, ReservationStateType stateType, int numOfParticipant, int price, String reservationName, String number, String email,String reservationUid,Payment payment) {
         this.user = user;
         this.seller = seller;
         this.stateType = stateType;
@@ -53,6 +64,8 @@ public abstract class Reservation extends BaseTimeEntity {
         this.reservationName = reservationName;
         this.number = number;
         this.email = email;
+        this.reservationUid = reservationUid;
+        this.payment = payment;
     }
 
     public boolean isWaitingState() {
@@ -102,8 +115,10 @@ public abstract class Reservation extends BaseTimeEntity {
 
     public abstract ReservationCancelResponseDto toCancelResponseDto(CancelPolicy cancelPolicy);
 
-    public abstract ReservationResponseDto toReservationResponseDto();
+    public abstract ReservationResponseDto toReservationResponseDto(RequestPaymentDto paymentDto);
 
     public abstract Long getEntityId();
+
+    public abstract String getItemName();
 
 }

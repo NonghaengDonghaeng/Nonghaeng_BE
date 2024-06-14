@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import tour.nonghaeng.domain.payment.data.Payment;
 import tour.nonghaeng.global.infra.enums.reservation.ReservationStateType;
 import tour.nonghaeng.domain.experience.data.ExperienceRound;
 import tour.nonghaeng.domain.member.data.User;
@@ -15,6 +16,7 @@ import tour.nonghaeng.domain.reservation.data.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.dto.CreateReservationDto;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @JsonTypeName("experience")
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
@@ -42,7 +44,7 @@ public class CreateExpReservationDto extends CreateReservationDto<ExperienceRese
     }
 
     @Override
-    public ExperienceReservation toEntity(User user, ExperienceRound experienceRound) {
+    public ExperienceReservation toEntity(User user, ExperienceRound experienceRound, Payment payment) {
         return ExperienceReservation.builder()
                 .user(user)
                 .experienceRound(experienceRound)
@@ -53,6 +55,8 @@ public class CreateExpReservationDto extends CreateReservationDto<ExperienceRese
                 .reservationName(this.getReservationName())
                 .number(this.getNumber())
                 .email(this.getEmail())
+                .reservationUid(UUID.randomUUID().toString())
+                .payment(payment)
                 .build();
     }
 

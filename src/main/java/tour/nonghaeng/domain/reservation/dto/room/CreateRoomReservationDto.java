@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
+import tour.nonghaeng.domain.payment.data.Payment;
 import tour.nonghaeng.global.infra.enums.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.data.User;
 import tour.nonghaeng.domain.reservation.data.RoomReservation;
@@ -18,6 +19,7 @@ import tour.nonghaeng.domain.room.data.Room;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @JsonTypeName("room")
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
@@ -55,7 +57,7 @@ public class CreateRoomReservationDto extends CreateReservationDto<RoomReservati
     }
 
     @Override
-    public RoomReservation toEntity(User user, Room room) {
+    public RoomReservation toEntity(User user, Room room, Payment payment) {
 
         RoomReservation roomReservation = RoomReservation.builder()
                 .user(user)
@@ -67,6 +69,8 @@ public class CreateRoomReservationDto extends CreateReservationDto<RoomReservati
                 .reservationName(this.getReservationName())
                 .number(this.getNumber())
                 .email(this.getEmail())
+                .reservationUid(UUID.randomUUID().toString())
+                .payment(payment)
                 .build();
 
         this.reservationDates.forEach(reservationDate ->

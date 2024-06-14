@@ -6,11 +6,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tour.nonghaeng.global.infra.enums.reservation.ReservationServiceType;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.member.data.Seller;
 import tour.nonghaeng.domain.member.data.User;
 import tour.nonghaeng.domain.member.service.UserService;
+import tour.nonghaeng.domain.payment.data.Payment;
+import tour.nonghaeng.domain.payment.service.PaymentService;
 import tour.nonghaeng.domain.reservation.data.Reservation;
 import tour.nonghaeng.domain.reservation.data.RoomReservation;
 import tour.nonghaeng.domain.reservation.data.repo.RoomReservationRepository;
@@ -22,6 +23,8 @@ import tour.nonghaeng.domain.reservation.service.valid.RoomReservationValidator;
 import tour.nonghaeng.domain.room.data.Room;
 import tour.nonghaeng.domain.room.service.RoomService;
 import tour.nonghaeng.global.auth.AuthValidator;
+import tour.nonghaeng.global.infra.enums.payment.PaymentStatus;
+import tour.nonghaeng.global.infra.enums.reservation.ReservationServiceType;
 
 import java.time.LocalDate;
 
@@ -35,6 +38,7 @@ public class RoomReservationService implements SubReservationService<RoomReserva
 
     private final RoomService roomService;
     private final UserService userService;
+    private final PaymentService paymentService;
 
     private final RoomReservationValidator roomReservationValidator;
     private final AuthValidator authValidator;
@@ -65,11 +69,20 @@ public class RoomReservationService implements SubReservationService<RoomReserva
 
         roomReservationValidator.roomReservationValidate(room, member, createDto);
 
-        userService.payPoint(user, createDto.getFinalPrice());
+        //userService.payPoint(user, createDto.getFinalPrice());
 
-        return roomReservationRepository.save(createDto.toEntity(user, room));
+        return roomReservationRepository.save(reserve(user, room, createDto));
     }
 
+    private RoomReservation reserve(User user,Room room,CreateRoomReservationDto createDto) {
+
+        Payment payment = paymentService.savePayment(Payment.builder()
+                .price(createDto.getFinalPrice())
+                .status(PaymentStatus.READY)
+                .build());
+
+        return createDto.toEntity(user, room, payment);
+    }
 
 
 

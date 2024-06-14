@@ -6,13 +6,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tour.nonghaeng.global.infra.enums.reservation.ReservationServiceType;
 import tour.nonghaeng.domain.experience.data.ExperienceRound;
 import tour.nonghaeng.domain.experience.service.ExperienceRoundService;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.member.data.Seller;
 import tour.nonghaeng.domain.member.data.User;
 import tour.nonghaeng.domain.member.service.UserService;
+import tour.nonghaeng.domain.payment.data.Payment;
+import tour.nonghaeng.domain.payment.service.PaymentService;
 import tour.nonghaeng.domain.reservation.data.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.data.Reservation;
 import tour.nonghaeng.domain.reservation.data.repo.ExperienceReservationRepository;
@@ -22,6 +23,8 @@ import tour.nonghaeng.domain.reservation.presentation.exception.ReservationExcep
 import tour.nonghaeng.domain.reservation.presentation.exception.error.ReservationErrorCode;
 import tour.nonghaeng.domain.reservation.service.valid.ExperienceReservationValidator;
 import tour.nonghaeng.global.auth.AuthValidator;
+import tour.nonghaeng.global.infra.enums.payment.PaymentStatus;
+import tour.nonghaeng.global.infra.enums.reservation.ReservationServiceType;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -36,6 +39,7 @@ public class ExperienceReservationService implements SubReservationService<Exper
 
     private final ExperienceRoundService experienceRoundService;
     private final UserService userService;
+    private final PaymentService paymentService;
 
     private final ExperienceReservationValidator experienceReservationValidator;
     private final AuthValidator authValidator;
@@ -68,9 +72,19 @@ public class ExperienceReservationService implements SubReservationService<Exper
                         countRemain(experienceRound, createDto.getReservationDate()),
                         createDto);
 
-        userService.payPoint(user, createDto.getFinalPrice());
+        //userService.payPoint(user, createDto.getFinalPrice());
 
-        return experienceReservationRepository.save(createDto.toEntity(user, experienceRound));
+        return experienceReservationRepository.save(reserve(user, experienceRound, createDto));
+    }
+
+    private ExperienceReservation reserve(User user, ExperienceRound experienceRound, CreateExpReservationDto createDto) {
+
+        Payment payment = paymentService.savePayment(Payment.builder()
+                .price(createDto.getFinalPrice())
+                .status(PaymentStatus.READY)
+                .build());
+
+        return createDto.toEntity(user, experienceRound, payment);
     }
 
 
