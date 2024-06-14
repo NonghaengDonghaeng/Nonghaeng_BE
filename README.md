@@ -3,6 +3,8 @@
 https://nonghaeng-fe.vercel.app
 
 ## TODOLIST
+- /best 일때 spec이 null인 경우도 잘 보여주도록 리팩토링 필요
+- 결제(payment) 싹 리팩토링 
 - 좋아요기준으로 보여주기 -> entity 수정해야됨. List<Likes> 이런식말고 int countLikes 속성을 추가해야 좋아요 기준 정렬로 뽑아올수있다. -> 기존의 spec와 pageable 이용하면서 사용할려면
 - 아니면 내가 직접 쿼리문 작성
 - 숙소리스트 보여줄때 날짜를 1개만 받지말고 리스트로 받아서 처리하는법

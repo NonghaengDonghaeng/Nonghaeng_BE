@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import tour.nonghaeng.domain.payment.data.Payment;
+import tour.nonghaeng.domain.payment.dto.RequestPaymentDto;
 import tour.nonghaeng.global.infra.enums.cancel.CancelPolicy;
 import tour.nonghaeng.global.infra.enums.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.data.User;
@@ -37,8 +39,8 @@ public class RoomReservation extends Reservation {
 
 
     @Builder
-    private RoomReservation(User user, Room room, ReservationStateType stateType, int price, int numOfRoom, int numOfParticipant, String reservationName, String number, String email) {
-        super(user,room.getSeller(),stateType,numOfParticipant,price,reservationName,number,email);
+    private RoomReservation(User user, Room room, ReservationStateType stateType, int price, int numOfRoom, int numOfParticipant, String reservationName, String number, String email, String reservationUid, Payment payment) {
+        super(user,room.getSeller(),stateType,numOfParticipant,price,reservationName,number,email,reservationUid,payment);
         this.room = room;
         this.numOfRoom = numOfRoom;
     }
@@ -133,8 +135,9 @@ public class RoomReservation extends Reservation {
     }
 
     @Override
-    public ReservationResponseDto toReservationResponseDto() {
+    public ReservationResponseDto toReservationResponseDto(RequestPaymentDto paymentDto) {
         RoomReservationResponseDto responseDto = RoomReservationResponseDto.builder()
+                .paymentDto(paymentDto)
                 .roomReservationId(this.getId())
                 .roomName(this.getRoom().getRoomName())
                 .reservationName(this.getReservationName())
@@ -153,6 +156,11 @@ public class RoomReservation extends Reservation {
     @Override
     public Long getEntityId() {
         return this.room.getId();
+    }
+
+    @Override
+    public String getItemName() {
+        return this.room.getRoomName();
     }
 
 

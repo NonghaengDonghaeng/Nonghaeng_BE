@@ -64,6 +64,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public Page<RoomTourSummaryDto> getSummaryDtoPage(Pageable pageable, RoomSpecDto roomSpecDto) {
 
+
         Page<Tour> tourPage = getTourPageWithRoomSpec(pageable, roomSpecDto);
 
         tourValidator.pageValidate(tourPage);
@@ -74,7 +75,14 @@ public class RoomServiceImpl implements RoomService {
 
     private Page<Tour> getTourPageWithRoomSpec(Pageable pageable, RoomSpecDto roomSpecDto) {
 
-        List<Room> rooms = roomRepository.findAll(roomSpecDto.buildSpecification());
+        List<Room> rooms;
+
+        if (roomSpecDto == null) {
+            rooms = roomRepository.findAll();
+        }
+        else{
+            rooms = roomRepository.findAll(roomSpecDto.buildSpecification());
+        }
 
         Set<Tour> uniqueTourSet = new HashSet<>();
 

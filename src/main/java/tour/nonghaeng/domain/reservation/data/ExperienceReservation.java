@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import tour.nonghaeng.domain.payment.data.Payment;
+import tour.nonghaeng.domain.payment.dto.RequestPaymentDto;
 import tour.nonghaeng.global.infra.enums.cancel.CancelPolicy;
 import tour.nonghaeng.global.infra.enums.reservation.ReservationStateType;
 import tour.nonghaeng.domain.experience.data.Experience;
@@ -34,8 +36,8 @@ public class ExperienceReservation extends Reservation {
 
 
     @Builder
-    public ExperienceReservation(User user, ExperienceRound experienceRound, ReservationStateType stateType, int price, LocalDate reservationDate, int numOfParticipant, String reservationName, String number, String email) {
-        super(user, experienceRound.getExperience().getSeller(), stateType, numOfParticipant, price, reservationName, number, email);
+    public ExperienceReservation(User user, ExperienceRound experienceRound, ReservationStateType stateType, int price, LocalDate reservationDate, int numOfParticipant, String reservationName, String number, String email, String reservationUid, Payment payment) {
+        super(user, experienceRound.getExperience().getSeller(), stateType, numOfParticipant, price, reservationName, number, email,reservationUid,payment);
         this.experience = experienceRound.getExperience();
         this.experienceRound = experienceRound;
         this.reservationDate = reservationDate;
@@ -114,8 +116,9 @@ public class ExperienceReservation extends Reservation {
     }
 
     @Override
-    public ReservationResponseDto toReservationResponseDto() {
+    public ReservationResponseDto toReservationResponseDto(RequestPaymentDto paymentDto) {
         return ExpReservationResponseDto.builder()
+                .paymentDto(paymentDto)
                 .experienceReservationId(this.getId())
                 .experienceName(this.getExperience().getExperienceName())
                 .reservationName(this.getReservationName())
@@ -132,6 +135,11 @@ public class ExperienceReservation extends Reservation {
     @Override
     public Long getEntityId() {
         return this.experience.getId();
+    }
+
+    @Override
+    public String getItemName() {
+        return this.experience.getExperienceName();
     }
 
 

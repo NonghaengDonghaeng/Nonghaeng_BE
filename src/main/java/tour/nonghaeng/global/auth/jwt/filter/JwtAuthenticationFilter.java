@@ -25,7 +25,7 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private static final String NO_CHECK_USER_LOGIN_URL = "/login";
-    private static final String NO_CHECK_SELLER_LOGIN_URL = "/seller-login";
+    private static final String NO_CHECK_SELLER_LOGIN_URL = "/pay";
 
     private final JwtService jwtService;
     private final MemberRepository memberRepository;

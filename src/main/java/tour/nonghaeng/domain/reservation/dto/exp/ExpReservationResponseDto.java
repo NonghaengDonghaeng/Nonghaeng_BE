@@ -2,11 +2,9 @@ package tour.nonghaeng.domain.reservation.dto.exp;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
+import tour.nonghaeng.domain.payment.dto.RequestPaymentDto;
 import tour.nonghaeng.domain.reservation.data.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.dto.ReservationResponseDto;
 
@@ -14,7 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+//@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class ExpReservationResponseDto extends ReservationResponseDto {
     private Long experienceReservationId;
@@ -30,7 +28,8 @@ public class ExpReservationResponseDto extends ReservationResponseDto {
     private int finalPrice;
 
     @Builder
-    public ExpReservationResponseDto(Long experienceReservationId, String experienceName, String reservationName, LocalDate reservationDate, LocalTime startTime, LocalTime endTime, String number, String email, int numOfParticipant, int finalPrice) {
+    public ExpReservationResponseDto(Long experienceReservationId, String experienceName, String reservationName, LocalDate reservationDate, LocalTime startTime, LocalTime endTime, String number, String email, int numOfParticipant, int finalPrice, RequestPaymentDto paymentDto) {
+        super(paymentDto);
         this.experienceReservationId = experienceReservationId;
         this.experienceName = experienceName;
         this.reservationName = reservationName;
@@ -42,6 +41,7 @@ public class ExpReservationResponseDto extends ReservationResponseDto {
         this.numOfParticipant = numOfParticipant;
         this.finalPrice = finalPrice;
     }
+
 
     public static ExpReservationResponseDto toDto(ExperienceReservation experienceReservation) {
         return ExpReservationResponseDto.builder()

@@ -2,11 +2,10 @@ package tour.nonghaeng.domain.reservation.dto.room;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import tour.nonghaeng.domain.payment.dto.RequestPaymentDto;
 import tour.nonghaeng.domain.reservation.data.RoomReservation;
 import tour.nonghaeng.domain.reservation.data.RoomReservationDate;
 import tour.nonghaeng.domain.reservation.dto.ReservationResponseDto;
@@ -15,7 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+//@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class RoomReservationResponseDto extends ReservationResponseDto {
 
@@ -33,7 +32,8 @@ public class RoomReservationResponseDto extends ReservationResponseDto {
     private int finalPrice;
 
     @Builder
-    private RoomReservationResponseDto(Long roomReservationId, String roomName,LocalDate startDate,LocalDate endDate, String reservationName, String number, String email, int numOfRoom, int numOfParticipant, int finalPrice) {
+    private RoomReservationResponseDto(Long roomReservationId, String roomName, LocalDate startDate, LocalDate endDate, String reservationName, String number, String email, int numOfRoom, int numOfParticipant, int finalPrice, RequestPaymentDto paymentDto) {
+        super(paymentDto);
         this.roomReservationId = roomReservationId;
         this.roomName = roomName;
         this.startDate = startDate;

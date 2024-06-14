@@ -44,4 +44,16 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query("select r from Reservation r where r.stateType = 'WAITING_RESERVATION'")
     Optional<List<Reservation>> findAllWaitingReservation();
 
+    //결제관련
+    @Query("select r from Reservation r" +
+            " left join fetch r.payment p" +
+            " left join fetch r.user u" +
+            " where r.reservationUid = :reservationUid")
+    Optional<Reservation> findReservationAndPaymentAndMember(String reservationUid);
+
+    @Query("select r from Reservation r" +
+            " left join fetch r.payment p" +
+            " where r.reservationUid = :reservationUid")
+    Optional<Reservation> findReservationAndPayment(String reservationUid);
+
 }
