@@ -68,7 +68,7 @@ public class ExperienceServiceImpl implements ExperienceService {
     @Override
     public Page<ExpSummaryDto> getSummaryDtoPage(Pageable pageable, ExpSpecDto expSpecDto) {
 
-        Page<Experience> expPage;
+        Page<Experience> expPage = null;
 
         if (expSpecDto == null) {
             expPage=experienceRepository.findAll(pageable);

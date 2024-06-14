@@ -75,7 +75,7 @@ public class RoomServiceImpl implements RoomService {
 
     private Page<Tour> getTourPageWithRoomSpec(Pageable pageable, RoomSpecDto roomSpecDto) {
 
-        List<Room> rooms;
+        List<Room> rooms = null;
 
         if (roomSpecDto == null) {
             rooms = roomRepository.findAll();

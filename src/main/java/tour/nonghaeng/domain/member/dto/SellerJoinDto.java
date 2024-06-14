@@ -14,12 +14,12 @@ import tour.nonghaeng.global.infra.enums.role.Role;
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)   //변수마다 @JsonProperty 사용 필요없이 모두 변환
 @Getter
 public class SellerJoinDto extends JoinDto {
-    private String businessNumber;
-    private String address;
-    private String callNumber;
-    private BankCode bankCode;
-    private String bankAccount;
-    private String bankAccountName;
+    private final String businessNumber;
+    private final String address;
+    private final String callNumber;
+    private final BankCode bankCode;
+    private final String bankAccount;
+    private final String bankAccountName;
 
     @Builder
     public SellerJoinDto(String phoneNumber, String businessNumber, String username, String name, String email, String password, String checkPassword, String address, String callNumber, AreaCode areaCode, BankCode bankCode, String bankAccount, String bankAccountName) {

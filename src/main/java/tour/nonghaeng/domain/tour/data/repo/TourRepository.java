@@ -25,6 +25,8 @@ public interface TourRepository extends JpaRepository<Tour,Long>, JpaSpecificati
 
     Page<Tour> findAll(Specification<Tour> spec, Pageable pageable);
 
+    Page<Tour> findAll(Pageable pageable);
+
     @Query("SELECT t.seller FROM Tour t where t.id = :tourId")
     Optional<Seller> findSellerByTourId(Long tourId);
 }

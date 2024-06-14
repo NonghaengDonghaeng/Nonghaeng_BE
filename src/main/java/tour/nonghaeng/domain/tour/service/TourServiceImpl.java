@@ -62,7 +62,18 @@ public class TourServiceImpl implements TourService {
     @Override
     public Page<TourSummaryDto> getSummaryDtoPage(Pageable pageable, TourSpecDto specDto) {
 
-        Page<Tour> tourPage = tourRepository.findAll(specDto.buildSpecification(), pageable);
+        Page<Tour> tourPage = null;
+
+        if(specDto == null) {
+
+            tourPage=tourRepository.findAll(pageable);
+
+            tourValidator.pageValidate(tourPage);
+
+            return TourSummaryDto.toPageDto(tourPage);
+        }
+
+        tourPage = tourRepository.findAll(specDto.buildSpecification(), pageable);
 
         tourValidator.pageValidate(tourPage);
 
