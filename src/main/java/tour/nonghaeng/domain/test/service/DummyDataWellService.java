@@ -45,6 +45,10 @@ public class DummyDataWellService implements DummyDataService{
     @Override
     public void setDummyData() {
 
+
+        //test용
+
+
         //유저등록
         //user 등록
         UserJoinDto userJoinDto1 = new UserJoinDto(AreaCode.DAEJEON, "user1", "user1", "user1@email.com", "user1", "user1","user1");
@@ -71,7 +75,18 @@ public class DummyDataWellService implements DummyDataService{
         expRoundDtoList.add(addExpRoundDto2);
         expRoundDtoList.add(addExpRoundDto3);
 
+        //0번. test마을
+        SellerJoinDto sellerJoinDto = new SellerJoinDto("010-1113-1111", "024-1234-1234", "tmpSeller", "tmpSeller", "tmpSeller@email.com", "tmpSeller", "tmpSeller", "대전광역시 유성구 392(103-1101)", "063-862-6627~8", AreaCode.JEONBUK, BankCode.KOREA, "02-898123-91", "tmpSeller");
+        Seller seller = sellerService.join(sellerJoinDto);
 
+        CreateTourDto createTourDto = new CreateTourDto(TourType.VILLAGE, "테스트마을", "http://www.test.kr", "테스트 마을입니다..", "테스트 마을", "테스트 마을", "메뉴정보: 산들강시골밥상 기타사항: 뷔페식", "80대", "남녀 화장실", "바베큐장, 공용주방, 다목적구장(족구, 농구장)");
+        tourService.create(seller, createTourDto);
+
+        CreateExpDto createExpDto = new CreateExpDto(ExperienceType.RURAL, "테스트 체험", startDate, endDate, 1, 60, 100, 2, "1.마을 주민분들이 정성껏 카꾼 밭에 직접 가서 수확하기\n2.친환경 감자", "감자를 따는 수확체험입니다.", "테스트", "없음", "--", expRoundDtoList);
+        experienceService.create(seller, createExpDto);
+
+        CreateRoomDto createRoomDto = new CreateRoomDto(RoomType.VILLAGE, "테스트룸", "자연이 주는 평화로움", 1000, 1000, 1000, 2, 4, 100, checkinTime, checkoutTime, 10, "온돌", "에어컨, TV, 옷장, 냉장고, 샴푸, 린스, 비누", "미성년자는 보호자 동반없이 이용하실 수 없습니다.", "-호젓한 농촌경치를 보며 즐길 수 있는 야외 바비큐장이 준비되어 있습니다.\n-객실 내부는 편백나무로 마감되어 음식 조리를 금하고 있습니다. 공용주방을 이용해 주세요.", "1.서해안 7대 낙조 중 하나인 금강낙조를 감상해 보세요\n2.통창을 통한 논뷰(view)도 놓치지 마세요.", "반려동물 동반입실이 불가합니다.");
+        roomService.create(seller,createRoomDto);
 
         //1번. 산들강웅포마을
         SellerJoinDto sellerJoinDto1 = new SellerJoinDto("010-1111-1111", "01-1234-1234", "seller1", "testSeller1", "testSeller1@email.com", "seller1", "seller1", "전북 익산시 웅포면 강변로 284", "063-861-6627~8", AreaCode.JEONBUK, BankCode.KOREA, "02-898123-91", "testSeller1");
