@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import tour.nonghaeng.domain.payment.data.Payment;
+import tour.nonghaeng.global.infra.enums.payment.PaymentStatus;
 import tour.nonghaeng.global.infra.enums.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.data.User;
 import tour.nonghaeng.domain.reservation.data.RoomReservation;
@@ -57,19 +58,24 @@ public class CreateRoomReservationDto extends CreateReservationDto<RoomReservati
     }
 
     @Override
-    public RoomReservation toEntity(User user, Room room, Payment payment) {
+    public RoomReservation toEntity(User user, Room room) {
+
+        Payment payment = Payment.builder()
+                .price(this.finalPrice)
+                .status(PaymentStatus.READY)
+                .paymentUid(UUID.randomUUID().toString())
+                .build();
 
         RoomReservation roomReservation = RoomReservation.builder()
                 .user(user)
                 .room(room)
-                .stateType(ReservationStateType.WAITING_RESERVATION)
+                .stateType(ReservationStateType.TMP_RESERVATION)
                 .price(this.getFinalPrice())
                 .numOfRoom(this.getNumOfRoom())
                 .numOfParticipant(this.getNumOfParticipant())
                 .reservationName(this.getReservationName())
                 .number(this.getNumber())
                 .email(this.getEmail())
-                .reservationUid(UUID.randomUUID().toString())
                 .payment(payment)
                 .build();
 

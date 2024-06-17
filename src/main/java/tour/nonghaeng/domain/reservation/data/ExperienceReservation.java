@@ -36,8 +36,8 @@ public class ExperienceReservation extends Reservation {
 
 
     @Builder
-    public ExperienceReservation(User user, ExperienceRound experienceRound, ReservationStateType stateType, int price, LocalDate reservationDate, int numOfParticipant, String reservationName, String number, String email, String reservationUid, Payment payment) {
-        super(user, experienceRound.getExperience().getSeller(), stateType, numOfParticipant, price, reservationName, number, email,reservationUid,payment);
+    public ExperienceReservation(User user, ExperienceRound experienceRound, ReservationStateType stateType, int price, LocalDate reservationDate, int numOfParticipant, String reservationName, String number, String email, Payment payment) {
+        super(user, experienceRound.getExperience().getSeller(), stateType, numOfParticipant, price, reservationName, number, email,payment);
         this.experience = experienceRound.getExperience();
         this.experienceRound = experienceRound;
         this.reservationDate = reservationDate;
@@ -116,9 +116,9 @@ public class ExperienceReservation extends Reservation {
     }
 
     @Override
-    public ReservationResponseDto toReservationResponseDto(RequestPaymentDto paymentDto) {
+    public ReservationResponseDto toReservationResponseDto() {
         return ExpReservationResponseDto.builder()
-                .paymentDto(paymentDto)
+                .paymentDto(RequestPaymentDto.toDto(this))
                 .experienceReservationId(this.getId())
                 .experienceName(this.getExperience().getExperienceName())
                 .reservationName(this.getReservationName())

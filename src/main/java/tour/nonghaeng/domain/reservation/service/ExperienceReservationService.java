@@ -12,7 +12,6 @@ import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.member.data.Seller;
 import tour.nonghaeng.domain.member.data.User;
 import tour.nonghaeng.domain.member.service.UserService;
-import tour.nonghaeng.domain.payment.data.Payment;
 import tour.nonghaeng.domain.payment.service.PaymentService;
 import tour.nonghaeng.domain.reservation.data.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.data.Reservation;
@@ -23,7 +22,6 @@ import tour.nonghaeng.domain.reservation.presentation.exception.ReservationExcep
 import tour.nonghaeng.domain.reservation.presentation.exception.error.ReservationErrorCode;
 import tour.nonghaeng.domain.reservation.service.valid.ExperienceReservationValidator;
 import tour.nonghaeng.global.auth.AuthValidator;
-import tour.nonghaeng.global.infra.enums.payment.PaymentStatus;
 import tour.nonghaeng.global.infra.enums.reservation.ReservationServiceType;
 
 import java.time.LocalDate;
@@ -72,22 +70,8 @@ public class ExperienceReservationService implements SubReservationService<Exper
                         countRemain(experienceRound, createDto.getReservationDate()),
                         createDto);
 
-        //userService.payPoint(user, createDto.getFinalPrice());
-
-        return experienceReservationRepository.save(reserve(user, experienceRound, createDto));
+        return experienceReservationRepository.save(createDto.toEntity(user,experienceRound));
     }
-
-    private ExperienceReservation reserve(User user, ExperienceRound experienceRound, CreateExpReservationDto createDto) {
-
-        Payment payment = paymentService.savePayment(Payment.builder()
-                .price(createDto.getFinalPrice())
-                .status(PaymentStatus.READY)
-                .build());
-
-        return createDto.toEntity(user, experienceRound, payment);
-    }
-
-
 
 
     @Override
@@ -126,6 +110,11 @@ public class ExperienceReservationService implements SubReservationService<Exper
         }
 
         return experienceRound.getMaxParticipant() - currentReservationParticipant;
+    }
+
+    @Override
+    public void delete(Long reservationId) {
+        experienceReservationRepository.delete(findById(reservationId));
     }
 
 

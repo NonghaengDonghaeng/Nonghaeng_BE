@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import tour.nonghaeng.domain.member.data.Member;
-import tour.nonghaeng.domain.payment.dto.RequestPaymentDto;
 import tour.nonghaeng.domain.reservation.data.Reservation;
 import tour.nonghaeng.domain.reservation.dto.*;
 import tour.nonghaeng.domain.reservation.service.ReservationService;
@@ -37,9 +36,16 @@ public class ReservationController {
 
         Reservation reservation = reservationService.create(user, requestDto);
 
-        RequestPaymentDto paymentDto = RequestPaymentDto.toDto(reservation);
+        return new ResponseEntity<>(reservation.toReservationResponseDto(), HttpStatus.OK);
+    }
 
-        return new ResponseEntity<>(reservation.toReservationResponseDto(paymentDto), HttpStatus.OK);
+    @DeleteMapping("/{paymentUid}")
+    public ResponseEntity<String> deleteTmpReservation(Authentication authentication,
+                                                       @PathVariable(value = "paymentUid") String paymentUid) {
+
+        reservationService.delete(paymentUid);
+
+        return new ResponseEntity<>("임시 예약 삭제완료",HttpStatus.OK);
     }
 
     //소비자,판매자 내 체험/숙소 예약 리스트보기 만약 타입이 안오면 전체로

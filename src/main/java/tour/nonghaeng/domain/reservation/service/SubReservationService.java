@@ -27,4 +27,6 @@ public interface SubReservationService<
     LocalDate findEndDateById(Long roomReservationId);
 
     int countRemain(Entity entity, LocalDate date);
+
+    void delete(Long reservationId);
 }

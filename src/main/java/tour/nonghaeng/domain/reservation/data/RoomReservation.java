@@ -39,8 +39,8 @@ public class RoomReservation extends Reservation {
 
 
     @Builder
-    private RoomReservation(User user, Room room, ReservationStateType stateType, int price, int numOfRoom, int numOfParticipant, String reservationName, String number, String email, String reservationUid, Payment payment) {
-        super(user,room.getSeller(),stateType,numOfParticipant,price,reservationName,number,email,reservationUid,payment);
+    private RoomReservation(User user, Room room, ReservationStateType stateType, int price, int numOfRoom, int numOfParticipant, String reservationName, String number, String email, Payment payment) {
+        super(user, room.getSeller(), stateType, numOfParticipant, price, reservationName, number, email, payment);
         this.room = room;
         this.numOfRoom = numOfRoom;
     }
@@ -56,7 +56,7 @@ public class RoomReservation extends Reservation {
                 .roomName(this.getRoom().getRoomName())
                 .reservationState(this.getStateType().getName())
                 .reservationDates(this.getReservationDates()
-                        .stream().map(roomReservationDate -> roomReservationDate.getReservationDate())
+                        .stream().map(RoomReservationDate::getReservationDate)
                         .toList())
                 .price(this.getPrice())
                 .numOfParticipant(this.getNumOfParticipant())
@@ -135,9 +135,11 @@ public class RoomReservation extends Reservation {
     }
 
     @Override
-    public ReservationResponseDto toReservationResponseDto(RequestPaymentDto paymentDto) {
+    public ReservationResponseDto toReservationResponseDto() {
+
+
         RoomReservationResponseDto responseDto = RoomReservationResponseDto.builder()
-                .paymentDto(paymentDto)
+                .paymentDto(RequestPaymentDto.toDto(this))
                 .roomReservationId(this.getId())
                 .roomName(this.getRoom().getRoomName())
                 .reservationName(this.getReservationName())

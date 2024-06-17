@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import tour.nonghaeng.domain.payment.data.Payment;
 import tour.nonghaeng.domain.payment.data.repo.PaymentRepository;
 import tour.nonghaeng.domain.payment.dto.CancelRequestDto;
 import tour.nonghaeng.domain.payment.dto.IamportResponseDto;
@@ -24,15 +23,12 @@ public class PaymentService {
     private final WebClient webClient;
     private final ReservationRepository reservationRepository;
 
-    public Payment savePayment(Payment payment) {
-        return paymentRepository.save(payment);
-    }
-
 
     public IamportResponseDto paymentValid(String paymentId) {
-        IamportResponseDto responseDto = getPayment(paymentId);
 
-        Reservation reservation = reservationRepository.findReservationAndPayment(paymentId)
+        IamportResponseDto responseDto = getPaymentApi(paymentId);
+
+        Reservation reservation = reservationRepository.findReservationByPaymentId(paymentId)
                 .orElseThrow(() -> new IllegalArgumentException("주문 내역이 없습니다."));
 
         if(!responseDto.getStatus().equals("PAID")){
@@ -53,18 +49,19 @@ public class PaymentService {
             paymentRepository.delete(reservation.getPayment());
 
             // 결제금액 위변조로 의심되는 결제금액을 취소(아임포트)
-            cancelPaymentByImpUid(paymentId);
+            cancelPaymentByPaymentUid(paymentId);
 
             throw new RuntimeException("결제금액 위변조 의심");
         }
 
         reservation.getPayment().changePaymentBySuccess(PaymentStatus.OK, responseDto.getId());
+        reservation.waitingReservation();
 
         return responseDto;
 
     }
 
-    private IamportResponseDto getPayment(String paymentId) {
+    private IamportResponseDto getPaymentApi(String paymentId) {
 
         return webClient.get()
                 .uri("/payments/"+paymentId)
@@ -75,7 +72,7 @@ public class PaymentService {
     }
 
 
-    private void cancelPaymentByImpUid(String paymentId) {
+    private void cancelPaymentByPaymentUid(String paymentId) {
 
         CancelRequestDto body = CancelRequestDto.builder().reason("금액 위변조로 인한 취소").build();
 

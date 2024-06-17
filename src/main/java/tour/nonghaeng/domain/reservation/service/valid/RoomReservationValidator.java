@@ -28,7 +28,7 @@ public class RoomReservationValidator {
 
         createRoomReservationDtoValidate(room,dto);
 
-        reservationValidator.checkPointValidate(user,dto.getFinalPrice());
+//        reservationValidator.checkPointValidate(user,dto.getFinalPrice());
     }
 
     //TODO: 가격구하는 함수 따로 만들기

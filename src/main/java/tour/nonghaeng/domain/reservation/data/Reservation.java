@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.member.data.Seller;
 import tour.nonghaeng.domain.member.data.User;
 import tour.nonghaeng.domain.payment.data.Payment;
-import tour.nonghaeng.domain.payment.dto.RequestPaymentDto;
 import tour.nonghaeng.domain.reservation.dto.ReservationCancelResponseDto;
 import tour.nonghaeng.domain.reservation.dto.ReservationDetailDto;
 import tour.nonghaeng.domain.reservation.dto.ReservationResponseDto;
@@ -49,13 +48,11 @@ public abstract class Reservation extends BaseTimeEntity {
 
     private String email;
 
-    private String reservationUid;
-
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "payment_id")
     private Payment payment;
 
-    public Reservation(User user, Seller seller, ReservationStateType stateType, int numOfParticipant, int price, String reservationName, String number, String email,String reservationUid,Payment payment) {
+    public Reservation(User user, Seller seller, ReservationStateType stateType, int numOfParticipant, int price, String reservationName, String number, String email, Payment payment) {
         this.user = user;
         this.seller = seller;
         this.stateType = stateType;
@@ -64,7 +61,6 @@ public abstract class Reservation extends BaseTimeEntity {
         this.reservationName = reservationName;
         this.number = number;
         this.email = email;
-        this.reservationUid = reservationUid;
         this.payment = payment;
     }
 
@@ -94,9 +90,12 @@ public abstract class Reservation extends BaseTimeEntity {
         }
     }
 
-    public Reservation cancelReservation() {
+    public void waitingReservation() {
+        this.stateType = ReservationStateType.WAITING_RESERVATION;
+    }
+
+    public void cancelReservation() {
         this.stateType = ReservationStateType.CANCEL_RESERVATION;
-        return this;
     }
 
     public void changeCompleteReservation() {
@@ -115,7 +114,7 @@ public abstract class Reservation extends BaseTimeEntity {
 
     public abstract ReservationCancelResponseDto toCancelResponseDto(CancelPolicy cancelPolicy);
 
-    public abstract ReservationResponseDto toReservationResponseDto(RequestPaymentDto paymentDto);
+    public abstract ReservationResponseDto toReservationResponseDto();
 
     public abstract Long getEntityId();
 

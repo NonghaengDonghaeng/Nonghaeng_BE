@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import tour.nonghaeng.domain.payment.data.Payment;
+import tour.nonghaeng.global.infra.enums.payment.PaymentStatus;
 import tour.nonghaeng.global.infra.enums.reservation.ReservationStateType;
 import tour.nonghaeng.domain.experience.data.ExperienceRound;
 import tour.nonghaeng.domain.member.data.User;
@@ -44,18 +45,24 @@ public class CreateExpReservationDto extends CreateReservationDto<ExperienceRese
     }
 
     @Override
-    public ExperienceReservation toEntity(User user, ExperienceRound experienceRound, Payment payment) {
+    public ExperienceReservation toEntity(User user, ExperienceRound experienceRound) {
+
+        Payment payment = Payment.builder()
+                .price(this.finalPrice)
+                .status(PaymentStatus.READY)
+                .paymentUid(UUID.randomUUID().toString())
+                .build();
+
         return ExperienceReservation.builder()
                 .user(user)
                 .experienceRound(experienceRound)
-                .stateType(ReservationStateType.WAITING_RESERVATION)
+                .stateType(ReservationStateType.TMP_RESERVATION)
                 .price(this.getFinalPrice())
                 .reservationDate(this.getReservationDate())
                 .numOfParticipant(this.getNumOfParticipant())
                 .reservationName(this.getReservationName())
                 .number(this.getNumber())
                 .email(this.getEmail())
-                .reservationUid(UUID.randomUUID().toString())
                 .payment(payment)
                 .build();
     }

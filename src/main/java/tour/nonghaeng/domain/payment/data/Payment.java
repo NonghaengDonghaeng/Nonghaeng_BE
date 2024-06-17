@@ -21,14 +21,15 @@ public class Payment {
     private String paymentUid; // 결제 고유 번호
 
     @Builder
-    public Payment(int price, PaymentStatus status) {
+    public Payment(int price, PaymentStatus status, String paymentUid) {
         this.price = price;
         this.status = status;
+        this.paymentUid = paymentUid;
     }
 
-    public void changePaymentBySuccess(PaymentStatus status, String paymentUid) {
+    public void changePaymentBySuccess(PaymentStatus status, String paymentId) {
         this.status = status;
-        this.paymentUid = paymentUid;
+        this.paymentUid = paymentId;
     }
 
 }

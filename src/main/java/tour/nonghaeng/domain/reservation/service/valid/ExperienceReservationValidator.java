@@ -25,7 +25,7 @@ public class ExperienceReservationValidator {
 
         createExpReservationDtoValidate(experienceRound,currentRemainParticipant,dto);
 
-        reservationValidator.checkPointValidate(user, dto.getFinalPrice());
+//        reservationValidator.checkPointValidate(user, dto.getFinalPrice());
     }
 
 

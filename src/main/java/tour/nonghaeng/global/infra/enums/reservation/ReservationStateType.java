@@ -8,6 +8,8 @@ import lombok.Getter;
 @Getter
 public enum ReservationStateType {
 
+    TMP_RESERVATION("001","결제 전"),
+
     WAITING_RESERVATION("002","예약 대기"),   //예약하면 대기중
 
     CONFIRM_RESERVATION("003","예약 승인"),   //판매자가 승인하면 승인

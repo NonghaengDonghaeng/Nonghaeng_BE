@@ -9,7 +9,7 @@ import tour.nonghaeng.domain.reservation.data.Reservation;
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class RequestPaymentDto {
-    private String reservationUid;
+    private String paymentUid;
     private String itemName;
     private String buyerName;
     private int paymentPrice;
@@ -17,8 +17,8 @@ public class RequestPaymentDto {
     private String buyerNumber;
 
     @Builder
-    public RequestPaymentDto(String reservationUid, String itemName, String buyerName, int paymentPrice, String buyerEmail, String buyerNumber) {
-        this.reservationUid = reservationUid;
+    public RequestPaymentDto(String paymentUid, String itemName, String buyerName, int paymentPrice, String buyerEmail, String buyerNumber) {
+        this.paymentUid = paymentUid;
         this.itemName = itemName;
         this.buyerName = buyerName;
         this.paymentPrice = paymentPrice;
@@ -28,7 +28,7 @@ public class RequestPaymentDto {
 
     public static RequestPaymentDto toDto(Reservation reservation) {
         return RequestPaymentDto.builder()
-                .reservationUid(reservation.getReservationUid())
+                .paymentUid(reservation.getPayment().getPaymentUid())
                 .itemName(reservation.getItemName())
                 .buyerName(reservation.getReservationName())
                 .paymentPrice(reservation.getPrice())

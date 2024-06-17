@@ -10,7 +10,6 @@ import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.member.data.Seller;
 import tour.nonghaeng.domain.member.data.User;
 import tour.nonghaeng.domain.member.service.UserService;
-import tour.nonghaeng.domain.payment.data.Payment;
 import tour.nonghaeng.domain.payment.service.PaymentService;
 import tour.nonghaeng.domain.reservation.data.Reservation;
 import tour.nonghaeng.domain.reservation.data.RoomReservation;
@@ -23,7 +22,6 @@ import tour.nonghaeng.domain.reservation.service.valid.RoomReservationValidator;
 import tour.nonghaeng.domain.room.data.Room;
 import tour.nonghaeng.domain.room.service.RoomService;
 import tour.nonghaeng.global.auth.AuthValidator;
-import tour.nonghaeng.global.infra.enums.payment.PaymentStatus;
 import tour.nonghaeng.global.infra.enums.reservation.ReservationServiceType;
 
 import java.time.LocalDate;
@@ -71,17 +69,7 @@ public class RoomReservationService implements SubReservationService<RoomReserva
 
         //userService.payPoint(user, createDto.getFinalPrice());
 
-        return roomReservationRepository.save(reserve(user, room, createDto));
-    }
-
-    private RoomReservation reserve(User user,Room room,CreateRoomReservationDto createDto) {
-
-        Payment payment = paymentService.savePayment(Payment.builder()
-                .price(createDto.getFinalPrice())
-                .status(PaymentStatus.READY)
-                .build());
-
-        return createDto.toEntity(user, room, payment);
+        return roomReservationRepository.save(createDto.toEntity(user,room));
     }
 
 
@@ -126,5 +114,11 @@ public class RoomReservationService implements SubReservationService<RoomReserva
                 .orElse(0);
 
         return room.getNumOfRoom() - currentReservationRoom;
+    }
+
+    @Override
+    public void delete(Long reservationId) {
+
+        roomReservationRepository.delete(findById(reservationId));
     }
 }

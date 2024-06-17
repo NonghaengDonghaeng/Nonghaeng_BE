@@ -20,7 +20,7 @@ public interface RoomReservationRepository extends JpaRepository<RoomReservation
 
     boolean existsById(Long roomReservationId);
 
-    @Query("select sum(rr.numOfRoom) from RoomReservation rr join rr.reservationDates rd where rr.room = :room and rd.reservationDate = :reservationDate")
+    @Query("select sum(rr.numOfRoom) from RoomReservation rr join rr.reservationDates rd where rr.room = :room and rd.reservationDate = :reservationDate and rr.stateType != 'TMP_RESERVATION' and rr.stateType != 'NOT_CONFIRM_RESERVATION' and rr.stateType !='CANCEL_RESERVATION'")
     Optional<Integer> countByRoomAndReservationDate(@Param("room") Room room, @Param("reservationDate") LocalDate reservationDate);
 
 

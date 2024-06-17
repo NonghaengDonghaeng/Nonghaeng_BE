@@ -6,8 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tour.nonghaeng.global.infra.enums.cancel.CancelPolicy;
-import tour.nonghaeng.global.infra.enums.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.member.data.Seller;
 import tour.nonghaeng.domain.member.data.User;
@@ -23,6 +21,8 @@ import tour.nonghaeng.domain.reservation.presentation.exception.error.Reservatio
 import tour.nonghaeng.domain.reservation.service.registry.SubReservationServiceRegistry;
 import tour.nonghaeng.domain.reservation.service.valid.ReservationValidator;
 import tour.nonghaeng.global.auth.AuthValidator;
+import tour.nonghaeng.global.infra.enums.cancel.CancelPolicy;
+import tour.nonghaeng.global.infra.enums.reservation.ReservationStateType;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -73,6 +73,17 @@ public class ReservationServiceImpl implements ReservationService {
         SubReservationService<SubReservation, Entity, CreateReservationDto<SubReservation, Entity>> service =
                 subReservationServiceRegistry.getServiceByDto(createDto);
         return service.create(user, createDto);
+    }
+
+    @Override
+    public void delete(String paymentUid) {
+
+        Reservation reservation = reservationRepository.findReservationByPaymentUid(paymentUid).orElseThrow(() -> ReservationException.EXCEPTION);
+
+        String type = reservationRepository.findReservationTypeById(reservation.getId());
+
+        subReservationServiceRegistry.getServiceByType(type).delete(reservation.getId());
+
     }
 
 

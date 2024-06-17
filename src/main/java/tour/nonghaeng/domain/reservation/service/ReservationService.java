@@ -9,6 +9,9 @@ import tour.nonghaeng.global.infra.service.CrudService;
 
 public interface ReservationService extends CrudService<Reservation, CreateReservationDto<?,?>>{
 
+    void delete(String paymentId);
+
+
     //조회(ViewService 상속안한 이유는 기본 메소드랑 살짝 다름)
     ReservationDetailDto getReservationDetailDto(Member member, Long reservationId);
 
