@@ -60,6 +60,7 @@ public class RoomReservation extends Reservation {
                 .price(this.getPrice())
                 .numOfParticipant(this.getNumOfParticipant())
                 .numOfRoom(this.getNumOfRoom())
+                .isWrittenReview(this.isWrittenReview())
                 .type("room")
                 .build();
     }

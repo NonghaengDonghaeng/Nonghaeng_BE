@@ -30,10 +30,10 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query(value = "SELECT dtype FROM reservations where reservation_id = :id", nativeQuery = true)
     String findReservationTypeById(@Param("id") Long reservationId);
 
-    @Query("select r from Reservation r where r.user = :user")
+    @Query("select r from Reservation r where r.user = :user and r.stateType != 'TMP_RESERVATION'")
     Page<Reservation> findReservationPageByUser(@Param("user") User user, Pageable pageable);
 
-    @Query("select r from Reservation r where r.seller = :seller")
+    @Query("select r from Reservation r where r.seller = :seller and r.stateType != 'TMP_RESERVATION'")
     Page<Reservation> findReservationPageBySeller(@Param("seller") Seller seller, Pageable pageable);
 
 

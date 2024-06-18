@@ -367,4 +367,12 @@ public class ReservationServiceImpl implements ReservationService {
         return responseDto;
 
     }
+
+    //리뷰 작성
+    @Override
+    public void setWrittenReview(Reservation reservation) {
+
+        reservation.setWrittenReview();
+        reservationRepository.save(reservation);
+    }
 }

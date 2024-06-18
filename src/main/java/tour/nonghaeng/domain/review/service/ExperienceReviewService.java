@@ -6,13 +6,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tour.nonghaeng.global.infra.enums.review.ReviewServiceType;
 import tour.nonghaeng.domain.experience.data.Experience;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
 import tour.nonghaeng.domain.experience.service.valid.ExperienceValidator;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.reservation.data.Reservation;
 import tour.nonghaeng.domain.reservation.service.ReservationService;
+import tour.nonghaeng.domain.reservation.service.ReservationServiceImpl;
 import tour.nonghaeng.domain.review.data.ExperienceReview;
 import tour.nonghaeng.domain.review.data.Review;
 import tour.nonghaeng.domain.review.data.repo.ExperienceReviewRepository;
@@ -20,6 +20,7 @@ import tour.nonghaeng.domain.review.dto.CreateReviewDto;
 import tour.nonghaeng.domain.review.dto.ReviewSummaryDto;
 import tour.nonghaeng.domain.review.presentation.exception.ReviewException;
 import tour.nonghaeng.global.auth.AuthValidator;
+import tour.nonghaeng.global.infra.enums.review.ReviewServiceType;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +35,7 @@ public class ExperienceReviewService implements SubReviewService {
 
     private final ExperienceValidator experienceValidator;
     private final AuthValidator authValidator;
-
+    private final ReservationServiceImpl reservationServiceImpl;
 
 
     //ViewForEachEntityService
@@ -79,6 +80,7 @@ public class ExperienceReviewService implements SubReviewService {
 
     @Override
     public Review create(Member user, CreateReviewDto createDto) {
+
         Reservation reservation = reservationService.findById(createDto.getReservationId());
         Experience experience = experienceService.findById(reservation.getEntityId());
 
@@ -93,6 +95,9 @@ public class ExperienceReviewService implements SubReviewService {
                 .title(formatTitle)
                 .content(createDto.getContent())
                 .build();
+
+        reservationService.setWrittenReview(reservation);
+
 
         return experienceReviewRepository.save(experienceReview);
     }

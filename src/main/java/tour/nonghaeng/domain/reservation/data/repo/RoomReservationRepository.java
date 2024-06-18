@@ -31,10 +31,10 @@ public interface RoomReservationRepository extends JpaRepository<RoomReservation
     Optional<LocalDate> findEndDateById(@Param("id") Long id);
 
 
-    @Query("select rr from RoomReservation rr where rr.user = :user")
+    @Query("select rr from RoomReservation rr where rr.user = :user and rr.stateType != 'TMP_RESERVATION'")
     Page<Reservation> findReservationPageByUser(@Param("user") User user, Pageable pageable);
 
-    @Query("select rr from RoomReservation rr where rr.seller =:seller")
+    @Query("select rr from RoomReservation rr where rr.seller =:seller and rr.stateType != 'TMP_RESERVATION'")
     Page<Reservation> findReservationPageBySeller(@Param("seller") Seller seller, Pageable pageable);
 
 

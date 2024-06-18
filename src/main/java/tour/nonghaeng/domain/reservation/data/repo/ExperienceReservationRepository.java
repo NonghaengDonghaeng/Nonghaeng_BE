@@ -25,10 +25,10 @@ public interface ExperienceReservationRepository extends JpaRepository<Experienc
     Optional<Integer> countParticipantByExperienceRoundAndReservationDate(@Param("experienceRound")ExperienceRound experienceRound, @Param("reservationDate")LocalDate reservationDate);
 
 
-    @Query("select er from ExperienceReservation er where er.user = :user")
+    @Query("select er from ExperienceReservation er where er.user = :user and er.stateType != 'TMP_RESERVATION'")
     Page<Reservation> findReservationPageByUser(@Param("user") User user, Pageable pageable);
 
-    @Query("select er from ExperienceReservation er where er.seller = :seller")
+    @Query("select er from ExperienceReservation er where er.seller = :seller and er.stateType != 'TMP_RESERVATION'")
     Page<Reservation> findReservationPageBySeller(@Param("seller") Seller seller, Pageable pageable);
 
 

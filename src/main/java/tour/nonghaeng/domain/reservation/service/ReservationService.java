@@ -37,5 +37,7 @@ public interface ReservationService extends CrudService<Reservation, CreateReser
 
     void autoChangeCancelReservation();
 
+    //리뷰 작성 후 저장
+    void setWrittenReview(Reservation reservation);
 
 }

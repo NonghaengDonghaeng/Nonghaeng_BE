@@ -51,6 +51,7 @@ public class ExperienceReservation extends Reservation {
                 .reservationDate(this.getReservationDate())
                 .price(this.getPrice())
                 .numOfParticipant(this.getNumOfParticipant())
+                .isWrittenReview(this.isWrittenReview())
                 .type("experience")
                 .build();
     }

@@ -90,6 +90,7 @@ public class RoomReviewService implements SubReviewService {
                 .content(createDto.getContent())
                 .build();
 
+        reservationService.setWrittenReview(reservation);
 
         return roomReviewRepository.save(roomReview);
     }

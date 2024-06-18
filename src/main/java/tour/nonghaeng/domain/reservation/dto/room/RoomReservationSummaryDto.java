@@ -25,10 +25,11 @@ public class RoomReservationSummaryDto extends ReservationSummaryDto {
     private int price;
     private int numOfParticipant;
     private int numOfRoom;
+    private boolean isWrittenReview;
     private String type;
 
     @Builder
-    private RoomReservationSummaryDto(Long roomReservationId, String roomName, String reservationState, List<LocalDate> reservationDates, int price, int numOfParticipant, int numOfRoom, String type) {
+    private RoomReservationSummaryDto(Long roomReservationId, String roomName, String reservationState, List<LocalDate> reservationDates, int price, int numOfParticipant, int numOfRoom,boolean isWrittenReview, String type) {
         this.roomReservationId = roomReservationId;
         this.roomName = roomName;
         this.reservationState = reservationState;
@@ -37,6 +38,7 @@ public class RoomReservationSummaryDto extends ReservationSummaryDto {
         this.numOfParticipant = numOfParticipant;
         this.numOfRoom = numOfRoom;
         this.type = type;
+        this.isWrittenReview=isWrittenReview;
     }
 
     public static Page<RoomReservationSummaryDto> toPageDto(Page<RoomReservation> page) {
@@ -50,6 +52,7 @@ public class RoomReservationSummaryDto extends ReservationSummaryDto {
                 .price(roomReservation.getPrice())
                 .numOfParticipant(roomReservation.getNumOfParticipant())
                 .numOfRoom(roomReservation.getNumOfRoom())
+                .isWrittenReview(roomReservation.isWrittenReview())
                 .build());
     }
 

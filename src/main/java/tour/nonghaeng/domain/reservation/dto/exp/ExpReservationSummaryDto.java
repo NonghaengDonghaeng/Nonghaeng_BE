@@ -25,16 +25,18 @@ public class ExpReservationSummaryDto extends ReservationSummaryDto {
     private LocalDate reservationDate;
     private int price;
     private int numOfParticipant;
+    private boolean isWrittenReview;
     private String type;
 
     @Builder
-    public ExpReservationSummaryDto(Long experienceReservationId, String experienceName, String reservationState, LocalDate reservationDate, int price, int numOfParticipant, String type) {
+    public ExpReservationSummaryDto(Long experienceReservationId, String experienceName, String reservationState, LocalDate reservationDate, int price, int numOfParticipant, boolean isWrittenReview,String type) {
         this.experienceReservationId = experienceReservationId;
         this.experienceName = experienceName;
         this.reservationState = reservationState;
         this.reservationDate = reservationDate;
         this.price = price;
         this.numOfParticipant = numOfParticipant;
+        this.isWrittenReview = isWrittenReview;
         this.type = type;
     }
 
@@ -46,6 +48,7 @@ public class ExpReservationSummaryDto extends ReservationSummaryDto {
                 .reservationDate(experienceReservation.getReservationDate())
                 .price(experienceReservation.getPrice())
                 .numOfParticipant(experienceReservation.getNumOfParticipant())
+                .isWrittenReview(experienceReservation.isWrittenReview())
                 .build());
     }
 }

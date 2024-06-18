@@ -47,6 +47,8 @@ public abstract class Reservation extends BaseTimeEntity {
 
     private String email;
 
+    private boolean isWrittenReview;
+
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "payment_id")
     private Payment payment;
@@ -61,6 +63,11 @@ public abstract class Reservation extends BaseTimeEntity {
         this.number = number;
         this.email = email;
         this.payment = payment;
+        this.isWrittenReview = false;
+    }
+
+    public void setWrittenReview() {
+        this.isWrittenReview = true;
     }
 
     public boolean isWaitingState() {
