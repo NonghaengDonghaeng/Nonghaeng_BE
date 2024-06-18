@@ -11,17 +11,21 @@ import tour.nonghaeng.domain.member.data.Seller;
 import tour.nonghaeng.domain.member.data.User;
 import tour.nonghaeng.domain.member.service.SellerService;
 import tour.nonghaeng.domain.member.service.UserService;
+import tour.nonghaeng.domain.reservation.PortOneClient;
 import tour.nonghaeng.domain.reservation.data.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.data.Reservation;
 import tour.nonghaeng.domain.reservation.data.RoomReservation;
+import tour.nonghaeng.domain.reservation.data.repo.PaymentRepository;
 import tour.nonghaeng.domain.reservation.data.repo.ReservationRepository;
 import tour.nonghaeng.domain.reservation.dto.*;
+import tour.nonghaeng.domain.reservation.dto.payment.PortOneResponseDto;
 import tour.nonghaeng.domain.reservation.presentation.exception.ReservationException;
 import tour.nonghaeng.domain.reservation.presentation.exception.error.ReservationErrorCode;
 import tour.nonghaeng.domain.reservation.service.registry.SubReservationServiceRegistry;
 import tour.nonghaeng.domain.reservation.service.valid.ReservationValidator;
 import tour.nonghaeng.global.auth.AuthValidator;
 import tour.nonghaeng.global.infra.enums.cancel.CancelPolicy;
+import tour.nonghaeng.global.infra.enums.payment.PaymentStatus;
 import tour.nonghaeng.global.infra.enums.reservation.ReservationStateType;
 
 import java.time.Duration;
@@ -34,8 +38,11 @@ import java.time.LocalDateTime;
 @Slf4j
 public class ReservationServiceImpl implements ReservationService {
 
+    private final PortOneClient portOneClient;
+
     private final ReservationRepository reservationRepository;
 
+    private final PaymentRepository paymentRepository;
     private final ExperienceReservationService experienceReservationService;
     private final RoomReservationService roomReservationService;
     private final UserService userService;
@@ -75,15 +82,20 @@ public class ReservationServiceImpl implements ReservationService {
         return service.create(user, createDto);
     }
 
+
     @Override
-    public void delete(String paymentUid) {
+    public boolean delete(String paymentUid) {
 
         Reservation reservation = reservationRepository.findReservationByPaymentUid(paymentUid).orElseThrow(() -> ReservationException.EXCEPTION);
 
-        String type = reservationRepository.findReservationTypeById(reservation.getId());
+        if (reservation.getStateType() == ReservationStateType.TMP_RESERVATION) {
 
-        subReservationServiceRegistry.getServiceByType(type).delete(reservation.getId());
+            String type = reservationRepository.findReservationTypeById(reservation.getId());
+            subReservationServiceRegistry.getServiceByType(type).delete(reservation.getId());
 
+            return true;
+        }
+        return false;
     }
 
 
@@ -316,4 +328,43 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationRepository.findReservationTypeById(reservationId);
     }
 
+
+    @Override
+    public PortOneResponseDto paymentValid(String paymentUid) {
+
+
+        PortOneResponseDto responseDto = portOneClient.getPaymentApi(paymentUid);
+
+        Reservation reservation = reservationRepository.findReservationByPaymentUid(paymentUid)
+                .orElseThrow(() -> new IllegalArgumentException("주문 내역이 없습니다."));
+
+        if(!responseDto.getStatus().equals("PAID")){
+            reservationRepository.delete(reservation);
+            paymentRepository.delete(reservation.getPayment());
+
+            throw new RuntimeException("결제 미완료");
+        }
+
+        // DB에 저장된 결제 금액
+        int price = reservation.getPayment().getPrice();
+        int iamportPrice = responseDto.getAmount().getTotal();
+
+        // 결제 금액 검증
+        if(iamportPrice != price) {
+            // 주문, 결제 삭제
+            reservationRepository.delete(reservation);
+            paymentRepository.delete(reservation.getPayment());
+
+            // 결제금액 위변조로 의심되는 결제금액을 취소(아임포트)
+            portOneClient.cancelPaymentByPaymentUid(paymentUid);
+
+            throw new RuntimeException("결제금액 위변조 의심");
+        }
+
+        reservation.getPayment().changePaymentBySuccess(PaymentStatus.OK, responseDto.getId());
+        reservation.waitingReservation();
+
+        return responseDto;
+
+    }
 }

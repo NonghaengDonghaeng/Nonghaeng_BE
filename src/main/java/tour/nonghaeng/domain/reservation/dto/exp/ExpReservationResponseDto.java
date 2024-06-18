@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
-import tour.nonghaeng.domain.payment.dto.RequestPaymentDto;
+import tour.nonghaeng.domain.reservation.dto.payment.RequestPaymentDto;
 import tour.nonghaeng.domain.reservation.data.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.dto.ReservationResponseDto;
 

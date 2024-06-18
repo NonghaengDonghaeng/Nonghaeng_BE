@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.reservation.data.Reservation;
 import tour.nonghaeng.domain.reservation.dto.*;
+import tour.nonghaeng.domain.reservation.dto.payment.PortOneResponseDto;
 import tour.nonghaeng.domain.reservation.service.ReservationService;
 import tour.nonghaeng.domain.reservation.service.valid.ReservationValidator;
 import tour.nonghaeng.global.auth.AuthService;
@@ -39,13 +40,22 @@ public class ReservationController {
         return new ResponseEntity<>(reservation.toReservationResponseDto(), HttpStatus.OK);
     }
 
+    //임시 예약 데이터 삭제
     @DeleteMapping("/{paymentUid}")
-    public ResponseEntity<String> deleteTmpReservation(Authentication authentication,
+    public ResponseEntity<Boolean> deleteTmpReservation(Authentication authentication,
                                                        @PathVariable(value = "paymentUid") String paymentUid) {
 
-        reservationService.delete(paymentUid);
+        boolean isDelete = reservationService.delete(paymentUid);
 
-        return new ResponseEntity<>("임시 예약 삭제완료",HttpStatus.OK);
+        return new ResponseEntity<>(isDelete,HttpStatus.OK);
+    }
+
+    //사후 검증
+    @GetMapping("/payment/{paymentId}")
+    public ResponseEntity<PortOneResponseDto> valid(@PathVariable("paymentId")String paymentId){
+        PortOneResponseDto response = reservationService.paymentValid(paymentId);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     //소비자,판매자 내 체험/숙소 예약 리스트보기 만약 타입이 안오면 전체로

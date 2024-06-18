@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tour.nonghaeng.domain.member.data.Seller;
 import tour.nonghaeng.domain.member.data.User;
-import tour.nonghaeng.domain.payment.data.Payment;
 import tour.nonghaeng.domain.reservation.dto.ReservationCancelResponseDto;
 import tour.nonghaeng.domain.reservation.dto.ReservationDetailDto;
 import tour.nonghaeng.domain.reservation.dto.ReservationResponseDto;

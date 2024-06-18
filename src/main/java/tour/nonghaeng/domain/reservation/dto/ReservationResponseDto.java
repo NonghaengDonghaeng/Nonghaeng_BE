@@ -1,6 +1,6 @@
 package tour.nonghaeng.domain.reservation.dto;
 
-import tour.nonghaeng.domain.payment.dto.RequestPaymentDto;
+import tour.nonghaeng.domain.reservation.dto.payment.RequestPaymentDto;
 
 public class ReservationResponseDto {
 

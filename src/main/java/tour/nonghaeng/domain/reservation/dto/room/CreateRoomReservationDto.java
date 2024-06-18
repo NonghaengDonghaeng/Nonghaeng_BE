@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
-import tour.nonghaeng.domain.payment.data.Payment;
+import tour.nonghaeng.domain.reservation.data.Payment;
 import tour.nonghaeng.global.infra.enums.payment.PaymentStatus;
 import tour.nonghaeng.global.infra.enums.reservation.ReservationStateType;
 import tour.nonghaeng.domain.member.data.User;

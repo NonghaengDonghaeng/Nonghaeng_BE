@@ -5,11 +5,15 @@ import org.springframework.data.domain.Pageable;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.reservation.data.Reservation;
 import tour.nonghaeng.domain.reservation.dto.*;
+import tour.nonghaeng.domain.reservation.dto.payment.PortOneResponseDto;
 import tour.nonghaeng.global.infra.service.CrudService;
 
 public interface ReservationService extends CrudService<Reservation, CreateReservationDto<?,?>>{
 
-    void delete(String paymentId);
+
+    PortOneResponseDto paymentValid(String paymentUid);
+
+    boolean delete(String paymentUid);
 
 
     //조회(ViewService 상속안한 이유는 기본 메소드랑 살짝 다름)
