@@ -12,7 +12,6 @@ import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.member.data.Seller;
 import tour.nonghaeng.domain.member.data.User;
 import tour.nonghaeng.domain.member.service.UserService;
-import tour.nonghaeng.domain.payment.service.PaymentService;
 import tour.nonghaeng.domain.reservation.data.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.data.Reservation;
 import tour.nonghaeng.domain.reservation.data.repo.ExperienceReservationRepository;
@@ -37,7 +36,6 @@ public class ExperienceReservationService implements SubReservationService<Exper
 
     private final ExperienceRoundService experienceRoundService;
     private final UserService userService;
-    private final PaymentService paymentService;
 
     private final ExperienceReservationValidator experienceReservationValidator;
     private final AuthValidator authValidator;
