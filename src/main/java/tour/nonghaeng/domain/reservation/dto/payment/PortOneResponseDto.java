@@ -1,11 +1,11 @@
-package tour.nonghaeng.domain.payment.dto;
+package tour.nonghaeng.domain.reservation.dto.payment;
 
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
-public class IamportResponseDto {
+public class PortOneResponseDto {
     private String status;
     private String id;
     private String transactionId;

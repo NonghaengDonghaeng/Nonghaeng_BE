@@ -1,4 +1,4 @@
-package tour.nonghaeng.domain.payment.dto;
+package tour.nonghaeng.domain.reservation.dto.payment;
 
 import lombok.Builder;
 import lombok.Data;

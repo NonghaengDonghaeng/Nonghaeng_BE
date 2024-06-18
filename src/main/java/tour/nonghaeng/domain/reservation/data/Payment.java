@@ -1,4 +1,4 @@
-package tour.nonghaeng.domain.payment.data;
+package tour.nonghaeng.domain.reservation.data;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
