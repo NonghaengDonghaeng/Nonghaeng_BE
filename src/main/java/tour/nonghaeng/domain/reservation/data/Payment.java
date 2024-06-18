@@ -5,18 +5,20 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import tour.nonghaeng.global.infra.BaseTimeEntity;
 import tour.nonghaeng.global.infra.enums.payment.PaymentStatus;
 
 @Entity
 @Table(name = "PAYMENTS")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Payment {
+public class Payment extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "payment_id")
     private Long id;
     private int price;
+//    @Enumerated(EnumType.STRING)
     private PaymentStatus status;
     private String paymentUid; // 결제 고유 번호
 

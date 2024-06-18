@@ -1,5 +1,6 @@
 package tour.nonghaeng.domain.reservation.dto.payment;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -24,7 +25,8 @@ public class PortOneResponseDto {
     private boolean isCulturalExpense;
     private LocalDateTime paidAt;
     private String pgTxId;
-    private String pgResponse;
+    @JsonDeserialize(using = PgResponseDeserializer.class)
+    private PgResponse pgResponse;
     private String receiptUrl;
 
     // Nested classes
@@ -69,4 +71,55 @@ public class PortOneResponseDto {
         private String email;
         private String phoneNumber;
     }
+
+    @Data
+    public static class PgResponse {
+        private String CARD_Quota;
+        private String CARD_ClEvent;
+        private String CARD_CorpFlag;
+        private String buyerTel;
+        private String parentEmail;
+        private String applDate;
+        private String buyerEmail;
+        private String OrgPrice;
+        private String p_Sub;
+        private String resultCode;
+        private String mid;
+        private String CARD_UsePoint;
+        private String CARD_Num;
+        private String authSignature;
+        private String tid;
+        private String EventCode;
+        private String goodName;
+        private String TotPrice;
+        private String payMethod;
+        private String CARD_MemberNum;
+        private String MOID;
+        private String CARD_Point;
+        private String currency;
+        private String CARD_PurchaseCode;
+        private String CARD_PrtcCode;
+        private String applTime;
+        private String goodsName;
+        private String CARD_CheckFlag;
+        private String FlgNotiSendChk;
+        private String CARD_Code;
+        private String CARD_BankCode;
+        private String CARD_TerminalNum;
+        private String P_FN_NM;
+        private String buyerName;
+        private String p_SubCnt;
+        private String applNum;
+        private String resultMsg;
+        private String CARD_Interest;
+        private String CARD_SrcCode;
+        private String CARD_ApplPrice;
+        private String CARD_GWCode;
+        private String custEmail;
+        private String CARD_Expire;
+        private String CARD_PurchaseName;
+        private String CARD_PRTC_CODE;
+        private String payDevice;
+    }
+
 }
