@@ -20,6 +20,7 @@ public class RoomReviewSummaryDto extends ReviewSummaryDto {
     private Long reviewId;
     private String roomName;
     private String title;
+    private String content;
     private String author;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate createDate;
@@ -28,10 +29,11 @@ public class RoomReviewSummaryDto extends ReviewSummaryDto {
     private PhotoInfoDto photoInfoDto;
 
     @Builder
-    private RoomReviewSummaryDto(Long reviewId,String roomName, String title,String author, LocalDate createDate,String type,int likes,PhotoInfoDto photoInfoDto) {
+    private RoomReviewSummaryDto(Long reviewId, String roomName, String title, String content, String author, LocalDate createDate, String type, int likes, PhotoInfoDto photoInfoDto) {
         this.reviewId = reviewId;
         this.roomName = roomName;
         this.title = title;
+        this.content = content;
         this.author = author;
         this.createDate = createDate;
         this.type = type;

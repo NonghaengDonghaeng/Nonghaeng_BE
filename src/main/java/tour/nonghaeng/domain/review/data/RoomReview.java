@@ -40,6 +40,7 @@ public class RoomReview extends Review{
                 .roomName(this.getRoom().getRoomName())
                 .author(this.getUser().getName())
                 .title(this.getTitle())
+                .content(this.getContent())
                 .type("room")
                 .likes(this.getReviewLikes().size())
                 .photoInfoDto(super.findRepresentPhoto().isPresent() ?

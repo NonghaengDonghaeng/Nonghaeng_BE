@@ -40,6 +40,7 @@ public class ExperienceReview extends Review {
                 .expName(this.experience.getExperienceName())
                 .author(this.getUser().getName())
                 .title(this.getTitle())
+                .content(this.getContent())
                 .type("experience")
                 .likes(this.getReviewLikes().size())
                 .photoInfoDto(super.findRepresentPhoto().isPresent() ?
