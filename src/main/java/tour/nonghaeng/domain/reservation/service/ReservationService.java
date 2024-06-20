@@ -10,11 +10,14 @@ import tour.nonghaeng.global.infra.service.CrudService;
 
 public interface ReservationService extends CrudService<Reservation, CreateReservationDto<?,?>>{
 
+    //결제관련
+    PortOneResponseDto postVerification(String paymentUid);
 
-    PortOneResponseDto paymentValid(String paymentUid);
+    boolean deleteTmpReservation(String paymentUid);
 
-    boolean delete(String paymentUid);
 
+    //리뷰 작성 후 저장
+    void setWrittenReview(Reservation reservation);
 
     //조회(ViewService 상속안한 이유는 기본 메소드랑 살짝 다름)
     ReservationDetailDto getReservationDetailDto(Member member, Long reservationId);
@@ -37,7 +40,6 @@ public interface ReservationService extends CrudService<Reservation, CreateReser
 
     void autoChangeCancelReservation();
 
-    //리뷰 작성 후 저장
-    void setWrittenReview(Reservation reservation);
+
 
 }

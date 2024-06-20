@@ -41,9 +41,9 @@ public enum ReservationErrorCode implements BaseErrorCode {
     NO_EXIST_ROOM_RESERVATION_BY_ID(HttpStatus.BAD_GATEWAY, "RES_100_0", "해당 아이디의 숙소예약이 존재하지 않습니다."),
     NO_RESERVATION_DATE_BY_ID(HttpStatus.BAD_GATEWAY, "RES_100_0", "해당 아이디의 숙소예약에서 예약날짜가 존재하지 않습니다."),
     ;
-    private HttpStatus status;
-    private String code;
-    private String reason;
+    private final HttpStatus status;
+    private final String code;
+    private final String reason;
 
 
     @Override

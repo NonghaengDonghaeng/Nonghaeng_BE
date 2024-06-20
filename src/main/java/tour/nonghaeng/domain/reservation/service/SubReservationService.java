@@ -11,13 +11,14 @@ import tour.nonghaeng.global.infra.service.CrudService;
 
 import java.time.LocalDate;
 
-public interface SubReservationService<
-        SubReservation extends Reservation,
-        Entity,
-        DtoType extends CreateReservationDto<SubReservation,Entity>
-        > extends CrudService<Reservation, DtoType> {
+public interface SubReservationService
+        <SubReservation extends Reservation, Entity, DtoType extends CreateReservationDto<SubReservation,Entity>>
+        extends CrudService<Reservation, DtoType> {
 
     ReservationServiceType getType();
+
+    void deleteTmpReservation(Long reservationId);
+
 
     Page<? extends ReservationSummaryDto> getReservationSummaryDtoPage(Member member, Pageable pageable);
 
@@ -28,5 +29,5 @@ public interface SubReservationService<
 
     int countRemain(Entity entity, LocalDate date);
 
-    void delete(Long reservationId);
+
 }

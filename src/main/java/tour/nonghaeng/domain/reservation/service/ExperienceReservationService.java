@@ -11,7 +11,6 @@ import tour.nonghaeng.domain.experience.service.ExperienceRoundService;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.member.data.Seller;
 import tour.nonghaeng.domain.member.data.User;
-import tour.nonghaeng.domain.member.service.UserService;
 import tour.nonghaeng.domain.reservation.data.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.data.Reservation;
 import tour.nonghaeng.domain.reservation.data.repo.ExperienceReservationRepository;
@@ -35,10 +34,10 @@ public class ExperienceReservationService implements SubReservationService<Exper
     private final ExperienceReservationRepository experienceReservationRepository;
 
     private final ExperienceRoundService experienceRoundService;
-    private final UserService userService;
 
     private final ExperienceReservationValidator experienceReservationValidator;
     private final AuthValidator authValidator;
+
 
 
     @Override
@@ -73,6 +72,13 @@ public class ExperienceReservationService implements SubReservationService<Exper
 
 
     @Override
+    public void deleteTmpReservation(Long reservationId) {
+        experienceReservationRepository.delete(findById(reservationId));
+    }
+
+
+
+    @Override
     public Page<? extends ReservationSummaryDto> getReservationSummaryDtoPage(Member member,Pageable pageable) {
 
         if (member instanceof Seller) {
@@ -95,6 +101,7 @@ public class ExperienceReservationService implements SubReservationService<Exper
     }
 
 
+
     @Override
     public int countRemain(ExperienceRound experienceRound, LocalDate localDate) {
 
@@ -108,11 +115,6 @@ public class ExperienceReservationService implements SubReservationService<Exper
         }
 
         return experienceRound.getMaxParticipant() - currentReservationParticipant;
-    }
-
-    @Override
-    public void delete(Long reservationId) {
-        experienceReservationRepository.delete(findById(reservationId));
     }
 
 

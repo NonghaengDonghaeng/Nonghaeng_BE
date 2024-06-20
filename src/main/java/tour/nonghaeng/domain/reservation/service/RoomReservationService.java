@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.member.data.Seller;
 import tour.nonghaeng.domain.member.data.User;
-import tour.nonghaeng.domain.member.service.UserService;
 import tour.nonghaeng.domain.reservation.data.Reservation;
 import tour.nonghaeng.domain.reservation.data.RoomReservation;
 import tour.nonghaeng.domain.reservation.data.repo.RoomReservationRepository;
@@ -34,10 +33,10 @@ public class RoomReservationService implements SubReservationService<RoomReserva
     private final RoomReservationRepository roomReservationRepository;
 
     private final RoomService roomService;
-    private final UserService userService;
 
     private final RoomReservationValidator roomReservationValidator;
     private final AuthValidator authValidator;
+
 
 
     @Override
@@ -71,6 +70,13 @@ public class RoomReservationService implements SubReservationService<RoomReserva
     }
 
 
+    @Override
+    public void deleteTmpReservation(Long reservationId) {
+
+        roomReservationRepository.delete(findById(reservationId));
+    }
+
+
 
     @Override
     public Page<? extends ReservationSummaryDto> getReservationSummaryDtoPage(Member member, Pageable pageable) {
@@ -89,6 +95,7 @@ public class RoomReservationService implements SubReservationService<RoomReserva
         }
         return reservationPage.map(Reservation::toSummaryDto);
     }
+
 
 
     @Override
@@ -112,11 +119,5 @@ public class RoomReservationService implements SubReservationService<RoomReserva
                 .orElse(0);
 
         return room.getNumOfRoom() - currentReservationRoom;
-    }
-
-    @Override
-    public void delete(Long reservationId) {
-
-        roomReservationRepository.delete(findById(reservationId));
     }
 }

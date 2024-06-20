@@ -45,15 +45,15 @@ public class ReservationController {
     public ResponseEntity<Boolean> deleteTmpReservation(Authentication authentication,
                                                        @PathVariable(value = "paymentUid") String paymentUid) {
 
-        boolean isDelete = reservationService.delete(paymentUid);
+        boolean isDelete = reservationService.deleteTmpReservation(paymentUid);
 
         return new ResponseEntity<>(isDelete,HttpStatus.OK);
     }
 
     //사후 검증
     @GetMapping("/payment/{paymentId}")
-    public ResponseEntity<PortOneResponseDto> valid(@PathVariable("paymentId")String paymentId){
-        PortOneResponseDto response = reservationService.paymentValid(paymentId);
+    public ResponseEntity<PortOneResponseDto> postVerification(@PathVariable("paymentId")String paymentId){
+        PortOneResponseDto response = reservationService.postVerification(paymentId);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

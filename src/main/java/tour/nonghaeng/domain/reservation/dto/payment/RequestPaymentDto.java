@@ -11,17 +11,17 @@ import tour.nonghaeng.domain.reservation.data.Reservation;
 public class RequestPaymentDto {
     private String paymentUid;
     private String itemName;
-    private String buyerName;
     private int paymentPrice;
+    private String buyerName;
     private String buyerEmail;
     private String buyerNumber;
 
     @Builder
-    public RequestPaymentDto(String paymentUid, String itemName, String buyerName, int paymentPrice, String buyerEmail, String buyerNumber) {
+    public RequestPaymentDto(String paymentUid, String itemName, int paymentPrice, String buyerName, String buyerEmail, String buyerNumber) {
         this.paymentUid = paymentUid;
         this.itemName = itemName;
-        this.buyerName = buyerName;
         this.paymentPrice = paymentPrice;
+        this.buyerName = buyerName;
         this.buyerEmail = buyerEmail;
         this.buyerNumber = buyerNumber;
     }
