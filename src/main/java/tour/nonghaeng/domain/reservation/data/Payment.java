@@ -18,7 +18,7 @@ public class Payment extends BaseTimeEntity {
     @Column(name = "payment_id")
     private Long id;
     private int price;
-//    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private PaymentStatus status;
     private String paymentUid; // 결제 고유 번호
 
@@ -29,8 +29,12 @@ public class Payment extends BaseTimeEntity {
         this.paymentUid = paymentUid;
     }
 
-    public void changePaymentBySuccess(PaymentStatus status) {
-        this.status = status;
+    public void changePaymentBySuccess() {
+        this.status = PaymentStatus.OK;
+    }
+
+    public void changePaymentByCanCel() {
+        this.status = PaymentStatus.CANCEL;
     }
 
 }

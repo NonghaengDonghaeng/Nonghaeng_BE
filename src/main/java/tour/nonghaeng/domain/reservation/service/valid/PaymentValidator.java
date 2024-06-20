@@ -39,8 +39,6 @@ public class PaymentValidator {
             reservationRepository.delete(reservation);
             paymentRepository.delete(reservation.getPayment());
 
-            // 결제금액 위변조로 의심되는 결제금액을 취소(아임포트)
-
             return false;
         }
         return true;
