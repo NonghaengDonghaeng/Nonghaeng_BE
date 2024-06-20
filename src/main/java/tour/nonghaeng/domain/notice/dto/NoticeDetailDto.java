@@ -19,14 +19,16 @@ public class NoticeDetailDto extends DetailDto {
     private String title;
     private String content;
     private String author;
+    private boolean important;
     private LocalDateTime createTime;
 
     @Builder
-    public NoticeDetailDto(Long noticeId, String title, String content, String author, LocalDateTime createTime) {
+    public NoticeDetailDto(Long noticeId, String title, String content, String author, boolean important, LocalDateTime createTime) {
         this.noticeId = noticeId;
         this.title = title;
         this.content = content;
         this.author = author;
+        this.important = important;
         this.createTime = createTime;
     }
 
@@ -36,6 +38,7 @@ public class NoticeDetailDto extends DetailDto {
                 .title(notice.getTitle())
                 .content(notice.getContent())
                 .author(notice.getAdmin().getName())
+                .important(notice.isImportant())
                 .createTime(notice.getCreatedAt())
                 .build();
     }
