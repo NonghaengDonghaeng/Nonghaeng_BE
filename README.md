@@ -3,8 +3,9 @@
 https://nonghaeng-fe.vercel.app
 
 ## TODOLIST
+- review: summaryDto 에 content 보내주는데 전체내용말고 일부 요약해서 보내줄 수 있는 방법 생각해보기
+- review: create 시 이미 작성한 후기이면 예외처리하기
 - 스케줄러로 임시 예약(결제안된) 데이터 삭제하는거 만들기
-
 - /best 일때 spec이 null인 경우도 잘 보여주도록 리팩토링 필요
 - 결제(payment) 싹 리팩토링 
 - 좋아요기준으로 보여주기 -> entity 수정해야됨. List<Likes> 이런식말고 int countLikes 속성을 추가해야 좋아요 기준 정렬로 뽑아올수있다. -> 기존의 spec와 pageable 이용하면서 사용할려면
@@ -13,7 +14,6 @@ https://nonghaeng-fe.vercel.app
 - 등록할때 사진을 등록안하면 오류나오록 예외처리해야됨.(최소 1개는 등록해야 그걸 대표사진으로)
 - 예약에서 dto에서 엔티티를 dto로 변환하는 역할을 할 수 있을지 알아보기, 현재는 엔티티에서 엔티티를 dto로 변환하고 있음
 - 관광등록시에 사진도 같이 등록하게 할지, 관광등록따로 사진등록 따로로 할지 고민중
-- member의 역할중 admin 추가하기
 ## 내일할것(오늘 5/20)
 - oauth 로그인(구글,네이버)
 - 테스트작성할거 작성하기
