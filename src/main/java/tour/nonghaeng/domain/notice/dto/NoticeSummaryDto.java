@@ -19,13 +19,15 @@ public class NoticeSummaryDto extends SummaryDto {
     private Long noticeId;
     private String title;
     private String author;
+    private boolean important;
     private LocalDateTime createTime;
 
     @Builder
-    private NoticeSummaryDto(Long noticeId, String title, String author, LocalDateTime createTime) {
+    private NoticeSummaryDto(Long noticeId, String title, String author, boolean important, LocalDateTime createTime) {
         this.noticeId = noticeId;
         this.title = title;
         this.author = author;
+        this.important=important;
         this.createTime = createTime;
     }
 
@@ -34,6 +36,7 @@ public class NoticeSummaryDto extends SummaryDto {
                 .noticeId(notice.getId())
                 .title(notice.getTitle())
                 .author(notice.getAdmin().getName())
+                .important(notice.isImportant())
                 .createTime(notice.getCreatedAt())
                 .build();
     }
