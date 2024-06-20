@@ -19,9 +19,12 @@ import tour.nonghaeng.domain.reservation.data.repo.PaymentRepository;
 import tour.nonghaeng.domain.reservation.data.repo.ReservationRepository;
 import tour.nonghaeng.domain.reservation.dto.*;
 import tour.nonghaeng.domain.reservation.dto.payment.PortOneResponseDto;
+import tour.nonghaeng.domain.reservation.presentation.exception.PaymentException;
 import tour.nonghaeng.domain.reservation.presentation.exception.ReservationException;
+import tour.nonghaeng.domain.reservation.presentation.exception.error.PaymentErrorCode;
 import tour.nonghaeng.domain.reservation.presentation.exception.error.ReservationErrorCode;
 import tour.nonghaeng.domain.reservation.service.registry.SubReservationServiceRegistry;
+import tour.nonghaeng.domain.reservation.service.valid.PaymentValidator;
 import tour.nonghaeng.domain.reservation.service.valid.ReservationValidator;
 import tour.nonghaeng.global.auth.AuthValidator;
 import tour.nonghaeng.global.infra.enums.cancel.CancelPolicy;
@@ -41,14 +44,15 @@ public class ReservationServiceImpl implements ReservationService {
     private final PortOneClient portOneClient;
 
     private final ReservationRepository reservationRepository;
-
     private final PaymentRepository paymentRepository;
+
     private final ExperienceReservationService experienceReservationService;
     private final RoomReservationService roomReservationService;
     private final UserService userService;
     private final SellerService sellerService;
 
     private final ReservationValidator reservationValidator;
+    private final PaymentValidator paymentValidator;
     private final AuthValidator authValidator;
 
     private final SubReservationServiceRegistry subReservationServiceRegistry;
@@ -84,20 +88,51 @@ public class ReservationServiceImpl implements ReservationService {
 
 
     @Override
-    public boolean delete(String paymentUid) {
+    public PortOneResponseDto postVerification(String paymentUid) {
+
+        PortOneResponseDto responseDto = portOneClient.getPaymentApi(paymentUid);
+
+        Reservation reservation = reservationRepository.findReservationByPaymentUid(paymentUid)
+                .orElseThrow(() -> new IllegalArgumentException("주문 내역이 없습니다."));
+
+        paymentValidator.paidValidate(responseDto,reservation);
+
+        if(!paymentValidator.priceValidate(responseDto,reservation)){
+
+            portOneClient.cancelPaymentByPaymentUid(paymentUid,null);
+            throw new PaymentException(PaymentErrorCode.FORGERY_PAYMENT_ERROR);
+        }
+
+        reservation.getPayment().changePaymentBySuccess(PaymentStatus.OK);
+        reservation.waitingReservation();
+
+        return responseDto;
+    }
+
+
+    @Override
+    public boolean deleteTmpReservation(String paymentUid) {
 
         Reservation reservation = reservationRepository.findReservationByPaymentUid(paymentUid).orElseThrow(() -> ReservationException.EXCEPTION);
 
         if (reservation.getStateType() == ReservationStateType.TMP_RESERVATION) {
 
-            String type = reservationRepository.findReservationTypeById(reservation.getId());
-            subReservationServiceRegistry.getServiceByType(type).delete(reservation.getId());
+            subReservationServiceRegistry.getServiceByType(findTypeById(reservation.getId()))
+                    .deleteTmpReservation(reservation.getId());
 
             return true;
         }
         return false;
     }
 
+
+    //리뷰 작성
+    @Override
+    public void setWrittenReview(Reservation reservation) {
+
+        reservation.setWrittenReview();
+        reservationRepository.save(reservation);
+    }
 
 
     //예약조회 서비스
@@ -329,50 +364,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
 
-    @Override
-    public PortOneResponseDto paymentValid(String paymentUid) {
 
 
-        PortOneResponseDto responseDto = portOneClient.getPaymentApi(paymentUid);
 
-        Reservation reservation = reservationRepository.findReservationByPaymentUid(paymentUid)
-                .orElseThrow(() -> new IllegalArgumentException("주문 내역이 없습니다."));
-
-        if(!responseDto.getStatus().equals("PAID")){
-            reservationRepository.delete(reservation);
-            paymentRepository.delete(reservation.getPayment());
-
-            throw new RuntimeException("결제 미완료");
-        }
-
-        // DB에 저장된 결제 금액
-        int price = reservation.getPayment().getPrice();
-        int iamportPrice = responseDto.getAmount().getTotal();
-
-        // 결제 금액 검증
-        if(iamportPrice != price) {
-            // 주문, 결제 삭제
-            reservationRepository.delete(reservation);
-            paymentRepository.delete(reservation.getPayment());
-
-            // 결제금액 위변조로 의심되는 결제금액을 취소(아임포트)
-            portOneClient.cancelPaymentByPaymentUid(paymentUid);
-
-            throw new RuntimeException("결제금액 위변조 의심");
-        }
-
-        reservation.getPayment().changePaymentBySuccess(PaymentStatus.OK, responseDto.getId());
-        reservation.waitingReservation();
-
-        return responseDto;
-
-    }
-
-    //리뷰 작성
-    @Override
-    public void setWrittenReview(Reservation reservation) {
-
-        reservation.setWrittenReview();
-        reservationRepository.save(reservation);
-    }
 }
