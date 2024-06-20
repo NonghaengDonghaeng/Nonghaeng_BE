@@ -84,8 +84,6 @@ public class ExperienceReviewService implements SubReviewService {
         Reservation reservation = reservationService.findById(createDto.getReservationId());
         Experience experience = experienceService.findById(reservation.getEntityId());
 
-        //TODO: validator( 이미 작성된 후기이면 안되도록 )
-
         String formatTitle = "[" + experience.getTour().getName() + "] " + createDto.getTitle();
 
         ExperienceReview experienceReview = ExperienceReview.builder()

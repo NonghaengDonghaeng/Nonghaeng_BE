@@ -36,6 +36,33 @@ public class ReviewServiceImpl implements ReviewService {
     private final SubReviewServiceRegistry subReviewServiceRegistry;
 
 
+
+    //CrudService
+    @Override
+    public Review create(Member user, CreateReviewDto requestDto) {
+
+        Long reservationId = requestDto.getReservationId();
+
+        String type = reservationService.findTypeById(reservationId);
+
+        reviewValidator.createReviewValidate(user,reservationId,type);
+
+        SubReviewService service = subReviewServiceRegistry.getService(type);
+
+        return service.create(user,requestDto);
+    }
+
+    @Override
+    public Review findById(Long reviewId) {
+        String type = reviewRepository.findReviewTypeById(reviewId);
+
+        SubReviewService service = subReviewServiceRegistry.getService(type);
+
+        return service.findById(reviewId);
+    }
+
+
+
     //ReviewService
     @Override
     public Page<? extends ReviewSummaryDto> getReviewSummaryDtoPageById(Long id, Pageable pageable,String type) {
@@ -83,31 +110,6 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
         return reviewPage.map(Review::toReviewSummaryDto);
-    }
-
-
-    //CrudService
-    @Override
-    public Review create(Member user, CreateReviewDto requestDto) {
-
-        Long reservationId = requestDto.getReservationId();
-
-        String type = reservationService.findTypeById(reservationId);
-
-        reviewValidator.createReviewValidate(user,reservationId,type);
-
-        SubReviewService service = subReviewServiceRegistry.getService(type);
-
-        return service.create(user,requestDto);
-    }
-
-    @Override
-    public Review findById(Long reviewId) {
-        String type = reviewRepository.findReviewTypeById(reviewId);
-
-        SubReviewService service = subReviewServiceRegistry.getService(type);
-
-        return service.findById(reviewId);
     }
 
 

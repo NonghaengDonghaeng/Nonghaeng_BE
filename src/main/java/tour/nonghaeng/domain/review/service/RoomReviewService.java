@@ -79,8 +79,6 @@ public class RoomReviewService implements SubReviewService {
 
         Room room = roomService.findById(reservation.getEntityId());
 
-        //TODO: validator
-
         String formatTitle = "[" + room.getTour().getName() + "] " + createDto.getTitle();
         RoomReview roomReview = RoomReview.builder()
                 .user(authValidator.userValidate(user))

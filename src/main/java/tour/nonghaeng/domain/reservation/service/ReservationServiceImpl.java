@@ -28,7 +28,6 @@ import tour.nonghaeng.domain.reservation.service.valid.PaymentValidator;
 import tour.nonghaeng.domain.reservation.service.valid.ReservationValidator;
 import tour.nonghaeng.global.auth.AuthValidator;
 import tour.nonghaeng.global.infra.enums.cancel.CancelPolicy;
-import tour.nonghaeng.global.infra.enums.payment.PaymentStatus;
 import tour.nonghaeng.global.infra.enums.reservation.ReservationStateType;
 
 import java.time.Duration;
@@ -100,10 +99,13 @@ public class ReservationServiceImpl implements ReservationService {
         if(!paymentValidator.priceValidate(responseDto,reservation)){
 
             portOneClient.cancelPaymentByPaymentUid(paymentUid,null);
+            //TODO: 취소 관련해서 추가 로직 작성하기
+            reservation.getPayment().changePaymentByCanCel();
+
             throw new PaymentException(PaymentErrorCode.FORGERY_PAYMENT_ERROR);
         }
 
-        reservation.getPayment().changePaymentBySuccess(PaymentStatus.OK);
+        reservation.getPayment().changePaymentBySuccess();
         reservation.waitingReservation();
 
         return responseDto;
