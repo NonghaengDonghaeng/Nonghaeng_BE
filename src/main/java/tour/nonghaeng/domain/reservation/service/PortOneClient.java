@@ -1,4 +1,4 @@
-package tour.nonghaeng.domain.reservation;
+package tour.nonghaeng.domain.reservation.service;
 
 import com.google.common.net.HttpHeaders;
 import org.springframework.beans.factory.annotation.Value;
