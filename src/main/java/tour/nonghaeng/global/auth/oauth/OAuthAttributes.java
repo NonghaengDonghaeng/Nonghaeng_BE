@@ -62,7 +62,7 @@ public class OAuthAttributes {
                 .name(oAuth2UserInfo.getNickName())
                 .username(oAuth2UserInfo.getId())
                 .phoneNumber(UUID.randomUUID().toString())
-                .email(UUID.randomUUID() + "@socialUser.com")
+                .email(oAuth2UserInfo.getEmail())
                 .role(Role.USER)
                 .build();
     }
