@@ -29,9 +29,8 @@ public class Payment extends BaseTimeEntity {
         this.paymentUid = paymentUid;
     }
 
-    public void changePaymentBySuccess(PaymentStatus status, String paymentId) {
+    public void changePaymentBySuccess(PaymentStatus status) {
         this.status = status;
-        this.paymentUid = paymentId;
     }
 
 }

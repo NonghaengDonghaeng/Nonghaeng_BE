@@ -36,9 +36,13 @@ public class PortOneClient {
                 .block();
     }
 
-    public void cancelPaymentByPaymentUid(String paymentUid) {
+    public void cancelPaymentByPaymentUid(String paymentUid,String reason) {
 
-        CancelRequestDto body = CancelRequestDto.builder().reason("금액 위변조로 인한 취소").build();
+        if (reason == null) {
+            reason = "금액 위변조로 인한 취소";
+        }
+
+        CancelRequestDto body = CancelRequestDto.builder().reason(reason).build();
 
         this.webClient.post()
                 .uri("/payments/"+paymentUid+"/cancel")
