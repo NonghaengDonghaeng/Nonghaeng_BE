@@ -15,29 +15,23 @@ import java.time.LocalTime;
 //@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class ExpReservationResponseDto extends ReservationResponseDto {
-    private Long experienceReservationId;
-    private String experienceName;
-    private String reservationName;
+    private final Long experienceReservationId;
+    private final String experienceName;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate reservationDate;
-    private LocalTime startTime;
-    private LocalTime endTime;
-    private String number;
-    private String email;
-    private int numOfParticipant;
-    private int finalPrice;
+    private final LocalTime startTime;
+    private final LocalTime endTime;
+    private final int numOfParticipant;
+    private final int finalPrice;
 
     @Builder
-    public ExpReservationResponseDto(Long experienceReservationId, String experienceName, String reservationName, LocalDate reservationDate, LocalTime startTime, LocalTime endTime, String number, String email, int numOfParticipant, int finalPrice, RequestPaymentDto paymentDto) {
+    public ExpReservationResponseDto(Long experienceReservationId, String experienceName, LocalDate reservationDate, LocalTime startTime, LocalTime endTime, int numOfParticipant, int finalPrice, RequestPaymentDto paymentDto) {
         super(paymentDto);
         this.experienceReservationId = experienceReservationId;
         this.experienceName = experienceName;
-        this.reservationName = reservationName;
         this.reservationDate = reservationDate;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.number = number;
-        this.email = email;
         this.numOfParticipant = numOfParticipant;
         this.finalPrice = finalPrice;
     }
@@ -47,12 +41,9 @@ public class ExpReservationResponseDto extends ReservationResponseDto {
         return ExpReservationResponseDto.builder()
                 .experienceReservationId(experienceReservation.getId())
                 .experienceName(experienceReservation.getExperience().getExperienceName())
-                .reservationName(experienceReservation.getReservationName())
                 .reservationDate(experienceReservation.getReservationDate())
                 .startTime(experienceReservation.getExperienceRound().getStartTime())
                 .endTime(experienceReservation.getExperienceRound().getEndTime())
-                .number(experienceReservation.getNumber())
-                .email(experienceReservation.getEmail())
                 .numOfParticipant(experienceReservation.getNumOfParticipant())
                 .finalPrice(experienceReservation.getPrice())
                 .build();

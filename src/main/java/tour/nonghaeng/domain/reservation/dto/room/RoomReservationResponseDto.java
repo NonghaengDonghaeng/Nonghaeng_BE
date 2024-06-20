@@ -18,29 +18,23 @@ import java.util.List;
 @Getter
 public class RoomReservationResponseDto extends ReservationResponseDto {
 
-    private Long roomReservationId;
-    private String roomName;
+    private final Long roomReservationId;
+    private final String roomName;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
-    private String reservationName;
-    private String number;
-    private String email;
-    private int numOfRoom;
-    private int numOfParticipant;
-    private int finalPrice;
+    private final int numOfRoom;
+    private final int numOfParticipant;
+    private final int finalPrice;
 
     @Builder
-    private RoomReservationResponseDto(Long roomReservationId, String roomName, LocalDate startDate, LocalDate endDate, String reservationName, String number, String email, int numOfRoom, int numOfParticipant, int finalPrice, RequestPaymentDto paymentDto) {
+    private RoomReservationResponseDto(Long roomReservationId, String roomName, LocalDate startDate, LocalDate endDate, int numOfRoom, int numOfParticipant, int finalPrice, RequestPaymentDto paymentDto) {
         super(paymentDto);
         this.roomReservationId = roomReservationId;
         this.roomName = roomName;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.reservationName = reservationName;
-        this.number = number;
-        this.email = email;
         this.numOfRoom = numOfRoom;
         this.numOfParticipant = numOfParticipant;
         this.finalPrice = finalPrice;
@@ -50,9 +44,6 @@ public class RoomReservationResponseDto extends ReservationResponseDto {
         RoomReservationResponseDto responseDto = RoomReservationResponseDto.builder()
                 .roomReservationId(roomReservation.getId())
                 .roomName(roomReservation.getRoom().getRoomName())
-                .reservationName(roomReservation.getReservationName())
-                .number(roomReservation.getNumber())
-                .email(roomReservation.getEmail())
                 .numOfRoom(roomReservation.getNumOfRoom())
                 .numOfParticipant(roomReservation.getNumOfParticipant())
                 .finalPrice(roomReservation.getPrice())
