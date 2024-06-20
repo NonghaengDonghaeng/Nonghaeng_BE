@@ -47,3 +47,6 @@ out/
 ./src/main/resources/application-web.yml
 .DS_Store
 
+### 이미지 ###
+*.jpeg
+*.png
