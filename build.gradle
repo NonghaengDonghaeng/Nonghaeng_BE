@@ -47,6 +47,9 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 
+	//이미지 업로드를 위해
+	implementation 'org.springframework:spring-test:5.3.10'
+
 	// JWT
 	implementation 'com.auth0:java-jwt:4.4.0'
 

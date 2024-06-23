@@ -5,16 +5,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tour.nonghaeng.global.infra.enums.role.Role;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.test.dto.JwtValidDto;
 import tour.nonghaeng.domain.test.service.DummyDataService;
 import tour.nonghaeng.global.auth.AuthService;
 import tour.nonghaeng.global.infra.exception.GlobalException;
+
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -76,7 +75,7 @@ public class TestController {
 
 
     @GetMapping("/test/set-data")
-    public ResponseEntity<String> setDataTest() {
+    public ResponseEntity<String> setDataTest() throws IOException {
         dummyDataService.setDummyData();
         return new ResponseEntity<>("set dummy data", HttpStatus.OK);
     }
