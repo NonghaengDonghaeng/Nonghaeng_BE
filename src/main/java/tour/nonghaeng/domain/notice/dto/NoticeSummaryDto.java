@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 import tour.nonghaeng.domain.notice.data.Notice;
 import tour.nonghaeng.global.infra.dto.SummaryDto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor
@@ -20,10 +20,10 @@ public class NoticeSummaryDto extends SummaryDto {
     private String title;
     private String author;
     private boolean important;
-    private LocalDateTime createTime;
+    private LocalDate createTime;
 
     @Builder
-    private NoticeSummaryDto(Long noticeId, String title, String author, boolean important, LocalDateTime createTime) {
+    private NoticeSummaryDto(Long noticeId, String title, String author, boolean important, LocalDate createTime) {
         this.noticeId = noticeId;
         this.title = title;
         this.author = author;
@@ -37,7 +37,7 @@ public class NoticeSummaryDto extends SummaryDto {
                 .title(notice.getTitle())
                 .author(notice.getAdmin().getName())
                 .important(notice.isImportant())
-                .createTime(notice.getCreatedAt())
+                .createTime(notice.getCreatedAt().toLocalDate())
                 .build();
     }
 
