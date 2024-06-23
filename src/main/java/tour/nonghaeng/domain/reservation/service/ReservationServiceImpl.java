@@ -88,6 +88,8 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public PortOneResponseDto postVerification(String paymentUid) {
 
+        log.info("사후검증 시작");
+
         PortOneResponseDto responseDto = portOneClient.getPaymentApi(paymentUid);
 
         Reservation reservation = reservationRepository.findReservationByPaymentUid(paymentUid)
@@ -104,10 +106,24 @@ public class ReservationServiceImpl implements ReservationService {
             throw new PaymentException(PaymentErrorCode.FORGERY_PAYMENT_ERROR);
         }
 
+        log.info("사후검증 무사히 통과 이후에 상태변경진행전");
+        successPostVerification(reservation);
+
+        return responseDto;
+    }
+
+    private void successPostVerification(Reservation reservation) {
+
+        log.info("검증 성공함!");
+
         reservation.getPayment().changePaymentBySuccess();
         reservation.waitingReservation();
 
-        return responseDto;
+        log.info("저장전"+reservation.getStateType().toString());
+
+        reservationRepository.save(reservation);
+
+        log.info("저장후"+reservation.getStateType().toString());
     }
 
 
