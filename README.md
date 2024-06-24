@@ -4,7 +4,6 @@ https://nonghaeng-fe.vercel.app
 
 ## TODOLIST
 - 결제내역
-- 사진 자동 등록하도록 api 쓰기
 - oauth 로그인시 제대로된 전화번호,이메일 나오도록(만약 여기서 선택적으로 받는다면 개인정보에서 이메일,전화번호 등록하기)
 - 본인인증(전화번호 vs 이메일 )
 - review: summaryDto 에 content 보내주는데 전체내용말고 일부 요약해서 보내줄 수 있는 방법 생각해보기
