@@ -179,4 +179,17 @@ public class ExperienceServiceImpl implements ExperienceService {
     }
 
 
+    @Override
+    public void plusLikes(Experience experience) {
+
+        experience.plusLikes();
+        experienceRepository.save(experience);
+    }
+
+    @Override
+    public void minusLikes(Experience experience) {
+
+        experience.minusLikes();
+        experienceRepository.save(experience);
+    }
 }

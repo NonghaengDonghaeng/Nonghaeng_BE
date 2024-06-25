@@ -135,4 +135,17 @@ public class ReviewServiceImpl implements ReviewService {
         return review.toReviewDetailDto();
     }
 
+    @Override
+    public void plusLikes(Review review) {
+
+        review.plusLikes();
+        reviewRepository.save(review);
+    }
+
+    @Override
+    public void minusLikes(Review review) {
+
+        review.minusLikes();
+        reviewRepository.save(review);
+    }
 }

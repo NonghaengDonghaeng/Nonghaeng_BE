@@ -241,8 +241,18 @@ public class RoomServiceImpl implements RoomService {
     }
 
 
+    @Override
+    public void plusLikes(Room room) {
 
+        room.plusLikes();
+        roomRepository.save(room);
+    }
 
+    @Override
+    public void minusLikes(Room room) {
 
+        room.minusLikes();
+        roomRepository.save(room);
+    }
 }
 

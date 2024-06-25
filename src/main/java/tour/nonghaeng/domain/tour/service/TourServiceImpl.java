@@ -89,4 +89,17 @@ public class TourServiceImpl implements TourService {
                 .orElseThrow(() -> SellerException.EXCEPTION);
     }
 
+    @Override
+    public void plusLikes(Tour tour) {
+
+        tour.plusLikes();
+        tourRepository.save(tour);
+    }
+
+    @Override
+    public void minusLikes(Tour tour) {
+
+        tour.minusLikes();
+        tourRepository.save(tour);
+    }
 }
