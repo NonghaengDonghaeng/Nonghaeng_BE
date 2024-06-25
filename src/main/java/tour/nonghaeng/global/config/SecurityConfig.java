@@ -19,6 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import tour.nonghaeng.global.auth.login.filter.CustomGuestAuthenticationFilter;
 import tour.nonghaeng.global.infra.enums.role.Role;
 import tour.nonghaeng.domain.member.data.repo.MemberRepository;
 import tour.nonghaeng.global.auth.handler.MyAccessDeniedHandler;
@@ -97,10 +98,10 @@ public class SecurityConfig {
             exceptionHandlingConfigurer.authenticationEntryPoint(myAuthenticationEntryPoint());
         });
 
-        //logout 필터 -> jwt 필터 -> customUserLogin 필터 -> customSellerLogin 필터
+        //logout 필터 -> jwt 필터 -> customUserLogin 필터 -> customGuestLogin 필터
         http.addFilterAfter(customJsonAuthenticationFilter(), LogoutFilter.class);
+        http.addFilterAfter(customGuestAuthenticationFilter(), CustomJsonAuthenticationFilter.class);
         http.addFilterBefore(jwtAuthenticationFilter(), CustomJsonAuthenticationFilter.class);
-//        http.addFilterAfter(customJsonAuthenticationFilter(), JwtAuthenticationFilter.class);
 
         return http.build();
     }
@@ -151,6 +152,17 @@ public class SecurityConfig {
         customJsonAuthenticationFilter.setAuthenticationFailureHandler(customLoginFailureHandler());
 
         return customJsonAuthenticationFilter;
+    }
+
+    @Bean
+    public CustomGuestAuthenticationFilter customGuestAuthenticationFilter() {
+        CustomGuestAuthenticationFilter customGuestAuthenticationFilter = new CustomGuestAuthenticationFilter(jwtService);
+
+        customGuestAuthenticationFilter.setAuthenticationManager(authenticationManager());
+        customGuestAuthenticationFilter.setAuthenticationSuccessHandler(customLoginSuccessHandler());
+        customGuestAuthenticationFilter.setAuthenticationFailureHandler(customLoginFailureHandler());
+
+        return customGuestAuthenticationFilter;
     }
 
     @Bean
