@@ -51,11 +51,14 @@ public abstract class Review extends BaseTimeEntity {
             cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReviewLike> reviewLikes = new ArrayList<>();
 
+    private int likes;
+
     public Review(User user, Reservation reservation, String title, String content) {
         this.user = user;
         this.title = title;
         this.content = content;
         this.reservation = reservation;
+        this.likes = 0;
     }
 
     public Optional<Photo> findRepresentPhoto() {
@@ -71,5 +74,13 @@ public abstract class Review extends BaseTimeEntity {
     public abstract ReviewSummaryDto toReviewSummaryDto();
 
     public abstract ReviewDetailDto toReviewDetailDto();
+
+    public void plusLikes(){
+        this.likes += 1;
+    }
+
+    public void minusLikes(){
+        this.likes -= 1;
+    }
 
 }

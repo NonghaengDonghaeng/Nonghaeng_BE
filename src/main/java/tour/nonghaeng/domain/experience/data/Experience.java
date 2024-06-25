@@ -87,6 +87,8 @@ public class Experience extends BaseTimeEntity {
     @Column(columnDefinition = "TEXT")
     private String precautions;             //유의사항
 
+    private int likes;
+
     @Builder
     public Experience(Tour tour, ExperienceType experienceType, String experienceName, LocalDate startDate, LocalDate endDate, int minParticipant, int maxParticipant, int price, int durationHours, String checkPoint, String detailIntroduction, String summary, String supplies, String precautions) {
         this.seller = tour.getSeller();
@@ -104,6 +106,7 @@ public class Experience extends BaseTimeEntity {
         this.summary = summary;
         this.supplies = supplies;
         this.precautions = precautions;
+        this.likes = 0;
 
     }
 
@@ -128,5 +131,13 @@ public class Experience extends BaseTimeEntity {
         }
 
         return Optional.ofNullable(null);
+    }
+
+    public void plusLikes(){
+        this.likes += 1;
+    }
+
+    public void minusLikes(){
+        this.likes -= 1;
     }
 }

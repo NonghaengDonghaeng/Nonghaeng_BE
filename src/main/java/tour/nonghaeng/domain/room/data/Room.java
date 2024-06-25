@@ -94,6 +94,8 @@ public class Room extends BaseTimeEntity {
     @Column(columnDefinition = "TEXT")
     private String precautions;         //유의사항(전 객실 금연입니다.)
 
+    private int likes;
+
     @Builder
     public Room(Tour tour, RoomType roomType, String roomName, String summary, int pricePeak, int priceOffPeak, int priceHoliday, int standardCapacity, int maxCapacity, int additionalCost, LocalTime checkinTime, LocalTime checkoutTime, int numOfRoom, String roomConfiguration, String inclusions, String requirement, String facilities, String usageTips, String precautions) {
         this.tour = tour;
@@ -116,6 +118,7 @@ public class Room extends BaseTimeEntity {
         this.facilities = facilities;
         this.usageTips = usageTips;
         this.precautions = precautions;
+        this.likes = 0;
     }
 
     public void addCloseDate(RoomCloseDate roomCloseDate) {
@@ -135,6 +138,14 @@ public class Room extends BaseTimeEntity {
         }
 
         return Optional.ofNullable(null);
+    }
+
+    public void plusLikes(){
+        this.likes += 1;
+    }
+
+    public void minusLikes(){
+        this.likes -= 1;
     }
     //성수기 비성수기의 기준 내용 들어가야됨
     //객실 크기 몇평인지 정보도 넣어야됨

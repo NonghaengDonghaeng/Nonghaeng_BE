@@ -78,6 +78,8 @@ public class Tour extends BaseTimeEntity {
 
     private String amenities;
 
+    private int likes;
+
     @Builder
     public Tour(Seller seller, TourType tourType, String name, String homepageUrl, String introduction, String oneLineIntro, String summary, String restaurant, String parking, String toilet, String amenities) {
         this.seller = seller;
@@ -92,6 +94,7 @@ public class Tour extends BaseTimeEntity {
         this.parking = parking;
         this.toilet = toilet;
         this.amenities = amenities;
+        this.likes = 0;
     }
 
     public Optional<Photo> findRepresentPhoto() {
@@ -103,5 +106,13 @@ public class Tour extends BaseTimeEntity {
         }
 
         return Optional.ofNullable(null);
+    }
+
+    public void plusLikes(){
+        this.likes += 1;
+    }
+
+    public void minusLikes(){
+        this.likes -= 1;
     }
 }
