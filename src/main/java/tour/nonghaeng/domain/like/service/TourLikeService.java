@@ -51,12 +51,17 @@ public class TourLikeService implements LikeService {
                 .tour(tour)
                 .build()
         );
+        tourService.plusLikes(tour);
+
         return true;
     }
 
     private boolean offLike(TourLike tourLike) {
 
         tourLikeRepository.delete(tourLike);
+
+        tourService.minusLikes(tourLike.getTour());
+
         return false;
     }
 }

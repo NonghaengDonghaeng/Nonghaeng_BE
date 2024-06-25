@@ -51,12 +51,17 @@ public class RoomLikeService implements LikeService {
                 .room(room)
                 .build()
         );
+        roomService.plusLikes(room);
+
         return true;
     }
 
     private boolean offLike(RoomLike roomLike) {
 
         roomLikeRepository.delete(roomLike);
+
+        roomService.minusLikes(roomLike.getRoom());
+
         return false;
     }
 }

@@ -51,12 +51,16 @@ public class ReviewLikeService implements LikeService {
                 .review(review)
                 .build()
         );
+        reviewService.plusLikes(review);
+
         return true;
     }
 
     private boolean offLike(ReviewLike reviewLike) {
 
         reviewLikeRepository.delete(reviewLike);
+        reviewService.minusLikes(reviewLike.getReview());
+
         return false;
     }
 }

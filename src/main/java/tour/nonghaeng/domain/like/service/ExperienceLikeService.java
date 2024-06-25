@@ -51,12 +51,17 @@ public class ExperienceLikeService implements LikeService {
                 .experience(experience)
                 .build()
         );
+        experienceService.plusLikes(experience);
+
         return true;
     }
 
     private boolean offLike(ExperienceLike experienceLike) {
 
         experienceLikeRepository.delete(experienceLike);
+
+        experienceService.minusLikes(experienceLike.getExperience());
+
         return false;
     }
 
