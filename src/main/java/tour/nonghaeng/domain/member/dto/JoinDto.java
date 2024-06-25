@@ -15,7 +15,8 @@ import tour.nonghaeng.global.infra.enums.area.AreaCode;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = SellerJoinDto.class, name = "seller"),
         @JsonSubTypes.Type(value = UserJoinDto.class, name = "user"),
-        @JsonSubTypes.Type(value = AdminJoinDto.class, name = "admin")
+        @JsonSubTypes.Type(value = AdminJoinDto.class, name = "admin"),
+        @JsonSubTypes.Type(value = AdminJoinDto.class, name = "guest")
 })
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 @Getter

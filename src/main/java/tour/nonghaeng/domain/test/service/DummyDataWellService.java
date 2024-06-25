@@ -13,11 +13,14 @@ import tour.nonghaeng.domain.experience.data.Experience;
 import tour.nonghaeng.domain.experience.dto.AddExpRoundDto;
 import tour.nonghaeng.domain.experience.dto.CreateExpDto;
 import tour.nonghaeng.domain.experience.service.ExperienceService;
+import tour.nonghaeng.domain.member.data.Guest;
 import tour.nonghaeng.domain.member.data.Seller;
 import tour.nonghaeng.domain.member.data.User;
+import tour.nonghaeng.domain.member.dto.GuestJoinDto;
 import tour.nonghaeng.domain.member.dto.SellerJoinDto;
 import tour.nonghaeng.domain.member.dto.UserJoinDto;
 import tour.nonghaeng.domain.member.service.AdminService;
+import tour.nonghaeng.domain.member.service.GuestService;
 import tour.nonghaeng.domain.member.service.SellerService;
 import tour.nonghaeng.domain.member.service.UserService;
 import tour.nonghaeng.domain.photo.data.repo.PhotoRepository;
@@ -55,6 +58,7 @@ public class DummyDataWellService implements DummyDataService{
 
     private final UserService userService;
     private final SellerService sellerService;
+    private final GuestService guestService;
     private final AdminService adminService;
     private final ImageService imageService;
     private final TourService tourService;
@@ -75,6 +79,10 @@ public class DummyDataWellService implements DummyDataService{
 
 
         //test용
+
+        //게스트 유저 등록
+        GuestJoinDto guestJoinDto = new GuestJoinDto(AreaCode.DAEJEON, "guestUser", "guestUser", "guestUser@email.com", "guestUser", "guestUser", "guestUser");
+        Guest guest1 = guestService.join(guestJoinDto);
 
 
         //유저등록
