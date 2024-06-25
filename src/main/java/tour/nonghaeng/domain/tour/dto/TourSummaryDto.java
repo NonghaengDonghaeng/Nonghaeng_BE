@@ -49,7 +49,7 @@ public class TourSummaryDto extends SummaryDto {
                 .areaName(tour.getAreaCode().getAreaName())
                 .tourType(tour.getTourType().getName())
                 .countExperience(tour.getExperiences().size())
-                .countRoom(tour.getRooms().size())
+                .countRoom(tour.getLikes())
                 .oneLineIntro(tour.getOneLineIntro())
                 .photoInfoDto(tour.findRepresentPhoto().isPresent() ?
                         PhotoInfoDto.toDto(tour.findRepresentPhoto().get()) : null)

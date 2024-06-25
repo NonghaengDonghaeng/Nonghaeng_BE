@@ -88,7 +88,7 @@ public class ExpDetailDto extends DetailDto {
                 .summary(experience.getSummary())
                 .supplies(experience.getSupplies())
                 .precautions(experience.getPrecautions())
-                .likes(experience.getExperienceLikes().size())
+                .likes(experience.getLikes())
                 .tourInfo(TourInfo.builder()
                         .tourId(experience.getTour().getId())
                         .tourName(experience.getTour().getName())

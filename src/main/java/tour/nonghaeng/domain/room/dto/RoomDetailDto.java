@@ -88,7 +88,7 @@ public class RoomDetailDto extends DetailDto {
                 .precautions(room.getPrecautions())
                 .tourId(room.getTour().getId())
                 .tourName(room.getTour().getName())
-                .likes(room.getRoomLikes().size())
+                .likes(room.getLikes())
                 .photoInfoDtoList(room.getRoomPhotoList().stream()
                         .map(roomPhoto -> PhotoInfoDto.toDto(roomPhoto))
                         .toList())

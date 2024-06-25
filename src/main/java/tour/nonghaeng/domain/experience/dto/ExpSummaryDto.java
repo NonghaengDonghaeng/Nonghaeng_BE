@@ -52,7 +52,7 @@ public class ExpSummaryDto extends SummaryDto {
                 .areaName(experience.getTour().getAreaCode().getAreaName())
                 .tourName(experience.getTour().getName())
                 .summary(experience.getSummary())
-                .likes(experience.getExperienceLikes().size())
+                .likes(experience.getLikes())
                 .photoInfoDto(experience.findRepresentPhoto().isPresent() ?
                         PhotoInfoDto.toDto(experience.findRepresentPhoto().get()) : null)
                 .build();
@@ -68,7 +68,7 @@ public class ExpSummaryDto extends SummaryDto {
                 .areaName(exp.getTour().getAreaCode().getAreaName())
                 .tourName(exp.getTour().getName())
                 .summary(exp.getSummary())
-                .likes(exp.getExperienceLikes().size())
+                .likes(exp.getLikes())
                 .photoInfoDto(exp.findRepresentPhoto().isPresent() ?
                         PhotoInfoDto.toDto(exp.findRepresentPhoto().get()) : null)
                 .build());

@@ -67,7 +67,7 @@ public class TourDetailDto extends DetailDto {
                 .toilet(tour.getToilet())
                 .amenities(tour.getAmenities())
                 .areaName(tour.getAreaCode().getAreaName())
-                .likes(tour.getTourLikes().size())
+                .likes(tour.getLikes())
                 .build();
         tourDetailDto.addRoomSummaryList(tour);
         tourDetailDto.addExpSummaryList(tour);

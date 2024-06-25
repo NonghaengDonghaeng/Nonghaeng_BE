@@ -57,7 +57,7 @@ public class RoomSummaryDto {
                 .roomConfiguration(room.getRoomConfiguration())
                 .photoInfoDto(room.findRepresentPhoto().isPresent()?
                         PhotoInfoDto.toDto(room.findRepresentPhoto().get()):null)
-                .likes(room.getRoomLikes().size())
+                .likes(room.getLikes())
                 .build();
     }
 
