@@ -4,6 +4,7 @@ package tour.nonghaeng.domain.trip.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.experience.dto.ExpSummaryDto;
@@ -46,12 +47,10 @@ public class TripService {
     //좋아요순으로
     public MainResponseDto getTripBestResponseDto() {
 
-//        PageRequest pageRequestSort = PageRequest.of(0, 4, Sort.by("like").descending());
+        PageRequest pageRequestSort = PageRequest.of(0, 4, Sort.by("likes").descending());
 
-        PageRequest pageRequest = PageRequest.of(0, 4);
-
-        List<ExpSummaryDto> expSummaryDtoList = experienceService.getSummaryDtoPage(pageRequest, null).getContent();
-        List<RoomTourSummaryDto> roomTourSummaryDtoList = roomService.getSummaryDtoPage(pageRequest, null).getContent();
+        List<ExpSummaryDto> expSummaryDtoList = experienceService.getSummaryDtoPage(pageRequestSort, null).getContent();
+        List<RoomTourSummaryDto> roomTourSummaryDtoList = roomService.getSummaryDtoPage(pageRequestSort, null).getContent();
 
 
         return MainResponseDto.builder()
