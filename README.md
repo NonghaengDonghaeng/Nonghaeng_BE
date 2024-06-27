@@ -1,50 +1,78 @@
-# 농촌관광 플랫폼 "농행동행"
+<div align="center">
+<a href="https://nonghaneg.site/">
+<img width="150px" src="https://github.com/NonghaengDonghaeng/Nonghaeng_BE/assets/49056953/a57a6bb6-b973-4084-bb55-7de272da5dc2" alt="농행동행 이동하기"/>
+</a>
 
-https://nonghaeng.site
+[![](https://img.shields.io/badge/-nonghaeng-important?style=flat&logo=airplayvideo&logoColor=white&labelColor=black&color=%233145FF)](https://nonghaeng.site/)
+[![](https://img.shields.io/badge/-Tech%20Blog-important?style=flat&logo=angellist&logoColor=balck&labelColor=black&color=white)](https://until-developer.co.kr/)
+![GitHub Release](https://img.shields.io/docker/v/hcmhcs/nonghaeng-be
+)
 
-## TODOLIST
-- 결제내역
-- oauth 로그인시 제대로된 전화번호,이메일 나오도록(만약 여기서 선택적으로 받는다면 개인정보에서 이메일,전화번호 등록하기)
-- 본인인증(전화번호 vs 이메일 )
-- review: summaryDto 에 content 보내주는데 전체내용말고 일부 요약해서 보내줄 수 있는 방법 생각해보기
-- /best 일때 spec이 null인 경우도 잘 보여주도록 리팩토링 필요
-- 좋아요기준으로 보여주기 -> 숙소의 경우 투어로 묶어서 정렬하니까 다 뽑아내고 정렬해야됨. 현재는 안됨
-- 등록할때 사진을 등록안하면 오류나오록 예외처리해야됨.(최소 1개는 등록해야 그걸 대표사진으로) - 보류
-- 예약에서 dto에서 엔티티를 dto로 변환하는 역할을 할 수 있을지 알아보기, 현재는 엔티티에서 엔티티를 dto로 변환하고 있음
-- 관광등록시에 사진도 같이 등록하게 할지, 관광등록따로 사진등록 따로로 할지 고민중
-## 내일할것(오늘 5/20)
-- oauth 로그인(구글,네이버)
-- 테스트작성할거 작성하기
-- 현재 숙소상세조회의 경우 여행지 중간페이지를 보여주기 때문에 어떻게 조회할지 생각하기(Spec 부분)
 
-## 남은 큼지막한 것들(도메인)
-- [ ] 내정보관리
-- [ ] 테스트(서비스 계층, 컨트롤러 계층, 추가된 repo,validator)
-- [ ] aop oop 적용
-- [ ] 검증어노테이션 적용해보기
-- [x] 소비자 판매자 member 상속으로 묶어서 처리하기
+# 농행동행
 
-## 추가할 기능
-- [ ] 포인트내역
-- [ ] 추후예정(쿠폰)
+### ✨농촌관광 플랫폼, 농행동행✨
 
-## 정책관련 고민할 부분
-### 1. 체험 운영기간 문제
-- 체험의 운영기간을 체험등록시 결정하는데 만약 상시운영이 아니라 3월,6월,8월일 경우 startDate,endDate 2개의 변수로는 표현할 수 없음.
-- 생각나는 방법: 운영기간을 몇월달인지를 리스트로 받아서 활용
+</div>
 
-## 리팩토링 중 해결해야될 문제
-### 1. DB 연관관계
-- 양방향 연관관계의 경우 저장을 2번할 필요없음
-- 체험회차 저장시 체험회차레포지토리에서도 저장하고 체험에서도 이 체험회차를 리스트에 넣어서 체험을 저장한다 -> 오버헤드발생
-- 현재 양방향 연관관계가 있으므로 한쪽에 저장해도 반영된다. 그렇기에 한쪽만 저장하는 방식으로 바꿔야한다.
+## 🗨️ About 농행동행
+"소비자가 느끼는 농촌관광의 진입장벽을 허물어주는 농촌관광 플랫폼"
 
-### 2. 캡슐화부분 일관성있게 수정하기
-- NoArgsConstuctor 처리하고 빌더를 하기 위해 만든 생성자 private 으로 바꾸기(그래야 의미있음.) 현재는 public
-### 3. 수수료 타입 변경하기
-- 취소수수료 퍼센트관리를 Double와 같이 소수로 하면 작은 오차가 생김으로 정수로 변환해서 사용하기
-### 4. 통합부분 다 통합하기
-- [x] 사진부분
-- [x] 예약부분
-- [x] 회원부분
-- [x] 리뷰부분
+현재의 농촌관광의 소비패턴 "정보탐색 → 여행선택 → 예약 → 예약관리 → 여행
+(소비)" 과정에서의 겪는 불편함을 농행동행 플랫폼을 통해 해소
+<table>
+<tr>
+<td align="center">
+    <img width="300" src="https://github.com/NonghaengDonghaeng/Nonghaeng_BE/assets/49056953/04404423-fb25-44e9-8887-26be95e42d74" alt="메인 페이지" />
+</td>
+<td align="center">
+    <img width="300" src="https://github.com/NonghaengDonghaeng/Nonghaeng_BE/assets/49056953/d8414214-a814-4982-8182-e9935f193e94" alt="여행리스트 페이지" />
+</td>
+</tr>
+<tr>
+<td align="center">농행동행 메인 페이지</td>
+<td align="center">농행동행 세부 페이지</td>
+</tr>
+
+</table>
+
+
+
+## 👻 Member
+<table>
+<tr>
+<td align="center"> 프론트엔드</td>
+<td align="center"> 백엔드</td>
+</tr>
+  <tr>
+    <td align="center" width="120px">
+      <a href="https://github.com/kimsunin" target="_blank">
+        <img src="https://avatars.githubusercontent.com/kimsunin" alt="김선인 프로필" />
+      </a>
+    </td>
+    <td align="center" width="120px">
+      <a href="https://github.com/hcmhcs" target="_blank">
+        <img src="https://avatars.githubusercontent.com/hcmhcs" alt="한창민 프로필" />
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/hafnium1923" target="_blank">
+        김선인
+      </a>
+    </td>
+     <td align="center">
+      <a href="https://github.com/wzrabbit" target="_blank">
+       한창민
+      </a>
+    </td>
+  </tr>
+</table>
+
+## 🛠️ Skills
+<img width="550" alt="stack" src="https://github.com/NonghaengDonghaeng/Nonghaeng_BE/assets/49056953/acc09429-5e21-40ce-bd56-a541d35b4c24">
+
+## ⚙️ Infra
+
+## 🪄 CI/CD
