@@ -1,5 +1,5 @@
 <div align="center">
-<a href="https://nonghaneg.site/">
+<a href="https://nonghaeng.site/">
 <img width="150px" src="https://github.com/NonghaengDonghaeng/Nonghaeng_BE/assets/49056953/a57a6bb6-b973-4084-bb55-7de272da5dc2" alt="농행동행 이동하기"/>
 </a>
 
