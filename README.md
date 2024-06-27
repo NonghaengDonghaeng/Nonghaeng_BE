@@ -58,12 +58,12 @@
   </tr>
   <tr>
     <td align="center">
-      <a href="https://github.com/hafnium1923" target="_blank">
+      <a href="https://github.com/kimsunin" target="_blank">
         김선인
       </a>
     </td>
      <td align="center">
-      <a href="https://github.com/wzrabbit" target="_blank">
+      <a href="https://github.com/hcmhcs" target="_blank">
        한창민
       </a>
     </td>
