@@ -71,17 +71,11 @@ public abstract class Reservation extends BaseTimeEntity {
     }
 
     public boolean isWaitingState() {
-        if (this.stateType == ReservationStateType.WAITING_RESERVATION) {
-            return true;
-        }
-        return false;
+        return this.stateType == ReservationStateType.WAITING_RESERVATION;
     }
 
     public boolean isApproveState() {
-        if (this.stateType == ReservationStateType.CONFIRM_RESERVATION) {
-            return true;
-        }
-        return false;
+        return this.stateType == ReservationStateType.CONFIRM_RESERVATION;
     }
 
     public void approveReservation() {

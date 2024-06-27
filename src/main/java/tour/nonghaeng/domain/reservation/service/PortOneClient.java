@@ -7,6 +7,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import tour.nonghaeng.domain.reservation.dto.payment.CancelRequestDto;
 import tour.nonghaeng.domain.reservation.dto.payment.PortOneResponseDto;
+import tour.nonghaeng.domain.reservation.presentation.exception.PaymentException;
+import tour.nonghaeng.domain.reservation.presentation.exception.error.PaymentErrorCode;
 
 @Component
 public class PortOneClient {
@@ -49,6 +51,6 @@ public class PortOneClient {
                 .body(Mono.just(body),CancelRequestDto.class)
                 .retrieve()
                 .bodyToMono(String.class)
-                .onErrorMap(e -> new RuntimeException("Payment cancellation failed", e));
+                .onErrorMap(e -> new PaymentException(PaymentErrorCode.PAYMENT_CANCEL_FAILED_ERROR));
     }
 }

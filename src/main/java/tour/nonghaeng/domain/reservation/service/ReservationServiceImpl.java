@@ -14,7 +14,6 @@ import tour.nonghaeng.domain.member.service.UserService;
 import tour.nonghaeng.domain.reservation.data.ExperienceReservation;
 import tour.nonghaeng.domain.reservation.data.Reservation;
 import tour.nonghaeng.domain.reservation.data.RoomReservation;
-import tour.nonghaeng.domain.reservation.data.repo.PaymentRepository;
 import tour.nonghaeng.domain.reservation.data.repo.ReservationRepository;
 import tour.nonghaeng.domain.reservation.dto.*;
 import tour.nonghaeng.domain.reservation.dto.payment.PortOneResponseDto;
@@ -42,7 +41,6 @@ public class ReservationServiceImpl implements ReservationService {
     private final PortOneClient portOneClient;
 
     private final ReservationRepository reservationRepository;
-    private final PaymentRepository paymentRepository;
 
     private final ExperienceReservationService experienceReservationService;
     private final RoomReservationService roomReservationService;
@@ -88,12 +86,10 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public PortOneResponseDto postVerification(String paymentUid) {
 
-        log.info("사후검증 시작");
-
         PortOneResponseDto responseDto = portOneClient.getPaymentApi(paymentUid);
 
         Reservation reservation = reservationRepository.findReservationByPaymentUid(paymentUid)
-                .orElseThrow(() -> new IllegalArgumentException("주문 내역이 없습니다."));
+                .orElseThrow(() ->new PaymentException(PaymentErrorCode.NO_PAYMENT_HISTORY_ERROR));
 
         paymentValidator.paidValidate(responseDto,reservation);
 
@@ -105,8 +101,6 @@ public class ReservationServiceImpl implements ReservationService {
 
             throw new PaymentException(PaymentErrorCode.FORGERY_PAYMENT_ERROR);
         }
-
-        log.info("사후검증 무사히 통과 이후에 상태변경진행전");
         successPostVerification(reservation);
 
         return responseDto;
@@ -114,16 +108,10 @@ public class ReservationServiceImpl implements ReservationService {
 
     private void successPostVerification(Reservation reservation) {
 
-        log.info("검증 성공함!");
-
         reservation.getPayment().changePaymentBySuccess();
         reservation.waitingReservation();
 
-        log.info("저장전"+reservation.getStateType().toString());
-
         reservationRepository.save(reservation);
-
-        log.info("저장후"+reservation.getStateType().toString());
     }
 
 
