@@ -23,26 +23,27 @@
 <table>
 <tr>
 <td align="center">
-    <img width="300" src="https://github.com/NonghaengDonghaeng/Nonghaeng_BE/assets/49056953/04404423-fb25-44e9-8887-26be95e42d74" alt="메인 페이지" />
+    <img width="300" src="https://github.com/NonghaengDonghaeng/Nonghaeng_BE/assets/49056953/04404423-fb25-44e9-8887-26be95e42d74" alt="메인 페이지(웹)" />
 </td>
 <td align="center">
-    <img width="300" src="https://github.com/NonghaengDonghaeng/Nonghaeng_BE/assets/49056953/d8414214-a814-4982-8182-e9935f193e94" alt="여행리스트 페이지" />
+    <img width="300" src="https://github.com/NonghaengDonghaeng/.github/assets/49056953/68e530c7-a497-4ad8-9bc1-0258e7dd178a" alt="메인 페이지(모바일)" />
 </td>
+
 </tr>
 <tr>
-<td align="center">농행동행 메인 페이지</td>
-<td align="center">농행동행 세부 페이지</td>
+<td align="center">메인 페이지(웹)</td>
+<td align="center">메인 페이지(모바일)</td>
 </tr>
 
 </table>
 
-
-
-## 👻 Member
+## 👨🏻‍💻 Member
 <table>
 <tr>
-<td align="center"> 프론트엔드</td>
-<td align="center"> 백엔드</td>
+<td align="center">프론트엔드</td>
+<td align="center">백엔드</td>
+<td align="center">UI/UX</td>
+
 </tr>
   <tr>
     <td align="center" width="120px">
@@ -54,6 +55,9 @@
       <a href="https://github.com/hcmhcs" target="_blank">
         <img src="https://avatars.githubusercontent.com/hcmhcs" alt="한창민 프로필" />
       </a>
+    </td>
+      <td align="center"  width="120px">
+      <img src="https://github.com/NonghaengDonghaeng/.github/assets/49056953/355cba3c-ad62-4a6a-b4df-df5bef1f6286" alt="오예진 프로필" />
     </td>
   </tr>
   <tr>
@@ -67,12 +71,24 @@
        한창민
       </a>
     </td>
+    <td align="center">
+        <a href="https://www.notion.so/e6782c965b8a4f3cd10517ed08d82aec">오예진</a>
+    </td>
   </tr>
+<tr>
+<td align="center"> <a href="https://github.com/NonghaengDonghaeng/Nonghaeng_FE">Repository</a></td>
+<td align="center"> <a href="https://github.com/NonghaengDonghaeng/Nonghaeng_BE">Repository</a></td>
+<td align="center"> X</td>
+</tr>
 </table>
 
 ## 🛠️ Skills
 <img width="550" alt="stack" src="https://github.com/NonghaengDonghaeng/Nonghaeng_BE/assets/49056953/acc09429-5e21-40ce-bd56-a541d35b4c24">
 
 ## ⚙️ Infra
+### 백엔드
+<img width="978" alt="image" src="https://github.com/NonghaengDonghaeng/.github/assets/49056953/03a2ed96-507f-4e04-987e-2d8264cf7429">
+
+### 프론트엔드
 
 ## 🪄 CI/CD
