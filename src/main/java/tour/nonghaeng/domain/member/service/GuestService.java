@@ -9,8 +9,8 @@ import tour.nonghaeng.domain.member.data.Guest;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.member.data.repo.GuestRepository;
 import tour.nonghaeng.domain.member.dto.GuestJoinDto;
-import tour.nonghaeng.domain.member.presentation.exception.UserException;
-import tour.nonghaeng.domain.member.presentation.exception.error.UserErrorCode;
+import tour.nonghaeng.domain.member.presentation.exception.MemberException;
+import tour.nonghaeng.domain.member.presentation.exception.error.MemberErrorCode;
 import tour.nonghaeng.global.auth.AuthValidator;
 import tour.nonghaeng.global.infra.enums.cancel.CancelPolicy;
 import tour.nonghaeng.global.infra.enums.role.Role;
@@ -36,7 +36,7 @@ public class GuestService implements MemberService<Guest, GuestJoinDto> {
     public Member findMemberByUsername(String username) {
         return guestRepository.findMemberByUsername(username)
                 .orElseThrow(() ->
-                        new UserException(UserErrorCode.NO_EXIST_USER_BY_NUMBER_ERROR));
+                        new MemberException(MemberErrorCode.NO_EXIST_MEMBER_BY_USERNAME));
     }
 
     @Override
@@ -50,7 +50,6 @@ public class GuestService implements MemberService<Guest, GuestJoinDto> {
 
     @Override
     public void payPoint(Member user, int price) {
-
     }
 
     @Override

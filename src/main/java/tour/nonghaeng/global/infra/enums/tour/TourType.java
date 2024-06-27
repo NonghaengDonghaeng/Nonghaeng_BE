@@ -3,6 +3,8 @@ package tour.nonghaeng.global.infra.enums.tour;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import tour.nonghaeng.global.infra.exception.GlobalException;
+import tour.nonghaeng.global.infra.exception.error.GlobalErrorCode;
 
 @RequiredArgsConstructor
 @Getter
@@ -25,13 +27,13 @@ public enum TourType {
 
     public static TourType ofCode(String code) {
         if (code == null) {
-            throw new IllegalArgumentException();
+            throw new GlobalException(GlobalErrorCode.CODE_IS_NULL_ERROR);
         }
         for (TourType tt : TourType.values()) {
             if (tt.getCode().equals(code)) {
                 return tt;
             }
         }
-        throw new IllegalArgumentException("일치하는 관광타입코드가 없습니다.");
+        throw new GlobalException(GlobalErrorCode.NO_MATCH_TOUR_TYPE);
     }
 }

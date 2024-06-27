@@ -5,16 +5,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tour.nonghaeng.global.infra.enums.cancel.CancelPolicy;
-import tour.nonghaeng.global.infra.enums.role.Role;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.member.data.Seller;
 import tour.nonghaeng.domain.member.data.repo.SellerRepository;
 import tour.nonghaeng.domain.member.dto.SellerJoinDto;
-import tour.nonghaeng.domain.member.presentation.exception.UserException;
-import tour.nonghaeng.domain.member.presentation.exception.error.UserErrorCode;
-import tour.nonghaeng.domain.member.service.valid.SellerValidator;
+import tour.nonghaeng.domain.member.presentation.exception.MemberException;
+import tour.nonghaeng.domain.member.presentation.exception.error.MemberErrorCode;
+import tour.nonghaeng.domain.member.service.valid.MemberValidator;
 import tour.nonghaeng.global.auth.AuthValidator;
+import tour.nonghaeng.global.infra.enums.cancel.CancelPolicy;
+import tour.nonghaeng.global.infra.enums.role.Role;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +24,7 @@ public class SellerService implements MemberService<Seller, SellerJoinDto> {
 
     private final SellerRepository sellerRepository;
 
-    private final SellerValidator sellerValidator;
+    private final MemberValidator memberValidator;
     private final AuthValidator authValidator;
 
     private final PasswordEncoder passwordEncoder;
@@ -39,7 +39,7 @@ public class SellerService implements MemberService<Seller, SellerJoinDto> {
     public Member findMemberByUsername(String username) {
         return sellerRepository.findMemberByUsername(username)
                 .orElseThrow(() ->
-                        new UserException(UserErrorCode.NO_EXIST_USER_BY_NUMBER_ERROR));
+                        new MemberException(MemberErrorCode.NO_EXIST_MEMBER_BY_USERNAME));
 
     }
 
@@ -48,7 +48,7 @@ public class SellerService implements MemberService<Seller, SellerJoinDto> {
     public Seller join(SellerJoinDto dto) {
 
         //TODO: 인증과정에서의 예외처리
-        sellerValidator.joinValidate(dto);
+        memberValidator.joinValidate(dto);
 
         Seller joinSeller = dto.toEntity();
         joinSeller.passwordEncode(passwordEncoder);

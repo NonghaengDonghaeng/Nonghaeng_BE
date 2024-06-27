@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import tour.nonghaeng.domain.trip.dto.MainResponseDto;
 import tour.nonghaeng.domain.trip.dto.TripResponseDto;
 import tour.nonghaeng.domain.trip.service.TripService;
-import tour.nonghaeng.global.auth.AuthService;
 
 @RestController
 @RequestMapping("/trips")
@@ -19,8 +18,9 @@ import tour.nonghaeng.global.auth.AuthService;
 @Slf4j
 public class TripController {
 
-    private final AuthService authService;
     private final TripService tripService;
+
+
 
     @GetMapping
     public ResponseEntity<TripResponseDto> showTripResponseDto() {

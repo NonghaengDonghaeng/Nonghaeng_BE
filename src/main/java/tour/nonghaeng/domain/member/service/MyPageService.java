@@ -27,7 +27,7 @@ public class MyPageService {
 
     public MyPageUserDto getUserMyPage(Member user) {
 
-        MyPageUserDto dto = MyPageUserDto.builder()
+        return MyPageUserDto.builder()
                 .name(user.getName())
                 .email(user.getEmail())
                 .number(user.getPhoneNumber())
@@ -35,7 +35,5 @@ public class MyPageService {
                 .reservationPage(reservationService.getReservationSummaryDtoPage(user, defaultPageRequest,"all"))
                 .reviewPage(reviewService.getReviewSummaryDtoPageByUser(user,defaultPageRequest,"all"))
                 .build();
-
-        return dto;
     }
 }

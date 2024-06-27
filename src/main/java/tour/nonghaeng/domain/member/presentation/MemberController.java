@@ -21,7 +21,7 @@ import tour.nonghaeng.global.auth.AuthService;
 @Slf4j
 public class MemberController {
 
-    private final MemberServiceRegistry memberServiceRegistry;
+    private final MemberServiceRegistry<Member,JoinDto> memberServiceRegistry;
 
     private final AuthService authService;
     private final MyPageService myPageService;

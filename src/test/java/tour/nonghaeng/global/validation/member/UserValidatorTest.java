@@ -7,13 +7,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import tour.nonghaeng.domain.member.dto.UserJoinDto;
 import tour.nonghaeng.domain.member.data.User;
 import tour.nonghaeng.domain.member.data.repo.UserRepository;
-import tour.nonghaeng.domain.member.service.valid.UserValidator;
-import tour.nonghaeng.domain.member.presentation.exception.UserException;
+import tour.nonghaeng.domain.member.dto.UserJoinDto;
+import tour.nonghaeng.domain.member.presentation.exception.MemberException;
+import tour.nonghaeng.domain.member.presentation.exception.error.MemberErrorCode;
+import tour.nonghaeng.domain.member.service.valid.MemberValidator;
 import tour.nonghaeng.global.infra.exception.error.BaseErrorCode;
-import tour.nonghaeng.domain.member.presentation.exception.error.UserErrorCode;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -28,7 +28,8 @@ class UserValidatorTest {
     private UserRepository userRepository;
 
     @InjectMocks
-    private UserValidator userValidator;
+    private MemberValidator memberValidator;
+
 
     private static User user;
 
@@ -46,10 +47,10 @@ class UserValidatorTest {
                 .checkPassword("notPassword")
                 .build();
         //when
-        BaseErrorCode errorCode = assertThrows(UserException.class,
-                () -> userValidator.joinValidate(dto)).getBaseErrorCode();
+        BaseErrorCode errorCode = assertThrows(MemberException.class,
+                () -> memberValidator.joinValidate(dto)).getBaseErrorCode();
         //then
-        assertThat(errorCode).isSameAs(UserErrorCode.PASSWORD_MISMATCH_ERROR);
+        assertThat(errorCode).isSameAs(MemberErrorCode.PASSWORD_MISMATCH_ERROR);
     }
 
     @Test
@@ -61,6 +62,6 @@ class UserValidatorTest {
                 .checkPassword("password")
                 .build();
         //when & then
-        assertDoesNotThrow(() -> userValidator.joinValidate(dto));
+        assertDoesNotThrow(() -> memberValidator.joinValidate(dto));
     }
 }

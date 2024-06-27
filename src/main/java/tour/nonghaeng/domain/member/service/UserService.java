@@ -6,16 +6,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tour.nonghaeng.global.infra.enums.cancel.CancelPolicy;
-import tour.nonghaeng.global.infra.enums.role.Role;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.member.data.User;
 import tour.nonghaeng.domain.member.data.repo.UserRepository;
 import tour.nonghaeng.domain.member.dto.UserJoinDto;
-import tour.nonghaeng.domain.member.presentation.exception.UserException;
-import tour.nonghaeng.domain.member.presentation.exception.error.UserErrorCode;
-import tour.nonghaeng.domain.member.service.valid.UserValidator;
+import tour.nonghaeng.domain.member.presentation.exception.MemberException;
+import tour.nonghaeng.domain.member.presentation.exception.error.MemberErrorCode;
+import tour.nonghaeng.domain.member.service.valid.MemberValidator;
 import tour.nonghaeng.global.auth.AuthValidator;
+import tour.nonghaeng.global.infra.enums.cancel.CancelPolicy;
+import tour.nonghaeng.global.infra.enums.role.Role;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +26,7 @@ public class UserService implements MemberService<User, UserJoinDto> {
 
     private final UserRepository userRepository;
 
-    private final UserValidator userValidator;
+    private final MemberValidator memberValidator;
 
     private final PasswordEncoder passwordEncoder;
     private final AuthValidator authValidator;
@@ -42,7 +42,7 @@ public class UserService implements MemberService<User, UserJoinDto> {
     public Member findMemberByUsername(String username) {
         return userRepository.findMemberByUsername(username)
                 .orElseThrow(() ->
-                        new UserException(UserErrorCode.NO_EXIST_USER_BY_NUMBER_ERROR));
+                        new MemberException(MemberErrorCode.NO_EXIST_MEMBER_BY_USERNAME));
 
     }
 
@@ -51,7 +51,7 @@ public class UserService implements MemberService<User, UserJoinDto> {
     public User join(UserJoinDto dto){
 
         //TODO : 인증과정에서의 예외처리
-        userValidator.joinValidate(dto);
+        memberValidator.joinValidate(dto);
 
         User joinUser = dto.toEntity();
         joinUser.passwordEncode(passwordEncoder);

@@ -3,6 +3,8 @@ package tour.nonghaeng.global.infra.enums.area;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import tour.nonghaeng.global.infra.exception.GlobalException;
+import tour.nonghaeng.global.infra.exception.error.GlobalErrorCode;
 
 @RequiredArgsConstructor
 @Getter
@@ -33,13 +35,13 @@ public enum AreaCode {
 
     public static AreaCode ofCode(String code){
         if(code==null){
-            throw new IllegalArgumentException();
+            throw new GlobalException(GlobalErrorCode.CODE_IS_NULL_ERROR);
         }
         for(AreaCode ac : AreaCode.values()){
             if(ac.getCode().equals(code)){
                 return ac;
             }
         }
-        throw new IllegalArgumentException("일치하는 지역번호가 없습니다.");
+        throw new GlobalException(GlobalErrorCode.NO_MATCH_AREA_CODE);
     }
 }

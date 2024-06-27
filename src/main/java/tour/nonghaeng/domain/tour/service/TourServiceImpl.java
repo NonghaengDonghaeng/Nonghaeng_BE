@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tour.nonghaeng.domain.member.data.Member;
-import tour.nonghaeng.domain.member.presentation.exception.SellerException;
+import tour.nonghaeng.domain.member.presentation.exception.MemberException;
 import tour.nonghaeng.domain.tour.data.Tour;
 import tour.nonghaeng.domain.tour.data.repo.TourRepository;
 import tour.nonghaeng.domain.tour.dto.CreateTourDto;
@@ -86,7 +86,7 @@ public class TourServiceImpl implements TourService {
     public Tour findBySeller(Member seller) {
 
         return tourRepository.findBySeller(authValidator.sellerValidate(seller))
-                .orElseThrow(() -> SellerException.EXCEPTION);
+                .orElseThrow(() -> MemberException.EXCEPTION);
     }
 
     @Override

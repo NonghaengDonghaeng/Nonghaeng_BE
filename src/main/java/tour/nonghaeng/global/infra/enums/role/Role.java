@@ -2,6 +2,8 @@ package tour.nonghaeng.global.infra.enums.role;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import tour.nonghaeng.global.infra.exception.GlobalException;
+import tour.nonghaeng.global.infra.exception.error.GlobalErrorCode;
 
 @RequiredArgsConstructor
 @Getter
@@ -22,6 +24,6 @@ public enum Role {
                 return role;
             }
         }
-        throw new IllegalArgumentException("No matching role for key: " + key);
+        throw new GlobalException(GlobalErrorCode.NO_MATCH_ROLE_TYPE);
     }
 }

@@ -57,8 +57,9 @@ public class ReviewValidator {
         }
     }
 
-    public void idValidate( Long reviewId) {
-        if(!reviewRepository.existsById(reviewId)) {
+    public void idValidate(Long reviewId) {
+
+        if (!reviewRepository.existsById(reviewId)) {
             throw new ReviewException(ReviewErrorCode.NO_EXIST_REVIEW_ID);
         }
     }

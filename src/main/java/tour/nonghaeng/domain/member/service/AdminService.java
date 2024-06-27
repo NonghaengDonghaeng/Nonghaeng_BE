@@ -9,9 +9,9 @@ import tour.nonghaeng.domain.member.data.Admin;
 import tour.nonghaeng.domain.member.data.Member;
 import tour.nonghaeng.domain.member.data.repo.AdminRepository;
 import tour.nonghaeng.domain.member.dto.AdminJoinDto;
-import tour.nonghaeng.domain.member.presentation.exception.UserException;
-import tour.nonghaeng.domain.member.presentation.exception.error.UserErrorCode;
-import tour.nonghaeng.domain.member.service.valid.AdminValidator;
+import tour.nonghaeng.domain.member.presentation.exception.MemberException;
+import tour.nonghaeng.domain.member.presentation.exception.error.MemberErrorCode;
+import tour.nonghaeng.domain.member.service.valid.MemberValidator;
 import tour.nonghaeng.global.auth.AuthValidator;
 import tour.nonghaeng.global.infra.enums.cancel.CancelPolicy;
 import tour.nonghaeng.global.infra.enums.role.Role;
@@ -24,7 +24,7 @@ public class AdminService implements MemberService<Admin, AdminJoinDto> {
 
     private final AdminRepository adminRepository;
 
-    private final AdminValidator adminValidator;
+    private final MemberValidator memberValidator;
     private final AuthValidator authValidator;
 
     private final PasswordEncoder passwordEncoder;
@@ -38,13 +38,13 @@ public class AdminService implements MemberService<Admin, AdminJoinDto> {
     public Member findMemberByUsername(String username) {
         return adminRepository.findMemberByUsername(username)
                 .orElseThrow(() ->
-                        new UserException(UserErrorCode.NO_EXIST_USER_BY_NUMBER_ERROR));
+                        new MemberException(MemberErrorCode.NO_EXIST_MEMBER_BY_USERNAME));
     }
 
     @Override
     public Admin join(AdminJoinDto dto) {
 
-        adminValidator.joinValidate(dto);
+        memberValidator.joinValidate(dto);
 
         Admin joinAdmin = dto.toEntity();
         joinAdmin.passwordEncode(passwordEncoder);
