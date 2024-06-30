@@ -1,5 +1,7 @@
-package tour.nonghaeng.domain.photo.imageServer;
+package tour.nonghaeng.global.config;
 
+import io.minio.MinioClient;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,16 +12,30 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 
 @Configuration
-public class AmazonS3Config {
+@Getter
+public class ImageConfig {
 
-    @Value("${spring.cloud.aws.credentials.access-key}")
+    @Value("${spring.image.credentials.access-key}")
     private String accessKey;
 
-    @Value("${spring.cloud.aws.credentials.secret-key}")
+    @Value("${spring.image.credentials.secret-key}")
     private String secretKey;
 
-    @Value("${spring.cloud.aws.region.static}")
+    @Value("${spring.image.region.static}")
     private String region;
+
+    @Value("${spring.image.url}")
+    private String url;
+
+
+    @Bean
+    public MinioClient minioClient() {
+        return MinioClient.builder()
+                .endpoint(url)
+                .credentials(accessKey, secretKey)
+                .region(region)
+                .build();
+    }
 
     @Bean
     public AwsCredentials basicAWSCredentials() {
@@ -34,4 +50,5 @@ public class AmazonS3Config {
                 .credentialsProvider(StaticCredentialsProvider.create(awsCredentials))
                 .build();
     }
+
 }

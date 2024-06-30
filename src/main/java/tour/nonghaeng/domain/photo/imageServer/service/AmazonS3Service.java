@@ -25,7 +25,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Service
-@Profile("!oracle-minio")
+@Profile("s3")
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
@@ -35,7 +35,7 @@ public class AmazonS3Service implements ImageService {
 
     private final ImageServerValidator imageServerValidator;
 
-    @Value("${spring.cloud.aws.s3.bucket}")
+    @Value("${spring.image.bucket}")
     private String bucket;
 
 

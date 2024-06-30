@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 
 
 @Service
-@Profile("oracle-minio")
+@Profile("!s3")
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
@@ -40,7 +40,7 @@ public class MinioService implements ImageService {
 
     private final ImageServerValidator imageServerValidator;
 
-    @Value("${spring.cloud.minio.s3.bucket}")
+    @Value("${spring.image.bucket}")
     private String bucket;
 
 
