@@ -4,9 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import tour.nonghaeng.domain.experience.data.Experience;
@@ -19,15 +17,10 @@ import tour.nonghaeng.domain.member.data.User;
 import tour.nonghaeng.domain.member.dto.GuestJoinDto;
 import tour.nonghaeng.domain.member.dto.SellerJoinDto;
 import tour.nonghaeng.domain.member.dto.UserJoinDto;
-import tour.nonghaeng.domain.member.service.AdminService;
 import tour.nonghaeng.domain.member.service.GuestService;
 import tour.nonghaeng.domain.member.service.SellerService;
 import tour.nonghaeng.domain.member.service.UserService;
-import tour.nonghaeng.domain.photo.data.repo.PhotoRepository;
-import tour.nonghaeng.domain.photo.data.repo.RoomPhotoRepository;
-import tour.nonghaeng.domain.photo.imageServer.service.ImageService;
 import tour.nonghaeng.domain.photo.service.registry.PhotoServiceRegistry;
-import tour.nonghaeng.domain.reservation.service.ReservationService;
 import tour.nonghaeng.domain.room.data.Room;
 import tour.nonghaeng.domain.room.dto.CreateRoomDto;
 import tour.nonghaeng.domain.room.service.RoomService;
@@ -59,20 +52,11 @@ public class DummyDataWellService implements DummyDataService{
     private final UserService userService;
     private final SellerService sellerService;
     private final GuestService guestService;
-    private final AdminService adminService;
-    private final ImageService imageService;
     private final TourService tourService;
     private final ExperienceService experienceService;
     private final RoomService roomService;
-    private final ReservationService reservationService;
 
     private final PhotoServiceRegistry photoServiceRegistry;
-
-    private final PhotoRepository photoRepository;
-
-    private final ResourceLoader resourceLoader;
-    private final PasswordEncoder passwordEncoder;
-    private final RoomPhotoRepository roomPhotoRepository;
 
     @Override
     public void setDummyData() throws IOException {
