@@ -4,7 +4,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import tour.nonghaeng.domain.experience.data.Experience;
@@ -321,7 +320,7 @@ public class DummyDataWellService implements DummyDataService{
                 });
     }
 
-    private List<MultipartFile> loadStaticFilesAsMultipartFiles(String type,String[] imageFileNames) throws IOException {
+    private List<MultipartFile> loadStaticFilesAsMultipartFiles(String type, String[] imageFileNames) throws IOException {
 
         List<MultipartFile> multipartFiles = new ArrayList<>();
 
@@ -337,11 +336,11 @@ public class DummyDataWellService implements DummyDataService{
 
 
             try (InputStream input = resource.getInputStream()) {
-                MultipartFile multipartFile = new MockMultipartFile(
+                MultipartFile multipartFile = new CustomMultipartFile(
                         Objects.requireNonNull(resource.getFilename()),
                         resource.getFilename(),
                         "image/jpeg", // You can dynamically determine the content type if needed
-                        input
+                        input.readAllBytes()
                 );
                 multipartFiles.add(multipartFile);
             }
