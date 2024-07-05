@@ -1,8 +1,8 @@
 package tour.nonghaeng.global.testEntity.experience;
 
-import tour.nonghaeng.global.infra.enums.experience.ExperienceType;
 import tour.nonghaeng.domain.experience.data.Experience;
 import tour.nonghaeng.domain.tour.data.Tour;
+import tour.nonghaeng.global.infra.enums.experience.ExperienceType;
 
 import java.time.LocalDate;
 
@@ -41,6 +41,43 @@ public class TestExperience {
                 .supplies(EXPERIENCE_SUPPLIES)
                 .precautions(EXPERIENCE_PRECAUTIONS)
                 .build();
+    }
 
+    public static Experience makeTestExperience(Tour tour,ExperienceType experienceType) {
+        return Experience.builder()
+                .tour(tour)
+                .experienceType(experienceType)
+                .experienceName(EXPERIENCE_NAME)
+                .startDate(EXPERIENCE_START_DATE)
+                .endDate(EXPERIENCE_END_DATE)
+                .minParticipant(EXPERIENCE_MIN_PARTICIPANT)
+                .maxParticipant(EXPERIENCE_MAX_PARTICIPANT)
+                .price(EXPERIENCE_PRICE)
+                .durationHours(EXPERIENCE_DURATION_HOUR)
+                .checkPoint(EXPERIENCE_CHECK_POINT )
+                .detailIntroduction(EXPERIENCE_DETAIL_INTRODUCTION)
+                .summary(EXPERIENCE_SUMMARY )
+                .supplies(EXPERIENCE_SUPPLIES)
+                .precautions(EXPERIENCE_PRECAUTIONS)
+                .build();
+    }
+
+    public static Experience makeTestExperience(Tour tour,String experienceName) {
+        return Experience.builder()
+                .tour(tour)
+                .experienceType(EXPERIENCE_TYPE)
+                .experienceName(experienceName)
+                .startDate(EXPERIENCE_START_DATE)
+                .endDate(EXPERIENCE_END_DATE)
+                .minParticipant(EXPERIENCE_MIN_PARTICIPANT)
+                .maxParticipant(EXPERIENCE_MAX_PARTICIPANT)
+                .price(EXPERIENCE_PRICE)
+                .durationHours(EXPERIENCE_DURATION_HOUR)
+                .checkPoint(EXPERIENCE_CHECK_POINT )
+                .detailIntroduction(EXPERIENCE_DETAIL_INTRODUCTION)
+                .summary(EXPERIENCE_SUMMARY )
+                .supplies(EXPERIENCE_SUPPLIES)
+                .precautions(EXPERIENCE_PRECAUTIONS)
+                .build();
     }
 }

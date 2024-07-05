@@ -6,7 +6,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.context.TestPropertySource;
 import tour.nonghaeng.domain.experience.data.Experience;
 import tour.nonghaeng.domain.experience.data.ExperienceCloseDate;
 import tour.nonghaeng.domain.experience.data.repo.ExperienceCloseDateRepository;
@@ -29,7 +28,6 @@ import static tour.nonghaeng.global.testEntity.tour.TestTour.makeTestTour;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@TestPropertySource(locations = "/application-data.properties")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ExperienceRepositoryTest {
 
