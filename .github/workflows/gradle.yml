@@ -24,16 +24,18 @@ jobs:
       run: |
         cd ./src/main/resources
         touch ./application.yml
-        echo "${{ secrets.APPLICATION }} > ./application-dev.yml
+        echo "${{ secrets.APPLICATION }}" | base64 --decode > ./application-dev.yml
         touch ./application-default.yml
-        echo "${{ secrets.APPLICATION_DEFAULT }} > ./application-dev.yml
+        echo "${{ secrets.APPLICATION_DEFAULT }}"| base64 --decode > ./application-dev.yml
       shell: bash
 
     - name: Build with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
         arguments: clean bootJar
-
+        
+    - name: Build with Gradle
+      run: ./gradlew bootJar
   # build-docker-image:
   
   #   runs-on: ubuntu-latest
