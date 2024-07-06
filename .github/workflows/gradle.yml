@@ -24,9 +24,9 @@ jobs:
       run: |
         cd ./src/main/resources
         touch ./application.yml
-        echo "${{ secrets.APPLICATION }}" | base64 --decode > ./application-dev.yml
+        echo "${{ secrets.APPLICATION }}" | base64 --decode > ./application.yml
         touch ./application-default.yml
-        echo "${{ secrets.APPLICATION_DEFAULT }}"| base64 --decode > ./application-dev.yml
+        echo "${{ secrets.APPLICATION_DEFAULT }}"| base64 --decode > ./application-default.yml
       shell: bash
 
     - name: Build with Gradle
