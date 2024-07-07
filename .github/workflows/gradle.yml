@@ -30,7 +30,7 @@ jobs:
         cat ./application.yml
         touch ./application.yml
         echo "${{ secrets.APPLICATION_DEFAULT }}" | base64 --decode > ./application-default.yml
-        cat ./application.yml
+        cat ./application-default.yml
       shell: bash
         
     # 3. Spring Boot 애플리케이션 빌드
